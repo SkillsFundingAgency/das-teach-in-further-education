@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	<WarningsNotAsErrors>S125</WarningsNotAsErrors>
+	<NoWarn>S1135</NoWarn>
+  </PropertyGroup>
+
+	<ItemGroup>
+    <PackageReference Include="AsyncFixer" Version="1.6.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="contentful.aspnetcore" Version="7.5.0" />
+    <PackageReference Include="contentful.csharp" Version="7.5.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.57" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.16.0.82469">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.0" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+  </ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Enum\" />
+	  <Folder Include="Exceptions\" />
+	  <Folder Include="Extensions\" />
+	  <Folder Include="HtmlRenderers\" />
+	  <Folder Include="Interfaces\" />
+	  <Folder Include="Model\Api\Content\" />
+	  <Folder Include="Model\Content\Interfaces\" />
+	  <Folder Include="Services\Interfaces\Roots\" />
+	  <Folder Include="Services\Roots\Base\" />
+	</ItemGroup>
+
+</Project>
