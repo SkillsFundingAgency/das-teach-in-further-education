@@ -2,7 +2,7 @@
 using Contentful.Core.Models;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Exceptions;
-using SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers;
+using SFA.DAS.TeachInFurtherEducation.Contentful.HtmlRenderers;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
 using System;
@@ -85,12 +85,12 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
             };
             var htmlRenderer = new HtmlRenderer(htmlRendererOptions);
             htmlRenderer.AddRenderer(new EmbeddedYoutubeContentRenderer());
-            htmlRenderer.AddRenderer(new GdsCtaContentRenderer(htmlRenderer.Renderers));
-            htmlRenderer.AddRenderer(new GdsHeadingRenderer(htmlRenderer.Renderers));
-            htmlRenderer.AddRenderer(new GdsHtmlRenderers.HorizontalRulerContentRenderer());
-            htmlRenderer.AddRenderer(new GdsHyperlinkContentRenderer(htmlRenderer.Renderers));
-            htmlRenderer.AddRenderer(new GdsListContentRenderer(htmlRenderer.Renderers));
-            htmlRenderer.AddRenderer(new GdsParagraphRenderer(htmlRenderer.Renderers));
+            htmlRenderer.AddRenderer(new CtaContentRenderer(htmlRenderer.Renderers));
+            htmlRenderer.AddRenderer(new HtmlRenderers.HeadingRenderer(htmlRenderer.Renderers));
+            htmlRenderer.AddRenderer(new HtmlRenderers.HorizontalRulerContentRenderer());
+            htmlRenderer.AddRenderer(new HtmlRenderers.HyperlinkContentRenderer(htmlRenderer.Renderers));
+            htmlRenderer.AddRenderer(new HtmlRenderers.ListContentRenderer(htmlRenderer.Renderers));
+            htmlRenderer.AddRenderer(new HtmlRenderers.ParagraphRenderer(htmlRenderer.Renderers));
             htmlRenderer.AddRenderer(new BlockQuoteRenderer(htmlRenderer.Renderers));
 
             return htmlRenderer;

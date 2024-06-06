@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using Contentful.Core.Models;
 
-namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
+namespace SFA.DAS.TeachInFurtherEducation.Contentful.HtmlRenderers
 {
     /// <summary>
     /// A renderer for a GDS list.
     /// </summary>
-    public class GdsListContentRenderer : IContentRenderer
+    public class ListContentRenderer : IContentRenderer
     {
         private readonly ContentRendererCollection _rendererCollection;
 
@@ -15,7 +15,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
         /// Initializes a new GdsListContentRenderer.
         /// </summary>
         /// <param name="rendererCollection">The collection of renderer to use for sub-content.</param>
-        public GdsListContentRenderer(ContentRendererCollection rendererCollection)
+        public ListContentRenderer(ContentRendererCollection rendererCollection)
         {
             _rendererCollection = rendererCollection;
         }

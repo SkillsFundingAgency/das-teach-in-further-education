@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using Contentful.Core.Models;
 
-namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
+namespace SFA.DAS.TeachInFurtherEducation.Contentful.HtmlRenderers
 {
     /// <summary>
     /// A renderer for a call to action box.
     /// </summary>
-    public class GdsCtaContentRenderer : IContentRenderer
+    public class CtaContentRenderer : IContentRenderer
     {
         private readonly ContentRendererCollection _rendererCollection;
 
@@ -15,7 +15,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
         /// Initializes a new GdsCtaContentRenderer.
         /// </summary>
         /// <param name="rendererCollection">The collection of renderer to use for sub-content.</param>
-        public GdsCtaContentRenderer(ContentRendererCollection rendererCollection)
+        public CtaContentRenderer(ContentRendererCollection rendererCollection)
         {
             _rendererCollection = rendererCollection;
         }

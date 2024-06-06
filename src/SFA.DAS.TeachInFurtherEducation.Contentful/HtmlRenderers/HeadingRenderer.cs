@@ -3,12 +3,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Contentful.Core.Models;
 
-namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
+namespace SFA.DAS.TeachInFurtherEducation.Contentful.HtmlRenderers
 {
     /// <summary>
     /// A renderer for a heading.
     /// </summary>
-    public class GdsHeadingRenderer : IContentRenderer
+    public class HeadingRenderer : IContentRenderer
     {
         private readonly ContentRendererCollection _rendererCollection;
 
@@ -16,7 +16,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
         /// Initializes a new HeadingRenderer.
         /// </summary>
         /// <param name="rendererCollection">The collection of renderer to use for sub-content.</param>
-        public GdsHeadingRenderer(ContentRendererCollection rendererCollection)
+        public HeadingRenderer(ContentRendererCollection rendererCollection)
         {
             _rendererCollection = rendererCollection;
         }
