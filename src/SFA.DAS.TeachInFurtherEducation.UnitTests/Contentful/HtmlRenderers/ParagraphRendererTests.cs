@@ -6,7 +6,7 @@ using Xunit;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
 {
-    public class GdsParagraphContentRendererTests
+    public class ParagraphContentRendererTests
     {
         [Fact]
         public async Task ToHtml_GdsParagraphRendererTests()

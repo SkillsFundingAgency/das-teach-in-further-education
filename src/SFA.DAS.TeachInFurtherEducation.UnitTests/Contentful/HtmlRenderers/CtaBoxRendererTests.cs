@@ -6,7 +6,7 @@ using Xunit;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
 {
-    public class GdsCtaBoxRendererTests
+    public class CtaBoxRendererTests
     {
         [Fact]
         public async Task ToHtml_GdsGdsCtaBoxRendererTests()

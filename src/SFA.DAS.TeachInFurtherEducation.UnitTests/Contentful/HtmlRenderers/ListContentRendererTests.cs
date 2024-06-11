@@ -7,7 +7,7 @@ using Xunit;
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
 {
     // https://github.com/contentful/contentful.net/blob/master/Contentful.Core.Tests/Models/Rendering/HtmlRenderTests.cs
-    public class GdsListContentRendererTests
+    public class ListContentRendererTests
     {
         [Theory]
         [InlineData("<ul class=\"govuk-list govuk-list--bullet\"><li>testing</li></ul>", "unordered-list")]

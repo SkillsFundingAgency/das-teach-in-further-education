@@ -6,7 +6,7 @@ using Xunit;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
 {
-    public class GdsBlockQuoteRendererTests
+    public class BlockQuoteRendererTests
     {
         [Fact]
         public async Task ToHtml_GdsBlockQuoteRendererTests()
