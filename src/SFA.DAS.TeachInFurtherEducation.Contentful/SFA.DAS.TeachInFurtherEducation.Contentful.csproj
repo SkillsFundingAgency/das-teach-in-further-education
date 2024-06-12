@@ -31,14 +31,8 @@
 
 	<ItemGroup>
 	  <Folder Include="Enum\" />
-	  <Folder Include="Exceptions\" />
-	  <Folder Include="Extensions\" />
-	  <Folder Include="HtmlRenderers\" />
-	  <Folder Include="Interfaces\" />
 	  <Folder Include="Model\Api\Content\" />
-	  <Folder Include="Model\Content\Interfaces\" />
 	  <Folder Include="Services\Interfaces\Roots\" />
-	  <Folder Include="Services\Roots\Base\" />
 	</ItemGroup>
 
 </Project>
