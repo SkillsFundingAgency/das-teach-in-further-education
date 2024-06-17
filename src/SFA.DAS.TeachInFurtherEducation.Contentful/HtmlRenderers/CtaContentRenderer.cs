@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Contentful.Core.Models;
 
-namespace SFA.DAS.TeachInFurtherEducation.Contentful.HtmlRenderers
+namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
 {
     /// <summary>
     /// A renderer for a call to action box.

@@ -1,49 +1,125 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SFA.DAS.TeachInFurtherEducation</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SFA.DAS.TeachInFurtherEducation.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SFA.DAS.TeachInFurtherEducation</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+﻿@using SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics
+@model LayoutModel
+@{
+    string pageRoute = Model == null ? string.Empty : (Model.Preview.IsPreview ? "page-preview" : "page");
+}
+<!DOCTYPE html>
+<html lang="en" class="govuk-template">
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - SFA.DAS.TeachInFurtherEducation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<head>
+    @* To-do - Implement these partials *@
+    @* <partial name="_GoogleAnalytics" model="GoogleAnalyticsTag.Head" /> *@
+    <meta charset="utf-8">
+    <meta name="facebook-domain-verification" content="j8fw22gxwwqy12i4udpfz88022dtwg" />
+    <title>@(ViewData["Title"] ?? "Find training and employment schemes for your business")</title>
+    @*<meta name="google-site-verification" content="avl5-ikN80oG2UTyfmwII7lbiVHyNcSiKHhJy5eKEZI">*@
+    <meta name="description"
+        content="Government skills training and employment schemes for employers considering hiring or offering placements including Apprenticeships, Traineeships, T Levels.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="blue">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @*https://dev.to/matijamrkaic/using-google-tag-manager-with-a-content-security-policy-9ai*@
+
+    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="/assets/images/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/govuk-apple-touch-icon-180x180.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/images/govuk-apple-touch-icon-167x167.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/govuk-apple-touch-icon-152x152.png" />
+    <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png" />
+    <style asp-add-nonce>
+        .hidden {
+            display: none;
+        }
+    </style>
+    @* waiting until load, delays rendering more than document.addEventListener("DOMContentLoaded"
+    but stops the cookie banner from flashing too
+    *@
+   @*  <script asp-add-nonce>
+        document.documentElement.classList.add("hidden");
+        window.addEventListener("load", function () {
+            document.documentElement.classList.remove("hidden");
+            updateNumberOfSchemes();
+        });
+    </script> *@
+    <!--[if !IE 8]><!-->
+    <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/site.css" rel="stylesheet" no-cdn />
+    <link href="/css/das_employment_schemes_rework.css" rel="stylesheet" no-cdn />
+    <link href="/css/TechInFurtheEdu.css" rel="stylesheet" no-cdn />
+    <!--<![endif]-->
+    <meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
+
+    <a id="layout-main-content-link" href="#main-content" class="govuk-skip-link">Skip to main content</a>
+
+    @{
+        //To-Do - Remove this condition post menu implementation.
+        if (Model != null && Model.MenuItems.Any())
+        {
+
+            @await Html.PartialAsync("_HomeMenuDesktopPartial", (Model?.MenuItems, Model?.Preview.IsPreview))
+
+            @await Html.PartialAsync("_HomeMenuMobilePartial", (Model?.MenuItems, Model?.Preview.IsPreview))
+        }
+    }
+
+</head>
+
+<body id="layout-body" class="govuk-template__body">
+    @* To-do - Implement these partials *@
+   @*  <partial name="_GoogleAnalytics" model="GoogleAnalyticsTag.Body" /> *@
+    <script asp-add-nonce>
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    </script>
+
+    @* To-do - Implement these partials *@
+    @* @await Html.PartialAsync("_CookieBannerPartial", Model)
+
+    @await Html.PartialAsync("_BetaBannerPartial", Model?.BetaBanner)
+
+    @RenderSection("BreadCrumbs", required: false)*@
+
+    @RenderSection("PreviewErrors", required: false) 
+
+    <main class="govuk-main-wrapper govuk-!-padding-top-0 govuk-!-padding-bottom-0" id="main-content">
+
+        @RenderBody()
+
+    </main>
+
+    @await Html.PartialAsync("_FooterPartial", Model?.footerLinks)
+
+    <script src="/libs/govuk-frontend/all.js"></script>
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+    <script src="/js/das-all.js"></script>
+    <script src="/js/app.min.js"></script>
+    <script src="/js/interim-pages.js" no-cdn></script>
+
+    <script asp-add-nonce>
+
+        window.DASFrontend.initAll();
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            initMobileView();
+
+        });
+
+    </script>
+
+    <environment include="Development">
+        <script src="/js/show_hide.js" no-cdn></script>
+        <script src="/js/app.js" no-cdn></script>
+        <script src="/js/filter.js" no-cdn></script>
+        <script src="/js/interim-pages.js" no-cdn></script>
+        <script src="/js/cookies/utils.js" no-cdn></script>
+        <script src="/js/cookies/consent.js" no-cdn></script>
+        <script src="/js/cookies/cookie-banner.js" no-cdn></script>
+        <script src="/js/cookies/cookies-page.js" no-cdn></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="/js/site.js" no-cdn></script>
+    </environment>
 </body>
+
 </html>

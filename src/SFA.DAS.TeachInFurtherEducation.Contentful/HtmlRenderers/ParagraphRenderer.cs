@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SFA.DAS.TeachInFurtherEducation.Contentful.HtmlRenderers
+namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
 {
     /// <summary>
     /// A renderer for a GDS paragraph.
     /// </summary>
-    public class ParagraphRenderer : IContentRenderer
+    public class GdsParagraphRenderer : IContentRenderer
     {
         private readonly ContentRendererCollection _rendererCollection;
 
@@ -18,7 +18,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.HtmlRenderers
         /// Initializes a new GdsParagraphRenderer
         /// </summary>
         /// <param name="rendererCollection">The collection of renderer to use for sub-content.</param>
-        public ParagraphRenderer(ContentRendererCollection rendererCollection)
+        public GdsParagraphRenderer(ContentRendererCollection rendererCollection)
         {
             _rendererCollection = rendererCollection;
         }

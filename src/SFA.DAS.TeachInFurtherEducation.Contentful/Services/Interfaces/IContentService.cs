@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content.Interfaces;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces
 {
@@ -14,5 +15,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces
 
         Task<IContent> Update();
         Task<IContent> UpdatePreview();
+
+        Page? GetPreviewPageByURL(string url);
+
+        Page? GetPageByURL(string url);
+
     }
 }

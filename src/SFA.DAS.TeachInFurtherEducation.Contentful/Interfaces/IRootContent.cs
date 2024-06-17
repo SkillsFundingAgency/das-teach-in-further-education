@@ -2,6 +2,6 @@
 {
     public interface IRootContent
     {
-        public string? Url { get; }
+        public string? PageURL { get; }
     }
 }

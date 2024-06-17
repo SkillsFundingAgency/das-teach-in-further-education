@@ -8,7 +8,6 @@
 	<ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.1" />
     <PackageReference Include="CompareNETObjects" Version="4.83.0" />
-    <PackageReference Include="contentful.aspnetcore" Version="7.5.2" />
     <PackageReference Include="coverlet.msbuild" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,13 +26,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SFA.DAS.TeachInFurtherEducation.Contentful\SFA.DAS.TeachInFurtherEducation.Contentful.csproj" />
     <ProjectReference Include="..\SFA.DAS.TeachInFurtherEducation.Web\SFA.DAS.TeachInFurtherEducation.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Contentful\Model\" />
-    <Folder Include="Contentful\Services\Roots\Base\" />
+    <Folder Include="Web\Controllers\" />
+    <Folder Include="Web\ViewModels\" />
   </ItemGroup>
 
 </Project>

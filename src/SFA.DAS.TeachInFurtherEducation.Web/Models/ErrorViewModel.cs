@@ -1,9 +1,17 @@
-namespace SFA.DAS.TeachInFurtherEducation.Models
+using System.Diagnostics.CodeAnalysis;
+
+namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 {
-    public class ErrorViewModel
+    [ExcludeFromCodeCoverage]
+    public class ErrorViewModel : LayoutModel
     {
-        public string? RequestId { get; set; }
+        public string RequestId { get; set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+
+        public ErrorViewModel(string requestId)
+        {
+            RequestId = requestId;
+        }
     }
 }

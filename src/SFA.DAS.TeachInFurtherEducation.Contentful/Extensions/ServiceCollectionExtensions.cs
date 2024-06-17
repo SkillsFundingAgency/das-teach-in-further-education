@@ -9,6 +9,8 @@ using Microsoft.Extensions.Options;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Exceptions;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces.Roots;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots;
 
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Extensions
 {
@@ -22,6 +24,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Extensions
                 //todo: hmm, this uses a singleton HttpClient, so will we hit dns issues that IHttpClientFactory fixes??
                 .AddContentful(configuration)
                 .AddTransient(sp => ContentService.CreateHtmlRenderer())
+                .AddSingleton<IContentService, ContentService>()
+                .AddSingleton<IPageService, PageService>()
                 .AddTransient<IContentfulClient>(sp =>
                 {
                     var configOptions = sp.GetService<IOptions<ContentfulOptions>>()?.Value;

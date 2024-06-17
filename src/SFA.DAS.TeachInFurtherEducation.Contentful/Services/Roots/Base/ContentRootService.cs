@@ -6,7 +6,7 @@ using Contentful.Core.Models;
 using Microsoft.AspNetCore.Html;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Interfaces;
-
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content;
 
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base
 {
@@ -56,7 +56,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base
         protected static IEnumerable<T> FilterValidUrl<T>(IEnumerable<T> roots, ILogger logger)
             where T : IRootContent
         {
-            var rootsWithValidUrl = roots.Where(p => !string.IsNullOrWhiteSpace(p.Url));
+            var rootsWithValidUrl = roots.Where(p => !string.IsNullOrWhiteSpace(p.PageURL));
 
             int numberExcluded = roots.Count() - rootsWithValidUrl.Count();
             if (numberExcluded > 0)
