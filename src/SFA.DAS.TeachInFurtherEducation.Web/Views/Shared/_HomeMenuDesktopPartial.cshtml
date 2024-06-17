@@ -13,7 +13,7 @@
 
                     <a href="@(Model.Item2.HasValue && Model.Item2.Value ? "/preview" : "/")">
                     
-                        <image class="app-header__department-for-education-logo" alt="Department for education logo" src="/svg/department-for-education-desktop.svg" />
+                        <image class="app-header__department-for-education-logo" alt="Department for education logo" src="/svg/teach-in-further-education.svg" />
                     
                     </a>
 
@@ -76,7 +76,7 @@
         var path = window.location.pathname;
 
         path = path.replace(/\/$/, "");
-
+       
         var navigationItems = document.querySelectorAll(".govuk-header__navigation-item");
 
         navigationItems.forEach(function (item) {
@@ -84,7 +84,7 @@
             var href = item.querySelector("a").getAttribute("href");
 
             href = href.replace(/\/$/, "");
-
+       
             if (href === path) {
                
                 item.classList.add("govuk-header__navigation-item--active");

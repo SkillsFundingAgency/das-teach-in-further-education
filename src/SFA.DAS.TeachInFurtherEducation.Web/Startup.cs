@@ -170,16 +170,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             app.UseEndpoints(endpoints =>
             {
-
                 MapControllerRoute(endpoints,
-                    "landing",
-                    "",
+                     "landing",
+                    "/{pageUrl=/home}",
                     "Landing", "Landing");
+         
+            // Preview Routes
 
-
-                // Preview Routes
-
-                MapControllerRoute(endpoints,
+            MapControllerRoute(endpoints,
                     "landing-preview",
                     "/preview",
                     "Landing", "LandingPreview");

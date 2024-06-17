@@ -9208,9 +9208,9 @@ p + .das-tile__body-heading {
     border-bottom: 10px;
     border-bottom-width: 10px;
     border-bottom-style: solid;
-    border-bottom-color: #d30172;
+    border-bottom-color: #4d64ff;
     min-height: 70px;
-    background-color: #001d35;
+    background-color: #FFFFFF;
 }
 
 @media (min-width: 48.0625em) {
@@ -9229,7 +9229,7 @@ p + .das-tile__body-heading {
 @media (min-width: 48.0625em) {
     .das-header .govuk-header__navigation-item,
     .das-header .govuk-header__navigation-list-mobile-heading {
-        background-color: #001d35;
+        background-color: #FFFFFF;
         border-bottom: none;
         margin-right: 0px;
     }
@@ -9282,7 +9282,7 @@ p + .das-tile__body-heading {
 @media (min-width: 48.0625em) {
     .das-header .govuk-header__navigation-item a,
     .das-header .govuk-header__navigation-list-mobile-heading a {
-        color: #f1f1f1;
+        color: #000;
     }
 }
 
@@ -9301,7 +9301,7 @@ p + .das-tile__body-heading {
     }
 
 .das-header__desktop .govuk-header__navigation-item.govuk-header__navigation-item--active {
-    background-color: #d30172;
+    background-color: #4d64ff;
 }
 
 .das-header__desktop .govuk-header__navigation-item.govuk-header__navigation-item--active a {
@@ -9380,7 +9380,7 @@ p + .das-tile__body-heading {
 
 @media (min-width: 48.0625em) {
     .das-header .govuk-header__navigation {
-        border-top: 2px solid #d30172;
+        border-top: 2px solid #4d64ff;
     }
 
     .das-header .govuk-header__content {
