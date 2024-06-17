@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Contentful.Core.Models;
 
-namespace SFA.DAS.TeachInFurtherEducation.Contentful.HtmlRenderers
+namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
 {
     /// <summary>
     /// A content renderer that renders a GDS horizontal ruler.

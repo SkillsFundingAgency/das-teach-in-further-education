@@ -1,0 +1,16 @@
+﻿@model PreviewModel
+
+@if (Model.IsPreview && Model.PreviewErrors.Any())
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full app-alert app-alert-danger">
+            <h3>Errors</h3>
+            <ul>
+                @foreach (var error in Model.PreviewErrors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    </div>
+}

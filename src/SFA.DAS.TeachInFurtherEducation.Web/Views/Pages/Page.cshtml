@@ -1,0 +1,48 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@model PageModel
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+
+    if (!string.IsNullOrWhiteSpace(Model.Page.Title))
+    {
+
+        ViewData["Title"] = $"Find training and employment schemes for your business - {Model.Page.Title[..Math.Min(Model.Page.Title.Length, 64)]}";
+
+    }
+
+    string completeUrl = Url.Action(Model.Preview.IsPreview ? "PagePreview" : "Page", "Pages", new { pageUrl = @Model.Page.Url }, protocol: HttpContextAccessor.HttpContext?.Request.Scheme)!;
+
+}
+
+@section PreviewErrors
+{
+
+    @await Html.PartialAsync("_PreviewErrorsPartial", Model.Preview)
+
+}
+
+@await Html.PartialAsync(
+
+    "_InterimPreambleGeneralPartial",
+
+    new Tuple<Preamble?, Breadcrumbs?, bool, bool>(Model.Page.InterimPreamble, Model.Page.InterimBreadcrumbs, false, Model.Preview.IsPreview)
+
+)
+
+<div class="govuk-width-container govuk-!-padding-top-8">
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-full">
+
+            @Model.Page.Content
+
+        </div>
+
+    </div>
+
+</div>
+
+@await Html.PartialAsync("_SharePagePartial", completeUrl)

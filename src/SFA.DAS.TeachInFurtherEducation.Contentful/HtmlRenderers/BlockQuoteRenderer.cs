@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SFA.DAS.TeachInFurtherEducation.Contentful.HtmlRenderers
+namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
 {
     /// <summary>
     /// A renderer for a block quote

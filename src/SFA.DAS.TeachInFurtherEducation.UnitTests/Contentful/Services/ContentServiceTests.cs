@@ -7,9 +7,13 @@ using FakeItEasy;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Html;
 using Microsoft.Extensions.Logging;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Content;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Exceptions;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces.Roots;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +32,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
         public IContentfulClient PreviewContentfulClient { get; set; }
         public HtmlRenderer HtmlRenderer { get; set; }
         public ILogger<ContentService> Logger { get; set; }
+        public IPageService PageService { get; set; }
+        public IPageContentService PageContentService { get; set; }
 
         public ContentService ContentService { get; set; }
         public CompareLogic CompareLogic { get; set; }
@@ -65,6 +71,9 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
 
             A.CallTo(() => ContentfulClientFactory.PreviewContentfulClient)
                 .Returns(PreviewContentfulClient);
+
+            PageService = A.Fake<IPageService>();
+            PageContentService = A.Fake<IPageContentService>();
 
             CreateContentService();
 
@@ -109,7 +118,41 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
             Assert.True(eventWasRaised);
         }
 
-     
+        [Fact]
+        public async Task Update_SameNumberOfPagesTest()
+        {
+            const int numberOfPages = 3;
+
+            var contentPages = Fixture.CreateMany<PageRenamed>(numberOfPages);
+            A.CallTo(() => PageService.GetAll(ContentfulClient))
+                .Returns(contentPages);
+
+            var content = await ContentService.Update();
+
+            Assert.NotNull(content.Pagess);
+            Assert.Equal(numberOfPages, content.Pagess.Count());
+        }
+
+        [Fact]
+        public async Task Update_PageTest()
+        {
+            const int numberOfPages = 1;
+
+            Fixture.Inject(ExpectedContent);
+            var contentPages = Fixture.CreateMany<PageRenamed>(numberOfPages).ToArray();
+            A.CallTo(() => PageService.GetAll(ContentfulClient))
+                .Returns(contentPages);
+
+            var content = await ContentService.Update();
+
+            var actualPage = content.Pagess.FirstOrDefault();
+            Assert.NotNull(actualPage);
+
+            var expectedSourcePage = contentPages.First();
+            Assert.Equal(expectedSourcePage.Title, actualPage.Title);
+            Assert.Equal(expectedSourcePage.Url, actualPage.Url);
+            Assert.Equal(ExpectedContent.Value, actualPage.Content.Value);
+        }
 
         [Fact]
         public async Task UpdatePreview_MissingContentfulClientThrowsExceptionTest()
@@ -131,6 +174,84 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
             await ContentService.UpdatePreview();
 
             Assert.True(eventWasRaised);
+        }
+
+        [Fact]
+        public async Task UpdatePreview_SameNumberOfPagesTest()
+        {
+            const int numberOfPages = 3;
+
+            var contentPages = Fixture.CreateMany<PageRenamed>(numberOfPages);
+            A.CallTo(() => PageService.GetAll(PreviewContentfulClient))
+                .Returns(contentPages);
+
+            var content = await ContentService.UpdatePreview();
+
+            Assert.NotNull(content.Pagess);
+            Assert.Equal(numberOfPages, content.Pagess.Count());
+        }
+
+        [Fact]
+        public async Task UpdatePreview_PageTest()
+        {
+            const int numberOfPages = 1;
+
+            Fixture.Inject(ExpectedContent);
+            var contentPages = Fixture.CreateMany<PageRenamed>(numberOfPages).ToArray();
+            A.CallTo(() => PageService.GetAll(PreviewContentfulClient))
+                .Returns(contentPages);
+
+            var content = await ContentService.UpdatePreview();
+
+            var actualPage = content.Pagess.FirstOrDefault();
+            Assert.NotNull(actualPage);
+
+            var expectedSourcePage = contentPages.First();
+            Assert.Equal(expectedSourcePage.Title, actualPage.Title);
+            Assert.Equal(expectedSourcePage.Url, actualPage.Url);
+            Assert.Equal(ExpectedContent.Value, actualPage.Content.Value);
+        }
+
+        [Fact]
+        public async Task Content_GetPageByURL()
+        {
+
+            var Pages = Fixture.CreateMany<Page>(3).ToArray();
+
+            A.CallTo(() => PageContentService.GetAllPages(ContentfulClient))
+
+                .Returns(Pages);
+
+            var content = await ContentService.Update();
+
+            var interimPage = ContentService.GetPageByURL(Pages.First().PageURL);
+
+            var actualInterimPage = content.Pages.FirstOrDefault();
+
+            Assert.NotNull(actualInterimPage);
+
+            Assert.Equal(interimPage.PageTitle, actualInterimPage.PageTitle);
+
+            Assert.Equal(interimPage.PageURL, actualInterimPage.PageURL);
+
+        }
+
+        [Fact]
+        public void Content_IsGeneratedContentBeforeUpdate()
+        {
+            var compareResult = CompareLogic.Compare(new GeneratedContent(), ContentService.Content);
+
+            Assert.True(compareResult.AreEqual);
+        }
+
+        [Fact]
+        public async Task Content_IsNotGeneratedContentAfterUpdate()
+        {
+            await ContentService.Update();
+
+            var compareResult = CompareLogic.Compare(new GeneratedContent(), ContentService.Content);
+
+            Assert.False(compareResult.AreEqual);
         }
 
         [Fact]
@@ -164,6 +285,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
         {
             ContentService = new ContentService(
                 ContentfulClientFactory,
+                PageService,
+                PageContentService,
                 Logger);
         }
 

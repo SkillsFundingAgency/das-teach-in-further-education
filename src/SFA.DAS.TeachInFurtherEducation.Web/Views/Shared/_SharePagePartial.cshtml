@@ -1,0 +1,54 @@
+﻿@using System.Web;
+@model string
+
+<div class="govuk-width-container govuk-!-padding-bottom-8">
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <h3 class="govuk-heading-m">Share this page</h3>
+
+    <ul class="das-share-links das-horizontal-icon-list">
+
+        <li>
+
+            <image src="/svg/envelope.svg" alt="Envelope icon">
+
+                <a href="mailto:?body=@HttpUtility.UrlEncode(Model)" role="link">Email</a>
+
+            <span class="sr-only">Share via Email</span>
+
+        </li>
+
+        <li>
+
+            <image src="/svg/square-facebook.svg" alt="Facebook icon">
+
+                <a href="https://www.facebook.com/sharer.php?u=@HttpUtility.UrlEncode(Model)" target="_blank" rel="noopener noreferrer" role="link">Facebook</a>
+
+            <span class="sr-only">Share on Facebook</span>
+
+        </li>
+
+        <li>
+
+            <image src="/svg/square-x-twitter.svg" alt="X (formely twitter) icon">
+
+                <a href="https://twitter.com/intent/tweet?url=@HttpUtility.UrlEncode(Model)" target="_blank" rel="noopener noreferrer" role="link">X (formerly Twitter)</a>
+
+            <span class="sr-only">Share on X (formerly Twitter)</span>
+
+        </li>
+
+        <li>
+
+            <image src="/svg/linkedin.svg" alt="Linkedin icon">
+
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=@HttpUtility.UrlEncode(Model)" target="_blank" rel="noopener noreferrer" role="link">LinkedIn</a>
+
+            <span class="sr-only">Share on LinkedIn</span>
+
+        </li>
+
+    </ul>
+
+</div>

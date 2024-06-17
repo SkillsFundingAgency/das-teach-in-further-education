@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System;
 using System.Text.RegularExpressions;
 
-namespace SFA.DAS.TeachInFurtherEducation.Contentful.HtmlRenderers
+namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
 {
     /// <summary>
     /// A renderer for an embedded YouTube video.

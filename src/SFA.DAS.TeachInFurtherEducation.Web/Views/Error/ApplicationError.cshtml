@@ -1,0 +1,21 @@
+@{ 
+    ViewData["Title"] = "Sorry, there is a problem with the service";
+    ViewData["Description"] = "There is a problem with the service. Try again later.";
+    @*ViewData[nameof(BreadCrumbViewModel)] = new BreadCrumbViewModel {Level = BreadCrumbLevel.Error};*@
+}
+
+<main class="govuk-main-wrapper" id="main-content">
+    <div class="govuk-width-container govuk-!-padding-top-3">
+        <div id="error-outer" class="govuk-grid-row">
+            <div id="error-inner" class="govuk-grid-column-two-thirds">
+
+                <h1 id="error-header" class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
+                <p id="error-try-again" class="govuk-body">Try again later.</p>
+                <p id="error-body" class="govuk-body">
+                    <a id="error-link" href="https://help.apprenticeships.education.gov.uk/hc/en-gb#contact-us" class="govuk-link govuk-link--no-visited-state">Contact the Apprenticeship Service</a> if you need help.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</main>
