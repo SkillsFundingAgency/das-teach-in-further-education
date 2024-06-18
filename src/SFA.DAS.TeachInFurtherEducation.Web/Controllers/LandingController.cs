@@ -19,10 +19,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
         }
 
         //[ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any, NoStore = false)]
-        public IActionResult Landing(string pageURL = "/home")
+        public IActionResult Landing(string pageUrl = "/home")
         {
 
-            PageContentModel? landingModel = _contentModelService.GetPageContentModel(pageURL);
+            PageContentModel? landingModel = _contentModelService.GetPageContentModel(pageUrl);
 
             return View(nameof(Landing), landingModel);
 
