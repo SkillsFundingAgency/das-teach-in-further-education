@@ -4502,7 +4502,7 @@ p + .das-tile__body-heading {
     position: relative;
     margin-bottom: -10px;
     padding-top: 10px;
-    border-bottom: 10px solid #D30172;
+    border-bottom: 10px solid #1B3CF3;
 }
 
     .govuk-header__container:after {
@@ -9289,8 +9289,8 @@ p + .das-tile__body-heading {
 .das-header .govuk-header__navigation-item--active.govuk-header__navigation-list-mobile-heading,
 .das-header .govuk-header__navigation-item.govuk-header__navigation-item--active {
     font-weight: bold !important;
-    background-color: #D30172;
-    color:white;
+    background-color: #1B3CF3;
+    color: white;
 }
 
     .das-header .govuk-header__navigation-item--active.govuk-header__navigation-list-mobile-heading a,
