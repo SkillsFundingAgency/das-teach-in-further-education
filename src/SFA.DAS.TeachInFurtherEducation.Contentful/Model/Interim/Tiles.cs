@@ -9,13 +9,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
     public class TileSection
     {
 
-        public required string InterimTileSectionTitle { get; set; }
+        public required string TileSectionTitle { get; set; }
 
-        public string? InterimTileSectionHeading { get; set; }
+        public string? TileSectionHeading { get; set; }
 
-        public Document? InterimTileSectionDescription { get; set; }
+        public Document? TileSectionDescription { get; set; }
 
-        public List<Tile> InterimTiles { get; set; } = [];
+        public List<Tile> Tiles { get; set; } = [];
 
     }
 
