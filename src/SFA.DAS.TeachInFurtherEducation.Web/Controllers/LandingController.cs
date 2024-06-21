@@ -21,19 +21,18 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
         //[ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any, NoStore = false)]
         public IActionResult Landing(string pageUrl = "/home")
         {
-
-            PageContentModel? landingModel = _contentModelService.GetPageContentModel(pageUrl);
-
-            return View(nameof(Landing), landingModel);
+            PageContentModel? pageModel = _contentModelService.GetPageContentModel(pageUrl);
+           
+            return View(nameof(Landing), pageModel);
 
         }
 
         public async Task<IActionResult> LandingPreview(string pageURL = "/home")
         {
 
-            PageContentModel? landingModel = await _contentModelService.GetPagePreviewModel(pageURL);
+            PageContentModel? pageModel = await _contentModelService.GetPagePreviewModel(pageURL);
 
-            return View(nameof(Landing), landingModel);
+            return View(nameof(Landing), pageModel);
 
         }
 

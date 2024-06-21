@@ -4502,7 +4502,7 @@ p + .das-tile__body-heading {
     position: relative;
     margin-bottom: -10px;
     padding-top: 10px;
-    border-bottom: 10px solid #D30172;
+    border-bottom: 10px solid #1B3CF3;
 }
 
     .govuk-header__container:after {
@@ -9289,8 +9289,8 @@ p + .das-tile__body-heading {
 .das-header .govuk-header__navigation-item--active.govuk-header__navigation-list-mobile-heading,
 .das-header .govuk-header__navigation-item.govuk-header__navigation-item--active {
     font-weight: bold !important;
-    background-color: #D30172;
-    color:white;
+    background-color: #1B3CF3;
+    color: white;
 }
 
     .das-header .govuk-header__navigation-item--active.govuk-header__navigation-list-mobile-heading a,
@@ -9401,8 +9401,7 @@ p + .das-tile__body-heading {
     justify-content: center;
     align-items: center;
     top: unset;
-    width: 77px;
-    height: 37px;
+    width:60px;
     white-space: nowrap;
 }
 
@@ -10424,14 +10423,41 @@ p + .das-tile__body-heading {
     box-sizing: border-box;
     display: inline-block;
     position: relative;
-    width: 100%;
+    width: 70%;
     margin-top: 0;
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 22px;
     padding: 8px 10px 7px;
-    border: 2px solid rgba(0,0,0,0);
-    border-radius: 0;
+    border: none;
+    border-radius: 35px;
+    color: #fff;
+    background-color: #1B3CF3;
+    box-shadow: 0 2px 0 #002d18;
+    text-align: center;
+    vertical-align: top;
+    cursor: pointer;
+    -webkit-appearance: none
+}
+
+.govuk-button-tife-mobile {
+    font-family: "GDS Transport",arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: bold;
+    font-size: 0.9rem;
+    line-height: 1.1875;
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    width: 90%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 22px;
+    padding: 8px 10px 7px;
+    border: none;
+    border-radius: 35px;
     color: #fff;
     background-color: #1B3CF3;
     box-shadow: 0 2px 0 #002d18;

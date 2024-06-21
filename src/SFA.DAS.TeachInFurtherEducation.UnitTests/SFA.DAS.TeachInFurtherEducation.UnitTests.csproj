@@ -31,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Contentful\Model\" />
-    <Folder Include="Web\Controllers\" />
     <Folder Include="Web\ViewModels\" />
   </ItemGroup>
 
