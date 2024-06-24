@@ -16,6 +16,7 @@ variables:
 - name: Deploy
   value: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'PullRequest'))]
 
+
 resources:
   repositories:
   - repository: self
@@ -42,7 +43,7 @@ stages:
     parameters:
       SolutionBaseName: $(SolutionBaseName)
       BuildConfiguration: $(BuildConfiguration)
-
+    
 - stage: Deploy_AT
   dependsOn: Build
   displayName: Deploy to AT
@@ -54,6 +55,7 @@ stages:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: AT
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-DAS-DevTest-ARM
 
 - stage: Deploy_TEST
@@ -66,6 +68,7 @@ stages:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: TEST
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-DAS-DevTest-ARM
 
 - stage: Deploy_TEST2
@@ -78,18 +81,20 @@ stages:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: TEST2
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-DAS-DevTest-ARM
 
 - stage: Deploy_PP
   dependsOn: Build
   displayName: Deploy to PP
   variables:
-  - group: PREPROD Management Resources
-  - group: PREPROD Shared Resources
+  - group: PreProd Management Resources
+  - group: PreProd Shared Resources
   jobs:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: PP
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-DIG-PreProd-ARM
 
 # - stage: Deploy_PROD
@@ -102,6 +107,7 @@ stages:
 #   - template: pipeline-templates/job/deploy.yml
 #     parameters:
 #       Environment: PROD
+#       SolutionBaseName: $(SolutionBaseName)
 #       ServiceConnection: SFA-DIG-Prod-ARM
 
 # - stage: Deploy_MO
@@ -114,6 +120,7 @@ stages:
 #   - template: pipeline-templates/job/deploy.yml
 #     parameters:
 #       Environment: MO
+#       SolutionBaseName: $(SolutionBaseName)
 #       ServiceConnection: SFA-ASM-ModelOffice-ARM
 
 - stage: Deploy_DEMO
@@ -126,4 +133,5 @@ stages:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: DEMO
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-DAS-DevTest-ARM
