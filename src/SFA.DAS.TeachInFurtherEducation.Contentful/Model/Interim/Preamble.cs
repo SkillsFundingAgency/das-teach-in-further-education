@@ -10,6 +10,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 
         public string? PreambleTitle { get; set; }
 
+        public string? BannerHeader { get; set; }
+
         public Document? PrimarySection { get; set; }
 
         public Document? SecondarySection { get; set; }

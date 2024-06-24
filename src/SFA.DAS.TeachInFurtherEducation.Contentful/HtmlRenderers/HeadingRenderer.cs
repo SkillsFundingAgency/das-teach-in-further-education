@@ -52,7 +52,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
             switch (content)
             {
                 case Heading1 _:
-                    gdsHeadingClassSize = "xl-home";
+                    gdsHeadingClassSize = "xl";
                     headingSize = 1;
                     break;
                 case Heading2 _:

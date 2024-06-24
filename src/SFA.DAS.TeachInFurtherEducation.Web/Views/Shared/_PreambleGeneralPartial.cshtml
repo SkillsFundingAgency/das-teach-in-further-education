@@ -28,6 +28,10 @@
 
                 <div class="govuk-grid-column-two-thirds @(Model.Item3 ? "govuk-!-padding-top-6" : "govuk-!-padding-top-4") govuk-!-padding-left-0">
 
+                    @if(!String.IsNullOrEmpty(Model.Item1.BannerHeader))
+                    {
+                        <h1 class="govuk-heading-xl-home">@Model.Item1.BannerHeader</h1>
+                    }
                     @if (Model.Item1?.PrimarySection != null)
                     {
 
