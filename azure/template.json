@@ -35,6 +35,12 @@
         "sharedKeyVaultName": {
             "type": "string"
         },
+        "sharedApimResourceGroup": {
+            "type": "string"
+        },
+        "sharedApimName": {
+            "type": "string"
+        },
         "customHostName": {
             "type": "string"
         },
@@ -50,25 +56,29 @@
         "frontEndAccessRestrictions": {
             "type": "array"
         },
-        "sharedApimResourceGroup": {
-            "type": "string"
+        "logAnalyticsSubscriptionId": {
+            "type": "string",
+            "defaultValue": "[subscription().subscriptionId]"
         },
-        "sharedApimName": {
-            "type": "string"
-        },
-        "cdnUrl": {
+        "logAnalyticsWorkspaceName": {
             "type": "string"
         },
         "utcValue": {
             "type": "string",
-            "defaultValue": "[utcNow('yyMMddHHmmss')]"
+            "defaultValue": "[utcNow()]"
+        },
+        "cdnUrl": {
+            "type": "string"
+        },
+        "stubAuth": {
+            "type": "string"
         }
     },
     "variables": {
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/",
         "resourceNamePrefix": "[toLower(concat('das-', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
         "resourceGroupName": "[concat(variables('resourceNamePrefix'), '-rg')]",
-        "appServiceName": "[concat(variables('resourceNamePrefix'), 'ui-as')]",
+        "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
         "configNames": "SFA.DAS.TeachInFurtherEducation.Web"
     },
     "resources": [
@@ -82,7 +92,7 @@
         },
         {
             "apiVersion": "2021-04-01",
-            "name": "[concat('das-teach-in-further-education-app-service-certificate-', parameters('utcValue'))]",
+            "name": "[concat(variables('appServiceName'), '-app-service-certificate-', parameters('utcValue'))]",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
             "properties": {
@@ -102,14 +112,11 @@
                         "value": "[parameters('sharedManagementResourceGroup')]"
                     }
                 }
-            },
-            "dependsOn": [
-                "[variables('resourceGroupName')]"
-            ]
+            }
         },
         {
             "apiVersion": "2021-04-01",
-            "name": "[concat('das-teach-in-further-education-application-insights-', parameters('utcValue'))]",
+            "name": "[concat(variables('appServiceName'), '-application-insights-', parameters('utcValue'))]",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[variables('resourceGroupName')]",
             "properties": {
@@ -124,6 +131,9 @@
                     },
                     "attachedService": {
                         "value": "[variables('appServiceName')]"
+                    },
+                    "logAnalyticsWorkspaceId": {
+                        "value": "[resourceId(parameters('logAnalyticsSubscriptionId'),parameters('sharedManagementResourceGroup'),'Microsoft.OperationalInsights/workspaces',parameters('logAnalyticsWorkspaceName'))]"
                     }
                 }
             },
@@ -133,7 +143,7 @@
         },
         {
             "apiVersion": "2021-04-01",
-            "name": "[concat('das-teach-in-further-education-app-service-', parameters('utcValue'))]",
+            "name": "[concat(variables('appServiceName'), '-', parameters('utcValue'))]",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[variables('resourceGroupName')]",
             "properties": {
@@ -163,6 +173,10 @@
                                     "value": "[parameters('environmentName')]"
                                 },
                                 {
+                                    "name": "ResourceEnvironmentName",
+                                    "value": "[parameters('resourceEnvironmentName')]"
+                                },
+                                {
                                     "name": "ConfigurationStorageConnectionString",
                                     "value": "[parameters('configurationStorageConnectionString')]"
                                 },
@@ -175,8 +189,8 @@
                                     "value": "1.0"
                                 },
                                 {
-                                    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                    "value": "[reference(concat('das-teach-in-further-education-application-insights-', parameters('utcValue'))).outputs.InstrumentationKey.value]"
+                                    "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                                    "value": "[reference(concat(variables('appServiceName'), '-application-insights-', parameters('utcValue'))).outputs.ConnectionString.value]"
                                 },
                                 {
                                     "name": "LoggingRedisConnectionString",
@@ -187,8 +201,12 @@
                                     "value": "[parameters('loggingRedisKey')]"
                                 },
                                 {
-                                    "name": "cdn:url",
+                                    "name": "Cdn:Url",
                                     "value": "[parameters('cdnUrl')]"
+                                },
+                                {
+                                    "name": "StubAuth",
+                                    "value": "[parameters('stubAuth')]"
                                 }
                             ]
                         }
@@ -197,7 +215,7 @@
                         "value": "[parameters('customHostname')]"
                     },
                     "certificateThumbprint": {
-                        "value": "[reference(concat('das-teach-in-further-education-app-service-certificate-', parameters('utcValue'))).outputs.certificateThumbprint.value]"
+                        "value": "[reference(concat(variables('appServiceName'), '-app-service-certificate-', parameters('utcValue'))).outputs.certificateThumbprint.value]"
                     },
                     "ipSecurityRestrictions": {
                         "value": "[parameters('frontEndAccessRestrictions')]"
