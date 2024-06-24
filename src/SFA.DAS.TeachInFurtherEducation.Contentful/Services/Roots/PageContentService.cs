@@ -66,6 +66,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
             return new Page(
                 apiPage.PageURL!,
                  apiPage.PageTitle!,
+                 apiPage.PageTemplate,
                   apiPage.TileSections,
                   (await ToHtmlString(apiPage.Contents)),
                 apiPage.PagePreamble);

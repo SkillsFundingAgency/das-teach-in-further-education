@@ -67,6 +67,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
                     PageTitle = page.PageTitle,
 
+                    PageTemplate = page.PageTemplate,
+
                     PagePreamble = page.PagePreamble,
 
                     TileSections = page.TileSections,
@@ -170,6 +172,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                     PageURL = previewPage.PageURL,
 
                     PageTitle = previewPage.PageTitle,
+
+                    PageTemplate = previewPage.PageTemplate,
 
                     PagePreamble = previewPage.PagePreamble,
 

@@ -12,6 +12,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 
         public required string PageTitle { get; set; }
 
+        public required string PageTemplate { get; set; }
+
         public  Preamble? PagePreamble { get; set; }
 
         public List<TileSection> TileSections { get; set; } = [];

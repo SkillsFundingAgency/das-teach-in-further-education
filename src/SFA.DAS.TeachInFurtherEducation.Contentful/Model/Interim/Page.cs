@@ -14,18 +14,22 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 
         public  string PageTitle { get; set; }
 
+        public string PageTemplate { get; set; }
+
         public  Preamble? PagePreamble { get; set; }
 
         public List<TileSection> TileSections { get; set; }
 
         public HtmlString? Contents { get; set; }
 
-        public Page(string pageUrl, string title, List<TileSection> tileSections, HtmlString? contents, Preamble? Preamble = null)
+        public Page(string pageUrl, string title, string pageTemplate, List<TileSection> tileSections, HtmlString? contents, Preamble? Preamble = null)
         {
 
             PageURL = pageUrl;
 
             PageTitle = title;
+
+            PageTemplate = pageTemplate;
 
             PagePreamble = Preamble;
 
