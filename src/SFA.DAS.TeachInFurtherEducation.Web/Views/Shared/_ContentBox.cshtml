@@ -1,0 +1,27 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+
+@model IEnumerable<ContentBox>
+
+<div class="govuk-width-container govuk-!-padding-top-6">
+    <div id="scheme-details-outer" class="govuk-grid-row govuk-!-padding-3">
+        <div id="scheme-details-inner-two-thirds" class="govuk-grid-column-two-thirds">
+            @foreach (var contents in Model)
+            {
+                <div class="govuk-grid-row govuk-!-padding-right-0">
+                    <div data-id="#apprenticeships-benefits-for-your-business" data-type="interim-container" class="govuk-grid-column-full govuk-!-margin-bottom-7 govuk-!-padding-3" style="border: 1px solid #D9E4ED; background-color: #EBF0F5; border-radius: 20px">
+
+                    <div class="govuk-grid-row govuk-!-padding-1 govuk-!-padding-right-7">
+
+                        <div class="govuk-grid-column-full">
+                          @ComponentService.ToHtmlString(@contents.ContentBoxContents)
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

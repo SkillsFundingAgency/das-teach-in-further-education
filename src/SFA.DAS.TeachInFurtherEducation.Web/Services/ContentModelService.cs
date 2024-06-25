@@ -77,8 +77,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
                     footerLinks = _contentService.Content.FooterLinks,
 
-                    Contents = page.Contents
+                    Contents = page.Contents,
 
+                    ContentBoxSection = page.ContentBoxSection
                 };
 
             }

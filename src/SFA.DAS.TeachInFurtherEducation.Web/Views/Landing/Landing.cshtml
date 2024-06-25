@@ -8,7 +8,7 @@
 
 @{
 
-    ViewData["Title"] = $"{Model.PageTitle }{(Model.Preview.IsPreview ? " Preview" : "")}";
+    ViewData["Title"] = $"{Model.PageTitle}{(Model.Preview.IsPreview ? " Preview" : "")}";
 
 }
 
@@ -23,11 +23,11 @@
 
     @await Html.PartialAsync(
 
-                "_PreambleGeneralPartial",
+                                                "_PreambleGeneralPartial",
 
-        new Tuple<Preamble?, Breadcrumbs?, bool, bool>(Model.PagePreamble, null, true, Model.Preview.IsPreview)
+                                        new Tuple<Preamble?, Breadcrumbs?, bool, bool>(Model.PagePreamble, null, true, Model.Preview.IsPreview)
 
-    )
+                                    )
 }
 
 @{
@@ -40,23 +40,28 @@
 {
     <div class="govuk-width-container govuk-!-padding-left-2 govuk-!-padding-right-2">
 
-    <div class="govuk-main-wrapper">
+        <div class="govuk-main-wrapper">
 
-        @for(int i = 0; i < Model.TileSections.Count; i++)
-        {
-            @await Html.PartialAsync(
+            @for (int i = 0; i < Model.TileSections.Count; i++)
+            {
+                @await Html.PartialAsync(
 
-                "_TileSectionPartial",
+                         "_TileSectionPartial",
 
-                (Model.TileSections[i], i > 0, Model.Preview.IsPreview)
+                         (Model.TileSections[i], i > 0, Model.Preview.IsPreview)
 
-            )
+                         )
 
-        }
+            }
+
+        </div>
 
     </div>
-
-</div>
+}
+@if (Model.ContentBoxSection.Any())
+{
+    @await Html.PartialAsync("_ContentBox", Model.ContentBoxSection)
+    ;
 }
 
 <div class="govuk-width-container govuk-!-padding-top-8">

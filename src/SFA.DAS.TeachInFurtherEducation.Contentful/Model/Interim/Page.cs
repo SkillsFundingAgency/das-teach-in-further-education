@@ -20,9 +20,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 
         public List<TileSection> TileSections { get; set; }
 
+        public List<ContentBox> ContentBoxSection { get; set; }
+
         public HtmlString? Contents { get; set; }
 
-        public Page(string pageUrl, string title, string pageTemplate, List<TileSection> tileSections, HtmlString? contents, Preamble? Preamble = null)
+        public Page(string pageUrl, string title, string pageTemplate, List<TileSection> tileSections, List<ContentBox> contentBoxSection, HtmlString? contents, Preamble? Preamble = null)
         {
 
             PageURL = pageUrl;
@@ -34,6 +36,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
             PagePreamble = Preamble;
 
             TileSections = tileSections;
+
+            ContentBoxSection = contentBoxSection;
 
             Contents = contents;
 

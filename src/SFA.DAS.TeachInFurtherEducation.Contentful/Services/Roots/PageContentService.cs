@@ -68,6 +68,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
                  apiPage.PageTitle!,
                  apiPage.PageTemplate,
                   apiPage.TileSections,
+                  apiPage.ContentBoxSection,
                   (await ToHtmlString(apiPage.Contents)),
                 apiPage.PagePreamble);
         }

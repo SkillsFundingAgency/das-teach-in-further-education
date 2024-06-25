@@ -18,6 +18,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 
         public List<TileSection> TileSections { get; set; } = [];
 
+        public List<ContentBox> ContentBoxSection { get; set; } = [];
+
         public HtmlString? Contents { get; set; }
 
     }

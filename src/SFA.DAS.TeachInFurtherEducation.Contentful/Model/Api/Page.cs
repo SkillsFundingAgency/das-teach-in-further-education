@@ -26,6 +26,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api
 
         public List<TileSection> TileSections { get; set; } = [];
 
+        public List<ContentBox> ContentBoxSection { get; set; } = [];
+
         public Document? Contents { get; set; }
     }
 
