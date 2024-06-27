@@ -29,6 +29,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api
         public List<ContentBox> ContentBoxSection { get; set; } = [];
 
         public Document? Contents { get; set; }
+
+        public ImageCardBanner? ImageCardBanner { get; set; }
     }
 
 }

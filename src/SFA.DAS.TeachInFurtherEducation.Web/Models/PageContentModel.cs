@@ -22,6 +22,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 
         public HtmlString? Contents { get; set; }
 
+        public ImageCardBanner? ImageCardBanner { get; set; }
+
     }
 
 }

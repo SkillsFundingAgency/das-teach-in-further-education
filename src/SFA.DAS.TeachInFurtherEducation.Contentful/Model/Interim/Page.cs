@@ -24,7 +24,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 
         public HtmlString? Contents { get; set; }
 
-        public Page(string pageUrl, string title, string pageTemplate, List<TileSection> tileSections, List<ContentBox> contentBoxSection, HtmlString? contents, Preamble? Preamble = null)
+        public ImageCardBanner? ImageCardBanner { get; set; }
+
+        public Page(string pageUrl, string title, string pageTemplate, List<TileSection> tileSections, List<ContentBox> contentBoxSection, HtmlString? contents, Preamble? Preamble = null, ImageCardBanner? imageCardBanner = null)
         {
 
             PageURL = pageUrl;
@@ -41,6 +43,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 
             Contents = contents;
 
+            ImageCardBanner = imageCardBanner;
         }
     }
 

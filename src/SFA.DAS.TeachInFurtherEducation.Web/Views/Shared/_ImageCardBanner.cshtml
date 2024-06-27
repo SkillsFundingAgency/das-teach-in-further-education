@@ -1,0 +1,17 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+@model ImageCardBanner;
+
+<div class="govuk-grid-row" style="background-color:blue; display: flex">
+    <div class="govuk-grid-column-two-thirds" style=" display:flex;justify-content: flex-end;">
+        <div style="padding: 10px; width:85%;padding-top: 20px;display: flex; align-items: center; justify-content: center;text-align:left;
+    box-sizing: border-box;">
+           @*  <p style="font-size: 32px; color:white;" class="govuk-body">The Employer standards is a free framework and digital tool from The Careers and Enterprise Company to help you work with education institutions on careers education.</p> *@
+            @ComponentService.ToHtmlString(Model.BannerContents);
+        </div>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        <img src="@ComponentService.GetMediaImageSource(Model.BannerImage)" alt="@Model.BannerImage?.Title" />
+    </div>
+</div>

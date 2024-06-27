@@ -23,11 +23,11 @@
 
     @await Html.PartialAsync(
 
-                                                "_PreambleGeneralPartial",
+                                                        "_PreambleGeneralPartial",
 
-                                        new Tuple<Preamble?, Breadcrumbs?, bool, bool>(Model.PagePreamble, null, true, Model.Preview.IsPreview)
+                                                new Tuple<Preamble?, Breadcrumbs?, bool, bool>(Model.PagePreamble, null, true, Model.Preview.IsPreview)
 
-                                    )
+                                            )
 }
 
 @{
@@ -64,6 +64,10 @@
     ;
 }
 
+@await Html.PartialAsync("_ImageCardBanner", Model.ImageCardBanner);
+
+@if (Model.Contents!=null)
+{ 
 <div class="govuk-width-container govuk-!-padding-top-8">
 
     <div class="govuk-grid-row">
@@ -77,6 +81,7 @@
     </div>
 
 </div>
+}
 
 @* To-do - Implement these partials *@
 @* @await Html.PartialAsync("_SharePagePartial", completeUrl) *@

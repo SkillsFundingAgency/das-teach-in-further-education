@@ -70,7 +70,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
                   apiPage.TileSections,
                   apiPage.ContentBoxSection,
                   (await ToHtmlString(apiPage.Contents)),
-                apiPage.PagePreamble);
+                  apiPage.PagePreamble,
+                  apiPage.ImageCardBanner);
         }
 
         /// <summary>
