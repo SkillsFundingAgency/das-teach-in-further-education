@@ -79,7 +79,6 @@ stages:
   variables:
   - group: DevTest Management Resources
   - group: TEST2 DevTest Shared Resources
-  - group: TEST2 das-teach-in-further-education
   jobs:
   - template: pipeline-templates/job/deploy.yml
     parameters:
@@ -133,7 +132,6 @@ stages:
   variables:
   - group: DevTest Management Resources
   - group: DEMO DevTest Shared Resources
-  - group: DEMO das-teach-in-further-education
   jobs:
   - template: pipeline-templates/job/deploy.yml
     parameters:
