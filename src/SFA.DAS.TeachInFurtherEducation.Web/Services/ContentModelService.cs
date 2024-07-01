@@ -82,6 +82,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                     ContentBoxSection = page.ContentBoxSection,
 
                     ImageCardBanner = page.ImageCardBanner,
+
+                    ImageCardSection = page.ImageCardSection
                 };
 
             }

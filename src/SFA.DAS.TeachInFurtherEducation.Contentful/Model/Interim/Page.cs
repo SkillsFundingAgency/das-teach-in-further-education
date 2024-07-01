@@ -26,7 +26,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 
         public ImageCardBanner? ImageCardBanner { get; set; }
 
-        public Page(string pageUrl, string title, string pageTemplate, List<TileSection> tileSections, List<ContentBox> contentBoxSection, HtmlString? contents, Preamble? Preamble = null, ImageCardBanner? imageCardBanner = null)
+        public ImageCardSection? ImageCardSection { get; set; }
+
+        public Page(string pageUrl, string title, string pageTemplate, List<TileSection> tileSections, List<ContentBox> contentBoxSection, HtmlString? contents, ImageCardSection? imageCardSection, Preamble? Preamble = null, ImageCardBanner? imageCardBanner = null)
         {
 
             PageURL = pageUrl;
@@ -44,6 +46,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
             Contents = contents;
 
             ImageCardBanner = imageCardBanner;
+
+            ImageCardSection = imageCardSection;
         }
     }
 

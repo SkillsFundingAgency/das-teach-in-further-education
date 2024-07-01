@@ -31,6 +31,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api
         public Document? Contents { get; set; }
 
         public ImageCardBanner? ImageCardBanner { get; set; }
+
+        public ImageCardSection? ImageCardSection { get; set; }
     }
 
 }
