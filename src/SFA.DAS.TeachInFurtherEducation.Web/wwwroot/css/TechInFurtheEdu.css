@@ -242,9 +242,9 @@ html, body, html body {
     width: 1px
 }
 
-img {
+/*img {
     max-width: 100%
-}
+}*/
 
 .underline_links a {
     text-decoration: underline

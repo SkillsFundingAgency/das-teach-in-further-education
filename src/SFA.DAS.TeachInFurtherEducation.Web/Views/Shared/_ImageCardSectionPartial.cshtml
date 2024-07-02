@@ -1,0 +1,43 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+@model ImageCardSection
+
+<div class="govuk-grid-row" style="background-color:blue">
+    <div class="govuk-width-container govuk-!-padding-left-2 govuk-!-padding-right-2">
+
+        @if (!string.IsNullOrWhiteSpace(Model.ImageCardSectionHeading))
+        {
+
+            <div class="govuk-grid-column-full govuk-!-padding-top-6">
+
+                <h3 class="govuk-heading-m">@Model.ImageCardSectionHeading</h3>
+
+            </div>
+
+        }
+
+        @if (Model.ImageCardSectionDescription != null)
+        {
+
+            <div class="govuk-grid-column-full govuk-!-margin-bottom-4">
+
+                @ComponentService.ToHtmlString(Model.ImageCardSectionDescription)
+
+            </div>
+
+        }
+
+        @foreach (ImageCard imageCard in Model.ImageCards.OrderBy(a => a.ImageCardOrder))
+        {
+            @await Html.PartialAsync(
+
+                     "_ImageCard",
+
+                     imageCard
+
+                     )
+        }
+
+    </div>
+
+</div>     

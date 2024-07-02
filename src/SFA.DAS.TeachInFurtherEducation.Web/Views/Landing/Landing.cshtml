@@ -1,5 +1,6 @@
 ﻿@using System.Web;
 @using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model PageContentModel
 
 
@@ -61,10 +62,10 @@
 @if (Model.ContentBoxSection.Any())
 {
     @await Html.PartialAsync("_ContentBox", Model.ContentBoxSection)
-    ;
+    
 }
 
-@await Html.PartialAsync("_ImageCardBanner", Model.ImageCardBanner);
+@await Html.PartialAsync("_ImageCardBanner", Model.ImageCardBanner)
 
 @if (Model.Contents!=null)
 { 
@@ -83,5 +84,23 @@
 </div>
 }
 
+@if (Model.ImageCardSection!= null)
+{
+    
+                @await Html.PartialAsync(
+
+                         "_ImageCardSectionPartial",
+
+                         (Model.ImageCardSection)
+
+                         )
+
+}
+
+
+
+
+    
 @* To-do - Implement these partials *@
 @* @await Html.PartialAsync("_SharePagePartial", completeUrl) *@
+

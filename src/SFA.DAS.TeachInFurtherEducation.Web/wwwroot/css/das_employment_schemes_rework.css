@@ -10525,3 +10525,40 @@ p + .das-tile__body-heading {
         font-size: 3rem;
     }
 }
+
+
+.outer-div {
+    display: flex;
+    border: 1px solid #000;
+    border-radius: 25px;
+    overflow: hidden; /* Ensures the content stays within rounded corners */
+    margin: 20px;
+    background-color:whitesmoke;
+}
+
+/* Inner divs */
+.inner-div {
+    padding: 10px;
+}
+
+/* First inner div with contents */
+.content-div {
+    width: 60%;
+    /* Additional styles for content */
+}
+
+/* Second inner div with image */
+.image-div {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    /* Image styling */
+    .image-div img {
+        width: auto;
+        height: 100%;
+        object-fit: cover;
+        /* Ensures the image covers the entire height of the div */
+    }
