@@ -24,11 +24,11 @@
 
     @await Html.PartialAsync(
 
-                                                        "_PreambleGeneralPartial",
+                                                                        "_PreambleGeneralPartial",
 
-                                                new Tuple<Preamble?, Breadcrumbs?, bool, bool>(Model.PagePreamble, null, true, Model.Preview.IsPreview)
+                                                                new Tuple<Preamble?, Breadcrumbs?, bool, bool>(Model.PagePreamble, null, true, Model.Preview.IsPreview)
 
-                                            )
+                                                            )
 }
 
 @{
@@ -62,45 +62,47 @@
 @if (Model.ContentBoxSection.Any())
 {
     @await Html.PartialAsync("_ContentBox", Model.ContentBoxSection)
-    
+
 }
 
 @await Html.PartialAsync("_ImageCardBanner", Model.ImageCardBanner)
 
-@if (Model.Contents!=null)
-{ 
-<div class="govuk-width-container govuk-!-padding-top-8">
+@if (Model.Contents != null)
+{
+    <div class="govuk-width-container govuk-!-padding-top-8">
 
-    <div class="govuk-grid-row">
+        <div class="govuk-grid-row">
 
-        <div class="govuk-grid-column-full">
+            <div class="govuk-grid-column-full">
 
-            @Model.Contents
+                @Model.Contents
+
+            </div>
 
         </div>
 
     </div>
-
-</div>
 }
 
-@if (Model.ImageCardSection!= null)
+@if (Model.ImageCardSection != null)
 {
-    
-                @await Html.PartialAsync(
 
-                         "_ImageCardSectionPartial",
+    @await Html.PartialAsync(
 
-                         (Model.ImageCardSection)
+                              "_ImageCardSectionPartial",
 
-                         )
+                              (Model.ImageCardSection)
+
+                              )
 
 }
 
+@await Html.PartialAsync(
 
+                                      "_NewsLetter"
 
+                                  )
 
-    
 @* To-do - Implement these partials *@
 @* @await Html.PartialAsync("_SharePagePartial", completeUrl) *@
 
