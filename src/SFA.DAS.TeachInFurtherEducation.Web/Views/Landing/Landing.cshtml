@@ -22,7 +22,7 @@
 @if (Model.PagePreamble != null)
 {
 
-    @await Html.PartialAsync("_PreambleGeneralPartial",new Tuple<Preamble?, Breadcrumbs?, bool, bool>(Model.PagePreamble, null, true, Model.Preview.IsPreview))
+    @await Html.PartialAsync("_PreambleGeneralPartial",new Tuple<Preamble?, Breadcrumbs?, bool, bool, string>(Model.PagePreamble, null, true, Model.Preview.IsPreview, Model.PageTemplate))
 }
 
 @* To-do - Implement these partials *@

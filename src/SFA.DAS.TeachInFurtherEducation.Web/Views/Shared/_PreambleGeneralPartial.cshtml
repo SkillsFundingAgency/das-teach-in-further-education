@@ -1,7 +1,7 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 
-@model Tuple<Preamble?, Breadcrumbs?, bool, bool>
+@model Tuple<Preamble?, Breadcrumbs?, bool, bool, string>
 
 @if (Model.Item1 != null || Model.Item2 != null)
 {
@@ -30,7 +30,7 @@
 
                     @if(!String.IsNullOrEmpty(Model.Item1.BannerHeader))
                     {
-                        <h1 class="govuk-heading-xl-home">@Model.Item1.BannerHeader</h1>
+                        <h1 class="@(Model.Item5 == "Home" ? "govuk-heading-xl-home" : "govuk-heading-xl")">@Model.Item1.BannerHeader</h1>
                     }
                     @if (Model.Item1?.PrimarySection != null)
                     {
