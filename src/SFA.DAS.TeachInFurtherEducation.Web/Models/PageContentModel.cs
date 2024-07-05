@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Html;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 {
-
+    [ExcludeFromCodeCoverage]
     public class PageContentModel : LayoutModel
     {
 
