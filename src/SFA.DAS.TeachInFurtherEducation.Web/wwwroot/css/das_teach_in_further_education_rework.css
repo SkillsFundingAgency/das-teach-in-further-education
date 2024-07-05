@@ -10563,3 +10563,8 @@ p + .das-tile__body-heading {
         object-fit: cover;
         /* Ensures the image covers the entire height of the div */
     }
+
+#bannerDiv .govuk-body {
+    color: #FFFFFF;
+    font-size:20px;
+}
