@@ -1,0 +1,39 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+
+@model (Tile?, bool)
+
+<div class="das-tile">
+
+    @if(Model.Item1 != null)
+    {
+
+        <div class="das-tile__img-container">
+
+            <img class="das-tile__img" src="@ComponentService.GetMediaImageSource(Model.Item1.TileImage)" alt="@Model.Item1.TileTitle" />
+
+        </div>
+
+        <div class="das-tile__body">
+
+            <div class="das-tile__body-heading">
+
+                <a id="link-@Model.Item1.TileID" class="das-tile__tile-link" href="@(Model.Item2 ? $"/preview{Model.Item1.TileSource}" : Model.Item1.TileSource)" aria-labelledby="link-@Model.Item1.TileID p-@Model.Item1.TileID">@Model.Item1.TileHeading</a>
+
+            </div>
+
+            <div id="p-@Model.Item1.TileID" class="das-tile__body-text">
+
+                <div>
+
+                    @ComponentService.ToHtmlString(Model.Item1.TileDescription)
+
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>
