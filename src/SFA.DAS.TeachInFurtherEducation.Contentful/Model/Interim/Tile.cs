@@ -8,19 +8,19 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
     public class Tile
     {
 
-        public required string InterimTileID { get; set; }
+        public required string TileID { get; set; }
 
-        public required string InterimTileTitle { get; set; }
+        public required string TileTitle { get; set; }
 
-        public required string InterimTileSource { get; set; }
+        public required string TileSource { get; set; }
 
-        public required string InterimTileHeading { get; set; }
+        public required string TileHeading { get; set; }
 
-        public Document? InterimTileDescription { get; set; }
+        public Document? TileDescription { get; set; }
 
-        public int? InterimTileOrder { get; set; } = 0;
+        public int? TileOrder { get; set; } = 0;
 
-        public Asset? InterimTileImage { get; set; }
+        public Asset? TileImage { get; set; }
 
     }
 

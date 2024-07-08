@@ -18,13 +18,21 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api
 
         public string? PageURL { get; set; }
 
+        public string PageTemplate { get; set; } = "";
+
         public Breadcrumbs? Breadcrumbs { get; set; }
 
         public Preamble? PagePreamble { get; set; }
 
         public List<TileSection> TileSections { get; set; } = [];
 
+        public List<ContentBox> ContentBoxSection { get; set; } = [];
+
         public Document? Contents { get; set; }
+
+        public ImageCardBanner? ImageCardBanner { get; set; }
+
+        public ImageCardSection? ImageCardSection { get; set; }
     }
 
 }

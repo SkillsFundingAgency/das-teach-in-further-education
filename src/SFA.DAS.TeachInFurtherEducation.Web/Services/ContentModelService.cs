@@ -67,6 +67,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
                     PageTitle = page.PageTitle,
 
+                    PageTemplate = page.PageTemplate,
+
                     PagePreamble = page.PagePreamble,
 
                     TileSections = page.TileSections,
@@ -75,8 +77,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
                     footerLinks = _contentService.Content.FooterLinks,
 
-                    Contents = page.Contents
+                    Contents = page.Contents,
 
+                    ContentBoxSection = page.ContentBoxSection,
+
+                    ImageCardBanner = page.ImageCardBanner,
+
+                    ImageCardSection = page.ImageCardSection
                 };
 
             }
@@ -170,6 +177,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                     PageURL = previewPage.PageURL,
 
                     PageTitle = previewPage.PageTitle,
+
+                    PageTemplate = previewPage.PageTemplate,
 
                     PagePreamble = previewPage.PagePreamble,
 

@@ -66,9 +66,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
             return new Page(
                 apiPage.PageURL!,
                  apiPage.PageTitle!,
+                 apiPage.PageTemplate,
                   apiPage.TileSections,
+                  apiPage.ContentBoxSection,
                   (await ToHtmlString(apiPage.Contents)),
-                apiPage.PagePreamble);
+                    apiPage.ImageCardSection!,
+                  apiPage.PagePreamble,
+                  apiPage.ImageCardBanner
+                  );
         }
 
         /// <summary>
