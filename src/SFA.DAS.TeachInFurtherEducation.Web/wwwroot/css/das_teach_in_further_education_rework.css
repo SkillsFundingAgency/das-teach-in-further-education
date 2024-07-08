@@ -10532,23 +10532,19 @@ p + .das-tile__body-heading {
     display: flex;
     border: 1px solid #000;
     border-radius: 25px;
-    overflow: hidden; /* Ensures the content stays within rounded corners */
+    overflow: hidden; 
     margin: 20px;
     background-color:whitesmoke;
 }
 
-/* Inner divs */
 .inner-div {
     padding: 10px;
 }
 
-/* First inner div with contents */
 .content-div {
     width: 60%;
-    /* Additional styles for content */
 }
 
-/* Second inner div with image */
 .image-div {
     width: 40%;
     display: flex;
@@ -10556,15 +10552,66 @@ p + .das-tile__body-heading {
     align-items: center;
 }
 
-    /* Image styling */
     .image-div img {
         width: auto;
         height: 100%;
         object-fit: cover;
-        /* Ensures the image covers the entire height of the div */
     }
 
 #bannerDiv .govuk-body {
     color: #FFFFFF;
     font-size:20px;
+}
+
+
+.image-Card-banner-outer-div {
+    display: flex;
+    border: 1px solid #000;
+    overflow: hidden; 
+    background-color: #0D2BD3;
+}
+
+.image-Card-banner-inner-div {
+    padding: 10px;
+}
+
+.image-card-banner-content-div {
+    width: 70%;
+    padding-left:140px;
+    padding-right:160px;
+    padding-top:25px;
+    padding-bottom:25px;
+}
+
+.image-card-banner-image-div {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-card-banner-image-div img {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+}
+
+#imageCardBannerDiv .govuk-body {
+    color: #FFFFFF;
+    font-size: 40px;
+}
+
+@media (max-width: 768px)  {
+    .image-card-banner__mobile {
+        display: none;
+    }
+    #imageCardBannerDiv .govuk-body {
+        color: #FFFFFF;
+        font-size: 16px;
+    }
+    .image-card-banner-content-div {
+        width: 100%;
+        padding: 5px;
+        margin:15px;
+    }
 }
