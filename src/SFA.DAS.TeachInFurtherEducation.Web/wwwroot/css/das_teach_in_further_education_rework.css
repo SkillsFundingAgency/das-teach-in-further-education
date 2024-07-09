@@ -10601,6 +10601,13 @@ p + .das-tile__body-heading {
     font-size: 40px;
 }
 
+#imageCardBannerDiv .govuk-link {
+    color: #FFFFFF;
+    background: url("../images/chevron-red500.png") no-repeat left center;
+    background-size: .5375rem .7875rem;
+    padding-left: .8125rem;
+}
+
 @media (max-width: 768px)  {
     .image-card-banner__mobile {
         display: none;
