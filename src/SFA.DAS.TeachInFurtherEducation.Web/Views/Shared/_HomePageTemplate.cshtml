@@ -46,3 +46,8 @@
         </div>
     </div>
 }
+
+@if(Model.ImageCardBanner!= null)
+{
+    @await Html.PartialAsync("_ImageCardBanner", Model.ImageCardBanner)
+}
