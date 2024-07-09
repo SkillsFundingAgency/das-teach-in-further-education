@@ -3,28 +3,13 @@
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model PageContentModel
 
-
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
-
-@{
-
-    ViewData["Title"] = $"{Model.PageTitle}{(Model.Preview.IsPreview ? " Preview" : "")}";
-
-}
-
-@section PreviewErrors {
-
-    @await Html.PartialAsync("_PreviewErrorsPartial", Model.Preview)
-
-}
-
-@if (Model.PagePreamble != null)
+@if (Model != null && Model.PageTemplate == "Home")
 {
+@await Html.PartialAsync(
 
-    @await Html.PartialAsync("_PreambleGeneralPartial",new Tuple<Preamble?, Breadcrumbs?, bool, bool, string>(Model.PagePreamble, null, true, Model.Preview.IsPreview, Model.PageTemplate))
+                             "_HomePageTemplate",
+
+                                 @Model
+
+                             )
 }
-
-@* To-do - Implement these partials *@
-@* @await Html.PartialAsync("_SharePagePartial", completeUrl) *@
-
