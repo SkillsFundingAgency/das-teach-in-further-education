@@ -10601,17 +10601,29 @@ p + .das-tile__body-heading {
     font-size: 40px;
 }
 
+#imageCardBannerDiv .govuk-link {
+    color: #FFFFFF;
+    background: url("../images/chevron-red500.png") no-repeat left center;
+    background-size: .5375rem .7875rem;
+    padding-left: .8125rem;
+}
+
 @media (max-width: 768px)  {
     .image-card-banner__mobile {
         display: none;
     }
     #imageCardBannerDiv .govuk-body {
         color: #FFFFFF;
-        font-size: 16px;
+        font-size: 24px;
     }
     .image-card-banner-content-div {
         width: 100%;
         padding: 5px;
         margin:15px;
+    }
+
+    #imageCardBannerDiv .govuk-link {
+        font-size: 16px;
+        font-family: arial, sans-serif !important
     }
 }
