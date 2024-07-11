@@ -32,7 +32,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api
 
         public ImageCardBanner? ImageCardBanner { get; set; }
 
-        public ImageCardSection? ImageCardSection { get; set; }
+        public NewsLetter? NewsLetter { get; set; }
     }
 
 }
