@@ -57,6 +57,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult ApplicationError()
         {
+            LayoutModel.footerLinks = _contentService.Content.FooterLinks;
+            LayoutModel.MenuItems = _contentService.Content.MenuItems;
+
             IExceptionHandlerPathFeature? feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
             _log.LogError($"500 result at {feature?.Path ?? "{unknown}"}", feature?.Error);
             return View(LayoutModel);
