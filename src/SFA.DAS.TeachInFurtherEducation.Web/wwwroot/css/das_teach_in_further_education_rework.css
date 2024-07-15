@@ -10627,3 +10627,13 @@ p + .das-tile__body-heading {
         font-family: arial, sans-serif !important
     }
 }
+
+.contents-box {
+    border: 4px solid #1B3CF3;
+    background-color: #FFFFFF;
+    border-radius: 25px
+}
+
+    .contents-box .govuk-link {
+        color: #1B3CF3;
+    }

@@ -54,5 +54,11 @@
 
 @if (Model.NewsLetter != null)
 {
-    @await Html.PartialAsync("_NewsLetter", Model.NewsLetter)
+    @await Html.PartialAsync("_NewsLetterPartial", Model.NewsLetter)
+}
+
+
+@if (Model.ContentBoxSection != null)
+{
+    @await Html.PartialAsync("_ContentBoxPartial", Model.ContentBoxSection)
 }
