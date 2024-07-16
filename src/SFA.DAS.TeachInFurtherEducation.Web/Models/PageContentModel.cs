@@ -25,7 +25,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 
         public ImageCardBanner? ImageCardBanner { get; set; }
 
-        public ImageCardSection? ImageCardSection { get; set; }
+        public NewsLetter? NewsLetter { get; set; }
 
     }
 

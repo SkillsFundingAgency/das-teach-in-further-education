@@ -51,3 +51,14 @@
 {
     @await Html.PartialAsync("_ImageCardBanner", Model.ImageCardBanner)
 }
+
+@if (Model.NewsLetter != null)
+{
+    @await Html.PartialAsync("_NewsLetterPartial", Model.NewsLetter)
+}
+
+
+@if (Model.ContentBoxSection != null)
+{
+    @await Html.PartialAsync("_ContentBoxPartial", Model.ContentBoxSection)
+}
