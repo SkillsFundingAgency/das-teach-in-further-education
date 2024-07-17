@@ -33,6 +33,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api
         public ImageCardBanner? ImageCardBanner { get; set; }
 
         public NewsLetter? NewsLetter { get; set; }
+
+        public ContactUs? ContactUs { get; set; }
     }
 
 }
