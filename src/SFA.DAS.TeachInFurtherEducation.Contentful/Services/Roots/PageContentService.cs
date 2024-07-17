@@ -71,6 +71,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
                   apiPage.ContentBoxSection,
                   (await ToHtmlString(apiPage.Contents)),
                     apiPage.NewsLetter!,
+                    apiPage.ContactUs!,
                   apiPage.PagePreamble,
                   apiPage.ImageCardBanner
                   );

@@ -27,6 +27,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 
         public NewsLetter? NewsLetter { get; set; }
 
+        public ContactUs? ContactUs { get; set; }
+
     }
 
 }

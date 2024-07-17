@@ -84,6 +84,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                     ImageCardBanner = page.ImageCardBanner,
 
                     NewsLetter = page.NewsLetter,
+
+                    ContactUs = page.ContactUs,
                 };
 
             }

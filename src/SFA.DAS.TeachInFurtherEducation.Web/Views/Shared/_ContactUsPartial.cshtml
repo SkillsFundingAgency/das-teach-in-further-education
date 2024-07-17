@@ -1,0 +1,37 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+@model ContactUs;
+
+<div id="contactUs" class="govuk-grid-row govuk-!-margin-0 contact-us">
+        <div class="govuk-width-container">
+            <h1 class="govuk-heading-m govuk-!-margin-left-3 govuk-!-padding-top-4">@Model.Heading</h1>
+            <div class="govuk-grid-column-one-half">
+            @ComponentService.ToHtmlString(@Model.ContactUsContents)
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-grid-row govuk-!-margin-0 contact-us">
+
+                <div class="govuk-grid-column-one-third">
+                    <image src="../images/phone.png" />
+                </div>
+                <div class="govuk-grid-column-two-thirds">
+                        <p class="govuk-body" style="padding-top:15px; font-size:24px; text-decoration: underline;">
+                        @Model.Phone
+                    </p>
+                </div>
+                </div>
+                <div class="govuk-grid-row govuk-!-margin-0 contact-us">
+
+                    <div class="govuk-grid-column-one-third">
+                        <image src="../images/envelope.png" />
+                    </div>
+                    <div class="govuk-grid-column-two-thirds">
+                        <p class="govuk-body" style="padding-top:15px">
+                        <a href="mailto:@{@Model.Email}" class="govuk-link">@Model.Email</a>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
