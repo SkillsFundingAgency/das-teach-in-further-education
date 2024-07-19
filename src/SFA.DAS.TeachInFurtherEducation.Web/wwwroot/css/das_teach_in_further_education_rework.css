@@ -2125,8 +2125,9 @@ p + .das-tile__body-heading {
 
 @media (max-width: 40.0525em) {
 
-    .video-scheme-iframe {
+    .video-tife-iframe {
         height:186px !important;
+        width:370px !important;
     }
 
     .govuk-breadcrumbs--collapse-on-mobile .govuk-breadcrumbs__list-item {
@@ -3858,7 +3859,7 @@ p + .das-tile__body-heading {
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 20px;
-    border-left: 5px solid #D30172;
+    border-left: 5px solid #1B3CF3;
 }
 
     .govuk-details__text p {
@@ -10654,4 +10655,9 @@ p + .das-tile__body-heading {
     .contact-us .govuk-heading-m {
             color: #FFFFFF;
     }
+
+.video-tife-iframe{
+    height: 350px;
+    width: 570px;
+}
 

@@ -159,7 +159,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
                                 "https://www.facebook.com",
                                 "*.qualtrics.com",
                                 "*.clarity.ms",
-                                "https://td.doubleclick.net"
+                                "https://td.doubleclick.net",
+                                "https://videos.ctfassets.net/"
                             });
 
                         // Add frame-ancestors directive allowing embedding from specific domain(s)

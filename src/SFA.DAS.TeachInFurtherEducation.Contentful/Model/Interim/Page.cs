@@ -30,7 +30,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 
         public ContactUs? ContactUs { get; set; }
 
-        public Page(string pageUrl, string title, string pageTemplate, List<TileSection> tileSections, List<ContentBox> contentBoxSection, HtmlString? contents, NewsLetter? newsLetter, ContactUs? contactUs, Preamble? Preamble = null, ImageCardBanner? imageCardBanner = null)
+        public Video? Video { get; set; }
+
+        public Page(string pageUrl, string title, string pageTemplate, List<TileSection> tileSections, List<ContentBox> contentBoxSection, HtmlString? contents, NewsLetter? newsLetter, ContactUs? contactUs, Video? video, Preamble? Preamble = null, ImageCardBanner? imageCardBanner = null)
         {
 
             PageURL = pageUrl;
@@ -52,6 +54,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
             NewsLetter = newsLetter;
 
             ContactUs = contactUs;
+
+            Video = video;
         }
     }
 

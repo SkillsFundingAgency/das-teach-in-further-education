@@ -57,6 +57,11 @@
     @await Html.PartialAsync("_NewsLetterPartial", Model.NewsLetter)
 }
 
+@if (Model.Video != null)
+{
+    @await Html.PartialAsync("_VideoPartial", Model.Video)
+}
+
 @if (Model.ContentBoxSection != null)
 {
     @await Html.PartialAsync("_ContentBoxPartial", Model.ContentBoxSection)
