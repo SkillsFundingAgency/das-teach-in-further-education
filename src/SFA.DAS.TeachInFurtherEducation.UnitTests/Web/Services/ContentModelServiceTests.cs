@@ -53,8 +53,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
             A.CallTo(() => ContentService.GetPageByURL("unknowUrl"))
                 .Returns(null);
 
-            var TestPage = new Page("TestURL", "TestTitle", "TestTemplate", new List<TileSection>(), new List<ContentBox>(), new HtmlString(""), null, null);
-            var HomePage = new Page("HomePageURL", "HolePageTitle", "HomeTemplate", new List<TileSection>(), new List<ContentBox>(), new HtmlString(""), null, null);
+            var TestPage = new Page("TestURL", "TestTitle", "TestTemplate", new List<TileSection>(), new List<ContentBox>(), new HtmlString(""), null, null, null);
+            var HomePage = new Page("HomePageURL", "HolePageTitle", "HomeTemplate", new List<TileSection>(), new List<ContentBox>(), new HtmlString(""), null, null, null);
 
             Pages = new[] { TestPage, HomePage };
 

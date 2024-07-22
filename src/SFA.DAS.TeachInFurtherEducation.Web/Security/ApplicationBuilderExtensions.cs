@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using static System.Net.WebRequestMethods;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 {
@@ -159,7 +160,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
                                 "https://www.facebook.com",
                                 "*.qualtrics.com",
                                 "*.clarity.ms",
-                                "https://td.doubleclick.net"
+                                "https://td.doubleclick.net",
+                                "https://videos.ctfassets.net/",
+                                "https://www.youtube.com/"
                             });
 
                         // Add frame-ancestors directive allowing embedding from specific domain(s)

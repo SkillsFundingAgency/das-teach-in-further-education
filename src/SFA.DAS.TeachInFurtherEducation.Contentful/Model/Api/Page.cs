@@ -35,6 +35,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api
         public NewsLetter? NewsLetter { get; set; }
 
         public ContactUs? ContactUs { get; set; }
+
+        public Video? Video { get; set; }
     }
 
 }

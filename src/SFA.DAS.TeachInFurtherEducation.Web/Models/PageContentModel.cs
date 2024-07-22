@@ -29,6 +29,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 
         public ContactUs? ContactUs { get; set; }
 
+        public Video? Video { get; set; }
+
     }
 
 }

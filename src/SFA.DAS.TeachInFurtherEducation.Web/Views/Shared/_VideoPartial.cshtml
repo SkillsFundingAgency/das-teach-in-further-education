@@ -1,0 +1,66 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model
+@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+@model Video
+<div class="govuk-width-container govuk-!-padding-top-6">
+<div id="video-frame" class="govuk-grid-row govuk-!-padding-3">
+    <div data-id="" data-type="" class="govuk-!-padding-right-0 govuk-grid-column-full govuk-!-margin-bottom-7 govuk-!-padding-left-0">
+
+        <div class="govuk-grid-row">
+
+            <div class="govuk-grid-column-two-thirds">
+
+                @if (Model.Heading != null)
+                {
+
+                    <h1 class="govuk-heading-m govuk-!-margin-bottom-2">@Model.Heading</h1>
+
+                }
+
+                @if (Model.VideoDescription != null)
+                {
+                    @ComponentService.ToHtmlString(@Model.VideoDescription)
+                }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.VideoSource) || Model.VideoFile!= null)
+                {
+                        var videoSource = Model.VideoFile != null ? Model.VideoFile.File.Url : Model.VideoSource;
+                        <iframe class="video-tife-iframe" src="@videoSource" title="@{@Model.Title}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy">
+                         </iframe>
+                    }
+            </div>
+
+            @if (Model.VideoTranscript != null)
+            {
+
+                <div class="govuk-grid-column-full govuk-!-margin-top-3">
+
+                    <details class="govuk-details govuk-!-margin-bottom-0">
+
+                        <summary class="govuk-details__summary">
+
+                            <span class="govuk-details__summary-text">
+
+                                Video Transcript
+
+                            </span>
+
+                        </summary>
+
+                        <div class="govuk-details__text">
+
+                            @ComponentService.ToHtmlString(Model.VideoTranscript)
+
+                        </div>
+
+                    </details>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+</div>
+</div>
