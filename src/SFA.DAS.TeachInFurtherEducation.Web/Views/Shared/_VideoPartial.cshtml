@@ -22,7 +22,7 @@
                     @ComponentService.ToHtmlString(@Model.VideoDescription)
                 }
 
-                @if (!string.IsNullOrWhiteSpace(Model.VideoSource))
+                    @if (!string.IsNullOrWhiteSpace(Model.VideoSource) || Model.VideoFile!= null)
                 {
                         var videoSource = Model.VideoFile != null ? Model.VideoFile.File.Url : Model.VideoSource;
                         <iframe class="video-tife-iframe" src="@videoSource" title="@{@Model.Title}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy">
