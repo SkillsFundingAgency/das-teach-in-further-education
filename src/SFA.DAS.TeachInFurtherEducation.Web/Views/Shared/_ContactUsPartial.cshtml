@@ -15,8 +15,9 @@
                     <image src="../images/phone.png" />
                 </div>
                 <div class="govuk-grid-column-two-thirds">
-                        <p class="govuk-body" style="padding-top:15px; font-size:24px; text-decoration: underline;">
-                        @Model.Phone
+                        <p class="govuk-body" style="padding-top:15px;">
+                     @{  var telphone = @Model.Phone.Replace(" ", "");}
+                        <a href="tel:@{@telphone}" class="govuk-link">@Model.Phone</a>
                     </p>
                 </div>
                 </div>
