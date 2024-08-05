@@ -6,7 +6,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class ContactUs
+    public class ContactUs : IContent
     {
         [ExcludeFromCodeCoverage]
 

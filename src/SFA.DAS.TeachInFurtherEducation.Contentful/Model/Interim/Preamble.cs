@@ -5,7 +5,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class Preamble
+    public class Preamble : IContent
     {
 
         public string? PreambleTitle { get; set; }

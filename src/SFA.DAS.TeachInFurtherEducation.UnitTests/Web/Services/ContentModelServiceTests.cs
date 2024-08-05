@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using AutoFixture.Kernel;
-using Contentful.Core.Models;
+using ContentfulModels = Contentful.Core.Models;
 using FakeItEasy;
 using System.Linq;
 using Xunit;
@@ -26,7 +26,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
         public ILogger<ContentModelService> LoggerService;
         public IContent Content { get; set; }
         public ContentModelService ContentModelService { get; set; }
-        public HtmlRenderer htmlRenderer { get; set; }
+        public ContentfulModels.HtmlRenderer htmlRenderer { get; set; }
 
         public ContentModelServiceTests()
         {
@@ -39,11 +39,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
             Fixture.Customizations.Add(
                 new TypeRelay(
                     typeof(global::Contentful.Core.Models.IContent),
-                    typeof(Paragraph)));
+                    typeof(ContentfulModels.Paragraph)));
 
             Content = A.Fake<IContent>();
             LoggerService = A.Fake<ILogger<ContentModelService>>();
-            htmlRenderer = A.Fake<HtmlRenderer>();
+            htmlRenderer = A.Fake<ContentfulModels.HtmlRenderer>();
 
             ContentService = A.Fake<IContentService>();
 
@@ -53,8 +53,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
             A.CallTo(() => ContentService.GetPageByURL("unknowUrl"))
                 .Returns(null);
 
-            var TestPage = new Page("TestURL", "TestTitle", "TestTemplate", new List<TileSection>(), new List<ContentBox>(), new HtmlString(""), null, null, null);
-            var HomePage = new Page("HomePageURL", "HolePageTitle", "HomeTemplate", new List<TileSection>(), new List<ContentBox>(), new HtmlString(""), null, null, null);
+            var TestPage = new Page("TestURL", "TestTitle", "TestTemplate", new List<TileSection>(), new List<ContentBox>(), new HtmlString(""), null, null, null, new List<ContentfulModels.IContent>());
+            var HomePage = new Page("HomePageURL", "HolePageTitle", "HomeTemplate", new List<TileSection>(), new List<ContentBox>(), new HtmlString(""), null, null, null, new List<ContentfulModels.IContent>());
 
             Pages = new[] { TestPage, HomePage };
 

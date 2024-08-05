@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using AspNetCore.SEOHelper;
+using Contentful.Core.Configuration;
 using Contentful.Core.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Extensions;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices;
 using SFA.DAS.TeachInFurtherEducation.Web.Extensions;
@@ -106,7 +108,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             services.AddSingleton<IPageService, PageService>();
             services.Configure<ContentUpdateServiceOptions>(Configuration.GetSection("ContentUpdates"));
-
+            services.AddSingleton<IContentTypeResolver, EntityResolver>();
             services.AddContentService(Configuration)
                 .AddHostedService<ContentUpdateService>();
 

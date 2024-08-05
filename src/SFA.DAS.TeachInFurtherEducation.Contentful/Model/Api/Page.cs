@@ -37,6 +37,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api
         public ContactUs? ContactUs { get; set; }
 
         public Video? Video { get; set; }
+
+        public List<IContent>? PageComponents { get; set; }
     }
 
 }

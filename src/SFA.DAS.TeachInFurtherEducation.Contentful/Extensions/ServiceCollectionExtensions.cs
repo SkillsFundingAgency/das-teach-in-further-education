@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Exceptions;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces.Roots;
@@ -44,7 +45,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Extensions
                         UsePreviewApi = true
                     };
                     var client = sp.GetService<HttpClient>();
-                    return new ContentfulClient(client, options);
+                    var contentfulClient = new ContentfulClient(client, options);
+                    var entityResolver = sp.GetService<IContentTypeResolver>();
+                    contentfulClient.ContentTypeResolver = entityResolver;
+                    return contentfulClient;
                 })
                 .AddTransient<IContentfulClientFactory, ContentfulClientFactory>();
         }

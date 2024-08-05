@@ -6,13 +6,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class SelectOption : IContent
+    public class PageComponents : IContent
     {
-        public required string OptionTitle { get; set; }
+        public Preamble? PagePreamble { get; set; }
 
-        public required string OptionText { get; set; }
-
-        public int OptionValue { get; set; }
+        public List<TileSection> TileSections { get; set; } = [];
     }
 
 }

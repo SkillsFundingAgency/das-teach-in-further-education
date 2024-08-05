@@ -73,6 +73,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
                     apiPage.NewsLetter!,
                     apiPage.ContactUs!,
                     apiPage.Video!,
+                    apiPage.PageComponents!,
                   apiPage.PagePreamble,
                   apiPage.ImageCardBanner
                   );

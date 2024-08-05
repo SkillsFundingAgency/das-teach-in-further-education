@@ -6,7 +6,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class TileSection
+    public class TileSection : IContent
     {
 
         public required string TileSectionTitle { get; set; }
