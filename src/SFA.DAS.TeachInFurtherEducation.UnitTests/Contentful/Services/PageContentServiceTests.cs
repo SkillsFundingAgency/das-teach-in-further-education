@@ -51,8 +51,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
                 new ApiPage()
                 {
                     PageTitle = "Test Page",
-                    PageURL = "Home",
-                    TileSections = []
+                    PageURL = "Home"
                 }
             ];
 

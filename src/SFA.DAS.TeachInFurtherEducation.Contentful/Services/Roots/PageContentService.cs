@@ -67,15 +67,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
                 apiPage.PageURL!,
                  apiPage.PageTitle!,
                  apiPage.PageTemplate,
-                  apiPage.TileSections,
-                  apiPage.ContentBoxSection,
-                  (await ToHtmlString(apiPage.Contents)),
-                    apiPage.NewsLetter!,
-                    apiPage.ContactUs!,
-                    apiPage.Video!,
-                    apiPage.PageComponents!,
-                  apiPage.PagePreamble,
-                  apiPage.ImageCardBanner
+                 apiPage.PageComponents!,
+                 (await ToHtmlString(apiPage.Contents)!)
                   );
         }
 
