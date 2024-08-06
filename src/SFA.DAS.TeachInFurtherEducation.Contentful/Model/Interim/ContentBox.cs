@@ -5,7 +5,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class ContentBox
+    public class ContentBox : IContent
     {
         public string? ContentTitle { get; set; }
 

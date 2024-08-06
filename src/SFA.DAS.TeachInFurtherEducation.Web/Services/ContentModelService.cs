@@ -69,25 +69,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
                     PageTemplate = page.PageTemplate,
 
-                    PagePreamble = page.PagePreamble,
-
-                    TileSections = page.TileSections,
-
                     MenuItems = _contentService.Content.MenuItems,
 
                     footerLinks = _contentService.Content.FooterLinks,
 
-                    Contents = page.Contents,
-
-                    ContentBoxSection = page.ContentBoxSection,
-
-                    ImageCardBanner = page.ImageCardBanner,
-
-                    NewsLetter = page.NewsLetter,
-
-                    ContactUs = page.ContactUs,
-
-                    Video = page.Video
+                    PageComponents = page.PageComponents,
                 };
 
             }
@@ -183,10 +169,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                     PageTitle = previewPage.PageTitle,
 
                     PageTemplate = previewPage.PageTemplate,
-
-                    PagePreamble = previewPage.PagePreamble,
-
-                    TileSections = previewPage.TileSections,
 
                     MenuItems = previewContent.MenuItems,
 

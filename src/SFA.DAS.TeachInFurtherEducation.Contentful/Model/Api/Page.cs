@@ -22,21 +22,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api
 
         public Breadcrumbs? Breadcrumbs { get; set; }
 
-        public Preamble? PagePreamble { get; set; }
-
-        public List<TileSection> TileSections { get; set; } = [];
-
-        public List<ContentBox> ContentBoxSection { get; set; } = [];
-
         public Document? Contents { get; set; }
 
-        public ImageCardBanner? ImageCardBanner { get; set; }
-
-        public NewsLetter? NewsLetter { get; set; }
-
-        public ContactUs? ContactUs { get; set; }
-
-        public Video? Video { get; set; }
+        public List<IContent>? PageComponents { get; set; }
     }
-
 }

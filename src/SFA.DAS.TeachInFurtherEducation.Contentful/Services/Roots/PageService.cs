@@ -40,7 +40,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
                 apiPage.PageTitle!,
                 apiPage.PageURL!,
                 (await ToHtmlString(apiPage.Contents))!,
-                apiPage.PagePreamble,
+                null,
                 apiPage.Breadcrumbs);
         }
     }

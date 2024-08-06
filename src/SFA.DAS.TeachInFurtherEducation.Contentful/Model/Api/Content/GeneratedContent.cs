@@ -1,8 +1,10 @@
+using ContentfulIContent = Contentful.Core.Models;
 using Microsoft.AspNetCore.Html;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using System.Collections.Generic;
+using IContent = SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content.Interfaces.IContent;
 
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Content
 {
@@ -60,7 +62,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Content
             get
             {
                 // If _interimLandingPage is null, initialize it with a new InterimLandingPage instance
-                return _interimLandingPage ??= new Page("","", "", new List<TileSection>(), new List<ContentBox>(),null, null, null, null,null);
+                return _interimLandingPage ??= new Page("", "", "", new List<ContentfulIContent.IContent>(), null);
             }
         }
 

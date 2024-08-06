@@ -18,6 +18,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
 
             ContentfulClient = contentfulClients.SingleOrDefault(c => !c.IsPreviewClient);
             PreviewContentfulClient = contentfulClients.SingleOrDefault(c => c.IsPreviewClient);
+            var entityResolver = PreviewContentfulClient?.ContentTypeResolver;
+            if (ContentfulClient != null)
+            {
+                ContentfulClient.ContentTypeResolver =entityResolver;
+            }
         }
     }
 }

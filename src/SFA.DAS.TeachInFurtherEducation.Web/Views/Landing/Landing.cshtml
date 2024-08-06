@@ -3,13 +3,52 @@
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model PageContentModel
 
-@if (Model != null && Model.PageTemplate == "Home")
-{
-@await Html.PartialAsync(
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
-                             "_HomePageTemplate",
-
-                                 @Model
-
-                             )
+@{
+    ViewData["Title"] = $"{Model.PageTitle}{(Model.Preview.IsPreview ? " Preview" : "")}";
 }
+
+@section PreviewErrors {
+    @await Html.PartialAsync("_PreviewErrorsPartial", Model.Preview)
+}
+@if (Model.PageComponents != null)
+{
+    @foreach (var component in Model.PageComponents)
+    {
+        switch (component)
+        {
+            case Preamble preamble:
+                @await Html.PartialAsync("_PreambleGeneralPartial", new Tuple<Preamble?, Breadcrumbs?, bool, bool, string>(preamble, null, true, Model.Preview.IsPreview, Model.PageTemplate))
+                break;
+            case TileSection tileSection:
+                <div class="govuk-width-container govuk-!-padding-left-2 govuk-!-padding-right-2">
+                    <div class="govuk-main-wrapper">
+
+                        @await Html.PartialAsync("_TileSectionPartial", (tileSection, Model.Preview.IsPreview))
+                    </div>
+                </div>
+                break;
+            case ImageCardBanner imageCardBanner:
+                @await Html.PartialAsync("_ImageCardBannerPartial", imageCardBanner)
+                break;
+            case Video video:
+                @await Html.PartialAsync("_VideoPartial", video)
+                break;
+            case NewsLetter newsLetter:
+                @await Html.PartialAsync("_NewsLetterPartial", newsLetter)
+                break;
+            case ContactUs contactUs:
+                @await Html.PartialAsync("_ContactUsPartial", contactUs)
+                break;
+            case ContentBox contentBox:
+                @await Html.PartialAsync("_ContentBoxPartial", contentBox)
+                break;
+            default:
+
+                break;
+        }
+    }
+}
+
+

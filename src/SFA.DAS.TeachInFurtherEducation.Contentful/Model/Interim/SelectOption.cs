@@ -6,7 +6,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class SelectOption
+    public class SelectOption : IContent
     {
         public required string OptionTitle { get; set; }
 
