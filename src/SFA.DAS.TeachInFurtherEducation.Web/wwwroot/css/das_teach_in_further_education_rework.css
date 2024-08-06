@@ -10661,3 +10661,15 @@ p + .das-tile__body-heading {
     width: 570px;
 }
 
+.tife-button {
+    background-color: #4F68F6;
+    font-size: 25px;
+}
+    .tife-button:hover {
+        background-color: #1A55C0;
+    }
+
+    .tife-button:active {
+        background-color: #1A55C0;
+    }
+
