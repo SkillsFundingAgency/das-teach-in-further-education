@@ -1,19 +1,8 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
-@model (TileSection, bool, bool)
+@model (TileSection, bool)
 
 <div class="govuk-grid-row">
-
-    @if(Model.Item2)
-    {
-
-        <div class="govuk-grid-column-full">
-
-            <hr class="govuk-grid-column-full das-hr" />
-
-        </div>
-
-    }
 
     @if(!string.IsNullOrWhiteSpace(Model.Item1.TileSectionHeading))
     {
@@ -48,7 +37,7 @@
 
                     "_TilePartial",
 
-                    (tile, Model.Item3)
+                    (tile, Model.Item2)
 
                 )
 

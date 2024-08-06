@@ -87,7 +87,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
                     ContactUs = page.ContactUs,
 
-                    Video = page.Video
+                    Video = page.Video,
+
+                    PageComponents = page.PageComponents,
                 };
 
             }

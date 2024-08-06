@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using Contentful.Core.Models;
+using Microsoft.AspNetCore.Html;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -30,6 +31,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         public ContactUs? ContactUs { get; set; }
 
         public Video? Video { get; set; }
+
+        public List<IContent>? PageComponents { get; set; }
 
     }
 
