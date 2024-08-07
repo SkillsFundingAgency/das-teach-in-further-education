@@ -16,8 +16,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 
         public Breadcrumbs? InterimPageBreadcrumbs { get; set; }
 
-        public List<PageComponent> InterimPageComponents { get; set; } = [];
-
         public List<TileSection> InterimPageTileSections { get; set; } = [];
 
     }
