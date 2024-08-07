@@ -23,7 +23,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
         private static ILogger _logger;
 
-        private static IViewRenderService _viewRenderService;
 
         private static HtmlRenderer _htmlRenderer;
 
@@ -38,29 +37,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
             _logger = logger;
 
-            _viewRenderService = viewRenderService;
-
             _htmlRenderer = htmlRenderer;
 
         }
 
-        /// <summary>
-        /// Dictionary or the purpose of mapping partial views to interim component types.
-        /// </summary>
-        private static readonly Dictionary<string, string> MappedTypesToPartials = new Dictionary<string, string>()
-        {
-
-            { InterimPageReferences.InterimContainerType, InterimPageReferences._InterimContainerPartial },
-
-            { InterimPageReferences.InterimContentSectionsType, InterimPageReferences._ContentsSectionPartial },
-
-            { InterimPageReferences.InterimVideoSectionType, InterimPageReferences._InterimVideoPartial },
-
-            { InterimPageReferences.InterimCaseStudiesType, InterimPageReferences._InterimCaseStudiesPartial },
-
-            { InterimPageReferences.InterimAccordionType, InterimPageReferences._InterimAccordionPartial }
-
-        };
 
         ///// <summary>
         ///// Generate specified partial view via the component type property.
@@ -93,38 +73,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
         //}
 
-        /// <summary>
-        /// Generate a SFA.DAS.TeachInFurtherEducation.Contentful.Model.InterimPageComponent sub component.
-        /// </summary>
-        /// <param name="component"></param>
-        /// <returns>System.string.</returns>
-        public static string GenerateSubComponent(PageComponent component)
-        {
-
-            try
-            {
-
-                var result = _viewRenderService.RenderToStringAsync(
-
-                    MappedTypesToPartials[component.ComponentType ?? string.Empty],
-
-                    component
-
-                ).Result;
-
-                return result;
-
-            }
-            catch (Exception _exception)
-            {
-
-                _logger.LogError(_exception, "Unable to generate componeont for type {ComponentType}.", component.ComponentType);
-
-                return string.Empty;
-
-            }
-
-        }
 
         /// <summary>
         /// Convert a long text html document to a html string.

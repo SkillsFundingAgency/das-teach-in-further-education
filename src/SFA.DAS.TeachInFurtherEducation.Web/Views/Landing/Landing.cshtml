@@ -44,6 +44,9 @@
             case ContentBox contentBox:
                 @await Html.PartialAsync("_ContentBoxPartial", contentBox)
                 break;
+            case RichTextContents richTextContents:
+                @await Html.PartialAsync("_RichTextContentsPartial", richTextContents)
+                break;
             default:
 
                 break;

@@ -3,3 +3,60 @@
 
 @model NewsLetter
 
+<div class="govuk-grid-row">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row govuk-!-padding-right-4">
+
+            <div class="govuk-grid-column-two-thirds">
+
+                <h4 class="govuk-heading">@Model.NewsLetterHeading </h4>
+
+                @ComponentService.ToHtmlString(Model.NewsLetterDescription)
+
+            </div>
+
+        </div>
+        
+        @using (Html.BeginForm())
+        {
+            <div class="govuk-grid-row govuk-!-padding-right-4">
+                <div class="govuk-grid-column-two-thirds govuk-!-padding-top-5">
+                    <label class="govuk-label" for="sort">
+                        <strong> @Model.EmailIdLabel</strong>
+                    </label>
+                    <input class="govuk-input" id="event-name" name="eventName" type="text">
+                </div>
+            </div>
+            <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-3">
+                <div class="govuk-grid-column-two-thirds govuk-!-padding-top-3">
+                    <label class="govuk-label" for="sort">
+                        <strong>@Model.SubjectFieldLabel</strong>
+                    </label>
+                    @Html.DropDownListFor(
+                             @Model => Model.SelectedOption,
+                             Model.SubjectSelectOptions.Select(item => new SelectListItem { Text = item.OptionText, Value = item.OptionValue.ToString() }).ToList(),
+                             new { @id = "subject", @name = "subject", @aria_describedby = "subject-hint", @class = "govuk-select full-width", @style = "width: 100%;" }
+                             )
+                </div>
+            </div>
+            <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-3">
+                <div class="govuk-grid-column-two-thirds govuk-!-padding-top-3">
+                    <label class="govuk-label" for="sort">
+                        <Strong>@Model.LocationFieldLabel</Strong>
+                    </label>
+                    @Html.DropDownListFor(
+                             @Model => Model.SelectedOption,
+                             Model.SubjectSelectOptions.Select(item => new SelectListItem { Text = item.OptionText, Value = item.OptionValue.ToString() }).ToList(),
+                             new { @id = "location", @name = "location", @aria_describedby = "location-hint", @class = "govuk-select full-width", @style = "width: 100%;" }
+                             )
+
+                </div>
+            </div>
+            <div class="govuk-!-padding-top-4">
+                <button type="submit" class="govuk-button tife-button" data-module="govuk-button">
+                    Submit
+                </button>
+            </div>
+        }
+    </div>
+</div>
