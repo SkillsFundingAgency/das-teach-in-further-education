@@ -62,7 +62,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\images\department_for_education_logo.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\cookies\consent.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\cookies\cookie-banner.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\cookies\cookies-page.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\cookies\utils.js" />
   </ItemGroup>
 
 </Project>
