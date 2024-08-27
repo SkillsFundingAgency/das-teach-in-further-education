@@ -1,0 +1,173 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@model (IEnumerable<MenuItem>?, bool?)
+<nav class="dfe-topnav" name="Other services navigation">
+    <div class="govuk-width-container">
+        <div class="flex-nav">
+            <ul class="flex-left">
+                <li>
+                    <a href="#services" id="services-tab">FRONT DOOR</a>
+                </li>
+                <li>
+                    <a href="#services" id="services-tab">Early Years</a>
+                </li>
+                <li>
+                    <a href="#services" id="services-tab">Schools</a>
+                </li>
+                <li>
+                    <a href="#services" id="services-tab">Colleges</a>
+                </li>
+                <li>
+                    <a href="#services" id="services-tab">University</a>
+                </li>
+                <li>
+                    <a href="#services" id="services-tab">Department for Education</a>
+                </li>
+            </ul>
+            <ul class="flex-right">
+                <li>
+                    &nbsp;
+                    @* <a href="https://github.com/orgs/DFE-Digital/projects/22" target="_blank">GitHub</a> *@
+                </li>
+                <li>
+                    @* <a href="/design-system/dfe-frontend">DfE Frontend</a> *@
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="dfe-header" role="banner">
+    <div class="dfe-width-container dfe-header__container">
+        <div class="dfe-header__logo">
+            <a class="dfe-header__link" href="/" aria-label="DfE homepage">
+                <image src="/images/dfe-logo.png" class="dfe-logo" alt=""/>
+                <image src="/images/dfe-logo-alt.png" class="dfe-logo-hover" alt=""/>
+            </a>
+        </div>
+        <div class="dfe-header__content" id="content-header">
+            <div class="dfe-header__menu">
+                <button class="dfe-header__menu-toggle" id="toggle-menu" aria-controls="header-navigation" aria-expanded="false">Menu</button>
+            </div>
+            @* <div class="dfe-header__search"> *@
+            @*     <button class="dfe-header__search-toggle" id="toggle-search" aria-controls="search" aria-label="Open search"> *@
+            @*         <svg class="dfe-icon dfe-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27"> *@
+            @*             <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path> *@
+            @*         </svg> *@
+            @*         <span class="govuk-visually-hidden">Search</span> *@
+            @*     </button> *@
+            @*     <div class="dfe-header__search-wrap" id="wrap-search"> *@
+            @*         <form class="dfe-header__search-form" id="search" action="/search" method="get" role="search"> *@
+            @*             <label class="govuk-visually-hidden" for="search-field">Search this website</label> *@
+            @*             <input class="dfe-search__input" id="search-field" name="searchterm" type="search" placeholder="Search" autocomplete="off"> *@
+            @*             <button class="dfe-search__submit" type="submit"> *@
+            @*                 <svg class="dfe-icon dfe-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27"> *@
+            @*                     <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path> *@
+            @*                 </svg> *@
+            @*                 <span class="govuk-visually-hidden">Search</span> *@
+            @*             </button> *@
+            @*             <button class="dfe-search__close" id="close-search"> *@
+            @*                 <svg class="dfe-icon dfe-icon__close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27"> *@
+            @*                     <path d="M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"></path> *@
+            @*                 </svg> *@
+            @*                 <span class="govuk-visually-hidden">Close search</span> *@
+            @*             </button> *@
+            @*         </form> *@
+            @*     </div> *@
+            @* </div> *@
+
+
+        </div>
+    </div>
+    <div class="dfe-width-container dfe-header__service-name">
+        <a href="/" class="dfe-header__link--service">Further Education</a>
+    </div>
+
+
+    <nav class="dfe-header__navigation" id="header-navigation" role="navigation" aria-label="Primary navigation" aria-labelledby="label-navigation">
+        <div class="dfe-width-container">
+            <p class="dfe-header__navigation-title">
+                <span id="label-navigation">Menu</span>
+                <button class="dfe-header__navigation-close" id="close-menu">
+                    <svg class="dfe-icon dfe-icon__close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
+                        <path d="M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"></path>
+                    </svg>
+                    <span class="govuk-visually-hidden">Close menu</span>
+                </button>
+            </p>
+            <ul class="dfe-header__navigation-list">
+                @if (Model.Item1 != null && Model.Item1.Any())
+                {
+                    foreach (var item in Model.Item1)
+                    {
+                        <li class="dfe-header__navigation-item ">
+                            <a class="dfe-header__navigation-link" href="@(Model.Item2.HasValue && Model.Item2.Value ? $"/preview{item.MenuItemSource}" : item.MenuItemSource)">
+                                @item.MenuItemText
+                                <svg class="dfe-icon dfe-icon__chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="34" height="34">
+                                    <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path>
+                                </svg>
+                            </a>
+                        </li>
+                    }
+                }
+                @* <li class="dfe-header__navigation-item "> *@
+                @*     <a class="dfe-header__navigation-link" href="/"> *@
+                @*         Home *@
+                @*         <svg class="dfe-icon dfe-icon__chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="34" height="34"> *@
+                @*             <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path> *@
+                @*         </svg> *@
+                @*     </a> *@
+                @* </li> *@
+                @* <li class="dfe-header__navigation-item dfe-header__navigation-item--current"> *@
+                @*     <a class="dfe-header__navigation-link" href="/design-system"> *@
+                @*         Design system *@
+                @*         <svg class="dfe-icon dfe-icon__chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="34" height="34"> *@
+                @*             <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path> *@
+                @*         </svg> *@
+                @*     </a> *@
+                @* </li> *@
+                @* <li class="dfe-header__navigation-item "> *@
+                @*     <a class="dfe-header__navigation-link" href="/design-ops"> *@
+                @*         DesignOps *@
+                @*         <svg class="dfe-icon dfe-icon__chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="34" height="34"> *@
+                @*             <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path> *@
+                @*         </svg> *@
+                @*     </a> *@
+                @* </li> *@
+                @* <li class="dfe-header__navigation-item "> *@
+                @*     <a class="dfe-header__navigation-link" href="/community"> *@
+                @*         Community *@
+                @*         <svg class="dfe-icon dfe-icon__chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="34" height="34"> *@
+                @*             <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path> *@
+                @*         </svg> *@
+                @*     </a> *@
+                @* </li> *@
+                @* <li class="dfe-header__navigation-item "> *@
+                @*     <a class="dfe-header__navigation-link" href="/our-work"> *@
+                @*         Our work *@
+                @*         <svg class="dfe-icon dfe-icon__chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="34" height="34"> *@
+                @*             <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path> *@
+                @*         </svg> *@
+                @*     </a> *@
+                @* </li> *@
+                @* <li class="dfe-header__navigation-item "> *@
+                @*     <a class="dfe-header__navigation-link" href="/tools"> *@
+                @*         Tools *@
+                @*         <svg class="dfe-icon dfe-icon__chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="34" height="34"> *@
+                @*             <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path> *@
+                @*         </svg> *@
+                @*     </a> *@
+                @* </li> *@
+                @* <li class="dfe-header__navigation-item "> *@
+                @*     <a class="dfe-header__navigation-link" href="/accessibility"> *@
+                @*         Accessibility *@
+                @*         <svg class="dfe-icon dfe-icon__chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="34" height="34"> *@
+                @*             <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path> *@
+                @*         </svg> *@
+                @*     </a> *@
+                @* </li> *@
+            </ul>
+        </div>
+    </nav>
+
+
+</header>

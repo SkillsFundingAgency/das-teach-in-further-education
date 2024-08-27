@@ -39,13 +39,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             Configuration = new ConfigurationBuilder()
                 .AddConfiguration(configuration)
 
-                .AddAzureTableStorage(options =>
-                {
-                    options.ConfigurationKeys = configuration["ConfigNames"]?.Split(",");
-                    options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
-                    options.EnvironmentName = configuration["EnvironmentName"];
-                    options.PreFixConfigurationKeys = false;
-                })
+                // .AddAzureTableStorage(options =>
+                // {
+                //     options.ConfigurationKeys = configuration["ConfigNames"]?.Split(",");
+                //     options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
+                //     options.EnvironmentName = configuration["EnvironmentName"];
+                //     options.PreFixConfigurationKeys = false;
+                // })
                 .Build();
         }
 
@@ -67,11 +67,16 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             services.AddControllersWithViews(options => options.Filters.Add(new EnableGoogleAnalyticsAttribute(googleAnalyticsConfiguration)));
 #endif
 
-            services.AddWebOptimizer(assetPipeline =>
+            services.AddWebOptimizer(pipeline  =>
             {
+                //TODO : Gopi -- bundle
                 if (!_currentEnvironment.IsDevelopment())
                 {
-                    assetPipeline.AddJavaScriptBundle("/js/site.js",
+                    _currentEnvironment.IsDevelopment();
+                    
+                }
+
+                pipeline.AddJavaScriptBundle("/js/site.js",
                         "/js/show_hide.js",
                         "/js/app.js",
                         "/js/filter.js",
@@ -79,8 +84,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                         "/js/cookies/consent.js",
                         "/js/cookies/cookie-banner.js",
                         "/js/cookies/cookies-page.js");
-                    assetPipeline.AddCssBundle("/css/site.css", "/css/site.css");
-                }
+                pipeline.AddCssBundle("/css/gopi.css", "*.css");
+               // assetPipeline.AddCssBundle("/wwwroot/bundle.css", "/wwwroot/css/*.css").UseContentRoot().AdjustRelativePaths();
+                    // assetPipeline.AddCssBundle("/wwwroot/css/app.css", "/css/site1.css");
+                    // assetPipeline.AddCssBundle("/wwwroot/css/app.css", "/wwwroot/css/site2.css");
+                    // assetPipeline.AddCssBundle("../wwwroot/css/app.css", "/wwwroot/css/site3.css");
+                    // assetPipeline.AddCssBundle("../node_modules/dfe-frontend/dist/", "/css/site1.css");
+               
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

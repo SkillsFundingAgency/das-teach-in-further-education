@@ -14,8 +14,13 @@
   <ItemGroup>
     <Compile Remove="Views\InterimPageComponents\**" />
     <Content Remove="Views\InterimPageComponents\**" />
+    <Content Include="node_modules\.package-lock.json" />
     <EmbeddedResource Remove="Views\InterimPageComponents\**" />
     <None Remove="Views\InterimPageComponents\**" />
+    <Compile Remove="node_modules\**" />
+    <EmbeddedResource Remove="node_modules\**" />
+    <Content Remove="node_modules\**" />
+    <None Remove="node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
