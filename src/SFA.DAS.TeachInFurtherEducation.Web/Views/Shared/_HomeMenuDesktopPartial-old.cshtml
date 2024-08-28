@@ -1,106 +1,106 @@
-﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
-@model (IEnumerable<MenuItem>?, bool?)
-
-<header class="govuk-header das-header das-header__desktop js-enabled" data-module="govuk-header">
-
-    <div class="govuk-header__container das-header__container">
-
-        <div class="govuk-width-container">
-
-            <div class="govuk-grid-row das-header__row">
-
-                <div class="das-header__logo-container govuk-grid-column-three-quarters">
-
-                    <a href="@(Model.Item2.HasValue && Model.Item2.Value ? "/preview" : "/")">
-                    
-                        <image class="app-header__department-for-education-logo" alt="Department for education logo" src="/svg/teach-in-further-education.svg" />
-                    </a>
-
-                </div>
-               
-                <div class="das-header__logo-container govuk-grid-column-three-quarter">
-                    @* To-do - Work on button rounded corners *@
-                  <button type="submit" class="govuk-button-tife" data-module="govuk-button">
-                        Talk to a specialist
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="govuk-header__content-container govuk-width-container das-header__navigation">
-
-                <div class="govuk-header__content">
-
-                    <nav aria-label="Menu" class="govuk-header__navigation">
-
-                        <ul id="navigation" class="govuk-header__navigation-list">
-
-                            @if (Model.Item1 != null && Model.Item1.Any())
-                            {
-
-                                foreach (MenuItem item in Model.Item1)
-                                {
-
-                                    <li class="govuk-header__navigation-item das-header-navigation-item-chevron-mobile govuk-header__navigation-item--active">
-
-                                        <a class="govuk-header__link" href="@(Model.Item2.HasValue && Model.Item2.Value ? $"/preview{item.MenuItemSource}" : item.MenuItemSource)" role="link">@item.MenuItemText</a>
-
-                                    </li>
-
-                                }
-
-                            }
-
-                        </ul>
-
-                    </nav>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</header>
-
-<script>
-
-    document.addEventListener("DOMContentLoaded", function () {
-
-        var path = window.location.pathname;
-
-        path = path.replace(/\/$/, "");
-       
-        var navigationItems = document.querySelectorAll(".govuk-header__navigation-item");
-
-        navigationItems.forEach(function (item) {
-
-            var href = item.querySelector("a").getAttribute("href");
-
-            href = href.replace(/\/$/, "");
-       
-            if (href === path) {
-               
-                item.classList.add("govuk-header__navigation-item--active");
-
-                item.querySelector("a").setAttribute("tabindex", "-1");
-
-                item.setAttribute("tabindex", "-1");
-
-            } 
-            else {
-
-                item.classList.remove("govuk-header__navigation-item--active");
-
-                item.querySelector("a").setAttribute("tabindex", "");
-
-                item.setAttribute("tabindex", "");
-
-            }
-        });
-
-    });
-
-</script>
+﻿@* @using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim *@
+@* @model (IEnumerable<MenuItem>?, bool?) *@
+@* *@
+@* <header class="govuk-header das-header das-header__desktop js-enabled" data-module="govuk-header"> *@
+@* *@
+@*     <div class="govuk-header__container das-header__container"> *@
+@* *@
+@*         <div class="govuk-width-container"> *@
+@* *@
+@*             <div class="govuk-grid-row das-header__row"> *@
+@* *@
+@*                 <div class="das-header__logo-container govuk-grid-column-three-quarters"> *@
+@* *@
+@*                     <a href="@(Model.Item2.HasValue && Model.Item2.Value ? "/preview" : "/")"> *@
+@*                      *@
+@*                         <image class="app-header__department-for-education-logo" alt="Department for education logo" src="/svg/teach-in-further-education.svg" /> *@
+@*                     </a> *@
+@* *@
+@*                 </div> *@
+@*                 *@
+@*                 <div class="das-header__logo-container govuk-grid-column-three-quarter"> *@
+@*                     $1$ To-do - Work on button rounded corners #1# *@
+@*                   <button type="submit" class="govuk-button-tife" data-module="govuk-button"> *@
+@*                         Talk to a specialist *@
+@*                     </button> *@
+@*                 </div> *@
+@* *@
+@*             </div> *@
+@* *@
+@*             <div class="govuk-header__content-container govuk-width-container das-header__navigation"> *@
+@* *@
+@*                 <div class="govuk-header__content"> *@
+@* *@
+@*                     <nav aria-label="Menu" class="govuk-header__navigation"> *@
+@* *@
+@*                         <ul id="navigation" class="govuk-header__navigation-list"> *@
+@* *@
+@*                             @if (Model.Item1 != null && Model.Item1.Any()) *@
+@*                             { *@
+@* *@
+@*                                 foreach (MenuItem item in Model.Item1) *@
+@*                                 { *@
+@* *@
+@*                                     <li class="govuk-header__navigation-item das-header-navigation-item-chevron-mobile govuk-header__navigation-item--active"> *@
+@* *@
+@*                                         <a class="govuk-header__link" href="@(Model.Item2.HasValue && Model.Item2.Value ? $"/preview{item.MenuItemSource}" : item.MenuItemSource)" role="link">@item.MenuItemText</a> *@
+@* *@
+@*                                     </li> *@
+@* *@
+@*                                 } *@
+@* *@
+@*                             } *@
+@* *@
+@*                         </ul> *@
+@* *@
+@*                     </nav> *@
+@* *@
+@*                 </div> *@
+@* *@
+@*             </div> *@
+@* *@
+@*         </div> *@
+@* *@
+@*     </div> *@
+@* *@
+@* </header> *@
+@* *@
+@* <script> *@
+@* *@
+@*     document.addEventListener("DOMContentLoaded", function () { *@
+@* *@
+@*         var path = window.location.pathname; *@
+@* *@
+@*         path = path.replace(/\/$/, ""); *@
+@*         *@
+@*         var navigationItems = document.querySelectorAll(".govuk-header__navigation-item"); *@
+@* *@
+@*         navigationItems.forEach(function (item) { *@
+@* *@
+@*             var href = item.querySelector("a").getAttribute("href"); *@
+@* *@
+@*             href = href.replace(/\/$/, ""); *@
+@*         *@
+@*             if (href === path) { *@
+@*                 *@
+@*                 item.classList.add("govuk-header__navigation-item--active"); *@
+@* *@
+@*                 item.querySelector("a").setAttribute("tabindex", "-1"); *@
+@* *@
+@*                 item.setAttribute("tabindex", "-1"); *@
+@* *@
+@*             }  *@
+@*             else { *@
+@* *@
+@*                 item.classList.remove("govuk-header__navigation-item--active"); *@
+@* *@
+@*                 item.querySelector("a").setAttribute("tabindex", ""); *@
+@* *@
+@*                 item.setAttribute("tabindex", ""); *@
+@* *@
+@*             } *@
+@*         }); *@
+@* *@
+@*     }); *@
+@* *@
+@* </script> *@
