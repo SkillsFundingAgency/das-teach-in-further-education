@@ -40,15 +40,15 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Content
 
                     new MenuItem() 
                     { 
-                        
                         MenuItemTitle = "Business Home - Menu Item",
 
                         MenuItemText = "Business Home",
 
                         MenuItemSource = "/",
 
-                        MenuItemOrder = 1
-                    
+                        MenuItemOrder = 1,
+
+                        TopLevelMenuItem = true
                     }
 
                 };
