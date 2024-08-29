@@ -13,13 +13,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
 
             if (!string.IsNullOrWhiteSpace(input))
             {
-
                 list.AddRange(input.Split(seperator));
-
             }
-
             return list.ToArray();
-
         }
 
     }
