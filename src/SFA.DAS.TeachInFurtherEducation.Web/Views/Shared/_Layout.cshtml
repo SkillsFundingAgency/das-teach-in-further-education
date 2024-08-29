@@ -10,22 +10,22 @@
     @* To-do - Implement these partials *@
     @* <partial name="_GoogleAnalytics" model="GoogleAnalyticsTag.Head" /> *@
     <meta charset="utf-8">
-    <meta name="facebook-domain-verification" content="j8fw22gxwwqy12i4udpfz88022dtwg" />
+    <meta name="facebook-domain-verification" content="j8fw22gxwwqy12i4udpfz88022dtwg"/>
     <title>@(ViewData["Title"] ?? "Teach in further education")</title>
     @*<meta name="google-site-verification" content="avl5-ikN80oG2UTyfmwII7lbiVHyNcSiKHhJy5eKEZI">*@
     <meta name="description"
-        content="Teach in further education.">
+          content="Teach in further education.">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="blue">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     @*https://dev.to/matijamrkaic/using-google-tag-manager-with-a-content-security-policy-9ai*@
 
-    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="/assets/images/favicon.ico" type="image/x-icon" />
-    <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/govuk-apple-touch-icon-180x180.png" />
-    <link rel="apple-touch-icon" sizes="167x167" href="/assets/images/govuk-apple-touch-icon-167x167.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/govuk-apple-touch-icon-152x152.png" />
-    <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png" />
+    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="/assets/images/favicon.ico" type="image/x-icon"/>
+    <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/govuk-apple-touch-icon-180x180.png"/>
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/images/govuk-apple-touch-icon-167x167.png"/>
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/govuk-apple-touch-icon-152x152.png"/>
+    <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png"/>
     <style asp-add-nonce>
         .hidden {
             display: none;
@@ -34,7 +34,7 @@
     @* waiting until load, delays rendering more than document.addEventListener("DOMContentLoaded"
     but stops the cookie banner from flashing too
     *@
-   @*  <script asp-add-nonce>
+    @*  <script asp-add-nonce>
         document.documentElement.classList.add("hidden");
         window.addEventListener("load", function () {
             document.documentElement.classList.remove("hidden");
@@ -43,8 +43,8 @@
     </script> *@
     <!--[if !IE 8]><!-->
     @* <link href="/css/main.css" rel="stylesheet" /> *@
-    <link href="/css/site.css" rel="stylesheet" no-cdn />
-    <link href="/css/das_teach_in_further_education_rework.css" rel="stylesheet" no-cdn />
+    <link href="/css/site.css" rel="stylesheet" no-cdn/>
+    <link href="/css/das_teach_in_further_education_rework.css" rel="stylesheet" no-cdn/>
     @* <link href="/css/TechInFurtheEdu.css" rel="stylesheet" no-cdn /> *@
     <!--<![endif]-->
     <meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
@@ -56,61 +56,63 @@
 </head>
 
 <body id="layout-body" class="govuk-template__body">
-    @* To-do - Implement these partials *@
-   @*  <partial name="_GoogleAnalytics" model="GoogleAnalyticsTag.Body" /> *@
-    <script asp-add-nonce>
+@* To-do - Implement these partials *@
+@*  <partial name="_GoogleAnalytics" model="GoogleAnalyticsTag.Body" /> *@
+<script asp-add-nonce>
         document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
 
-    @* To-do - Implement these partials *@
-    @* @await Html.PartialAsync("_CookieBannerPartial", Model)
+@* To-do - Implement these partials *@
+@* @await Html.PartialAsync("_CookieBannerPartial", Model)
 
     @await Html.PartialAsync("_BetaBannerPartial", Model?.BetaBanner)
 
     @RenderSection("BreadCrumbs", required: false)*@
 
-    @RenderSection("PreviewErrors", required: false) 
+@RenderSection("PreviewErrors", required: false)
 
-    <main class="govuk-main-wrapper govuk-!-padding-top-0 govuk-!-padding-bottom-0" id="main-content">
+<main class="govuk-main-wrapper govuk-!-padding-top-0 govuk-!-padding-bottom-0" id="main-content">
 
-        @RenderBody()
+    @RenderBody()
 
-    </main>
+</main>
 
-    @await Html.PartialAsync("_FooterPartial", Model?.footerLinks)
+@await Html.PartialAsync("_FooterPartial", Model?.footerLinks)
 
-    <script src="/libs/govuk-frontend/all.js"></script>
-    <script src="/libs/jquery/jquery.min.js"></script>
-    @* *@
-    @* <script src="/js/das-all.js"></script> *@
-    @* <script src="/js/app.min.js"></script> *@
-    @* <script src="/js/interim-pages.js" no-cdn></script> *@
+<script src="/libs/govuk-frontend/all.js"></script>
+<script src="/libs/jquery/jquery.min.js"></script>
 
-    @* <script asp-add-nonce> *@
-    @* *@
-    @*     window.DASFrontend.initAll(); *@
-    @* *@
-    @*     document.addEventListener("DOMContentLoaded", function () { *@
-    @* *@
-    @*         initMobileView(); *@
-    @* *@
-    @*     }); *@
-    @* *@
-    @* </script> *@
+@* *@
+@* <script src="/js/das-all.js"></script> *@
+@* <script src="/js/app.min.js"></script> *@
+@* <script src="/js/interim-pages.js" no-cdn></script> *@
 
-    <environment include="Development">
-       @* <script src="/js/show_hide.js" no-cdn></script> *@
-        <script src="/js/app.js" no-cdn></script>
-     @*   <script src="/js/filter.js" no-cdn></script>
+@* <script asp-add-nonce> *@
+@* *@
+@*     window.DASFrontend.initAll(); *@
+@* *@
+@*     document.addEventListener("DOMContentLoaded", function () { *@
+@* *@
+@*         initMobileView(); *@
+@* *@
+@*     }); *@
+@* *@
+@* </script> *@
+
+<environment include="Development">
+    <script src="js/dfefrontend.min.js" no-cdn></script>
+    <script src="/js/app.js" no-cdn></script>
+    @* <script src="/js/show_hide.js" no-cdn></script>
+        <script src="/js/filter.js" no-cdn></script>
         <script src="/js/interim-pages.js" no-cdn></script>
         <script src="/js/cookies/utils.js" no-cdn></script>
         <script src="/js/cookies/consent.js" no-cdn></script>
         <script src="/js/cookies/cookie-banner.js" no-cdn></script>
         <script src="/js/cookies/cookies-page.js" no-cdn></script>*@
-    </environment>
-    <environment exclude="Development">
-        <script src="/js/site.js" no-cdn></script>
-    </environment>
+</environment>
+<environment exclude="Development">
+    <script src="/js/site.js" no-cdn></script>
+</environment>
 </body>
 
 </html>
