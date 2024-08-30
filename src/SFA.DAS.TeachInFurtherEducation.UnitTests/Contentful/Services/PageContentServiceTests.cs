@@ -126,7 +126,9 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
 
                     MenuItemText = "Menu Item Text",
 
-                    MenuItemSource = "Menu Item Source"
+                    MenuItemSource = "Menu Item Source",
+
+                    TopLevelMenuItem = false
 
                 }
 
