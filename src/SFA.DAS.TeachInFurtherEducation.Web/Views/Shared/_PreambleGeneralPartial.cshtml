@@ -5,55 +5,52 @@
 
 @if (Model.Item1 != null || Model.Item2 != null)
 {
+    <section class="dfe-page-header dfe-page-header--with-sub-nav">
+        @* <div class="das-primary-banner govuk-grid-row govuk-!-padding-top-0 govuk-!-padding-bottom-6 govuk-!-margin-right-0 govuk-!-margin-left-0"> *@
 
-    <div class="das-primary-banner govuk-grid-row govuk-!-padding-top-0 govuk-!-padding-bottom-6 govuk-!-margin-right-0 govuk-!-margin-left-0">
-
+        @*
         @if (Model.Item2 != null)
-        {
-
-            @await Html.PartialAsync(
-
-                "_InterimBreadcrumbPartial",
-
-                (Model.Item2, Model.Item4)
-
-            )
-
-        }
-
-        <div class="govuk-width-container govuk-width-container-large">
-
-            @if(Model.Item1 != null)
             {
-
-                <div id="bannerDiv" class="govuk-grid-column-full @(Model.Item3 ? "govuk-!-padding-top-6" : "govuk-!-padding-top-4") govuk-!-padding-left-0">
-
-                    @if(!String.IsNullOrEmpty(Model.Item1.BannerHeader))
-                    {
-                        <h1 class="@(Model.Item5 == "Home" ? "govuk-heading-xl-home" : "govuk-heading-xl")">@Model.Item1.BannerHeader</h1>
-                    }
-                    @if (Model.Item1?.PrimarySection != null)
-                    {
-                        @ComponentService.ToHtmlString(Model.Item1.PrimarySection)
-                    }
-
-                </div>
-
-                <div class="govuk-grid-column-one-third @(Model.Item3 ? "govuk-!-padding-top-6" : "govuk-!-padding-top-0")">
-
-                    @if (Model.Item1?.SecondarySection != null)
-                    {
-
-                        @ComponentService.ToHtmlString(Model.Item1.SecondarySection)
-
-                    }
-
-                </div>
-
+                @await Html.PartialAsync(
+                    "_InterimBreadcrumbPartial",
+                    (Model.Item2, Model.Item4)
+                )
             }
 
+             <div class="govuk-width-container govuk-width-container-large"> *@
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    @if (Model.Item1 != null)
+                    {
+                        @* <div id="bannerDiv" class="govuk-grid-column-full @(Model.Item3 ? "govuk-!-padding-top-6" : "govuk-!-padding-top-4") govuk-!-padding-left-0"> *@
+
+                        @if (!string.IsNullOrEmpty(Model.Item1.BannerHeader))
+                        {
+                            @* <h1 class="@(Model.Item5 == "Home" ? "govuk-heading-xl-home" : "govuk-heading-xl")">@Model.Item1.BannerHeader</h1> *@
+                            <h1 class="govuk-heading-xl  govuk-!-margin-top-5">@Model.Item1.BannerHeader</h1>
+                        }
+
+                        @if (Model.Item1?.PrimarySection != null)
+                        {
+                            @ComponentService.ToHtmlString(Model.Item1.PrimarySection)
+                        }
+
+                        @* </div>
+
+                             <div class="govuk-grid-column-one-third @(Model.Item3 ? "govuk-!-padding-top-6" : "govuk-!-padding-top-0")">
+
+                                @if (Model.Item1?.SecondarySection != null)
+                                {
+                                    @ComponentService.ToHtmlString(Model.Item1.SecondarySection)
+                                }
+
+                              </div> *@
+                    }
+                </div>
+            </div>
         </div>
 
-    </div>
-
+        @* </div> *@
+    </section>
 }
