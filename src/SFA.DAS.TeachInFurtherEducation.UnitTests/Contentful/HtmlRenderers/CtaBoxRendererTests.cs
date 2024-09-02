@@ -47,7 +47,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
 
             var html = await renderer.ToHtml(doc);
 
-            Assert.Equal("<section class=\"cx-cta-box\"><p class=\"govuk-body\">This is a</p><p class=\"govuk-body\">Call To Action</p></section>", html);
+            Assert.Equal("<section class=\"cx-cta-box\"><p class=\"govuk-body-l govuk-!-margin-bottom-6\">This is a</p><p class=\"govuk-body-l govuk-!-margin-bottom-6\">Call To Action</p></section>", html);
         }
     }
 }

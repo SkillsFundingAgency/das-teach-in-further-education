@@ -31,7 +31,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
 
             var html = await renderer.ToHtml(doc);
 
-            Assert.Equal("<p class=\"govuk-body\">Gobble</p>", html);
+            Assert.Equal("<p class=\"govuk-body-l govuk-!-margin-bottom-6\">Gobble</p>", html);
         }
     }
 }
