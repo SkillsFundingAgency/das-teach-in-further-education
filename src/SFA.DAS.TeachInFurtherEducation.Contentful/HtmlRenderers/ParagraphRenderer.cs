@@ -57,7 +57,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
 
             }
 
-            sb.Append("<p class=\"govuk-body\">");
+            sb.Append("<p class=\"govuk-body-l govuk-!-margin-bottom-6\">");
 
             // Render any nested content within the paragraph
             foreach (var subContent in paragraph.Content)
