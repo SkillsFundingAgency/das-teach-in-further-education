@@ -9801,14 +9801,15 @@ a.dfe-header__link--service:focus {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin-bottom: 30px
+    margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 @media (min-width: 40.0625em) {
     .dfe-grid-container {
         display: grid;
         grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
-        gap: 30px
+        gap: 30px;
     }
 }
 
