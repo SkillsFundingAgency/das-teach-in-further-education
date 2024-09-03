@@ -1,0 +1,23 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+@model (TileSection, bool)
+
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+        <div class="dfe-grid-container">
+            @foreach (var tile in Model.Item1.Tiles.OrderBy(a => a.TileOrder))
+            {
+                <div class="dfe-card">
+                    <img src="@ComponentService.GetMediaImageSource(tile.TileImage)" alt="@tile.TileTitle"/>
+                    <div class="dfe-card-container">
+                        <h3 class="govuk-heading-m">
+                            <a id="link-@tile.TileID" class="govuk-link govuk-link--no-visited-state dfe-card-link--header" href="@(Model.Item2 ? $"/preview{tile.TileSource}" : tile.TileSource)" aria-labelledby="link-@tile.TileID p-@tile.TileID">@tile.TileHeading</a>
+                        </h3>
+                        @* <p class="govuk-body-s">@ComponentService.ToHtmlString(tile.TileDescription)</p> *@
+                        @ComponentService.ToHtmlString(tile.TileDescription)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

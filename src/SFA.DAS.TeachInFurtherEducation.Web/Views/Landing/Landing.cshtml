@@ -22,12 +22,9 @@
                 @await Html.PartialAsync("_PreambleGeneralPartial", new Tuple<Preamble?, Breadcrumbs?, bool, bool, string>(preamble, null, true, Model.Preview.IsPreview, Model.PageTemplate))
                 break;
             case TileSection tileSection:
-                <div class="govuk-width-container govuk-!-padding-left-2 govuk-!-padding-right-2">
-                    <div class="govuk-main-wrapper">
-
-                        @await Html.PartialAsync("_TileSectionPartial", (tileSection, Model.Preview.IsPreview))
-                    </div>
-                </div>
+                //TODO: Below partial - clean up required
+                //@await Html.PartialAsync("_TileSectionPartial", (tileSection, Model.Preview.IsPreview))
+                @await Html.PartialAsync("_TileCardPartial", (tileSection, Model.Preview.IsPreview))
                 break;
             case ImageCardBanner imageCardBanner:
                 @await Html.PartialAsync("_ImageCardBannerPartial", imageCardBanner)
@@ -53,5 +50,3 @@
         }
     }
 }
-
-
