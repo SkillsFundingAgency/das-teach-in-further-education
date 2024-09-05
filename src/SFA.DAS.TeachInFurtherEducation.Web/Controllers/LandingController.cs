@@ -27,7 +27,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 
         }
 
-        public async Task<IActionResult> LandingPreview(string pageURL = "/home")
+        public async Task<IActionResult> PagePreview(string pageURL = "/home")
         {
 
             PageContentModel? pageModel = await _contentModelService.GetPagePreviewModel(pageURL);
