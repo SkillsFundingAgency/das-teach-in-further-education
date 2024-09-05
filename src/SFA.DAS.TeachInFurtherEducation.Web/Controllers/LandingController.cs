@@ -19,7 +19,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
         }
 
         //[ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any, NoStore = false)]
-        public IActionResult Landing(string pageUrl = "/home")
+        public IActionResult Landing(string pageUrl = "home")
         {
             PageContentModel? pageModel = _contentModelService.GetPageContentModel(pageUrl);
            
@@ -27,7 +27,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 
         }
 
-        public async Task<IActionResult> PagePreview(string pageURL = "/home")
+        public async Task<IActionResult> PagePreview(string pageURL = "home")
         {
 
             PageContentModel? pageModel = await _contentModelService.GetPagePreviewModel(pageURL);
