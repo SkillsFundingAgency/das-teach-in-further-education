@@ -45,7 +45,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
         /// <summary>
         /// Retrieves the landing model containing data from various content sources.
         /// </summary>
-        /// <returns>Returns the landing model if available, otherwise returns null.</returns>
+        /// <returns>Returns the model if available, otherwise returns null.</returns>
         public PageContentModel? GetPageContentModel(string pageURL)
         {
             try
@@ -90,67 +90,17 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
         #region Preview Models
 
-        //public async Task<InterimPageModel?> GetPagePreviewModel(string interimURL)
-        //{
-
-        //    try
-        //    {
-
-        //        IContent previewContent = await _contentService.UpdatePreview();
-
-        //        InterimPage? interimPage = _contentService.GetPreviewPageByURL(interimURL);
-                    
-        //        if (interimPage == null)
-        //        {
-
-        //            return null;
-
-        //        }
-
-        //        return new InterimPageModel()
-        //        {
-
-        //            InterimPageTitle = interimPage.InterimPageTitle,
-
-        //            InterimPageURL = interimPage.InterimPageURL,
-
-        //            InterimPagePreamble = interimPage.InterimPagePreamble,
-
-        //            InterimPageComponents = interimPage.InterimPageComponents,
-
-        //            InterimPageTileSections = interimPage.InterimPageTileSections,
-
-        //            InterimPageBreadcrumbs = interimPage.InterimPageBreadcrumbs,
-
-        //            MenuItems = previewContent.MenuItems,
-
-        //            BetaBanner = previewContent.BetaBanner,
-
-        //            InterimFooterLinks = previewContent.FooterLinks,
-
-        //            Preview = new PreviewModel(Enumerable.Empty<HtmlString>())
-
-        //        };
-
-        //    }
-        //    catch (Exception _exception)
-        //    {
-
-        //        _logger.LogError(_exception, "Unable to get interim page.");
-
-        //        return null;
-
-        //    }
-
-        //}
-
+        /// <summary>
+        /// Retrieves the landing model containing data from various content sources in preview mode.
+        /// </summary>
+        /// <returns>Returns the model if available, otherwise returns null.</returns>
         public async Task<PageContentModel?> GetPagePreviewModel(string pageURL)
         {
 
             try
             {
 
-                Contentful.Model.Content.Interfaces.IContent previewContent = await _contentService.UpdatePreview();
+                var previewContent = await _contentService.UpdatePreview();
 
                 Page? previewPage = _contentService.GetPreviewPageByURL(pageURL);
 
@@ -169,6 +119,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                     PageTitle = previewPage.PageTitle,
 
                     PageTemplate = previewPage.PageTemplate,
+
+                    PageComponents = previewPage.PageComponents,
 
                     MenuItems = previewContent.MenuItems,
 

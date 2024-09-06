@@ -174,15 +174,15 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             {
                 MapControllerRoute(endpoints,
                      "landing",
-                    "/{pageUrl=/home}",
+                    "/{pageUrl=home}",
                     "Landing", "Landing");
          
-            // Preview Routes
+            // Preview Route
 
             MapControllerRoute(endpoints,
-                    "landing-preview",
-                    "/preview",
-                    "Landing", "LandingPreview");
+                    "page-preview",
+                    "preview/{pageUrl=home}",
+                    "Landing", "PagePreview");
 
             });
         }
