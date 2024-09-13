@@ -1,20 +1,12 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
-
 @model ContentBox
 
 <div class="govuk-width-container govuk-!-padding-top-6">
-    <div id="details-outer" class="govuk-grid-row govuk-!-padding-3">
-        <div id="details-inner-two-thirds" class="govuk-grid-column-two-thirds">
-                <div class="govuk-grid-row govuk-!-padding-right-0">
-                    <div data-id="details" data-type="interim-container" class="govuk-grid-column-full govuk-!-margin-bottom-7 govuk-!-padding-3 contents-box">
-                    <div class="govuk-grid-row govuk-!-padding-1 govuk-!-padding-right-7">
-                        <div class="govuk-grid-column-full">
-                          @ComponentService.ToHtmlString(@Model.ContentBoxContents)
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            @ComponentService.ToHtmlString(Model.ContentBoxContents)
         </div>
     </div>
 </div>
+ 
