@@ -157,7 +157,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 1.125rem;
     line-height: 1.25;
     color: #0b0c0c;
     margin-top: 0;
@@ -174,7 +174,7 @@
 
 @media (min-width: 40.0625em) {
     .govuk-list {
-        font-size: 1.1875rem;
+        font-size: 24px !important;
         line-height: 1.3157894737
     }
 }
@@ -3526,7 +3526,7 @@
     display: inline-block;
     min-width: 125px;
     padding-top: 112px;
-//background-image: url(/assets/images/govuk-crest.png);
+    background-image: url(../images/govuk-crest.png);
     background-repeat: no-repeat;
     background-position: 50% 0;
     background-size: 125px 102px;
@@ -3536,7 +3536,7 @@
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .govuk-footer__copyright-logo {
-    //  background-image: url(/assets/images/govuk-crest-2x.png)
+     background-image: url(../images/govuk-crest-2x.png)
     }
 }
 
