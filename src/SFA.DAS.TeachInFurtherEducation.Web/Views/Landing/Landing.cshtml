@@ -19,7 +19,7 @@
         switch (component)
         {
             case Preamble preamble:
-                @await Html.PartialAsync("_PreambleGeneralPartial", new Tuple<Preamble?, Breadcrumbs?, bool, bool, string>(preamble, null, true, Model.Preview.IsPreview, Model.PageTemplate))
+                @await Html.PartialAsync("_PreambleGeneralPartial", new Tuple<Preamble?, Breadcrumbs?, bool, bool, string>(preamble, Model.Breadcrumbs, true, Model.Preview.IsPreview, Model.PageTemplate))
                 break;
             case TileSection tileSection:
                 //TODO: Below partial - clean up required

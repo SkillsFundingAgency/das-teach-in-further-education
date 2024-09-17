@@ -69,6 +69,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
                     PageTemplate = page.PageTemplate,
 
+                    Breadcrumbs = page.Breadcrumbs,
+
                     MenuItems = _contentService.Content.MenuItems,
 
                     footerLinks = _contentService.Content.FooterLinks,
@@ -119,6 +121,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                     PageTitle = previewPage.PageTitle,
 
                     PageTemplate = previewPage.PageTemplate,
+
+                    Breadcrumbs = previewPage.Breadcrumbs,
 
                     PageComponents = previewPage.PageComponents,
 

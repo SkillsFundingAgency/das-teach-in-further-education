@@ -62,7 +62,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Content
             get
             {
                 // If _interimLandingPage is null, initialize it with a new InterimLandingPage instance
-                return _interimLandingPage ??= new Page("", "", "", new List<ContentfulIContent.IContent>(), null);
+                return _interimLandingPage ??= new Page("", "", "", null, new List<ContentfulIContent.IContent>(), null);
             }
         }
 

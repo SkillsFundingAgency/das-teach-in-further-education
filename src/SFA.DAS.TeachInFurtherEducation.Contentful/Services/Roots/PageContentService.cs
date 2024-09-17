@@ -67,6 +67,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
                 apiPage.PageURL!,
                  apiPage.PageTitle!,
                  apiPage.PageTemplate,
+                 apiPage.Breadcrumbs,
                  apiPage.PageComponents!,
                  (await ToHtmlString(apiPage.Contents)!)
                   );
