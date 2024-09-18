@@ -16,11 +16,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 
         public string PageTemplate { get; set; }
 
+        public Breadcrumbs? Breadcrumbs { get; set; }
+
         public List<IContent> PageComponents { get; }
 
         public HtmlString? Contents { get; set; }
 
-        public Page(string pageUrl, string title, string pageTemplate, List<IContent> pageComponents, HtmlString? contents)
+        public Page(string pageUrl, string title, string pageTemplate, Breadcrumbs? breadcrumbs, List<IContent> pageComponents, HtmlString? contents)
         {
             PageURL = pageUrl;
 
@@ -31,6 +33,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
             PageComponents = pageComponents;
 
             Contents = contents;
+
+            Breadcrumbs = breadcrumbs;
         }
     }
 

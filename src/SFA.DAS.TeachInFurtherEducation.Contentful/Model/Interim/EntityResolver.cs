@@ -24,6 +24,8 @@ public class EntityResolver : IContentTypeResolver
             "contactUs" => typeof(ContactUs),
             "newsLetter" => typeof(NewsLetter),
             "richTextContents" => typeof(RichTextContents),
+            "breadcrumbs" => typeof(Breadcrumbs),
+            "breadcrumbLink" => typeof(BreadcrumbLink),
             _ => null
         };
 #pragma warning restore CS8603 // Possible null reference return.
