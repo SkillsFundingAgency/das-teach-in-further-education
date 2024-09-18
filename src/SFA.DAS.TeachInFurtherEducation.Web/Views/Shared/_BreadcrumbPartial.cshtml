@@ -1,39 +1,25 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 @model (Breadcrumbs, bool)
 
-@if(Model.Item1 != null)
+@if (Model.Item1 != null)
 {
-
     <div class="govuk-width-container govuk-width-container-large">
-
         <div class="govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile das-breadcrumbs">
-
             <ol class="govuk-breadcrumbs__list">
-
-                @foreach (BreadcrumbLink link in Model.Item1.BreadcrumLinks.OrderBy(t => t.BreadcrumbLinkOrder))
+                @foreach (var link in Model.Item1.BreadcrumLinks.OrderBy(t => t.BreadcrumbLinkOrder))
                 {
                     if (link.BreadcrumbLinkActive)
                     {
-
                         <li class="govuk-breadcrumbs__list-item">
-
                             <a class="govuk-breadcrumbs__link" href="@(Model.Item2 ? $"/preview{link.BreadcrumbLinkSource}" : link.BreadcrumbLinkSource)">@link.BreadcrumbLinkText</a>
-
                         </li>
-
                     }
                     else
                     {
-
                         <li class="govuk-breadcrumbs__list-item">@link.BreadcrumbLinkText</li>
-
                     }
                 }
-
             </ol>
-
         </div>
-
     </div>
-
 }
