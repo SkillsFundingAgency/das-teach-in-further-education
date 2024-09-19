@@ -67,6 +67,28 @@
             position: absolute;
             padding: 12px 5px;
         }
-        
+
+    }
+}
+
+.video-content {
+
+    .video-tife-iframe {
+        height: 350px;
+        width: 570px;
+    }
+
+    .govuk-details {
+        border-left: 0;
+    }
+    .govuk-details__summary-text {
+        padding-left: 1px;
+    }
+
+    @media (max-width: 768px) {
+        .video-tife-iframe {
+            height: 186px !important;
+            width: 370px !important;
+        }
     }
 }
