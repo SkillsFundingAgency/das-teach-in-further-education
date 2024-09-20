@@ -9808,7 +9808,7 @@ a.dfe-header__link--service:focus {
 @media (min-width: 40.0625em) {
     .dfe-grid-container {
         display: grid;
-        grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns:repeat(auto-fill, minmax(450px, 600px));
         gap: 30px;
     }
 }
@@ -9819,7 +9819,7 @@ a.dfe-header__link--service:focus {
     flex-direction: column;
     background-color: #fff;
     border: 1px solid #b1b4b6;
-    max-width: 400px
+    max-width: 600px
 }
 
 @media (max-width: 40.0525em) {
