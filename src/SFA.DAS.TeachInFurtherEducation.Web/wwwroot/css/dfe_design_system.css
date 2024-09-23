@@ -9324,12 +9324,6 @@ b, strong {
     color: #f0f4f5
 }
 
-@media (max-width: 40.0525em) {
-    .dfe-header__menu-toggle {
-        right: 48px
-    }
-}
-
 @media (min-width: 40.0625em) and (max-width: 61.865em) {
     .dfe-header__menu-toggle {
         margin-top: 0

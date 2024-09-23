@@ -7,12 +7,12 @@
             {
                 var primaryMenuItems = Model.Item1.Where(x => x.TopLevelMenuItem);
                 <ul class="flex-left">
-                @foreach (var item in primaryMenuItems)
-                {
-                  <li>
-                    <a href="@(Model.Item2.HasValue && Model.Item2.Value ? $"/preview{item.MenuItemSource}" : item.MenuItemSource)" id="services-tab">@item.MenuItemText</a>
-                  </li>
-                }
+                    @foreach (var item in primaryMenuItems)
+                    {
+                        <li>
+                            <a href="@(Model.Item2.HasValue && Model.Item2.Value ? $"/preview{item.MenuItemSource}" : item.MenuItemSource)" id="services-tab">@item.MenuItemText</a>
+                        </li>
+                    }
                 </ul>
             }
             <ul class="flex-right">
@@ -31,13 +31,16 @@
     <div class="dfe-width-container dfe-header__container">
         <div class="dfe-header__logo">
             <a class="dfe-header__link" href="/" aria-label="DfE homepage">
-                <image src="/images/DesignSystem/dfe-logo.png" class="dfe-logo" alt="" />
-                <image src="/images/DesignSystem/dfe-logo-alt.png" class="dfe-logo-hover" alt="" />
+                <image src="/images/DesignSystem/dfe-logo.png" class="dfe-logo" alt=""/>
+                <image src="/images/DesignSystem/dfe-logo-alt.png" class="dfe-logo-hover" alt=""/>
             </a>
         </div>
         <div class="dfe-header__content" id="content-header">
             <div class="dfe-header__menu">
                 <button class="dfe-header__menu-toggle" id="toggle-menu" aria-controls="header-navigation" aria-expanded="false">Menu</button>
+            </div>
+            <div class="dfe-header__search">
+                <image src="/images/DesignSystem/FurtherEducation.png" class="fe-logo" alt=""/>
             </div>
         </div>
     </div>
