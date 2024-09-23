@@ -3,12 +3,6 @@
     line-height: 280px;
     height: 280px;
 
-    /*.center1  {*/
-    /*    line-height: 2;*/
-    /*    display: inline-block;*/
-    /*    vertical-align: middle;*/
-    /*}*/
-    
     .image-card-banner-image-div img {
         width: auto;
         height: 100%;
@@ -115,14 +109,4 @@
         }
     }
 }
-.center {
-    line-height: 600px;
-    height: 600px;
-    border: 3px solid green;
-}
-
-.center p {
-    line-height: 2;
-    display: inline-block;
-    vertical-align: middle;
-}
+ 
