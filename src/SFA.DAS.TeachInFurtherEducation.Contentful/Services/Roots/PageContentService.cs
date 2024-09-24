@@ -14,6 +14,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
 {
@@ -70,7 +72,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
                  apiPage.Breadcrumbs,
                  apiPage.PageComponents!,
                  (await ToHtmlString(apiPage.Contents)!)
-                  );
+            );
         }
 
         /// <summary>

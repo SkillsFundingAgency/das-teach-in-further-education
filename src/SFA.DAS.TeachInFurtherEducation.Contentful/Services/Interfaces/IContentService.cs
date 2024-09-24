@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
@@ -19,6 +20,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces
         Page? GetPreviewPageByURL(string url);
 
         Page? GetPageByURL(string url);
+
+        Task<List<Asset<byte[]>>> GetAssetsByTags(params string[] tags);
 
     }
 }

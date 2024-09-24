@@ -1,4 +1,6 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics
+@addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
+
 @model LayoutModel
 @{
     string pageRoute = Model == null ? string.Empty : (Model.Preview.IsPreview ? "page-preview" : "page");
@@ -26,11 +28,7 @@
     <link rel="apple-touch-icon" sizes="167x167" href="/assets/images/govuk-apple-touch-icon-167x167.png"/>
     <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/govuk-apple-touch-icon-152x152.png"/>
     <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png"/>
-    <style asp-add-nonce>
-        .hidden {
-            display: none;
-        }
-    </style>
+
     @* waiting until load, delays rendering more than document.addEventListener("DOMContentLoaded"
     but stops the cookie banner from flashing too
     *@
@@ -58,7 +56,7 @@
 <body id="layout-body" class="govuk-template__body">
 @* To-do - Implement these partials *@
 @*  <partial name="_GoogleAnalytics" model="GoogleAnalyticsTag.Body" /> *@
-<script asp-add-nonce>
+    <script nonce="@Context.GetNonce()">
         document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
 

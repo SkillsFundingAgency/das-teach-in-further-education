@@ -26,6 +26,7 @@ public class EntityResolver : IContentTypeResolver
             "richTextContents" => typeof(RichTextContents),
             "breadcrumbs" => typeof(Breadcrumbs),
             "breadcrumbLink" => typeof(BreadcrumbLink),
+            "supplierSearch" => typeof(SupplierSearch),
             _ => null
         };
 #pragma warning restore CS8603 // Possible null reference return.

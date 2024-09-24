@@ -1,14 +1,20 @@
 ﻿using Contentful.Core;
 using Contentful.Core.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Content;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Exceptions;
 using SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces.Roots;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using IContent = SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content.Interfaces.IContent;
 
@@ -20,6 +26,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
         private readonly IContentfulClient? _previewContentfulClient;
         private readonly IPageService _pageService;
         private readonly IPageContentService _pageContentService;
+        private readonly HttpClient _httpClient;
         private readonly ILogger<ContentService> _logger;
 
         public event EventHandler<EventArgs>? ContentUpdated;
@@ -29,12 +36,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
             IContentfulClientFactory contentfulClientFactory,
             IPageService pageService,
             IPageContentService interimService,
+            HttpClient httpClient, 
             ILogger<ContentService> logger)
         {
             _contentfulClient = contentfulClientFactory.ContentfulClient;
             _previewContentfulClient = contentfulClientFactory.PreviewContentfulClient;
             _pageService = pageService;
             _pageContentService = interimService;
+            _httpClient = httpClient;
             _logger = logger;
         }
 
@@ -172,6 +181,80 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
 
         }
 
-    }
+        /// <summary>
+        /// Retrieves an asset by its tags along with metadata.
+        /// </summary>
+        /// <param name="tasg">The tags associated with the asset to retrieve.</param>
+        /// <returns>An collection of assets with content and metadata where those assets have been tagged with one or more of the specified strings.</returns>
+        public async Task<List<Asset<byte[]>>> GetAssetsByTags(params string[] tags)
+        {
+            if (tags == null || tags.Length == 0)
+            {
+                throw new ArgumentException("At least one tag must be provided.", nameof(tags));
+            }
 
+            var assets = await GetAssetIdsByTags(tags);
+
+            var assetTasks = assets.Select(async asset => {
+
+                var content = await GetAssetContent(asset.File.Url);
+
+                if (content != null)
+                {
+                    return new Asset<byte[]>
+                    {
+                        Content = content,
+                        Metadata = new AssetMetadata
+                        {
+                            Id = asset.SystemProperties.Id,
+                            Filename = asset.File.FileName,
+                            Url = asset.File.Url,
+                            LastUpdated = asset.SystemProperties.UpdatedAt.GetValueOrDefault(asset.SystemProperties.CreatedAt.GetValueOrDefault()),
+                        }
+                    };
+                }
+
+                return null;
+            });
+
+            var assetResults = (await Task.WhenAll(assetTasks)).Where(result => result != null).Cast<Asset<byte[]>>().ToList();
+
+            return assetResults;
+        }
+                
+        private async Task<List<Asset>> GetAssetIdsByTags(string[] tags)
+        {
+            var assetIds = new HashSet<string>();
+
+            foreach (var tag in tags)
+            {
+                var cancellationToken = new CancellationToken();
+                var result = await _contentfulClient!.GetAssets($"?metadata.tags.sys.id[in]={tag}", cancellationToken);
+                assetIds.UnionWith(result.Items.Select(a => a.SystemProperties.Id));
+            }
+
+            var assets = new List<Asset>();
+
+            foreach (var assetId in assetIds)
+            {
+                var asset = await _contentfulClient!.GetAsset(assetId);
+                if (asset != null)
+                {
+                    assets.Add(asset);
+                }
+            }
+
+            return assets;
+        }
+
+        private async Task<byte[]?> GetAssetContent(string? assetUrl)
+        {
+            if (!string.IsNullOrEmpty(assetUrl))
+            {
+                return await _httpClient.GetByteArrayAsync($"https:{assetUrl}");
+            }
+
+            return null;
+        }
+    }
 }

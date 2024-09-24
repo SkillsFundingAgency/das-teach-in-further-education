@@ -33,7 +33,7 @@
                 @await Html.PartialAsync("_VideoPartial", video)
                 break;
             case NewsLetter newsLetter:
-                @await Html.PartialAsync("_NewsLetterPartial", newsLetter)
+                @await Component.InvokeAsync("Newsletter", newsLetter)
                 break;
             case ContactUs contactUs:
                 @await Html.PartialAsync("_ContactUsPartial", contactUs)
@@ -44,6 +44,10 @@
             case RichTextContents richTextContents:
                 @await Html.PartialAsync("_RichTextContentsPartial", richTextContents)
                 break;
+            case SupplierSearch supplierSearch:
+                @await Component.InvokeAsync("SupplierSearch", supplierSearch)
+                break;
+
             default:
 
                 break;

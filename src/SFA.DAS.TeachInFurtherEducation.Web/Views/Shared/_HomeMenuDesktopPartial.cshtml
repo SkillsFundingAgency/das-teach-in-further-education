@@ -1,4 +1,7 @@
-﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+﻿@using Microsoft.AspNetCore.Http
+@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
+
 @model (IEnumerable<MenuItem>?, bool?)
 <nav aria-label="top-menu" class="dfe-topnav" name="Other services navigation">
     <div class="govuk-width-container">
@@ -83,7 +86,7 @@
 
 </header>
 
-<script>
+<script nonce="@Context.GetNonce()">
     // Write your JavaScript code.
     (() => {
         var o = {
