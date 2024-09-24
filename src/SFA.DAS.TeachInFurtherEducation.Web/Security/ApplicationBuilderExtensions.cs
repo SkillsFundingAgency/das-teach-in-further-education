@@ -52,6 +52,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
         /// This will make our site less secure, but is a trade-off between security and tracking functionality.
         /// </summary>
 
+#pragma warning disable S1481 // Unused local variables should be removed
 
         public static IApplicationBuilder UseAppSecurityHeaders(
             this IApplicationBuilder app,
@@ -61,7 +62,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
             string cdnUrl = configuration["cdn:url"]!;
             string cspViolationReportUrl = configuration["csp:violationReportUrl"]!;
 
-            app.UseSecurityHeaders(policies =>
+            _ = app.UseSecurityHeaders(policies =>
             policies.AddDefaultSecurityHeaders()
             .AddContentSecurityPolicy(builder =>
             {
@@ -128,103 +129,104 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
             return app;
         }
 
+#pragma warning restore S1481 // Unused local variables should be removed
 
 
 
 
-//        public static IApplicationBuilder UseAppSecurityHeaders(
-//            this IApplicationBuilder app,
-//            IWebHostEnvironment env,
-//            IConfiguration configuration)
-//        {
-//            string cdnUrl = configuration["cdn:url"]!;
+        //        public static IApplicationBuilder UseAppSecurityHeaders(
+        //            this IApplicationBuilder app,
+        //            IWebHostEnvironment env,
+        //            IConfiguration configuration)
+        //        {
+        //            string cdnUrl = configuration["cdn:url"]!;
 
-//#pragma warning disable S1075
-//#pragma warning disable CA1861
+        //#pragma warning disable S1075
+        //#pragma warning disable CA1861
 
-//            app.UseSecurityHeaders(policies =>
-//                policies.AddDefaultSecurityHeaders()
-//                .AddContentSecurityPolicy(builder =>
-//                {
-//                    builder.AddUpgradeInsecureRequests();
+        //            app.UseSecurityHeaders(policies =>
+        //                policies.AddDefaultSecurityHeaders()
+        //                .AddContentSecurityPolicy(builder =>
+        //                {
+        //                    builder.AddUpgradeInsecureRequests();
 
-//                    var defaultSrc = builder.AddDefaultSrc()
-//                     .Self()
-//                     .From(cdnUrl);
+        //                    var defaultSrc = builder.AddDefaultSrc()
+        //                     .Self()
+        //                     .From(cdnUrl);
 
-//                    builder.AddImgSrc()
-//                        //.OverHttps()
-//                        .Self()
-//                        .From(new[] { cdnUrl, "data:", "https://ssl.gstatic.com", "https://www.gstatic.com", "https://www.google-analytics.com" });
+        //                    builder.AddImgSrc()
+        //                        //.OverHttps()
+        //                        .Self()
+        //                        .From(new[] { cdnUrl, "data:", "https://ssl.gstatic.com", "https://www.gstatic.com", "https://www.google-analytics.com" });
 
-//                    var connectSrc = builder.AddConnectSrc()
-//                        .Self();
+        //                    var connectSrc = builder.AddConnectSrc()
+        //                        .Self();
 
-//                    builder.AddFormAction()
-//                        .Self();
-//                    //.From(new[]
-//                    //{
-//                    //    //"https://www.facebook.com",
-//                    //    ////"*.qualtrics.com",
-//                    //    ////"*.clarity.ms",
-//                    //    ////"https://td.doubleclick.net"
-//                    //});
-
-
-//                    builder.AddFrameAncestors()
-//                        .Self()
-//                        .From("https://app.contentful.com");
-
-//                    builder.AddFontSrc()
-//                         .Self()
-//                         .From(new[] { cdnUrl, "https://fonts.gstatic.com" });
-
-//                    var scriptSrc = builder.AddScriptSrc()
-//                         .Self();
-
-//                    if (env.IsDevelopment())
-//                    {
-//                        // open up for browserlink
-//                        defaultSrc.From(new[] { "http://localhost" });
-//                        //defaultSrc.From(new[] { "http://localhost:*", "ws://localhost:*" });
-
-//                        connectSrc.From(new[] { "https://localhost" });
-//                        //connectSrc.From(new[] { "https://localhost:*", "ws://localhost:*", "wss://localhost:*" });
-
-//                        scriptSrc.From(new[] { "https://localhost" });
-//                    }
+        //                    builder.AddFormAction()
+        //                        .Self();
+        //                    //.From(new[]
+        //                    //{
+        //                    //    //"https://www.facebook.com",
+        //                    //    ////"*.qualtrics.com",
+        //                    //    ////"*.clarity.ms",
+        //                    //    ////"https://td.doubleclick.net"
+        //                    //});
 
 
-//                })
-//                //.AddCustomHeader("X-Frame-Options", "ALLOW-FROM https://app.contentful.com/")
-//                .AddCustomHeader("X-Permitted-Cross-Domain-Policies", "none")
+        //                    builder.AddFrameAncestors()
+        //                        .Self()
+        //                        .From("https://app.contentful.com");
 
-//                // this is called in AddDefaultSecurityHeaders(), but without this, we get AddXssProtectionDisabled() instead
-//                .AddXssProtectionBlock());
+        //                    builder.AddFontSrc()
+        //                         .Self()
+        //                         .From(new[] { cdnUrl, "https://fonts.gstatic.com" });
+
+        //                    var scriptSrc = builder.AddScriptSrc()
+        //                         .Self();
+
+        //                    if (env.IsDevelopment())
+        //                    {
+        //                        // open up for browserlink
+        //                        defaultSrc.From(new[] { "http://localhost" });
+        //                        //defaultSrc.From(new[] { "http://localhost:*", "ws://localhost:*" });
+
+        //                        connectSrc.From(new[] { "https://localhost" });
+        //                        //connectSrc.From(new[] { "https://localhost:*", "ws://localhost:*", "wss://localhost:*" });
+
+        //                        scriptSrc.From(new[] { "https://localhost" });
+        //                    }
+
+
+        //                })
+        //                //.AddCustomHeader("X-Frame-Options", "ALLOW-FROM https://app.contentful.com/")
+        //                .AddCustomHeader("X-Permitted-Cross-Domain-Policies", "none")
+
+        //                // this is called in AddDefaultSecurityHeaders(), but without this, we get AddXssProtectionDisabled() instead
+        //                .AddXssProtectionBlock());
 
 
 
-//            return app;
-//        }
+        //            return app;
+        //        }
 
-//        //public static IApplicationBuilder UseCspHeaders(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
-//        //{
-//        //    app.Use(async (context, next) =>
-//        //    {
-//        //        context.Response.Headers.Append("Content-Security-Policy",
-//        //            "img-src 'self' data: https://das-at-frnt-end.azureedge.net https://ssl.gstatic.com https://www.gstatic.com https://www.google-analytics.com; " +
-//        //            "report-uri /csp-violation-report-endpoint/");
+        //        //public static IApplicationBuilder UseCspHeaders(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
+        //        //{
+        //        //    app.Use(async (context, next) =>
+        //        //    {
+        //        //        context.Response.Headers.Append("Content-Security-Policy",
+        //        //            "img-src 'self' data: https://das-at-frnt-end.azureedge.net https://ssl.gstatic.com https://www.gstatic.com https://www.google-analytics.com; " +
+        //        //            "report-uri /csp-violation-report-endpoint/");
 
-//        //        // Disable caching
-//        //        context.Response.Headers.Append("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-//        //        context.Response.Headers.Append("Pragma", "no-cache");
-//        //        context.Response.Headers.Append("Expires", "0");
+        //        //        // Disable caching
+        //        //        context.Response.Headers.Append("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+        //        //        context.Response.Headers.Append("Pragma", "no-cache");
+        //        //        context.Response.Headers.Append("Expires", "0");
 
-//        //        await next();
-//        //    });
+        //        //        await next();
+        //        //    });
 
-//        //    return app;
-//        //}
+        //        //    return app;
+        //        //}
     }
 }
 
