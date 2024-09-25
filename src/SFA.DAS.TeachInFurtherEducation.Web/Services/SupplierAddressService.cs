@@ -92,9 +92,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                 throw new FileNotFoundException("Expected exactly one asset with the 'supplier-addresses' tag, but found none or multiple.");
             }
 
-            var supplierAddressesSpreadsheet = assets.Single();
+            var supplierAddressesSpreadsheet = assets.SingleOrDefault();
 
-            if (supplierAddressesSpreadsheet != null)
+            if (supplierAddressesSpreadsheet != null && supplierAddressesSpreadsheet.Content != null)
             {
                 var rawData = await _spreadsheetParser.ParseAsync(supplierAddressesSpreadsheet.Content);
                 var addresses = new List<SupplierAddressModel>();

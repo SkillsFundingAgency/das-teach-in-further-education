@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 using System.Net.Http;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
 {

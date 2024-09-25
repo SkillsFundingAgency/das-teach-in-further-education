@@ -17,6 +17,9 @@ using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces.Roots;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -30,6 +33,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
         public IContentfulClientFactory ContentfulClientFactory { get; set; }
         public IContentfulClient ContentfulClient { get; set; }
         public IContentfulClient PreviewContentfulClient { get; set; }
+        public IAssetDownloader AssetDownloader { get; set; }
         public HtmlRenderer HtmlRenderer { get; set; }
         public ILogger<ContentService> Logger { get; set; }
         public IPageService PageService { get; set; }
@@ -64,6 +68,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
             ContentfulClient = A.Fake<IContentfulClient>();
             PreviewContentfulClient = A.Fake<IContentfulClient>();
             HtmlRenderer = A.Fake<HtmlRenderer>();
+
+            AssetDownloader = A.Fake<IAssetDownloader>();
             Logger = A.Fake<ILogger<ContentService>>();
 
             A.CallTo(() => ContentfulClientFactory.ContentfulClient)
@@ -286,7 +292,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
             ContentService = new ContentService(
                 ContentfulClientFactory,
                 PageService,
-                PageContentService,
+                PageContentService, 
+                AssetDownloader,
                 Logger);
         }
 

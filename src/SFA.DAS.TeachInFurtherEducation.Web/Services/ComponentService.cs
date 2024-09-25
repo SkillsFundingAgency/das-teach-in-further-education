@@ -144,6 +144,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
         }
 
+        //public static void Initialize(global::Castle.Core.Logging.ILogger logger, IViewRenderService viewRenderService, HtmlRenderer renderer)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
         #endregion
 
     }

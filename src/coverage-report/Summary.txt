@@ -1,0 +1,97 @@
+﻿Summary
+  Generated on: 24/09/2024 - 16:39:05
+  Parser: MultiReportParser (2x CoberturaParser)
+  Assemblies: 2
+  Classes: 82
+  Files: 81
+  Line coverage: 40.4%
+  Covered lines: 847
+  Uncovered lines: 1249
+  Coverable lines: 2096
+  Total lines: 5846
+
+SFA.DAS.TeachInFurtherEducation.Contentful                                                     79.4%
+  SFA.DAS.TeachInFurtherEducation.Contentful.Content.GeneratedContent                         100.0%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.BlockQuoteRenderer              100.0%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.CtaContentRenderer              100.0%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.EmbeddedYoutubeContentRenderer   96.7%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.GdsParagraphRenderer             85.2%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.HeadingRenderer                  97.0%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.HorizontalRulerContentRenderer  100.0%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.HyperlinkContentRenderer        100.0%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.ListContentRenderer             100.0%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.TableCellRenderer                85.2%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.TableHeaderRenderer              85.2%
+  SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers.TableRenderer                    91.3%
+  SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content.BetaBanner                         100.0%
+  SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim.FooterLink                         100.0%
+  SFA.DAS.TeachInFurtherEducation.Contentful.Services.ContentfulClientFactory                 100.0%
+  SFA.DAS.TeachInFurtherEducation.Contentful.Services.ContentService                           54.4%
+  SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base.ContentRootService            70.9%
+  SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.PageContentService                 61.1%
+  SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.PageService                         0.0%
+
+SFA.DAS.TeachInFurtherEducation.Web                                                            18.5%
+  AspNetCoreGeneratedDocument.Views__ViewStart                                                  0.0%
+  AspNetCoreGeneratedDocument.Views_Error_ApplicationError                                      0.0%
+  AspNetCoreGeneratedDocument.Views_Error_PageNotFound                                          0.0%
+  AspNetCoreGeneratedDocument.Views_Home_Index                                                  0.0%
+  AspNetCoreGeneratedDocument.Views_Home_Privacy                                                0.0%
+  AspNetCoreGeneratedDocument.Views_Landing_Landing                                             0.0%
+  AspNetCoreGeneratedDocument.Views_Pages_Page                                                  0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__BreadcrumbPartial                                   0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__ContactUsPartial                                    0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__FooterPartial                                       0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__HomeMenuDesktopPartial                              0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__HomeMenuMobilePartial                               0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__ImageCardBannerPartial                              0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__Layout                                              0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__PreambleGeneralPartial                              0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__PreviewErrorsPartial                                0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__TileCardPartial                                     0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__TilePartial                                         0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__TileSectionPartial                                  0.0%
+  AspNetCoreGeneratedDocument.Views_Shared__VideoPartial                                        0.0%
+  AspNetCoreGeneratedDocument.Views_Shared_Components_Newsletter_Default                        0.0%
+  AspNetCoreGeneratedDocument.Views_Shared_Components_SupplierSearch_Default                    0.0%
+  AspNetCoreGeneratedDocument.Views_Shared_Error                                                0.0%
+  ContentfulExample.Helpers.OpenXmlSpreadsheetParser                                            0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices.ContentUpdateService                  71.4%
+  SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices.SupplierAddressUpdateService           0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Controllers.CspReportController                           0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Controllers.ErrorController                              82.6%
+  SFA.DAS.TeachInFurtherEducation.Web.Controllers.LandingController                             0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Data.Models.LocationModel                                 0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Data.Models.ModelBase                                     0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Data.Models.SupplierAddressDistanceModel                  0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Data.Models.SupplierAddressModel                          0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Data.SqlDbContext                                         0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Data.SqlRepositoryBase`1                                  0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Data.SqlSupplierAddressRepository                         0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Data.SupplierAddressCompositeKeyGenerator                 0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics.EnableGoogleAnalyticsAttribute            0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics.Extensions                                0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics.GoogleAnalyticsConfiguration              0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Helpers.AddressHelper                                     0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Helpers.CspReportInputFormatter                           0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Helpers.StringHelper                                    100.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Models.ContactPageModel                                   0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Models.CspReportDetails                                   0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Models.CspViolationReport                                 0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Models.FilterSectionAspectModel                           0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Models.FilterSectionModel                                 0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Models.InterimPageModel                                   0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Models.NewsLetterViewModel                                0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Models.PreviewModel                                     100.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Models.SupplierSearchResultViewModel                      0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Services.ComponentService                                 0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Services.ContentModelService                             83.3%
+  SFA.DAS.TeachInFurtherEducation.Web.Services.CspReportService                                 0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Services.MailChimpMarketingService                        0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Services.PageService                                     93.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Services.PostcodesIoGeoLocationService                    0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Services.SupplierAddressService                           0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.Services.ViewRenderService                                0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.StartupServices.SitemapGeneratorService                  90.0%
+  SFA.DAS.TeachInFurtherEducation.Web.ViewComponents.NewsletterViewComponent                    0.0%
+  SFA.DAS.TeachInFurtherEducation.Web.ViewComponents.SupplierSearchViewComponent                0.0%

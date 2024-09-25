@@ -26,7 +26,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
         private readonly IContentfulClient? _previewContentfulClient;
         private readonly IPageService _pageService;
         private readonly IPageContentService _pageContentService;
-        private readonly HttpClient _httpClient;
+        private readonly IAssetDownloader _assetDownloader;
         private readonly ILogger<ContentService> _logger;
 
         public event EventHandler<EventArgs>? ContentUpdated;
@@ -36,14 +36,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
             IContentfulClientFactory contentfulClientFactory,
             IPageService pageService,
             IPageContentService interimService,
-            HttpClient httpClient, 
+            IAssetDownloader assetDownloader, 
             ILogger<ContentService> logger)
         {
             _contentfulClient = contentfulClientFactory.ContentfulClient;
             _previewContentfulClient = contentfulClientFactory.PreviewContentfulClient;
             _pageService = pageService;
             _pageContentService = interimService;
-            _httpClient = httpClient;
+            _assetDownloader = assetDownloader;
             _logger = logger;
         }
 
@@ -251,7 +251,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
         {
             if (!string.IsNullOrEmpty(assetUrl))
             {
-                return await _httpClient.GetByteArrayAsync($"https:{assetUrl}");
+                return await _assetDownloader.DownloadAssetContentAsync(assetUrl);
             }
 
             return null;
