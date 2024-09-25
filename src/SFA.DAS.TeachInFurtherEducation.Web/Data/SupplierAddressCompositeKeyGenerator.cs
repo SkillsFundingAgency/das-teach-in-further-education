@@ -1,5 +1,6 @@
 ﻿using SFA.DAS.TeachInFurtherEducation.Web.Data.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -27,6 +28,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
         /// <returns>The generated composite key.</returns>
         public string GenerateKey(SupplierAddressModel entity)
         {
+            if (entity == null) throw new ArgumentNullException("entity");
+
             var keyString = $"{entity.Type}|{entity.OrganisationName}|{entity.ParentOrganisation}|{entity.AddressLine1}|{entity.AddressLine2}|{entity.AddressLine3}|{entity.Area}|{entity.City}|{entity.Postcode}|{entity.Telephone}|{entity.Website}";
 
             using (var md5 = MD5.Create())

@@ -29,10 +29,15 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
             var body = await reader.ReadToEndAsync();
 
             // Deserialize JSON from the request body
-            var report = JsonSerializer.Deserialize<CspViolationReport>(body, new JsonSerializerOptions
+            CspViolationReport? report = null;
+
+            if (!string.IsNullOrWhiteSpace(body))
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+                report = JsonSerializer.Deserialize<CspViolationReport>(body, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            }
 
             return await InputFormatterResult.SuccessAsync(report);
         }

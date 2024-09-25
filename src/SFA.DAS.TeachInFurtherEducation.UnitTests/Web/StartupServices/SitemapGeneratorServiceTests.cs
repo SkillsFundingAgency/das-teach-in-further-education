@@ -40,5 +40,21 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.StartupServices
             A.CallTo(() => sitemap.Generate())
                 .MustHaveHappenedOnceExactly();
         }
+
+        [Fact]
+        public async Task StopAsync_ShouldCompleteSuccessfully()
+        {
+            // Arrange
+            var serviceProvider = A.Fake<IServiceProvider>();
+            var sitemapGeneratorService = new SitemapGeneratorService(serviceProvider);
+
+            // Act
+            var result = sitemapGeneratorService.StopAsync(CancellationToken.None);
+
+            result.Wait();
+
+            // Assert
+            Assert.Equal(Task.CompletedTask, result);
+        }
     }
 }

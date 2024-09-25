@@ -5,12 +5,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 {
     /// <summary>
     /// Provides geocoding services using the Postcodes.io API with exponential backoff for resilience.
     /// </summary>
+    [ExcludeFromCodeCoverage] // Soon to be replaced
     public class PostcodesIoGeoLocationService : IGeoLocationProvider
     {
         private readonly HttpClient _httpClient;

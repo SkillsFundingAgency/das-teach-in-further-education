@@ -1,8 +1,9 @@
 ﻿using FakeItEasy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using NetTopologySuite.Geometries;
-using Newtonsoft.Json;
+using NLog;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Interfaces;
@@ -17,7 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-public class SupplierAddressServiceTests
+public partial class SupplierAddressServiceTests
 {
     private readonly ISupplierAddressRepository _supplierAddressRepository;
     private readonly IContentService _contentService;
@@ -36,16 +37,22 @@ public class SupplierAddressServiceTests
         _compositeKeyGenerator = A.Fake<ICompositeKeyGenerator<SupplierAddressModel>>();
         _logger = A.Fake<ILogger<SupplierAddressService>>();
 
-        // Create a mock service provider
-        var serviceProvider = A.Fake<IServiceProvider>();
+        // Create a mock service provider that implements ISupportRequiredService
+        var serviceProvider = A.Fake<IServiceProvider>(o => o.Implements<ISupportRequiredService>());
 
-        // Return the fake repository when GetRequiredService is called
-        A.CallTo(() => serviceProvider.GetService(typeof(ISupplierAddressRepository)))
+        // Configure GetRequiredService to return the fake repository when requested
+        A.CallTo(() => ((ISupportRequiredService)serviceProvider).GetRequiredService(typeof(ISupplierAddressRepository)))
             .Returns(_supplierAddressRepository);
+
+        // Optionally, configure GetRequiredService for other services if needed
+        // Example:
+        // A.CallTo(() => ((ISupportRequiredService)serviceProvider).GetRequiredService(typeof(AnotherService)))
+        //     .Returns(A.Fake<AnotherService>());
 
         var serviceScopeFactory = A.Fake<IServiceScopeFactory>();
         var serviceScope = A.Fake<IServiceScope>();
 
+        // Configure the service scope to return the fake service provider
         A.CallTo(() => serviceScopeFactory.CreateScope()).Returns(serviceScope);
         A.CallTo(() => serviceScope.ServiceProvider).Returns(serviceProvider);
 
@@ -59,7 +66,6 @@ public class SupplierAddressServiceTests
             _logger
         );
     }
-
 
     [Fact]
     public async Task GetSourceSupplierAddresses_ShouldReturnAddresses_WhenAssetExists()
@@ -164,6 +170,10 @@ public class SupplierAddressServiceTests
         A.CallTo(() => _geoLocationProvider.GetLocationByPostcode("TST 1NG"))
             .Returns(new LocationModel { Latitude = 1.0, Longitude = 1.0 });
 
+        // Configure the repository to return null (no existing address)
+        A.CallTo(() => _supplierAddressRepository.GetById(A<string>.Ignored, A<string>.Ignored))
+            .Returns((SupplierAddressModel)null);
+
         var result = await _service.CreateSupplierAddresses(sourceAddresses, DateTime.UtcNow);
 
         Assert.Single(result);
@@ -183,7 +193,7 @@ public class SupplierAddressServiceTests
             {
                 Supplier = new SupplierAddressModel()
                 {
-                    OrganisationName = "Test Org", 
+                    OrganisationName = "Test Org",
                     Postcode = "TST 1NG",
                     City = "Test City",
                     AddressLine1 = "123 Test St",
@@ -226,5 +236,37 @@ public class SupplierAddressServiceTests
         var result = await _service.GetSuppliersWithinRadiusOfPostcode("INVALID", 10);
 
         Assert.Empty(result);
+    }
+
+    [Fact]
+    public async Task CreateSupplierAddresses_ShouldLogErrorAndExcludeAddress_WhenGetByIdThrows()
+    {
+        // Arrange
+        var sourceAddresses = new List<SupplierAddressModel>
+        {
+            new SupplierAddressModel
+            {
+                OrganisationName = "Test Supplier",
+                Postcode = "TST 1NG",
+                City = "Test City",
+                AddressLine1 = "123 Test St",
+                Type = "Type A"
+            }
+        };
+
+        // Configure the repository to throw an exception when GetById is called
+        var exception = new Exception("Database error");
+        A.CallTo(() => _supplierAddressRepository.GetById(A<string>.Ignored, A<string>.Ignored))
+            .Throws(exception);
+                
+
+        // Act
+        var result = await _service.CreateSupplierAddresses(sourceAddresses, DateTime.UtcNow);
+
+        // Assert
+        // Verify that the resulting list does not contain the address that caused the exception
+        Assert.Empty(result);
+
+        _logger.VerifyLog(Microsoft.Extensions.Logging.LogLevel.Error, "Database error").MustHaveHappenedOnceExactly();
     }
 }
