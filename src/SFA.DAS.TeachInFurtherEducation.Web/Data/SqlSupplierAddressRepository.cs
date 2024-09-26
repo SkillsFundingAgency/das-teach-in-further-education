@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 using System.Linq;
 using NetTopologySuite.Geometries;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Data
 {
     /// <summary>
     /// Provides an implementation for managing Address entities in SQL Server.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class SqlSupplierAddressRepository : SqlRepositoryBase<SupplierAddressModel>, ISupplierAddressRepository
     {
         public SqlSupplierAddressRepository(SqlDbContext context) : base(context) {}

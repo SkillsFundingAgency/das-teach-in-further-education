@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Data
 {
+    [ExcludeFromCodeCoverage]
     public class SqlDbContext : DbContext
     {
         public DbSet<SupplierAddressModel> SupplierAddresses { get; set; }

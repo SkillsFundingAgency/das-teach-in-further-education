@@ -16,9 +16,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
         public void LogReport(CspViolationReport report)
         {
             if (report.CspReport != null)
-            {
-                _logger.LogError("CSP Violation: {DocumentUri}, {ViolatedDirective}, {OriginalPolicy}",
-                report.CspReport!.DocumentUri, report.CspReport!.ViolatedDirective, report.CspReport!?.OriginalPolicy);
+            {   
+                _logger.LogError($"CSP Violation: {report.CspReport!.DocumentUri}, {report.CspReport!.ViolatedDirective}, {report.CspReport!?.OriginalPolicy}");
             }
             else
             {
