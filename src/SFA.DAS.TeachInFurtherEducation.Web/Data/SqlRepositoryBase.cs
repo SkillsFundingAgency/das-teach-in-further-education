@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Data
 {
@@ -13,6 +14,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
     /// Provides a base implementation for repository operations using SQL Server and Entity Framework Core.
     /// </summary>
     /// <typeparam name="T">The type of the entity being managed by the repository.</typeparam>
+    [ExcludeFromCodeCoverage]
     public abstract class SqlRepositoryBase<T> : IRepository<T> where T : ModelBase
     {
         protected readonly SqlDbContext _context;

@@ -18,6 +18,7 @@ using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Extensions;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices;
 using SFA.DAS.TeachInFurtherEducation.Web.Data;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Interfaces;
@@ -124,6 +125,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             var logger = serviceProvider.GetRequiredService<ILogger<object>>();
 
             ComponentService.Initialize(logger, viewRenderService, htmlRenderer);
+
+            services.AddSingleton<IAssetDownloader, AssetDownloader>();
 
             services.AddSingleton<IContentModelService, ContentModelService>();
             services.AddSingleton<Contentful.Services.Interfaces.Roots.IPageContentService, SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.PageContentService>();
