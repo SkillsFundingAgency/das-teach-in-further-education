@@ -45,6 +45,12 @@
             case FullImageCardBanner fullImageCardBanner:
                 @await Html.PartialAsync("_FullImageCardBannerPartial", fullImageCardBanner)
                 break;
+            case HeaderFullImage headerFullImage:
+                @await Html.PartialAsync("_HeaderFullImagePartial", headerFullImage)
+                break;
+            case LineSeparator lineSeparator:
+                @await Html.PartialAsync("_LineSeparatorPartial", lineSeparator)
+                break;
             default:
 
                 break;
