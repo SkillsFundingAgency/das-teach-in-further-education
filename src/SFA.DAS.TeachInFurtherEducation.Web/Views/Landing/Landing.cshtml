@@ -22,8 +22,6 @@
                 @await Html.PartialAsync("_PreambleGeneralPartial", new Tuple<Preamble?, Breadcrumbs?, bool, bool, string>(preamble, Model.Breadcrumbs, true, Model.Preview.IsPreview, Model.PageTemplate))
                 break;
             case TileSection tileSection:
-                //TODO: Below partial - clean up required
-                //@await Html.PartialAsync("_TileSectionPartial", (tileSection, Model.Preview.IsPreview))
                 @await Html.PartialAsync("_TileCardPartial", (tileSection, Model.Preview.IsPreview))
                 break;
             case ImageCardBanner imageCardBanner:
@@ -46,6 +44,15 @@
                 break;
             case SupplierSearch supplierSearch:
                 @await Component.InvokeAsync("SupplierSearch", supplierSearch)
+                break;
+            case FullImageCardBanner fullImageCardBanner:
+                @await Html.PartialAsync("_FullImageCardBannerPartial", fullImageCardBanner)
+                break;
+            case HeaderFullImage headerFullImage:
+                @await Html.PartialAsync("_HeaderFullImagePartial", headerFullImage)
+                break;
+            case LineSeparator lineSeparator:
+                @await Html.PartialAsync("_LineSeparatorPartial", lineSeparator)
                 break;
 
             default:
