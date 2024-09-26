@@ -105,5 +105,59 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Controllers
                 "CSP Violation Report Received"
             );
         }
+
+        [Fact]
+        public void Post_InvalidHeaders_ShouldReturnUnauthorized()
+        {
+            // Arrange
+            var fakeLogger = A.Fake<ILogger<CspReportController>>();
+            var fakeCspReportService = A.Fake<ICspReportService>();
+
+            var controller = new CspReportController(fakeCspReportService, fakeLogger);
+
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Scheme = "https";
+            httpContext.Request.Host = new HostString("example.com");
+            // Set invalid Referer and Origin headers that do not start with the current host
+            httpContext.Request.Headers["Referer"] = "https://malicious.com/page";
+            httpContext.Request.Headers["Origin"] = "https://malicious.com";
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = httpContext
+            };
+
+            var report = new CspViolationReport
+            {
+                CspReport = new CspReportDetails
+                {
+                    DocumentUri = "https://example.com/page",
+                    Referrer = "https://malicious.com/referrer",
+                    ViolatedDirective = "script-src",
+                    EffectiveDirective = "script-src",
+                    OriginalPolicy = "default-src 'self'; script-src 'self'",
+                    Disposition = "enforce",
+                    BlockedUri = "https://malicious.com/script.js",
+                    StatusCode = 200,
+                    ScriptSample = "alert('XSS');"
+                }
+            };
+
+            // Act
+            var result = controller.Post(report);
+
+            // Assert
+            // Verify that the response is Unauthorized
+            Assert.IsType<UnauthorizedResult>(result);
+
+            // Verify that LogReport was never called
+            A.CallTo(() => fakeCspReportService.LogReport(A<CspViolationReport>._)).MustNotHaveHappened();
+
+            // Verify that the "CSP Violation Report Received" log was created
+            fakeLogger.VerifyLogMustHaveHappened(
+                LogLevel.Information,
+                "CSP Violation Report Received"
+            );
+        }
     }
 }
