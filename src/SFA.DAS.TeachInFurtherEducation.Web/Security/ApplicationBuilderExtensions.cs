@@ -2,10 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
-using static System.Net.WebRequestMethods;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 {
@@ -52,8 +49,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
         /// This will make our site less secure, but is a trade-off between security and tracking functionality.
         /// </summary>
 
-#pragma warning disable S1481 // Unused local variables should be removed
-
         public static IApplicationBuilder UseAppSecurityHeaders(
             this IApplicationBuilder app,
             IWebHostEnvironment env,
@@ -61,6 +56,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
         {
             string cdnUrl = configuration["cdn:url"]!;
             string cspViolationReportUrl = configuration["csp:violationReportUrl"]!;
+            string[] clarity = new[] { "https://a.clarity.ms", "https://b.clarity.ms", "https://c.clarity.ms", "https://d.clarity.ms", "https://e.clarity.ms", "https://f.clarity.ms", "https://g.clarity.ms", "https://h.clarity.ms", "https://i.clarity.ms", "https://j.clarity.ms", "https://k.clarity.ms", "https://l.clarity.ms", "https://m.clarity.ms", "https://n.clarity.ms", "https://o.clarity.ms", "https://p.clarity.ms", "https://q.clarity.ms", "https://r.clarity.ms", "https://s.clarity.ms", "https://t.clarity.ms", "https://u.clarity.ms", "https://v.clarity.ms", "https://w.clarity.ms", "https://x.clarity.ms", "https://y.clarity.ms", "https://z.clarity.ms" };
 
             _ = app.UseSecurityHeaders(policies =>
             policies.AddDefaultSecurityHeaders()
@@ -71,7 +67,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 
                 builder.AddUpgradeInsecureRequests();
 
-                var defaultSrc = builder.AddDefaultSrc()
+                builder.AddDefaultSrc()
                     .Self()
                     .From(cdnUrl);
 
@@ -81,10 +77,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 
                 var connectSrc = builder.AddConnectSrc()
                     .Self()
-                    .From(new[] { "http://localhost", "https://localhost", "ws://localhost", "wss://localhost", "http://localhost:64212", "ws://localhost:64212", "https://localhost:44350", "wss://localhost:44350" });
+                    .From(clarity);
 
                 builder.AddFormAction()
-                    .Self();
+                    .Self()
+                    .From(clarity);
 
                 builder.AddFrameAncestors()
                     .Self()
@@ -92,7 +89,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 
                 builder.AddFrameSrc()
                     .Self()
-                    .From(new[] { "https://videos.ctfassets.net" });
+                    .From(new[] { "https://videos.ctfassets.net" })
+                    .From(clarity);
 
                 builder.AddFontSrc()
                     .Self()
@@ -100,27 +98,21 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 
                 var scriptSrc = builder.AddScriptSrc()
                     .Self()
-                    .From(new[] { "https://das-at-frnt-end.azureedge.net", "https://localhost" })
+                    .From(new[] { "https://das-at-frnt-end.azureedge.net" })
                     .WithNonce();
 
-                var styleSrc = builder.AddStyleSrc()
+                builder.AddStyleSrc()
                         .Self()
-                        //.UnsafeInline()
                         .From(new[] { cdnUrl, "https://rsms.me", "https://rsms.me" });
-
-
 
                 // Allow inline styles and scripts for development
                 if (env.IsDevelopment())
                 {
                     scriptSrc
-                        //.UnsafeInline()
-                        .From(new[] { "https://das-at-frnt-end.azureedge.net" });
+                        .From(new[] { "https://localhost" });
 
-                    //builder.AddStyleSrc()
-                    //    .Self()
-                    //    .UnsafeInline()
-                    //    .From(new[] { cdnUrl });
+                    connectSrc
+                        .From(new[] { "http://localhost", "https://localhost", "ws://localhost", "wss://localhost", "http://localhost:64212", "ws://localhost:64212", "https://localhost:44350", "wss://localhost:44350" })
                 }
             })
             .AddCustomHeader("X-Permitted-Cross-Domain-Policies", "none")
@@ -128,224 +120,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 
             return app;
         }
-
-#pragma warning restore S1481 // Unused local variables should be removed
-
-
-
-
-        //        public static IApplicationBuilder UseAppSecurityHeaders(
-        //            this IApplicationBuilder app,
-        //            IWebHostEnvironment env,
-        //            IConfiguration configuration)
-        //        {
-        //            string cdnUrl = configuration["cdn:url"]!;
-
-        //#pragma warning disable S1075
-        //#pragma warning disable CA1861
-
-        //            app.UseSecurityHeaders(policies =>
-        //                policies.AddDefaultSecurityHeaders()
-        //                .AddContentSecurityPolicy(builder =>
-        //                {
-        //                    builder.AddUpgradeInsecureRequests();
-
-        //                    var defaultSrc = builder.AddDefaultSrc()
-        //                     .Self()
-        //                     .From(cdnUrl);
-
-        //                    builder.AddImgSrc()
-        //                        //.OverHttps()
-        //                        .Self()
-        //                        .From(new[] { cdnUrl, "data:", "https://ssl.gstatic.com", "https://www.gstatic.com", "https://www.google-analytics.com" });
-
-        //                    var connectSrc = builder.AddConnectSrc()
-        //                        .Self();
-
-        //                    builder.AddFormAction()
-        //                        .Self();
-        //                    //.From(new[]
-        //                    //{
-        //                    //    //"https://www.facebook.com",
-        //                    //    ////"*.qualtrics.com",
-        //                    //    ////"*.clarity.ms",
-        //                    //    ////"https://td.doubleclick.net"
-        //                    //});
-
-
-        //                    builder.AddFrameAncestors()
-        //                        .Self()
-        //                        .From("https://app.contentful.com");
-
-        //                    builder.AddFontSrc()
-        //                         .Self()
-        //                         .From(new[] { cdnUrl, "https://fonts.gstatic.com" });
-
-        //                    var scriptSrc = builder.AddScriptSrc()
-        //                         .Self();
-
-        //                    if (env.IsDevelopment())
-        //                    {
-        //                        // open up for browserlink
-        //                        defaultSrc.From(new[] { "http://localhost" });
-        //                        //defaultSrc.From(new[] { "http://localhost:*", "ws://localhost:*" });
-
-        //                        connectSrc.From(new[] { "https://localhost" });
-        //                        //connectSrc.From(new[] { "https://localhost:*", "ws://localhost:*", "wss://localhost:*" });
-
-        //                        scriptSrc.From(new[] { "https://localhost" });
-        //                    }
-
-
-        //                })
-        //                //.AddCustomHeader("X-Frame-Options", "ALLOW-FROM https://app.contentful.com/")
-        //                .AddCustomHeader("X-Permitted-Cross-Domain-Policies", "none")
-
-        //                // this is called in AddDefaultSecurityHeaders(), but without this, we get AddXssProtectionDisabled() instead
-        //                .AddXssProtectionBlock());
-
-
-
-        //            return app;
-        //        }
-
-        //        //public static IApplicationBuilder UseCspHeaders(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
-        //        //{
-        //        //    app.Use(async (context, next) =>
-        //        //    {
-        //        //        context.Response.Headers.Append("Content-Security-Policy",
-        //        //            "img-src 'self' data: https://das-at-frnt-end.azureedge.net https://ssl.gstatic.com https://www.gstatic.com https://www.google-analytics.com; " +
-        //        //            "report-uri /csp-violation-report-endpoint/");
-
-        //        //        // Disable caching
-        //        //        context.Response.Headers.Append("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-        //        //        context.Response.Headers.Append("Pragma", "no-cache");
-        //        //        context.Response.Headers.Append("Expires", "0");
-
-        //        //        await next();
-        //        //    });
-
-        //        //    return app;
-        //        //}
     }
 }
-
-
-//.AddContentSecurityPolicy(builder =>
-// {
-//     builder.AddUpgradeInsecureRequests();
-
-//     var defaultSrc = builder.AddDefaultSrc()
-//         .Self()
-//         .From(cdnUrl);
-
-//     var connectSrc = builder.AddConnectSrc()
-//         .Self()
-//         .From(new[]
-//         {
-//                                //"https://consent-api-bgzqvpmbyq-nw.a.run.app/api/v1/consent/",
-//                                //"https://stats.g.doubleclick.net/j/collect",
-//                                //"https://region1.google-analytics.com/g/collect",
-//                                "https://www.google-analytics.com",
-//                                "https://www.youtube-nocookie.com",
-//                                ////"*.qualtrics.com", 
-//                                ///* application insights*/ 
-//                                //"https://dc.services.visualstudio.com/v2/track", 
-//                                "rt.services.visualstudio.com/v2/track",
-//                                "cdn.linkedin.oribi.io",
-//             //"*.clarity.ms",
-//             //"https://td.doubleclick.net",
-//             //"https://px.ads.linkedin.com/wa/"
-//         });
-
-//     builder.AddFontSrc()
-//         .Self()
-//         .From(new[] { cdnUrl, "https://fonts.gstatic.com" });
-
-//     builder.AddObjectSrc()
-//         .None();
-
-//     builder.AddFormAction()
-//         .Self()
-//         .From(new[]
-//         {
-//                                "https://www.facebook.com",
-//             //"*.qualtrics.com",
-//             //"*.clarity.ms",
-//             //"https://td.doubleclick.net"
-//         });
-
-
-
-//     var scriptSrc = builder.AddScriptSrc()
-//         .Self()
-//         .From(new[]
-//         {
-//                                cdnUrl,
-//             //"https://tagmanager.google.com",
-//             //"https://www.google-analytics.com/",
-//             //"https://www.googletagmanager.com",
-//             //"https://www.googleadservices.com",
-//             //"https://ssl.google-analytics.com",
-//             //"https://googleads.g.doubleclick.net",
-//             //"https://acdn.adnxs.com",
-//             //"https://www.youtube-nocookie.com",
-//             //"https://www.youtube.com",
-//             //"https://snap.licdn.com",
-//             //"https://analytics.twitter.com",
-//             //"https://static.ads-twitter.com",
-//             //"https://connect.facebook.net",
-//             ////"*.qualtrics.com",
-//             ////"*.clarity.ms",
-//             //"https://td.doubleclick.net"
-//         })
-//         // this is needed for GTM and YouTube embedding
-//         .UnsafeEval()
-//         .UnsafeInline();
-//     // if we wanted the nonce back, we'd add `.WithNonce();` here
-
-//     builder.AddStyleSrc()
-//         .Self()
-//         .From(new[]
-//         {
-//                                cdnUrl,
-//                                "https://www.googletagmanager.com",
-//                                "https://tagmanager.google.com",
-//                                "https://fonts.googleapis.com"
-//         })
-//         .StrictDynamic()
-//         .UnsafeInline();
-
-//     builder.AddMediaSrc()
-//         .None();
-
-//     builder.AddFrameAncestors()
-//         .None();
-
-//     builder.AddBaseUri()
-//         .Self();
-
-//     builder.AddFrameSrc()
-//         .From(new[]
-//         {
-//                                "https://www.googletagmanager.com",
-//                                "https://www.youtube-nocookie.com",
-//                                "https://2673654.fls.doubleclick.net",
-//                                "https://www.facebook.com",
-//                                //"*.qualtrics.com",
-//                                //"*.clarity.ms",
-//                                "https://td.doubleclick.net",
-//                                "https://videos.ctfassets.net/",
-//                                "https://www.youtube.com/"
-//         });
-
-//     // Add frame-ancestors directive allowing embedding from specific domain(s)
-//     builder.AddFrameAncestors()
-//            .From("https://app.contentful.com");
-
-
-// })
-
 
 #pragma warning restore CA1861
 #pragma warning restore S1075
