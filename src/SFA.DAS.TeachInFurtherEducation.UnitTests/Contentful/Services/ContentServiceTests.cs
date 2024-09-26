@@ -287,6 +287,99 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
             Assert.Equal(string.Empty, emptyResult);
         }
 
+        [Fact]
+        public async Task GetAssetsByTags_ShouldReturnAssets_WhenValidTagsProvided()
+        {
+            // Arrange
+            var tags = new[] { "tag1", "tag2" };
+
+            var asset1 = new Asset
+            {
+                SystemProperties = new SystemProperties
+                {
+                    Id = "asset1",
+                    UpdatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.AddDays(-2)
+                },
+                File = new File
+                {
+                    Url = "https://example.com/asset1.jpg",
+                    FileName = "asset1.jpg"
+                }
+            };
+
+            var asset2 = new Asset
+            {
+                SystemProperties = new SystemProperties
+                {
+                    Id = "asset2",
+                    UpdatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.AddDays(-1)
+                },
+                File = new File
+                {
+                    Url = "https://example.com/asset2.jpg",
+                    FileName = "asset2.jpg"
+                }
+            };
+
+            var collection1 = new ContentfulCollection<Asset>()
+            {
+                Items = new List<Asset> { asset1 },
+                Total = 1, 
+                Skip = 0, 
+                Limit = 100
+            };
+
+            var collection2 = new ContentfulCollection<Asset>()
+            {
+                Items = new List<Asset> { asset2 },
+                Total = 1,
+                Skip = 0,
+                Limit = 100
+            };
+
+            // Fake GetAssetsByTags for each tag
+            A.CallTo(() => ContentfulClient.GetAssets($"?metadata.tags.sys.id[in]={tags[0]}", A<CancellationToken>._))
+                .Returns(Task.FromResult(collection1));
+
+            A.CallTo(() => ContentfulClient.GetAssets($"?metadata.tags.sys.id[in]={tags[1]}", A<CancellationToken>._))
+                .Returns(Task.FromResult(collection2));
+
+            // Fake GetAsset for each asset ID
+            A.CallTo(() => ContentfulClient.GetAsset("asset1", (string?)null, A<CancellationToken>._)).Returns(Task.FromResult(asset1));
+            A.CallTo(() => ContentfulClient.GetAsset("asset2", (string?)null, A<CancellationToken>._)).Returns(Task.FromResult(asset2));
+
+            // Fake DownloadAssetContentAsync for each asset URL
+            var content1 = new byte[] { 1, 2, 3 };
+            var content2 = new byte[] { 4, 5, 6 };
+
+            A.CallTo(() => AssetDownloader.DownloadAssetContentAsync("https://example.com/asset1.jpg"))
+                .Returns(Task.FromResult<byte[]?>(content1));
+            A.CallTo(() => AssetDownloader.DownloadAssetContentAsync("https://example.com/asset2.jpg"))
+                .Returns(Task.FromResult<byte[]?>(content2));
+
+            // Act
+            var result = await ContentService.GetAssetsByTags(tags);
+
+            // Assert
+            Assert.Equal(2, result.Count);
+
+            var returnedAsset1 = result.FirstOrDefault(a => a.Metadata.Id == "asset1");
+            Assert.NotNull(returnedAsset1);
+            Assert.Equal("asset1.jpg", returnedAsset1.Metadata.Filename);
+            Assert.Equal("https://example.com/asset1.jpg", returnedAsset1.Metadata.Url);
+            Assert.Equal(asset1.SystemProperties.UpdatedAt, returnedAsset1.Metadata.LastUpdated);
+            Assert.True(returnedAsset1.Content.SequenceEqual(content1));
+
+            var returnedAsset2 = result.FirstOrDefault(a => a.Metadata.Id == "asset2");
+            Assert.NotNull(returnedAsset2);
+            Assert.Equal("asset2.jpg", returnedAsset2.Metadata.Filename);
+            Assert.Equal("https://example.com/asset2.jpg", returnedAsset2.Metadata.Url);
+            Assert.Equal(asset2.SystemProperties.UpdatedAt, returnedAsset2.Metadata.LastUpdated);
+            Assert.True(returnedAsset2.Content.SequenceEqual(content2));
+        }
+
         private void CreateContentService()
         {
             ContentService = new ContentService(

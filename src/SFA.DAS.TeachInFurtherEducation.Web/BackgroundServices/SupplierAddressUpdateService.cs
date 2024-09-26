@@ -43,7 +43,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
         public SupplierAddressUpdateService(
             IServiceScopeFactory serviceScopeFactory,
             IOptions<SupplierAddressUpdateServiceOptions> supplierAddressUpdateServiceOptions,
-            ILogger<SupplierAddressUpdateService> logger)
+            ILogger<SupplierAddressUpdateService> logger, 
+            DateTime? lastAssetPublishedDate = null)
         {
             _logger = logger;
             _serviceScopeFactory = serviceScopeFactory;
@@ -56,6 +57,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
                 throw new ConfigurationMissingException("SupplierAddressUpdates:CronSchedule");
 
             _cronExpression = CronExpression.Parse(options.CronSchedule);
+            _lastAssetPublishedDate = lastAssetPublishedDate;
         }
 
         //todo: page with content version?
@@ -70,14 +72,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
                 return;
             }
 
-            try
-            {
-                await PerformSupplierAddressUpdate();
-            }
-            catch (Exception exception)
-            {
-                _logger.Log(LogLevel.Error, exception, "Initial Supplier Address Update failed!");
-            }
+            await PerformSupplierAddressUpdate();
 
             var delay = TimeToNextInvocation(DateTime.UtcNow);
 
