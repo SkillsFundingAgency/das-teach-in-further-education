@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A9C4AD43
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.TeachInFurtherEducation.UnitTests", "SFA.DAS.TeachInFurtherEducation.UnitTests\SFA.DAS.TeachInFurtherEducation.UnitTests.csproj", "{FF1EFD1A-A627-4A47-984B-E8DBF383265E}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SFA.DAS.TeachInFurtherEducation.Database", "SFA.DAS.TeachInFurtherEducation.Database\SFA.DAS.TeachInFurtherEducation.Database.sqlproj", "{922441E0-C0C6-4691-8AE4-24AA9ED3012A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,12 @@ Global
 		{FF1EFD1A-A627-4A47-984B-E8DBF383265E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF1EFD1A-A627-4A47-984B-E8DBF383265E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF1EFD1A-A627-4A47-984B-E8DBF383265E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{922441E0-C0C6-4691-8AE4-24AA9ED3012A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{922441E0-C0C6-4691-8AE4-24AA9ED3012A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{922441E0-C0C6-4691-8AE4-24AA9ED3012A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{922441E0-C0C6-4691-8AE4-24AA9ED3012A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{922441E0-C0C6-4691-8AE4-24AA9ED3012A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{922441E0-C0C6-4691-8AE4-24AA9ED3012A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
