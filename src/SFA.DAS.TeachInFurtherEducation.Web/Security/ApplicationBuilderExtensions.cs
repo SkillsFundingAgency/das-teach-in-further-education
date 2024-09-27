@@ -112,7 +112,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
                         .From(new[] { "https://localhost" });
 
                     connectSrc
-                        .From(new[] { "http://localhost", "https://localhost", "ws://localhost", "wss://localhost", "http://localhost:64212", "ws://localhost:64212", "https://localhost:44350", "wss://localhost:44350" })
+                        .From(new[] { "http://localhost", "https://localhost", "ws://localhost", "wss://localhost", "http://localhost:64212", "ws://localhost:64212", "https://localhost:44350", "wss://localhost:44350" });
                 }
             })
             .AddCustomHeader("X-Permitted-Cross-Domain-Policies", "none")
