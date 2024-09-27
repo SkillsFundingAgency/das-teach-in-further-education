@@ -103,7 +103,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                 {
                     var getSafeKey = (string exp, string defaultKey) =>
                     {
-                        return rawData[0].Keys.FirstOrDefault(k => Regex.IsMatch(k, exp, RegexOptions.IgnoreCase), defaultKey);
+                        return rawData[0].Keys.FirstOrDefault(k => Regex.IsMatch(k, exp, RegexOptions.IgnoreCase, new TimeSpan(0,0,30)), defaultKey);
                     };
 
                     var orgsNameKey = getSafeKey(@"^.*?\sName\s*$", "SupplierName");
