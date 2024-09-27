@@ -54,6 +54,9 @@
             case LineSeparator lineSeparator:
                 @await Html.PartialAsync("_LineSeparatorPartial", lineSeparator)
                 break;
+            case UserJourney userJourney:
+                @await Html.PartialAsync("_UserJourneyPartial", userJourney)
+                break;
 
             default:
 
