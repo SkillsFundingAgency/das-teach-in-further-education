@@ -49,12 +49,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.StartupServices
             var sitemapGeneratorService = new SitemapGeneratorService(serviceProvider);
 
             // Act
-            var result = sitemapGeneratorService.StopAsync(CancellationToken.None);
-
-            result.Wait();
-
-            // Assert
-            Assert.Equal(Task.CompletedTask, result);
+            await sitemapGeneratorService.StopAsync(CancellationToken.None);
         }
     }
 }

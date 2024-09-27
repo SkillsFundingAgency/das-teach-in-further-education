@@ -159,7 +159,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.BackgroundServices
 
         [Theory]
         [InlineData(null)]
-        public async Task PerformSupplierAddressUpdate_NullOrEmptySourceSupplierList_ShouldLogWarning(List<SupplierAddressModel>? sourceSuppliers)
+        public async Task PerformSupplierAddressUpdate_NullOrEmptySourceSupplierList_ShouldLogWarning(List<SupplierAddressModel> sourceSuppliers)
         {
             // Arrange
             A.CallTo(() => _supplierAddressService.GetSupplierAddressAssetLastPublishedDate())

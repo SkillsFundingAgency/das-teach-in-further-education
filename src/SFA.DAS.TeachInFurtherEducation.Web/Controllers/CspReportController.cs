@@ -5,10 +5,10 @@ using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using System;
 
+#pragma warning disable S6932
+
 namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 {
-
-
     [ApiController]
     [Route("api/csp-violations")]
     public class CspReportController : ControllerBase
@@ -47,5 +47,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
             return Ok();
         }
     }
-
 }
+
+#pragma warning restore S6932

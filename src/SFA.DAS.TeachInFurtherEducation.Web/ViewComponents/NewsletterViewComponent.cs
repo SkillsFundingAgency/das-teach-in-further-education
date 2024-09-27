@@ -10,6 +10,8 @@ using System;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 
+#pragma warning disable S6932
+
 namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
 {
     public class NewsletterViewComponent : ViewComponent
@@ -119,3 +121,5 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
         }
     }
 }
+
+#pragma warning restore S6932

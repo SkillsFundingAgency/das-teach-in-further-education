@@ -347,17 +347,18 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
                 .Returns(Task.FromResult(collection2));
 
             // Fake GetAsset for each asset ID
-            A.CallTo(() => ContentfulClient.GetAsset("asset1", (string?)null, A<CancellationToken>._)).Returns(Task.FromResult(asset1));
-            A.CallTo(() => ContentfulClient.GetAsset("asset2", (string?)null, A<CancellationToken>._)).Returns(Task.FromResult(asset2));
+            A.CallTo(() => ContentfulClient.GetAsset("asset1", default(string), A<CancellationToken>._)).Returns(Task.FromResult(asset1));
+            A.CallTo(() => ContentfulClient.GetAsset("asset2", default(string), A<CancellationToken>._)).Returns(Task.FromResult(asset2));
 
             // Fake DownloadAssetContentAsync for each asset URL
             var content1 = new byte[] { 1, 2, 3 };
             var content2 = new byte[] { 4, 5, 6 };
 
             A.CallTo(() => AssetDownloader.DownloadAssetContentAsync("https://example.com/asset1.jpg"))
-                .Returns(Task.FromResult<byte[]?>(content1));
+                .Returns(Task.FromResult<byte[]>(content1));
+
             A.CallTo(() => AssetDownloader.DownloadAssetContentAsync("https://example.com/asset2.jpg"))
-                .Returns(Task.FromResult<byte[]?>(content2));
+                .Returns(Task.FromResult<byte[]>(content2));
 
             // Act
             var result = await ContentService.GetAssetsByTags(tags);
