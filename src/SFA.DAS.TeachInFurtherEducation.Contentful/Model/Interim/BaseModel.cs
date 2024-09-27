@@ -5,7 +5,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class Common
+    public class BaseModel
     {
         public string? DataId { get; set; }
     }
