@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
 using System.Diagnostics.CodeAnalysis;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using System.Web;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 {
@@ -39,7 +41,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
         /// <exception cref="Exception">Thrown when no location is found or if all retry attempts fail.</exception>
         public async Task<LocationModel?> GetLocationByPostcode(string postcode)
         {
-            var requestUri = $"https://api.postcodes.io/postcodes/{postcode}";
+            var requestUri = $"https://api.postcodes.io/postcodes/{HttpUtility.UrlEncode(postcode)}";
 
             for (int retry = 0; retry < MaxRetries; retry++)
             {
