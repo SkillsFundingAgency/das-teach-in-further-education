@@ -31,6 +31,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
             if (entity == null) throw new ArgumentNullException("entity");
 
             var keyString = $"{entity.Type}|{entity.OrganisationName}|{entity.ParentOrganisation}|{entity.AddressLine1}|{entity.AddressLine2}|{entity.AddressLine3}|{entity.Area}|{entity.City}|{entity.Postcode}|{entity.Telephone}|{entity.Website}";
+            
+#pragma warning disable S4790
 
             using (var md5 = MD5.Create())
             {
@@ -44,6 +46,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
 
                 return hashBuilder.ToString();
             }
+
+#pragma warning restore S4790
         }
     }
 }

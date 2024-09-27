@@ -112,6 +112,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             }
         }
 
+#pragma warning disable S4790
+
         private static string CreateMd5Hash(string input)
         {
             using (var md5 = MD5.Create())
@@ -126,5 +128,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                 return sb.ToString();
             }
         }
+
+#pragma warning restore S4790
     }
 }
