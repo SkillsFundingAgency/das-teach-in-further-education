@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +34,15 @@ using SFA.DAS.TeachInFurtherEducation.Web.Security;
 using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.StartupServices;
+using System;
+using SFA.DAS.TeachInFurtherEducation.Web.Exceptions;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using SFA.DAS.TeachInFurtherEducation.Web.Controllers;
+using SFA.DAS.TeachInFurtherEducation.Web.Models;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using NetEscapades.AspNetCore.SecurityHeaders;
+using System.Security.Cryptography;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -47,13 +58,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             Configuration = new ConfigurationBuilder()
                 .AddConfiguration(configuration)
 
-                .AddAzureTableStorage(options =>
-                {
-                    options.ConfigurationKeys = configuration["ConfigNames"]?.Split(",");
-                    options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
-                    options.EnvironmentName = configuration["EnvironmentName"];
-                    options.PreFixConfigurationKeys = false;
-                })
+                //.AddAzureTableStorage(options =>
+                //{
+                //    options.ConfigurationKeys = configuration["ConfigNames"]?.Split(",");
+                //    options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
+                //    options.EnvironmentName = configuration["EnvironmentName"];
+                //    options.PreFixConfigurationKeys = false;
+                //})
                 .Build();
         }
 
@@ -104,6 +115,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                         "/js/cookies/cookies-page.js");
                     assetPipeline.AddCssBundle("/css/site.css", "/css/site.css");
                 }
+            });
+
+            services.AddAntiforgery(options =>
+            {
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -162,6 +178,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 options.InputFormatters.Insert(0, new CspReportInputFormatter());
             });
 
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<ExceptionFilter>();
+            });
+
             services.AddSingleton<ICspReportService, CspReportService>();
 
             // Register IHttpContextAccessor for accessing HttpContext
@@ -186,39 +207,42 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
         {
             app.UseAppSecurityHeaders(env, configuration);
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/error/500");
+            
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+                //app.UseExceptionHandler("/error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
+            //}
 
             app.UseHttpsRedirection();
             app.UseWebOptimizer();
             app.UseStaticFiles();
 
+            app.UseXMLSitemap(env.ContentRootPath);
+            app.UseRouting();
+            app.UseAuthorization();
+
             app.Use(async (context, next) =>
             {
                 await next();
 
-                if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
-                {
-                    //Re-execute the request so the user gets the error page
-                    var originalPath = context.Request.Path.Value;
-                    context.Items["originalPath"] = originalPath;
-                    context.Request.Path = "/error/404";
-                    await next();
-                }
-            });
+                //if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
+                //{
+                //    var originalPath = context.Request.Path;
 
-            app.UseXMLSitemap(env.ContentRootPath);
-            app.UseRouting();
-            app.UseAuthorization();
+                //    if (!originalPath.StartsWithSegments("/error"))
+                //    {
+                //        context.Items["originalPath"] = originalPath.Value;
+                //        context.Request.Path = "/error/404";
+                //        await next();
+                //    }
+                //}
+            });
 
             app.UseHealthChecks("/ping", new HealthCheckOptions
             {
@@ -232,6 +256,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             });
 
             app.UseHealthChecks("/health");
+
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
 
             app.UseEndpoints(endpoints =>
             {
@@ -256,6 +282,86 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         private static void MapControllerRoute(IEndpointRouteBuilder builder, string name, string pattern, string controller, string action)
         {
             builder.MapControllerRoute(name, pattern, new { controller, action });
+        }
+    }
+
+    public class ExceptionFilter : IExceptionFilter
+    {
+        private readonly ILogger<ErrorController> _logger;
+
+        private static readonly LayoutModel LayoutModel = new LayoutModel();
+
+        private readonly IContentService _contentService;
+
+        public ExceptionFilter(ILogger<ErrorController> logger, IContentService contentService)
+        {
+            _logger = logger;
+            _contentService = contentService;
+        }
+
+        public void OnException(ExceptionContext context)
+        {
+            // Log the exception details for debugging purposes
+            _logger.LogError(context.Exception, "An unhandled exception occurred.");
+
+            LayoutModel.footerLinks = _contentService.Content.FooterLinks;
+            LayoutModel.MenuItems = _contentService.Content.MenuItems;
+
+            var statusCode = 500;
+            var viewName = "~/Views/Error/ApplicationError.cshtml";
+
+            if (context.Exception is PageNotFoundException)
+            {
+                statusCode = 404;
+                viewName = "~/Views/Error/PageNotFound.cshtml";
+            }
+
+            context.HttpContext.Response.StatusCode = statusCode;
+
+            var viewData = new ViewDataDictionary(
+                new EmptyModelMetadataProvider(),
+                context.ModelState)
+                {
+                    Model = LayoutModel 
+                };
+
+            // Add exception details to ViewData
+            viewData["StatusCode"] = statusCode;
+            viewData["ErrorMessage"] = context.Exception.Message;
+
+            context.Result = new ViewResult
+            {
+                ViewName = viewName,
+                ViewData = viewData
+            };
+
+            context.ExceptionHandled = true;
+        }
+    }
+
+    /// <summary>
+    /// Generates nonce values using <see cref="RandomNumberGenerator"/>
+    /// </summary>
+    internal class NonceGenerator
+    {
+        // RandomNumberGenerator.Create is preferred over calling the constructor of the derived class RNGCryptoServiceProvider.
+        // https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator?view=netframework-4.7.2#remarks
+        private readonly RandomNumberGenerator _random = RandomNumberGenerator.Create();
+
+        /// <summary>
+        /// Generate a nonce
+        /// </summary>
+        /// <param name="nonceBytes">The number of bytes used to generate a nonce</param>
+        /// <returns>The nonce as a string</returns>
+        public string GetNonce(int nonceBytes = 32)
+        {
+            // Probably no point in using ArrayPool as these are such small arrays.
+            // Adds a slight GC pressure but https://adamsitnik.com/Array-Pool/ suggests
+            // it's probably OK
+            var bytes = new byte[nonceBytes];
+            _random.GetBytes(bytes);
+
+            return Convert.ToBase64String(bytes);
         }
     }
 }

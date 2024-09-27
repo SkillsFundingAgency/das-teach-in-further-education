@@ -6,13 +6,13 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewData["Title"] = $"{Model.PageTitle}{(Model.Preview.IsPreview ? " Preview" : "")}";
+    ViewData["Title"] = Model!= null ? $"{Model.PageTitle}{(Model.Preview.IsPreview ? " Preview" : "")}" : "";
 }
 
 @section PreviewErrors {
-    @await Html.PartialAsync("_PreviewErrorsPartial", Model.Preview)
+    @await Html.PartialAsync("_PreviewErrorsPartial", Model?.Preview)
 }
-@if (Model.PageComponents != null)
+@if (Model?.PageComponents != null)
 {
     @foreach (var component in Model.PageComponents)
     {

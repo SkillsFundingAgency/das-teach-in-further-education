@@ -1,11 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using NetEscapades.AspNetCore.SecurityHeaders;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 {
+
 #pragma warning disable S1075
 #pragma warning disable CA1861
 
@@ -49,79 +56,154 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
         /// This will make our site less secure, but is a trade-off between security and tracking functionality.
         /// </summary>
 
+        private static void BuildCsp(CspBuilder builder, IWebHostEnvironment env, IConfiguration configuration)
+        {
+            string cdnUrl = configuration["cdn:url"]!;
+            string[] clarity = new[] { "https://a.clarity.ms", "https://b.clarity.ms", "https://c.clarity.ms", "https://d.clarity.ms", "https://e.clarity.ms", "https://f.clarity.ms", "https://g.clarity.ms", "https://h.clarity.ms", "https://i.clarity.ms", "https://j.clarity.ms", "https://k.clarity.ms", "https://l.clarity.ms", "https://m.clarity.ms", "https://n.clarity.ms", "https://o.clarity.ms", "https://p.clarity.ms", "https://q.clarity.ms", "https://r.clarity.ms", "https://s.clarity.ms", "https://t.clarity.ms", "https://u.clarity.ms", "https://v.clarity.ms", "https://w.clarity.ms", "https://x.clarity.ms", "https://y.clarity.ms", "https://z.clarity.ms" };
+
+            builder.AddCustomDirective("report-to", "csp-violations");
+
+            // Deprecated in favour of report-to
+            //builder.AddReportUri().To(cspViolationReportUrl);
+                       
+
+            builder.AddUpgradeInsecureRequests();
+            
+            builder.AddDefaultSrc()
+                .Self()
+                .From(cdnUrl);
+
+            builder.AddImgSrc()
+                .Self()
+                .From(new[] { cdnUrl, "https://ssl.gstatic.com", "https://www.gstatic.com", "https://www.google-analytics.com", "https://images.ctfassets.net" });
+
+            var connectSrc = builder.AddConnectSrc()
+                .Self()
+                .From(clarity);
+
+            builder.AddFormAction()
+                .Self()
+                .From(clarity);
+
+            builder.AddFrameAncestors()
+                .Self()
+                .From("https://app.contentful.com");
+
+            builder.AddFrameSrc()
+                .Self()
+                .From(new[] { "https://videos.ctfassets.net" })
+                .From(clarity);
+
+            builder.AddFontSrc()
+                .Self()
+                .From(new[] { cdnUrl, "https://fonts.gstatic.com", "https://rsms.me" });
+
+            var scriptSrc = builder.AddScriptSrc()
+                .Self()
+                .WithNonce()
+                .From(new[] { "https://das-at-frnt-end.azureedge.net", "https://das-at-frnt-end.azureedge.net/libs/jquery/jquery.min.js" });
+
+            builder.AddStyleSrc()
+                    .Self()
+                    .From(new[] { cdnUrl, "https://rsms.me" });
+
+            // Allow inline styles and scripts for development
+            if (env.IsDevelopment())
+            {
+                scriptSrc
+                    .From(new[] { "https://localhost" });
+
+                connectSrc
+                    .From(new[] { "http://localhost", "https://localhost", "ws://localhost", "wss://localhost", "http://localhost:64212", "ws://localhost:64212", "https://localhost:44350", "wss://localhost:44350" });
+            }
+
+            
+        }
+
+
         public static IApplicationBuilder UseAppSecurityHeaders(
             this IApplicationBuilder app,
             IWebHostEnvironment env,
             IConfiguration configuration)
         {
-            string cdnUrl = configuration["cdn:url"]!;
-            string cspViolationReportUrl = configuration["csp:violationReportUrl"]!;
-            string[] clarity = new[] { "https://a.clarity.ms", "https://b.clarity.ms", "https://c.clarity.ms", "https://d.clarity.ms", "https://e.clarity.ms", "https://f.clarity.ms", "https://g.clarity.ms", "https://h.clarity.ms", "https://i.clarity.ms", "https://j.clarity.ms", "https://k.clarity.ms", "https://l.clarity.ms", "https://m.clarity.ms", "https://n.clarity.ms", "https://o.clarity.ms", "https://p.clarity.ms", "https://q.clarity.ms", "https://r.clarity.ms", "https://s.clarity.ms", "https://t.clarity.ms", "https://u.clarity.ms", "https://v.clarity.ms", "https://w.clarity.ms", "https://x.clarity.ms", "https://y.clarity.ms", "https://z.clarity.ms" };
-
             _ = app.UseSecurityHeaders(policies =>
-            policies.AddDefaultSecurityHeaders()
-            .AddContentSecurityPolicy(builder =>
-            {
-                builder.AddReportUri()
-                    .To(cspViolationReportUrl);
-
-                builder.AddUpgradeInsecureRequests();
-
-                builder.AddDefaultSrc()
-                    .Self()
-                    .From(cdnUrl);
-
-                builder.AddImgSrc()
-                    .Self()
-                    .From(new[] { cdnUrl, "https://ssl.gstatic.com", "https://www.gstatic.com", "https://www.google-analytics.com", "https://images.ctfassets.net" });
-
-                var connectSrc = builder.AddConnectSrc()
-                    .Self()
-                    .From(clarity);
-
-                builder.AddFormAction()
-                    .Self()
-                    .From(clarity);
-
-                builder.AddFrameAncestors()
-                    .Self()
-                    .From("https://app.contentful.com");
-
-                builder.AddFrameSrc()
-                    .Self()
-                    .From(new[] { "https://videos.ctfassets.net" })
-                    .From(clarity);
-
-                builder.AddFontSrc()
-                    .Self()
-                    .From(new[] { cdnUrl, "https://fonts.gstatic.com", "https://rsms.me" });
-
-                var scriptSrc = builder.AddScriptSrc()
-                    .Self()
-                    .From(new[] { "https://das-at-frnt-end.azureedge.net" })
-                    .WithNonce();
-
-                builder.AddStyleSrc()
-                        .Self()
-                        .From(new[] { cdnUrl, "https://rsms.me", "https://rsms.me" });
-
-                // Allow inline styles and scripts for development
-                if (env.IsDevelopment())
-                {
-                    scriptSrc
-                        .From(new[] { "https://localhost" });
-
-                    connectSrc
-                        .From(new[] { "http://localhost", "https://localhost", "ws://localhost", "wss://localhost", "http://localhost:64212", "ws://localhost:64212", "https://localhost:44350", "wss://localhost:44350" });
-                }
-            })
-            .AddCustomHeader("X-Permitted-Cross-Domain-Policies", "none")
-            .AddXssProtectionBlock());
+                policies
+                    .AddDefaultSecurityHeaders()
+                    .AddContentSecurityPolicy(builder => BuildCsp(builder, env, configuration))
+                    .AddCustomHeader("X-Permitted-Cross-Domain-Policies", "none")
+                    .AddXssProtectionBlock()
+                    .AddReportingEndpoints(builder => builder.AddEndpoint("csp-violations", configuration["csp:violationReportUrl"]!))
+                    .RemoveServerHeader()
+                    .RemoveCustomHeader("X-Powered-By")
+             );
 
             return app;
         }
     }
 }
 
+
+
 #pragma warning restore CA1861
 #pragma warning restore S1075
+
+
+
+//.AddContentSecurityPolicy(builder =>
+// {
+//     builder.AddCustomDirective("report-to", cspViolationReportUrl);
+
+//     //builder.AddReportUri()
+//     //    .To(cspViolationReportUrl);
+
+//     builder.AddUpgradeInsecureRequests();
+
+//     builder.AddDefaultSrc()
+//         .Self()
+//         .From(cdnUrl);
+
+//     builder.AddImgSrc()
+//         .Self()
+//         .From(new[] { cdnUrl, "https://ssl.gstatic.com", "https://www.gstatic.com", "https://www.google-analytics.com", "https://images.ctfassets.net" });
+
+//     var connectSrc = builder.AddConnectSrc()
+//         .Self()
+//         .From(clarity);
+
+//     builder.AddFormAction()
+//         .Self()
+//         .From(clarity);
+
+//     builder.AddFrameAncestors()
+//         .Self()
+//         .From("https://app.contentful.com");
+
+//     builder.AddFrameSrc()
+//         .Self()
+//         .From(new[] { "https://videos.ctfassets.net" })
+//         .From(clarity);
+
+//     builder.AddFontSrc()
+//         .Self()
+//         .From(new[] { cdnUrl, "https://fonts.gstatic.com", "https://rsms.me" });
+
+//     var scriptSrc = builder.AddScriptSrc()
+//         .Self()
+//         .WithNonce()
+//         .From(new[] { "{scriptSources}" });
+//     //.From(new[] { "https://das-at-frnt-end.azureedge.net" });
+
+//     builder.AddStyleSrc()
+//             .Self()
+//             .From(new[] { cdnUrl, "https://rsms.me", "https://rsms.me" });
+
+//     // Allow inline styles and scripts for development
+//     if (env.IsDevelopment())
+//     {
+//         scriptSrc
+//             .From(new[] { "https://localhost" });
+
+//         connectSrc
+//             .From(new[] { "http://localhost", "https://localhost", "ws://localhost", "wss://localhost", "http://localhost:64212", "ws://localhost:64212", "https://localhost:44350", "wss://localhost:44350" });
+//     }
+// })

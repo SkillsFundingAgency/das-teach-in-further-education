@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using SFA.DAS.TeachInFurtherEducation.Web.Exceptions;
 using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
@@ -21,14 +23,23 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
         {
             PageContentModel? pageModel = _contentModelService.GetPageContentModel(pageUrl);
 
-            return View(nameof(Landing), pageModel);
+            if (pageModel == null)
+            {
+                throw new PageNotFoundException($"The requested url {pageUrl} could not be found");
+            }
 
+            return View(nameof(Landing), pageModel);
         }
 
-        public async Task<IActionResult> PagePreview(string pageURL = "home")
+        public async Task<IActionResult> PagePreview(string pageUrl = "home")
         {
 
-            PageContentModel? pageModel = await _contentModelService.GetPagePreviewModel(pageURL);
+            PageContentModel? pageModel = await _contentModelService.GetPagePreviewModel(pageUrl);
+
+            if (pageModel == null)
+            {
+                throw new PageNotFoundException($"The requested url {pageUrl} could not be found");
+            }
 
             return View(nameof(Landing), pageModel);
 

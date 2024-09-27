@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 {
-    [Route("error")]
     public class ErrorController : Controller
     {
         private readonly ILogger<ErrorController> _log;
@@ -28,41 +27,70 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 
         }
 
-        [Route("404", Name = RouteNames.Error404)]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult PageNotFound()
+        [Route("error/{statusCode}")]
+        public IActionResult HandleError(int? statusCode)
         {
-
             try
             {
-
                 LayoutModel.footerLinks = _contentService.Content.FooterLinks;
                 LayoutModel.MenuItems = _contentService.Content.MenuItems;
 
-                return View(LayoutModel);
-
+                if (statusCode.HasValue)
+                {
+                    switch (statusCode.Value)
+                    {
+                        case 404:
+                            return View("PageNotFound", LayoutModel);
+                        case 500:
+                            return View("ApplicationError", LayoutModel);
+                    }
+                }
+                return View("ApplicationError", LayoutModel);
             }
-            catch(Exception _exception)
+            catch (Exception _exception)
             {
-
                 _log.LogError(_exception, "Unable to get model with populated footer");
 
-                return View(LayoutModel);
-
+                return View("ApplicationError", LayoutModel);
             }
-
         }
 
-        [Route("500", Name = RouteNames.Error500)]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult ApplicationError()
-        {
-            LayoutModel.footerLinks = _contentService.Content.FooterLinks;
-            LayoutModel.MenuItems = _contentService.Content.MenuItems;
 
-            IExceptionHandlerPathFeature? feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            _log.LogError($"500 result at {feature?.Path ?? "{unknown}"}", feature?.Error);
-            return View(LayoutModel);
-        }
+        //[Route("404", Name = RouteNames.Error404)]
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public IActionResult PageNotFound()
+        //{
+
+        //    try
+        //    {
+
+        //        LayoutModel.footerLinks = _contentService.Content.FooterLinks;
+        //        LayoutModel.MenuItems = _contentService.Content.MenuItems;
+
+        //        return View(LayoutModel);
+
+        //    }
+        //    catch(Exception _exception)
+        //    {
+
+        //        _log.LogError(_exception, "Unable to get model with populated footer");
+
+        //        return View(LayoutModel);
+
+        //    }
+
+        //}
+
+        //[Route("500", Name = RouteNames.Error500)]
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public IActionResult ApplicationError()
+        //{
+        //    LayoutModel.footerLinks = _contentService.Content.FooterLinks;
+        //    LayoutModel.MenuItems = _contentService.Content.MenuItems;
+
+        //    IExceptionHandlerPathFeature? feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+        //    _log.LogError($"500 result at {feature?.Path ?? "{unknown}"}", feature?.Error);
+        //    return View(LayoutModel);
+        //}
     }
 }
