@@ -16,7 +16,6 @@
     LastUpdated DATETIME2 NOT NULL,
     IsActive BIT NOT NULL
 );
+GO
 
--- Create a non-clustered index on Postcode
-CREATE NONCLUSTERED INDEX IX_SupplierAddresses_Postcode
-ON SupplierAddresses (Postcode);
+CREATE INDEX [IX_SupplierAddresses_Postcode] ON [dbo].[SupplierAddresses] ([Postcode])
