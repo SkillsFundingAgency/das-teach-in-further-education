@@ -5,7 +5,7 @@
     Type NVARCHAR(100) NOT NULL,
     Area NVARCHAR(100) NOT NULL,
     City NVARCHAR(100) NOT NULL,
-    AddressLine1 NVARCHAR(100),
+    AddressLine1 NVARCHAR(100) NOT NULL,
     AddressLine2 NVARCHAR(100),
     AddressLine3 NVARCHAR(100),
     County NVARCHAR(50),
