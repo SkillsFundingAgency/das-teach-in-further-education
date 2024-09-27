@@ -1,4 +1,5 @@
 ﻿using Contentful.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -25,6 +26,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
         public List<SelectOption> LocationSelectOptions { get; set; } = [];
 
         public string? SelectedOption { get; set; }
-    }
 
+        public required string SuccessMessage { get; set; } = "You have successfully subscribed to the newsletter!";
+    }
 }

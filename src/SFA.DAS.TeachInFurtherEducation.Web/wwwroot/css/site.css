@@ -107,4 +107,17 @@
         }
     }
 }
- 
+
+/*Added by SPAR to ensure that the first column of summary lists is an equal width*/
+.govuk-summary-list__row {
+    display: flex !important;
+    justify-content: space-between !important; /* Distribute space between key and value */
+}
+
+.govuk-summary-list__key {
+    flex: 0 0 20% !important; /* Ensure the key column takes up 20% of the width */
+}
+
+.govuk-summary-list__value {
+    flex: 1 !important; /* Value column takes up the remaining space */
+}

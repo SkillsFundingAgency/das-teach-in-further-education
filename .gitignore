@@ -351,3 +351,7 @@ MigrationBackup/
 
 # Often contains sensitive settings
 **/appsettings.Development.json
+
+# Test results
+**/TestResults/**
+**/TestReport/**

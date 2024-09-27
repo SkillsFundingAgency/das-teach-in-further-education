@@ -26,6 +26,7 @@ public class EntityResolver : IContentTypeResolver
             "richTextContents" => typeof(RichTextContents),
             "breadcrumbs" => typeof(Breadcrumbs),
             "breadcrumbLink" => typeof(BreadcrumbLink),
+            "supplierSearch" => typeof(SupplierSearch),
             "fullImageCardBanner" => typeof(FullImageCardBanner),
             "headerFullImage" => typeof(HeaderFullImage),
             "lineSeparator" => typeof(LineSeparator),

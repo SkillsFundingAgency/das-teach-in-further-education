@@ -2,11 +2,14 @@ using System.Diagnostics.CodeAnalysis;
 using AspNetCore.SEOHelper;
 using Contentful.Core.Configuration;
 using Contentful.Core.Models;
+using ContentfulExample.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,9 +18,14 @@ using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Extensions;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices;
+using SFA.DAS.TeachInFurtherEducation.Web.Data;
+using SFA.DAS.TeachInFurtherEducation.Web.Data.Interfaces;
+using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Extensions;
 using SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics;
+using SFA.DAS.TeachInFurtherEducation.Web.Helpers;
 using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure;
 using SFA.DAS.TeachInFurtherEducation.Web.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.Security;
@@ -54,10 +62,25 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddNLog(Configuration)
-                    .AddHealthChecks();
-            services.AddApplicationInsightsTelemetry();
+            var formOptionsConfig = Configuration.GetSection("FormOptions").Get<FormOptionsConfig>();
 
+            // Configure a maxium submission size for security purposes
+            services.Configure<FormOptions>(options =>
+            {
+                // Limit the request body to 4 MB (adjust as necessary)
+                options.MultipartBodyLengthLimit = formOptionsConfig!.MaxRequestBodySize;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
+
+            services.AddRateLimiting(Configuration);
+
+            services.AddNLog(Configuration).AddHealthChecks();
+
+            services.AddApplicationInsightsTelemetry();
 
 
 #if DEBUG
@@ -103,17 +126,57 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             ComponentService.Initialize(logger, viewRenderService, htmlRenderer);
 
+            services.AddSingleton<IAssetDownloader, AssetDownloader>();
+
             services.AddSingleton<IContentModelService, ContentModelService>();
             services.AddSingleton<Contentful.Services.Interfaces.Roots.IPageContentService, SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.PageContentService>();
 
             services.AddSingleton<IPageService, PageService>();
             services.Configure<ContentUpdateServiceOptions>(Configuration.GetSection("ContentUpdates"));
             services.AddSingleton<IContentTypeResolver, EntityResolver>();
-            services.AddContentService(Configuration)
-                .AddHostedService<ContentUpdateService>();
+            services.AddContentService(Configuration).AddHostedService<ContentUpdateService>();
+
+            services.Configure<SupplierAddressUpdateServiceOptions>(Configuration.GetSection("SupplierAddressUpdates"));
+            services.AddHostedService<SupplierAddressUpdateService>();
 
             services.Configure<EndpointsOptions>(Configuration.GetSection("Endpoints"));
             services.Configure<GoogleAnalyticsConfiguration>(Configuration.GetSection("GoogleAnalytics"));
+
+            // Register geolocation service (Postcodes.io in this case)
+            services.AddHttpClient<PostcodesIoGeoLocationService>();
+            services.AddSingleton<IGeoLocationProvider, PostcodesIoGeoLocationService>();
+
+            // Register default Open XML Spreadsheet parser
+            services.AddSingleton<ISpreadsheetParser, OpenXmlSpreadsheetParser>();
+            
+            // Register composite key generator for SupplierAddress
+            services.AddSingleton<ICompositeKeyGenerator<SupplierAddressModel>, SupplierAddressCompositeKeyGenerator>();
+
+            // Register MailChimp service
+            services.Configure<MailChimpMarketingServiceOptions>(Configuration.GetSection("MailChimp"));
+            services.AddSingleton<IMarketingService, MailChimpMarketingService>();
+
+            // Register CSPReportService
+            services.AddControllers(options =>
+            {
+                options.InputFormatters.Insert(0, new CspReportInputFormatter());
+            });
+
+            services.AddSingleton<ICspReportService, CspReportService>();
+
+            // Register IHttpContextAccessor for accessing HttpContext
+            services.AddHttpContextAccessor();
+
+            // Register the DbContext for SQL Server with NetTopologySuite for geospatial support
+            services.AddDbContext<SqlDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration["SqlDB:ConnectionString"],
+                    sqlOptions => sqlOptions.UseNetTopologySuite() 
+                ));
+
+            services.AddScoped<ISupplierAddressRepository, SqlSupplierAddressRepository>();
+            
+            services.AddScoped<ISupplierAddressService, SupplierAddressService>();
 
             services.AddTransient<ISitemap, Sitemap>()
                 .AddHostedService<SitemapGeneratorService>();
@@ -176,14 +239,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                      "landing",
                     "/{pageUrl=home}",
                     "Landing", "Landing");
-         
-            // Preview Route
 
-            MapControllerRoute(endpoints,
+                // Preview Route
+                MapControllerRoute(endpoints,
                     "page-preview",
                     "preview/{pageUrl=home}",
                     "Landing", "PagePreview");
 
+                endpoints.MapControllers();
             });
         }
 
