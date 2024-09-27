@@ -46,29 +46,31 @@
                         {
                             <div class="govuk-summary-list--no-border">
                                 <h4 class="govuk-heading-m">@result.Name</h4>
-                                <div class="govuk-summary-list__row">
-                                    <dt class="govuk-summary-list__key">Website</dt>
-                                    <dd class="govuk-summary-list__value">
-                                        <a href="@result.Website" class="govuk-link" rel="noreferrer noopener" target="_blank">@result.Website (opens in new tab)</a>
-                                    </dd>
-                                </div>
-                                <div class="govuk-summary-list__row">
-                                    <dt class="govuk-summary-list__key">Address</dt>
-                                    <dd class="govuk-summary-list__value">
-                                        @Html.Raw(result.Address)
-                                    </dd>
-                                </div>
-                                @if (!String.IsNullOrEmpty(result.Parent))
-                                {
+                                <dl class="govuk-summary-list govuk-summary-list--no-border">
                                     <div class="govuk-summary-list__row">
-                                        <dt class="govuk-summary-list__key">College group</dt>
-                                        <dd class="govuk-summary-list__value">@result.Parent</dd>
+                                        <dt class="govuk-summary-list__key">Website</dt>
+                                        <dd class="govuk-summary-list__value">
+                                            <a href="@result.Website" class="govuk-link" rel="noreferrer noopener" target="_blank">@result.Website (opens in new tab)</a>
+                                        </dd>
                                     </div>
-                                }
-                                <div class="govuk-summary-list__row">
-                                    <dt class="govuk-summary-list__key">Distance</dt>
-                                    <dd class="govuk-summary-list__value">@result.Distance miles</dd>
-                                </div>
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">Address</dt>
+                                        <dd class="govuk-summary-list__value">
+                                            @Html.Raw(result.Address)
+                                        </dd>
+                                    </div>
+                                    @if (!String.IsNullOrEmpty(result.Parent))
+                                    {
+                                        <div class="govuk-summary-list__row">
+                                            <dt class="govuk-summary-list__key">College group</dt>
+                                            <dd class="govuk-summary-list__value">@result.Parent</dd>
+                                        </div>
+                                    }
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">Distance</dt>
+                                        <dd class="govuk-summary-list__value">@result.Distance miles</dd>
+                                    </div>
+                                </dl>
                             </div>
 
                             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">

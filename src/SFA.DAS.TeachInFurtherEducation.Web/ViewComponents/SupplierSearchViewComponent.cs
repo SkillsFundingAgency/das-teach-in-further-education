@@ -31,6 +31,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                 if (formIdentitfier == _formIdentifier)
                 {
                     var postcode = Request.Form["postcode"].ToString();
+                    postcode = postcode.Replace("\n", "_").Replace("\r", "_");
 
                     int radiusMiles = int.TryParse(Request.Form["radius"], out var parsedRadius) ? parsedRadius : 25;
                     double radiusKm = radiusMiles * 1.60934;
