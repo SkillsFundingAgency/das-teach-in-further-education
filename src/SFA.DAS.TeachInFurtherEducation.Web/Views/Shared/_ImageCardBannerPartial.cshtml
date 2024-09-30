@@ -2,21 +2,25 @@
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model ImageCardBanner;
 
-@if (Model != null)
+@if (Model is { isLargeSize: true })
 {
-    <div class="govuk-grid-row image-Card-banner govuk-!-padding-3 ">
-        <div class="govuk-grid-column-one-quarter">
-            <p>&nbsp;</p>
-        </div>
-        <div class="govuk-grid-column-one-half">
-            @ComponentService.ToHtmlString(Model.BannerContents)
-            <p class="govuk-body govuk-!-margin-bottom-6">@Model.BannerText</p>
-            <a href="@Model.BannerLinkSource" title="" class="govuk-link">@Model.BannerLinkText</a>
-        </div>
-        <div class="govuk-grid-column-one-quarter">
-            <div class="image-card-banner-image-div image-card-banner__mobile">
-                <img src="@ComponentService.GetMediaImageSource(Model.BannerImage)" alt="@Model.BannerImage?.Title"/>
-            </div>
-        </div>
-    </div>
+    if (Model.isTextLeftAligned)
+    {
+        @await Html.PartialAsync("ImageCardBanner/_ImageCardBanner_Large_Left", Model)
+    }
+    else
+    {
+        @await Html.PartialAsync("ImageCardBanner/_ImageCardBanner_Large_Right", Model)
+    }
+}
+else
+{
+    if (Model.isTextLeftAligned)
+    {
+        @await Html.PartialAsync("ImageCardBanner/_ImageCardBanner_Medium_Left", Model)
+    }
+    else
+    {
+        @await Html.PartialAsync("ImageCardBanner/_ImageCardBanner_Medium_Right", Model)
+    }
 }
