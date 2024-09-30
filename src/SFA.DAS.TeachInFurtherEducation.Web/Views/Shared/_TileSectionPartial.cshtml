@@ -2,7 +2,7 @@
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model (TileSection, bool)
 
-<div data-id="@Model.Item1.DataId" class="govuk-grid-row">
+<div id="@Model.Item1.DataId" class="govuk-grid-row">
 
     @if(!string.IsNullOrWhiteSpace(Model.Item1.TileSectionHeading))
     {
