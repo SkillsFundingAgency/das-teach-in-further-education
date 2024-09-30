@@ -1,15 +1,16 @@
-.image-Card-banner {
-    background-color: #003a69;
-
-    .image-card-banner-image-div img {
-        width: auto;
-        height: 100%;
-        object-fit: cover;
-    }
+.fe-image-card-banner-medium {
+    margin-top: 5px;
+    padding-bottom: 0;
+    
+    height: 300px;
 
     .govuk-body {
         color: #fff;
         font-size: 28px;
+    }
+    
+    .govuk-body-m {
+        color: #fff;
     }
 
     .govuk-link {
@@ -17,6 +18,11 @@
         background: url("../images/chevron-red500.png") no-repeat left center;
         background-size: .5375rem .7875rem;
         padding-left: .8125rem;
+    }
+
+    .image-card-banner-image-div img {
+        width: 450px;
+        height: 100%;
     }
 
     @media (max-width: 768px) {
@@ -34,6 +40,46 @@
     }
 }
 
+.fe-image-card-banner-large {
+    margin-top: 5px;
+    padding-bottom: 0;
+    height: 380px;
+    
+    .govuk-body {
+        color: #fff;
+        font-size: 28px;
+    }
+
+    .govuk-body-m {
+        color: #fff;
+    }
+
+    .govuk-link {
+        color: #fff !important;
+        background: url("../images/chevron-red500.png") no-repeat left center;
+        background-size: .5375rem .7875rem;
+        padding-left: .8125rem;
+    }
+
+    .image-card-banner-image-div img {
+        width: 500px;
+        height: 380px;
+    }
+
+    @media (max-width: 768px) {
+        .image-card-banner__mobile {
+            display: none;
+        }
+
+        .govuk-body {
+            font-size: 18px;
+        }
+
+        .govuk-link {
+            font-size: 16px;
+        }
+    }
+}
 .contact-us-banner {
     background-color: #003a69;
 
@@ -99,6 +145,7 @@
         height: 97px;
         flex-shrink: 0;
     }
+
     @media (max-width: 768px) {
         .fe-logo {
             width: 175px;
