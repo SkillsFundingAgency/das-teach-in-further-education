@@ -6,7 +6,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class SupplierSearch : IContent
+    public class SupplierSearch : BaseModel, IContent
     {
         [ExcludeFromCodeCoverage]
 

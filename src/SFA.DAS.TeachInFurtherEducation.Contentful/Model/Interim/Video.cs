@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
     [ExcludeFromCodeCoverage]
-    public class Video : IContent
+    public class Video : BaseModel, IContent
     {
         public string? Title { get; set; }
 
