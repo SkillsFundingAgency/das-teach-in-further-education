@@ -93,9 +93,20 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             services.AddApplicationInsightsTelemetry();
 
+            // Register CSPReportService
+            services.AddControllers(options =>
+            {
+                options.InputFormatters.Insert(0, new CspReportInputFormatter());
+            });
+
+            // Add Exception Filter
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<ExceptionFilter>();
+            });
 
 #if DEBUG
-            services.AddControllersWithViews();
+            //services.AddControllersWithViews();
 #else
             var googleAnalyticsConfiguration = Configuration.GetSection("GoogleAnalytics").Get<GoogleAnalyticsConfiguration>()!;
             services.AddControllersWithViews(options => options.Filters.Add(new EnableGoogleAnalyticsAttribute(googleAnalyticsConfiguration)));
@@ -117,9 +128,18 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 }
             });
 
+            services.AddHsts(options =>
+            {
+                options.Preload = true;  // Optional
+                options.IncludeSubDomains = true;  // Include subdomains
+                options.MaxAge = TimeSpan.FromDays(365);  // Set max-age to 365 days)
+            });
+
             services.AddAntiforgery(options =>
             {
+                options.Cookie.HttpOnly = true;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Strict;
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -164,24 +184,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             // Register default Open XML Spreadsheet parser
             services.AddSingleton<ISpreadsheetParser, OpenXmlSpreadsheetParser>();
-            
+
             // Register composite key generator for SupplierAddress
             services.AddSingleton<ICompositeKeyGenerator<SupplierAddressModel>, SupplierAddressCompositeKeyGenerator>();
 
             // Register MailChimp service
             services.Configure<MailChimpMarketingServiceOptions>(Configuration.GetSection("MailChimp"));
             services.AddSingleton<IMarketingService, MailChimpMarketingService>();
-
-            // Register CSPReportService
-            services.AddControllers(options =>
-            {
-                options.InputFormatters.Insert(0, new CspReportInputFormatter());
-            });
-
-            services.AddControllersWithViews(options =>
-            {
-                options.Filters.Add<ExceptionFilter>();
-            });
 
             services.AddSingleton<ICspReportService, CspReportService>();
 
@@ -192,11 +201,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             services.AddDbContext<SqlDbContext>(options =>
                 options.UseSqlServer(
                     Configuration["SqlDB:ConnectionString"],
-                    sqlOptions => sqlOptions.UseNetTopologySuite() 
+                    sqlOptions => sqlOptions.UseNetTopologySuite()
                 ));
 
             services.AddScoped<ISupplierAddressRepository, SqlSupplierAddressRepository>();
-            
+
             services.AddScoped<ISupplierAddressService, SupplierAddressService>();
 
             services.AddTransient<ISitemap, Sitemap>()
@@ -207,7 +216,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
         {
             app.UseAppSecurityHeaders(env, configuration);
-            
+
             //if (env.IsDevelopment())
             //{
             //    app.UseDeveloperExceptionPage();
@@ -215,48 +224,20 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             //else
             //{
                 //app.UseExceptionHandler("/error");
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // Custom HSTS options
                 app.UseHsts();
             //}
 
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseWebOptimizer();
-            app.UseStaticFiles();
-
+            app.UseCachingAndCompression();
             app.UseXMLSitemap(env.ContentRootPath);
             app.UseRouting();
             app.UseAuthorization();
-
-            app.Use(async (context, next) =>
-            {
-                await next();
-
-                //if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
-                //{
-                //    var originalPath = context.Request.Path;
-
-                //    if (!originalPath.StartsWithSegments("/error"))
-                //    {
-                //        context.Items["originalPath"] = originalPath.Value;
-                //        context.Request.Path = "/error/404";
-                //        await next();
-                //    }
-                //}
-            });
-
-            app.UseHealthChecks("/ping", new HealthCheckOptions
-            {
-                //By returning false to the Predicate option we ensure that none of the health checks registered in ConfigureServices are ran for this endpoint
-                Predicate = (_) => false,
-                ResponseWriter = (context, report) =>
-                {
-                    context.Response.ContentType = "application/json";
-                    return context.Response.WriteAsync("whiff-whaff");
-                }
-            });
-
-            app.UseHealthChecks("/health");
-
+            app.UseHealthCheckEndPoint();
             app.UseStatusCodePagesWithReExecute("/error/{0}");
 
             app.UseEndpoints(endpoints =>

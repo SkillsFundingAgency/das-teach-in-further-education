@@ -612,7 +612,7 @@
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
     font-size: .875rem;
-    line-height: 1.1428571429;
+    line-height: 1.143;
     margin-top: 0;
     margin-bottom: 15px
 }
@@ -10652,7 +10652,7 @@ a.dfe-header__link--service:focus {
     padding-left: 10px;
     padding-right: 10px;
     display: block;
-    background: rgba(86, 148, 202, .1450980392)
+    background: rgba(86, 148, 202, .1451)
 }
 
 .ncs-search .search-wrapper::after {
