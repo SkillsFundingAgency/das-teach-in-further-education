@@ -6,11 +6,12 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class RichTextContents : IContent
+    public class RichTextContents : BaseModel, IContent
     {
         public string? Title { get; set; }
 
         public required Document PageContents { get; set; }
 
+        public string? BackgroundColor { get; set; }
     }
 }
