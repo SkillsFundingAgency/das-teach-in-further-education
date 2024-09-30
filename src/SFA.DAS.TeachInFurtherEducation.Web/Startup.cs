@@ -106,7 +106,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             });
 
 #if DEBUG
-            //services.AddControllersWithViews();
+            services.AddControllersWithViews();
 #else
             var googleAnalyticsConfiguration = Configuration.GetSection("GoogleAnalytics").Get<GoogleAnalyticsConfiguration>()!;
             services.AddControllersWithViews(options => options.Filters.Add(new EnableGoogleAnalyticsAttribute(googleAnalyticsConfiguration)));
@@ -128,19 +128,19 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 }
             });
 
-            services.AddHsts(options =>
-            {
-                options.Preload = true;  // Optional
-                options.IncludeSubDomains = true;  // Include subdomains
-                options.MaxAge = TimeSpan.FromDays(365);  // Set max-age to 365 days)
-            });
+            //services.AddHsts(options =>
+            //{
+            //    options.Preload = true;  // Optional
+            //    options.IncludeSubDomains = true;  // Include subdomains
+            //    options.MaxAge = TimeSpan.FromDays(365);  // Set max-age to 365 days)
+            //});
 
-            services.AddAntiforgery(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.SameSite = SameSiteMode.Strict;
-            });
+            //services.AddAntiforgery(options =>
+            //{
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            //    options.Cookie.SameSite = SameSiteMode.Strict;
+            //});
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -230,10 +230,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 app.UseHsts();
             //}
 
-            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseWebOptimizer();
             app.UseCachingAndCompression();
+            app.UseStaticFiles();
+
             app.UseXMLSitemap(env.ContentRootPath);
             app.UseRouting();
             app.UseAuthorization();
