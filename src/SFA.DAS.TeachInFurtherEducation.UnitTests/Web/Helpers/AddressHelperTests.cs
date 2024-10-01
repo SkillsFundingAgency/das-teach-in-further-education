@@ -3,7 +3,7 @@ using System;
 using Xunit;
 using SFA.DAS.TeachInFurtherEducation.Web.Helpers;
 
-namespace SFA.DAS.TeachInFurtherEducation.Web.Tests.Helpers
+namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.Helpers
 {
     public class AddressHelperTests
     {

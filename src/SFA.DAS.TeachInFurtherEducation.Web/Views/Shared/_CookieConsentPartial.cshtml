@@ -1,6 +1,14 @@
-﻿@* @* @using Microsoft.AspNetCore.Mvc.TagHelpers
-@using SFA.DAS.FAA.Web.Infrastructure *@
-@* @if (!Context.Request.Cookies.ContainsKey(CookieKeys.DasSeenCookieMessage) ||
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
+
+@model IEnumerable<FooterLink>
+
+@{
+    var cookiePage = Model.FirstOrDefault((l) => l.FooterLinkText.ToLower().Contains("cookie"))?.FooterLinkSource;
+}
+
+@if (!Context.Request.Cookies.ContainsKey(CookieKeys.DasSeenCookieMessage) ||
     !Context.Request.Cookies.ContainsKey(CookieKeys.AnalyticsConsent) ||
     !Context.Request.Cookies.ContainsKey(CookieKeys.FunctionalConsent))
 {
@@ -9,22 +17,22 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <h2 class="govuk-cookie-banner__heading govuk-heading-m">
-                        Cookies on Find an apprenticeship
+                        Cookies on Teach in Further Education
                     </h2>
                     <div class="govuk-cookie-banner__content">
                         <p class="govuk-body">We use some essential cookies to make this service work.</p>
-                        <p class="govuk-body">We’d like to set additional cookies so we can use third-party maps. We’ll also use additional cookies to understand how people use the service and make improvements.</p>
+                        <p class="govuk-body">We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
                     </div>
                 </div>
             </div>
             <div class="govuk-button-group">
                 <button type="button" class="govuk-button" onclick="acceptCookies(true);" data-module="govuk-button">
-                    Accept additional cookies
+                    Accept analytics cookies
                 </button>
                 <button type="button" class="govuk-button" onclick="acceptCookies(false);" data-module="govuk-button">
-                    Reject additional cookies
+                    Reject analytics cookies
                 </button>
-                <a class="govuk-link" asp-route="@RouteNames.Cookies">View cookies</a>
+                <a class="govuk-link" href="@cookiePage">View cookies</a>
             </div>
         </div>
     </section>
@@ -34,7 +42,7 @@
                 <div class="govuk-grid-column-two-thirds">
                     <div class="govuk-cookie-banner__content">
                         <p class="govuk-body">
-                            You've accepted additional cookies. You can <a class="govuk-link" asp-route="@RouteNames.Cookies">change your cookie settings</a> at any time.
+                            You've accepted additional cookies. You can <a class="govuk-link" href="@cookiePage">change your cookie settings</a> at any time.
                         </p>
                     </div>
                 </div>
@@ -51,7 +59,7 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <div class="govuk-cookie-banner__content">
-                        <p class="govuk-body">You’ve rejected analytics cookies. You can <a class="govuk-link" asp-route="@RouteNames.Cookies">change your cookie settings</a> at any time.</p>
+                        <p class="govuk-body">You’ve rejected analytics cookies. You can <a class="govuk-link" href="@cookiePage">change your cookie settings</a> at any time.</p>
                     </div>
                 </div>
             </div>
@@ -62,4 +70,4 @@
             </div>
         </div>
     </section>
-} *@
+}

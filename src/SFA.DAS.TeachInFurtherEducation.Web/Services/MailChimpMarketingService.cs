@@ -8,17 +8,18 @@ using Microsoft.Extensions.Options;
 using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using System.Security.Cryptography;
+using SFA.DAS.TeachInFurtherEducation.Web.Interfaces;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 {
     public class MailChimpMarketingService : IMarketingService
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientWrapper _httpClient;
         private readonly MailChimpMarketingServiceOptions _options;
         private readonly ILogger<MailChimpMarketingService> _logger;
 
         public MailChimpMarketingService(
-            HttpClient httpClient,
+            IHttpClientWrapper httpClient,
             IOptions<MailChimpMarketingServiceOptions> options,
             ILogger<MailChimpMarketingService> logger)
         {
@@ -83,10 +84,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                 {
                     FNAME = subscriber.FirstName,
                     LNAME = subscriber.LastName,
-                    SUBJECT = subscriber.SubjectArea,
-                    //MMERGE16 = subscriber.SubjectArea, // Switch to this for production
-                    LOCATION = subscriber.Location
-                    //MMERGE4 = subscriber.Location // Switch to this for production
+                    MMERGE16 = subscriber.SubjectArea, 
+                    MMERGE4 = subscriber.Location 
                 }
             };
 

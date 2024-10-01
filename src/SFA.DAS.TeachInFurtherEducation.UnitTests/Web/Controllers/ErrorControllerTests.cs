@@ -1,62 +1,113 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using SFA.DAS.TeachInFurtherEducation.Web.Controllers;
+﻿using Xunit;
 using FakeItEasy;
-using Xunit;
-using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
+using SFA.DAS.TeachInFurtherEducation.Web.Controllers;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
+using SFA.DAS.TeachInFurtherEducation.Web.Models;
+using System;
+using System.Collections.Generic;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 
-namespace SFA.DAS.FindEmploymentSchemes.UnitTests.Web.Controllers
+namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Controllers
 {
     public class ErrorControllerTests
     {
-        public ILogger<ErrorController> Logger { get; set; }
-        private ErrorController ErrorController { get; set; }
-
-        private IContentService IContentService { get; set; }
+        private readonly ILogger<ErrorController> _logger;
+        private readonly IContentService _contentService;
+        private readonly ErrorController _controller;
 
         public ErrorControllerTests()
         {
-            Logger = A.Fake<ILogger<ErrorController>>();
+            _logger = A.Fake<ILogger<ErrorController>>();
+            _contentService = A.Fake<IContentService>();
 
-            IContentService = A.Fake<IContentService>();
+            // Mock content for LayoutModel
+            A.CallTo(() => _contentService.Content.FooterLinks).Returns(new List<FooterLink>());
+            A.CallTo(() => _contentService.Content.MenuItems).Returns(new List<MenuItem>());
 
-            ErrorController = new ErrorController(Logger, IContentService)
-            {
-                ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() }
-            };
+            // Create the controller instance
+            _controller = new ErrorController(_logger, _contentService);
         }
 
         [Fact]
-        public void PageNotFound_UsesPageNotFoundViewTest()
+        public void HandleError_WhenStatusCodeIs404_ReturnsPageNotFoundView()
         {
-            var result = ErrorController.PageNotFound();
+            // Arrange
+            int statusCode = 404;
 
-            var viewResult = Assert.IsType<ViewResult>(result);
+            // Act
+            var result = _controller.HandleError(statusCode) as ViewResult;
 
-            // ViewName == null means use Error/PageNotFound.cshtml, which is what we want
-            Assert.Null(viewResult.ViewName);
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("PageNotFound", result.ViewName);
+            Assert.IsType<LayoutModel>(result.Model);
+
+            // Verify that the layout model is populated
+            var layoutModel = result.Model as LayoutModel;
+            Assert.NotNull(layoutModel);
+            Assert.NotNull(layoutModel.footerLinks);
+            Assert.NotNull(layoutModel.MenuItems);
         }
 
         [Fact]
-        public void ApplicationError_UsesApplicationErrorViewTest()
+        public void HandleError_WhenStatusCodeIs500_ReturnsApplicationErrorView()
         {
-            var result = ErrorController.ApplicationError();
+            // Arrange
+            int statusCode = 500;
 
-            var viewResult = Assert.IsType<ViewResult>(result);
+            // Act
+            var result = _controller.HandleError(statusCode) as ViewResult;
 
-            // ViewName == null means use Error/ApplicationError.cshtml, which is what we want
-            Assert.Null(viewResult.ViewName);
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("ApplicationError", result.ViewName);
+            Assert.IsType<LayoutModel>(result.Model);
+
+            // Verify that the layout model is populated
+            var layoutModel = result.Model as LayoutModel;
+            Assert.NotNull(layoutModel);
+            Assert.NotNull(layoutModel.footerLinks);
+            Assert.NotNull(layoutModel.MenuItems);
         }
-        [Fact]
-        public void ApplicationError_LogsErrorTest()
-        {
-            ErrorController.ApplicationError();
 
-            A.CallTo(Logger)
-                .Where(call => call.Method.Name == "Log" && call.GetArgument<LogLevel>(0) == LogLevel.Error)
-                .MustHaveHappened();
+        [Fact]
+        public void HandleError_WhenNoStatusCodeIsProvided_ReturnsApplicationErrorView()
+        {
+            // Act
+            var result = _controller.HandleError(null) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("ApplicationError", result.ViewName);
+            Assert.IsType<LayoutModel>(result.Model);
+
+            // Verify that the layout model is populated
+            var layoutModel = result.Model as LayoutModel;
+            Assert.NotNull(layoutModel);
+            Assert.NotNull(layoutModel.footerLinks);
+            Assert.NotNull(layoutModel.MenuItems);
+        }
+
+        [Fact]
+        public void HandleError_WhenExceptionIsThrown_LogsErrorAndReturnsApplicationErrorView()
+        {
+            // Arrange
+            A.CallTo(() => _contentService.Content.FooterLinks).Throws(new Exception("Service failure"));
+
+            // Act
+            var result = _controller.HandleError(500) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("ApplicationError", result.ViewName);
+
+            // Verify that the error was logged
+            _logger.VerifyLogMustHaveHappened(
+                LogLevel.Error,
+                "Unable to get model with populated footer"
+            );
         }
     }
 }

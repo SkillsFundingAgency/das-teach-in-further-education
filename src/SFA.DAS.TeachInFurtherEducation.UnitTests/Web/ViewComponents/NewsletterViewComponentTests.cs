@@ -23,7 +23,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.ViewComponents;
 using Xunit;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace SFA.DAS.TeachInFurtherEducation.Web.Tests.ViewComponents
+namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
 {
     public class NewsletterViewComponentTests
     {

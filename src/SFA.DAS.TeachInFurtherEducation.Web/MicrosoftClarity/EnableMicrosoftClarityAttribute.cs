@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics
+namespace SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity
 {
     [ExcludeFromCodeCoverage]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class EnableGoogleAnalyticsAttribute : ResultFilterAttribute
+    public class EnableMicrosoftClarityAttribute : ResultFilterAttribute
     {
-        public GoogleAnalyticsConfiguration GoogleAnalyticsConfiguration { get; }
+        public MicrosoftClarityConfiguration MicrosoftClarityConfiguration { get; }
 
-        public EnableGoogleAnalyticsAttribute(GoogleAnalyticsConfiguration configuration)
+        public EnableMicrosoftClarityAttribute(MicrosoftClarityConfiguration configuration)
         {
-            GoogleAnalyticsConfiguration = configuration;
+           MicrosoftClarityConfiguration = configuration;
         }
 
         public override void OnResultExecuting(ResultExecutingContext context)
@@ -23,7 +23,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics
                 SetViewData(controller.ViewData);
 
             void SetViewData(ViewDataDictionary viewData)
-                => viewData[ViewDataKeys.GoogleAnalyticsConfigurationKey] = GoogleAnalyticsConfiguration;
+                => viewData[ViewDataKeys.MicrosoftClarityConfigurationKey] = MicrosoftClarityConfiguration;
         }
     }
 }

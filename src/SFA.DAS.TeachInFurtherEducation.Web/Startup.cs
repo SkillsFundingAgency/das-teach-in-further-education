@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,14 +33,10 @@ using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.StartupServices;
 using System;
-using SFA.DAS.TeachInFurtherEducation.Web.Exceptions;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using SFA.DAS.TeachInFurtherEducation.Web.Controllers;
-using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using System.Security.Cryptography;
+using SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -87,6 +81,20 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
+            // Enable Google Analytics
+            services.AddControllersWithViews(options =>
+            {
+                var googleAnalyticsConfiguration = Configuration.GetSection("GoogleAnalytics").Get<GoogleAnalyticsConfiguration>()!;
+                options.Filters.Add(new EnableGoogleAnalyticsAttribute(googleAnalyticsConfiguration));
+            });
+
+            // Enable Microsoft Clarity
+            services.AddControllersWithViews(options =>
+            {
+                var microsoftClarityConfiguration = Configuration.GetSection("MicrosoftClarity").Get<MicrosoftClarityConfiguration>()!;
+                options.Filters.Add(new EnableMicrosoftClarityAttribute(microsoftClarityConfiguration));
+            });
+
             services.AddRateLimiting(Configuration);
 
             services.AddNLog(Configuration).AddHealthChecks();
@@ -105,12 +113,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 options.Filters.Add<ExceptionFilter>();
             });
 
-#if DEBUG
             services.AddControllersWithViews();
-#else
-            var googleAnalyticsConfiguration = Configuration.GetSection("GoogleAnalytics").Get<GoogleAnalyticsConfiguration>()!;
-            services.AddControllersWithViews(options => options.Filters.Add(new EnableGoogleAnalyticsAttribute(googleAnalyticsConfiguration)));
-#endif
+
+
 
             services.AddWebOptimizer(assetPipeline =>
             {
@@ -128,29 +133,32 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 }
             });
 
-            //services.AddHsts(options =>
-            //{
-            //    options.Preload = true;  // Optional
-            //    options.IncludeSubDomains = true;  // Include subdomains
-            //    options.MaxAge = TimeSpan.FromDays(365);  // Set max-age to 365 days)
-            //});
+            services.AddHsts(options =>
+            {
+                options.Preload = true; 
+                options.IncludeSubDomains = true;  
+                options.MaxAge = TimeSpan.FromDays(365); 
+            });
 
-            //services.AddAntiforgery(options =>
-            //{
-            //    options.Cookie.HttpOnly = true;
-            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            //    options.Cookie.SameSite = SameSiteMode.Strict;
-            //});
+            services.AddAntiforgery(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpClientWrapper, HttpClientWrapper>();
 
             services.AddScoped<IViewRenderService, ViewRenderService>();
 
             services.AddSingleton<HtmlRenderer>(a => ContentService.CreateHtmlRenderer());
 
-#pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
+            #pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
+
             var serviceProvider = services.BuildServiceProvider();
-#pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
+
+            #pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
 
             services.AddLogging(builder => builder.AddConsole());
 
@@ -176,7 +184,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             services.AddHostedService<SupplierAddressUpdateService>();
 
             services.Configure<EndpointsOptions>(Configuration.GetSection("Endpoints"));
-            services.Configure<GoogleAnalyticsConfiguration>(Configuration.GetSection("GoogleAnalytics"));
+            services.Configure<MicrosoftClarityConfiguration>(Configuration.GetSection("GoogleAnalytics"));
 
             // Register geolocation service (Postcodes.io in this case)
             services.AddHttpClient<PostcodesIoGeoLocationService>();
@@ -264,86 +272,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         private static void MapControllerRoute(IEndpointRouteBuilder builder, string name, string pattern, string controller, string action)
         {
             builder.MapControllerRoute(name, pattern, new { controller, action });
-        }
-    }
-
-    public class ExceptionFilter : IExceptionFilter
-    {
-        private readonly ILogger<ErrorController> _logger;
-
-        private static readonly LayoutModel LayoutModel = new LayoutModel();
-
-        private readonly IContentService _contentService;
-
-        public ExceptionFilter(ILogger<ErrorController> logger, IContentService contentService)
-        {
-            _logger = logger;
-            _contentService = contentService;
-        }
-
-        public void OnException(ExceptionContext context)
-        {
-            // Log the exception details for debugging purposes
-            _logger.LogError(context.Exception, "An unhandled exception occurred.");
-
-            LayoutModel.footerLinks = _contentService.Content.FooterLinks;
-            LayoutModel.MenuItems = _contentService.Content.MenuItems;
-
-            var statusCode = 500;
-            var viewName = "~/Views/Error/ApplicationError.cshtml";
-
-            if (context.Exception is PageNotFoundException)
-            {
-                statusCode = 404;
-                viewName = "~/Views/Error/PageNotFound.cshtml";
-            }
-
-            context.HttpContext.Response.StatusCode = statusCode;
-
-            var viewData = new ViewDataDictionary(
-                new EmptyModelMetadataProvider(),
-                context.ModelState)
-                {
-                    Model = LayoutModel 
-                };
-
-            // Add exception details to ViewData
-            viewData["StatusCode"] = statusCode;
-            viewData["ErrorMessage"] = context.Exception.Message;
-
-            context.Result = new ViewResult
-            {
-                ViewName = viewName,
-                ViewData = viewData
-            };
-
-            context.ExceptionHandled = true;
-        }
-    }
-
-    /// <summary>
-    /// Generates nonce values using <see cref="RandomNumberGenerator"/>
-    /// </summary>
-    internal class NonceGenerator
-    {
-        // RandomNumberGenerator.Create is preferred over calling the constructor of the derived class RNGCryptoServiceProvider.
-        // https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator?view=netframework-4.7.2#remarks
-        private readonly RandomNumberGenerator _random = RandomNumberGenerator.Create();
-
-        /// <summary>
-        /// Generate a nonce
-        /// </summary>
-        /// <param name="nonceBytes">The number of bytes used to generate a nonce</param>
-        /// <returns>The nonce as a string</returns>
-        public string GetNonce(int nonceBytes = 32)
-        {
-            // Probably no point in using ArrayPool as these are such small arrays.
-            // Adds a slight GC pressure but https://adamsitnik.com/Array-Pool/ suggests
-            // it's probably OK
-            var bytes = new byte[nonceBytes];
-            _random.GetBytes(bytes);
-
-            return Convert.ToBase64String(bytes);
         }
     }
 }
