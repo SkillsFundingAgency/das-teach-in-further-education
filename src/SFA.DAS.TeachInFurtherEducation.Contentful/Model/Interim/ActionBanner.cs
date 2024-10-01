@@ -12,5 +12,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
         public required string BannerLinkText { get; set; }
 
         public required string? BannerLinkSource { get; set; }
+        public string? BackgroundColor { get; set; }
     }
 }

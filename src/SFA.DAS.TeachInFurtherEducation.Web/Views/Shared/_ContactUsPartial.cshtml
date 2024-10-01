@@ -15,12 +15,12 @@
             </div>
             <div class="govuk-grid-column-one-quarter govuk-body">
                 <div class="govuk-grid-row">
-                    <image src="../images/phone.png" class="image-icon"/>
+                    <image src="../images/phone.png" class="image-icon" aria-label = "phone icon"   />
                     @{ var telphone = Model.Phone.Replace(" ", ""); }
                     <a href="tel:@{@telphone}" class="govuk-link">@Model.Phone</a>
                 </div>
                 <div class="govuk-grid-row">
-                    <image src="../images/envelope.png" class="image-icon"/>
+                    <image src="../images/envelope.png" class="image-icon" aria-label = "envelope icon"  />
                     <a href="mailto:@{@Model.Email}" class="govuk-link">@Model.Email</a>
                 </div>
             </div>
