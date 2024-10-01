@@ -54,6 +54,12 @@
             case LineSeparator lineSeparator:
                 @await Html.PartialAsync("_LineSeparatorPartial", lineSeparator)
                 break;
+            case UserJourney userJourney:
+                @await Html.PartialAsync("_UserJourneyPartial", userJourney)
+                break;
+            case ActionBanner actionBanner:
+                @await Html.PartialAsync("_ActionBannerPartial", actionBanner)
+                break;
 
             default:
 

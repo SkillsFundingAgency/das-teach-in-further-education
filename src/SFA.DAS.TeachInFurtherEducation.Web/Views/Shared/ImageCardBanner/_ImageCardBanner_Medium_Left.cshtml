@@ -1,0 +1,35 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+@model ImageCardBanner;
+
+@if (Model != null)
+{
+    var bgColor = "bg-fe-blue";
+    @if (Model.BackgroundColor == "Black")
+    {
+        bgColor = "bg-fe-black";
+    }
+    <section class="fe-image-card-banner-medium @bgColor">
+        <div id="@Model.DataId" class="govuk-width-container">
+            <div class="flex-nav">
+                <div class="flex-left govuk-!-padding-top-6">
+                    @ComponentService.ToHtmlString(Model.BannerContents)
+                    <p class="govuk-body govuk-!-margin-bottom-6">@Model.BannerText</p>
+                    @if (string.IsNullOrEmpty(Model.Caption))
+                    {
+                        <a href="@Model.BannerLinkSource" title="@Model.BannerLinkText" class="govuk-link">@Model.BannerLinkText</a>
+                    }
+                    else
+                    {
+                        <p class="govuk-body-m govuk-!-margin-bottom-6">@Model.Caption</p>
+                    }
+                </div>
+                <div class="flex-right">
+                    <div class="image-card-banner-image-div image-card-banner__mobile">
+                        <img src="@ComponentService.GetMediaImageSource(Model.BannerImage)" alt="@Model.BannerImage?.Title"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

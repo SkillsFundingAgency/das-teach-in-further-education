@@ -5,7 +5,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class ImageCardBanner : Common, IContent
+    public class ImageCardBanner : BaseModel, IContent
     {
         public Document? BannerContents { get; set; }
 
