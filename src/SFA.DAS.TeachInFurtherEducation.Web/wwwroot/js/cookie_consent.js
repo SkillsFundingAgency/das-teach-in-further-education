@@ -42,6 +42,10 @@ function hideAcceptBanner() {
 function hideRejectBanner() {
     document.getElementById("cookieReject").setAttribute("hidden", "");
 }
+function deleteCookie(cookiname) {
+    document.cookie =
+        cookiname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; Secure"
+}
 function deleteAllCookies() {
     deleteCookie("DASSeenCookieMessage")
     deleteCookie("AnalyticsConsent")
