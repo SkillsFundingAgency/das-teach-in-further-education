@@ -51,7 +51,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
         /// including the removal of spaces and conversion to uppercase. A timeout is applied
         /// to prevent excessive evaluation time on complex input strings.
         /// </remarks>
-        public static bool ValidateUKPostcode(string postcode)
+        public static bool ValidateUKPostcode(string postcode, int timeoutMs = 500)
         {
             if (string.IsNullOrWhiteSpace(postcode))
             {
@@ -67,7 +67,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
             try
             {
                 // Set a reasonable timeout for the regex match (e.g., 500 milliseconds)
-                TimeSpan regexTimeout = TimeSpan.FromMilliseconds(500);
+                if (timeoutMs <= 0) throw new RegexMatchTimeoutException();
+                TimeSpan regexTimeout = TimeSpan.FromMilliseconds(timeoutMs);
+
                 Regex regex = new Regex(postcodePattern, RegexOptions.None, regexTimeout);
 
                 // Return true if the postcode matches the pattern, false otherwise

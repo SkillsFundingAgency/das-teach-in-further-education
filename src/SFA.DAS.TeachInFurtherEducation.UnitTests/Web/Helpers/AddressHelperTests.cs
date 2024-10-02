@@ -183,6 +183,71 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.Helpers
             Assert.Equal(expected, result);
         }
 
+        [Fact]
+        public void ValidateUKPostcode_ValidPostcode_ReturnsTrue()
+        {
+            // Arrange
+            string postcode = "B79 9HL";
+
+            // Act
+            var result = AddressHelper.ValidateUKPostcode(postcode);
+
+            // Assert
+            Assert.Equal(true, result);
+        }
+
+        [Fact]
+        public void ValidateUKPostcode_EmptyPostcode_ReturnsFalse()
+        {
+            // Arrange
+            string postcode = "";
+
+            // Act
+            var result = AddressHelper.ValidateUKPostcode(postcode);
+
+            // Assert
+            Assert.Equal(false, result);
+        }
+
+        [Fact]
+        public void ValidateUKPostcode_NullPostcode_ReturnsFalse()
+        {
+            // Arrange
+            string postcode = null;
+
+            // Act
+            var result = AddressHelper.ValidateUKPostcode(postcode);
+
+            // Assert
+            Assert.Equal(false, result);
+        }
+
+        [Fact]
+        public void ValidateUKPostcode_InvalidPostcode_ReturnsFalse()
+        {
+            // Arrange
+            string postcode = "NOT A VALID POSTCODE";
+
+            // Act
+            var result = AddressHelper.ValidateUKPostcode(postcode);
+
+            // Assert
+            Assert.Equal(false, result);
+        }
+
+        [Fact]
+        public void ValidateUKPostcode_REGEXTimeout_ReturnsFalse()
+        {
+            // Arrange
+            string postcode = "A" + new string('A', 1000000);
+
+            // Act
+            var result = AddressHelper.ValidateUKPostcode(postcode, 0);
+
+            // Assert
+            Assert.Equal(false, result);
+        }
+
         #endregion
     }
 }
