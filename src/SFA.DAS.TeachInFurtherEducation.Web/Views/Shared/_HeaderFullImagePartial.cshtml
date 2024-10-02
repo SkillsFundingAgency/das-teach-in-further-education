@@ -4,5 +4,7 @@
 
 @if (Model != null)
 {
-   // Please add Frontend code
+   <section class="fe-header-full-image">
+      <img src="@ComponentService.GetMediaImageSource(Model.HeaderImage)" alt="@Model.Title"/>
+   </section>
 }
