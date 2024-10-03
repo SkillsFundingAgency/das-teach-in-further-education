@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 {
+    [Route("error")]
     public class ErrorController : Controller
     {
         private readonly ILogger<ErrorController> _log;
@@ -27,13 +28,18 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 
         }
 
-        [Route("error/{statusCode}")]
+        [Route("{statusCode}")]
         public IActionResult HandleError(int? statusCode)
         {
             try
             {
                 LayoutModel.footerLinks = _contentService.Content.FooterLinks;
                 LayoutModel.MenuItems = _contentService.Content.MenuItems;
+
+                if (!ModelState.IsValid)
+                {
+                    return View("ApplicationError", LayoutModel);
+                }
 
                 if (statusCode.HasValue)
                 {

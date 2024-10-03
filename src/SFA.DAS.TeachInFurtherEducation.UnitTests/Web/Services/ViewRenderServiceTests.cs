@@ -82,7 +82,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.Services
             _httpContextAccessor.HttpContext = httpContext;
 
             // Set up the view engine to return not found
-            var viewEngineResult = ViewEngineResult.NotFound(viewName, new[] { "Location1", "Location2" });
+            var viewEngineResult = ViewEngineResult.NotFound(viewName, ["Location1", "Location2"]);
             A.CallTo(() => _viewEngine.FindView(A<ActionContext>.Ignored, viewName, false))
                 .Returns(viewEngineResult);
 

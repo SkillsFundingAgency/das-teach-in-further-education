@@ -193,7 +193,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.Helpers
             var result = AddressHelper.ValidateUKPostcode(postcode);
 
             // Assert
-            Assert.Equal(true, result);
+            Assert.True(result);
         }
 
         [Fact]
@@ -206,7 +206,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.Helpers
             var result = AddressHelper.ValidateUKPostcode(postcode);
 
             // Assert
-            Assert.Equal(false, result);
+            Assert.False(result);
         }
 
         [Fact]
@@ -219,7 +219,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.Helpers
             var result = AddressHelper.ValidateUKPostcode(postcode);
 
             // Assert
-            Assert.Equal(false, result);
+            Assert.False(result);
         }
 
         [Fact]
@@ -232,7 +232,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.Helpers
             var result = AddressHelper.ValidateUKPostcode(postcode);
 
             // Assert
-            Assert.Equal(false, result);
+            Assert.False(result);
         }
 
         [Fact]
@@ -245,7 +245,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.Helpers
             var result = AddressHelper.ValidateUKPostcode(postcode, 0);
 
             // Assert
-            Assert.Equal(false, result);
+            Assert.False(result);
         }
 
         #endregion
