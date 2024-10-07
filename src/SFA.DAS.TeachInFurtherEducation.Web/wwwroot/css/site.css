@@ -119,6 +119,7 @@
         width: 100%;
         height: 580px;
     }
+
     @media (max-width: 768px) {
         img {
             height: 270px;
@@ -127,13 +128,14 @@
 }
 
 .fe-full-image-card-banner {
-    
+
     border: 1px solid #dee2e6;
-    
+
     img {
         width: 100%;
         height: 240px;
     }
+
     @media (max-width: 768px) {
         img {
             height: 120px;
@@ -145,6 +147,29 @@
     background-color: #1D70B8;
     width: 100%;
     height: 5px;
+}
+
+.fe-dfe-topnav {
+    height: 83px;
+
+    .govuk-link {
+        color: #FFFFFF !important;
+        text-decoration: underline;
+    }
+
+    .govuk-link :hover {
+
+    }
+
+    .envelope-icon {
+        padding-right: 16px;
+    }
+
+    @media (max-width: 768px) {
+        .envelope-icon {
+            padding-right: 5px;
+        }
+    }
 }
 
 .contact-us-banner {
