@@ -115,17 +115,36 @@
 }
 
 .fe-header-full-image {
-
     img {
         width: 100%;
         height: 580px;
     }
-
     @media (max-width: 768px) {
         img {
             height: 270px;
         }
     }
+}
+
+.fe-full-image-card-banner {
+    
+    border: 1px solid #dee2e6;
+    
+    img {
+        width: 100%;
+        height: 240px;
+    }
+    @media (max-width: 768px) {
+        img {
+            height: 120px;
+        }
+    }
+}
+
+.fe-line-separator {
+    background-color: #1D70B8;
+    width: 100%;
+    height: 5px;
 }
 
 .contact-us-banner {
