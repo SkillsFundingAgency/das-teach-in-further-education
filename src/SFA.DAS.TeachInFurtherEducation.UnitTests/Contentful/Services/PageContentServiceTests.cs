@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using System.Linq;
 using ApiPage = SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api.Page;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Interfaces;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
 {
@@ -380,6 +381,109 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
             var result = await pageContentService.GetBetaBanner(contentfulClient);
 
             Assert.Null(result);
+        }
+
+        [Fact(DisplayName = "PageContentService - GetAllPages - Null Contents - CallsToHtmlString")]
+        public async Task PageContentService_GetAllPages_NullContents_CallsToHtmlString()
+        {
+            // Arrange
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var pageContentService = new PageContentService(htmlRenderer, Logger);
+
+            var apiPage = new ApiPage
+            {
+                PageURL = "TestPage",
+                PageTitle = "Test Page",
+                Contents = null // Set contents to null to trigger the path in ToHtmlString
+            };
+
+            var entries = new ContentfulCollection<ApiPage>
+            {
+                Items = new List<ApiPage> { apiPage }
+            };
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>._, A<CancellationToken>._)).Returns(entries);
+
+            // Act
+            var result = await pageContentService.GetAllPages(contentfulClient);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Single(result);
+            Assert.Equal("Test Page", result.First().PageTitle);
+        }
+
+        [Fact(DisplayName = "PageContentService - GetAllPages - CallsToHtmlString with Valid Document")]
+        public async Task PageContentService_GetAllPages_CallsToHtmlString_WithValidDocument()
+        {
+            // Arrange
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var pageContentService = new PageContentService(htmlRenderer, Logger);
+
+            var apiPage = new ApiPage
+            {
+                PageURL = "TestPage",
+                PageTitle = "Test Page",
+                PageTemplate = "template",
+                Breadcrumbs = null,
+                PageComponents = null,
+                Contents = new Document // Create a valid Document here
+                {
+                    NodeType = "document",
+                    Data = new GenericStructureData(),
+                    Content = new List<IContent>() // Add any necessary content if needed
+                }
+            };
+
+            var entries = new ContentfulCollection<ApiPage>
+            {
+                Items = new List<ApiPage> { apiPage }
+            };
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>._, A<CancellationToken>._)).Returns(entries);
+
+            // Act
+            var result = await pageContentService.GetAllPages(contentfulClient);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Single(result);
+            Assert.Equal("Test Page", result.First().PageTitle);
+        }
+
+
+        [Fact(DisplayName = "PageContentService - GetAllPages - LogsWarningForExcludedUrls")]
+        public async Task PageContentService_GetAllPages_LogsWarningForExcludedUrls()
+        {
+            // Arrange
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var logger = A.Fake<ILogger<PageContentService>>();
+            var pageContentService = new PageContentService(htmlRenderer, logger);
+
+            var entries = new ContentfulCollection<ApiPage>
+            {
+                Items = new List<ApiPage>
+                {
+                    new ApiPage { PageURL = "valid-url", PageTitle = "Valid Page" },
+                    new ApiPage { PageURL = null, PageTitle = "Invalid Page" }, // This should be excluded
+                    new ApiPage { PageURL = "", PageTitle = "Empty URL Page" }  // This should also be excluded
+                }
+            };
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>._, A<CancellationToken>._)).Returns(entries);
+
+            // Act
+            var result = await pageContentService.GetAllPages(contentfulClient);
+
+            // Assert
+            Assert.Single(result); // Only one valid page should remain
+        }
+
+
+        // Mock class for IRootContent
+        private class MockRootContent : IRootContent
+        {
+            public string PageURL { get; set; }
         }
 
     }

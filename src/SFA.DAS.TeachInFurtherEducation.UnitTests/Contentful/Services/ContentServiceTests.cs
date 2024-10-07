@@ -219,7 +219,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
         }
 
         [Fact]
-        public async Task GetPageByURL_WhenExceptionThrown_LogsErrorAndReturnsNull()
+        public void GetPageByURL_WhenExceptionThrown_LogsErrorAndReturnsNull()
         {
             // Arrange
             var logger = A.Fake<ILogger<ContentService>>();
