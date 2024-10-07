@@ -267,6 +267,121 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
 
         #endregion
 
+        [Fact(DisplayName = "PageContentService - GetInterimPages - WithMatchingInterimPages - ReturnsInterimPages")]
+        public async Task PageContentService_GetInterimPages_WithMatchingInterimPages_ReturnsInterimPages()
+        {
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var pageContentService = new PageContentService(htmlRenderer, Logger);
+
+            var entries = new ContentfulCollection<InterimPage>
+            {
+                Items = new List<InterimPage>
+                {
+                    new InterimPage
+                    {
+                        InterimPageTitle = "Interim Page",
+                        InterimPageURL = "interim-page",
+                        InterimPagePreamble = null,
+                        InterimPageBreadcrumbs = null,
+                        InterimPageTileSections = new List<TileSection>()
+                    }
+                }
+            };
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<InterimPage>>._, A<CancellationToken>._))
+                .Returns(entries);
+
+            var result = await pageContentService.GetInterimPages(contentfulClient);
+
+            Assert.NotNull(result);
+            var page = result.First();
+            Assert.Equal("Interim Page", page.InterimPageTitle);
+            Assert.Equal("interim-page", page.InterimPageURL);
+        }
+
+        [Fact(DisplayName = "PageContentService - GetInterimPages - WithNoMatchingInterimPages - ReturnsEmpty")]
+        public async Task PageContentService_GetInterimPages_WithNoMatchingInterimPages_ReturnsEmpty()
+        {
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var pageContentService = new PageContentService(htmlRenderer, Logger);
+
+            var fakeResult = new ContentfulCollection<InterimPage> { Items = new List<InterimPage>() };
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<InterimPage>>._, A<CancellationToken>._)).Returns(fakeResult);
+
+            var result = await pageContentService.GetInterimPages(contentfulClient);
+
+            Assert.Empty(result);
+        }
+
+        [Fact(DisplayName = "PageContentService - GetInterimPages - WithException - ReturnsEmpty")]
+        public async Task PageContentService_GetInterimPages_WithException_ReturnsEmpty()
+        {
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var pageContentService = new PageContentService(htmlRenderer, Logger);
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<InterimPage>>._, A<CancellationToken>._)).Throws(new Exception());
+
+            var result = await pageContentService.GetInterimPages(contentfulClient);
+
+            Assert.Empty(result);
+        }
+
+        [Fact(DisplayName = "PageContentService - GetBetaBanner - WithMatchingBanner - ReturnsBanner")]
+        public async Task PageContentService_GetBetaBanner_WithMatchingBanner_ReturnsBanner()
+        {
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var pageContentService = new PageContentService(htmlRenderer, Logger);
+
+            var entries = new ContentfulCollection<BetaBanner>
+            {
+                Items = new List<BetaBanner>
+                {
+                    new BetaBanner
+                    {
+                        BetaBannerID = "banner-1",
+                        BetaBannerTitle = "Test Beta Banner"
+                    }
+                }
+            };
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<BetaBanner>>._, A<CancellationToken>._)).Returns(entries);
+
+            var result = await pageContentService.GetBetaBanner(contentfulClient);
+
+            Assert.NotNull(result);
+            Assert.Equal("banner-1", result.BetaBannerID);
+            Assert.Equal("Test Beta Banner", result.BetaBannerTitle);
+        }
+
+        [Fact(DisplayName = "PageContentService - GetBetaBanner - WithNoMatchingBanner - ReturnsNull")]
+        public async Task PageContentService_GetBetaBanner_WithNoMatchingBanner_ReturnsNull()
+        {
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var pageContentService = new PageContentService(htmlRenderer, Logger);
+
+            var fakeResult = new ContentfulCollection<BetaBanner> { Items = new List<BetaBanner>() };
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<BetaBanner>>._, A<CancellationToken>._)).Returns(fakeResult);
+
+            var result = await pageContentService.GetBetaBanner(contentfulClient);
+
+            Assert.Null(result);
+        }
+
+        [Fact(DisplayName = "PageContentService - GetBetaBanner - WithException - ReturnsNull")]
+        public async Task PageContentService_GetBetaBanner_WithException_ReturnsNull()
+        {
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var pageContentService = new PageContentService(htmlRenderer, Logger);
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<BetaBanner>>._, A<CancellationToken>._)).Throws(new Exception());
+
+            var result = await pageContentService.GetBetaBanner(contentfulClient);
+
+            Assert.Null(result);
+        }
+
     }
 
 }

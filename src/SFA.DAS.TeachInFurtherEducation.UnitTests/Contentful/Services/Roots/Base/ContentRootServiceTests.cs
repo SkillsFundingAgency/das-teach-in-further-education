@@ -1,5 +1,8 @@
-﻿using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base;
+﻿using FakeItEasy;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Interfaces;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services.Roots.Base
