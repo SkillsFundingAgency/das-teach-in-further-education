@@ -219,6 +219,33 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
         }
 
         [Fact]
+        public async Task GetPageByURL_WhenExceptionThrown_LogsErrorAndReturnsNull()
+        {
+            // Arrange
+            var logger = A.Fake<ILogger<ContentService>>();
+            var invalidUrl = "invalid-url";
+
+            var contentService = new ContentService(
+                ContentfulClientFactory,
+                PageService,
+                PageContentService,
+                AssetDownloader,
+                logger);
+
+            A.CallTo(() => PageContentService.GetAllPages(ContentfulClient))
+                .Throws<Exception>();
+
+            // Act
+            var result = contentService.GetPageByURL(invalidUrl);
+
+            // Assert
+            Assert.Null(result);
+
+            // Verify the logger call using your extension
+            logger.VerifyLogMustHaveHappened(LogLevel.Error, "Unable to get page by url: invalid-url");
+        }
+
+        [Fact]
         public async Task Content_GetPageByURL()
         {
 
@@ -379,6 +406,70 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
             Assert.Equal("https://example.com/asset2.jpg", returnedAsset2.Metadata.Url);
             Assert.Equal(asset2.SystemProperties.UpdatedAt, returnedAsset2.Metadata.LastUpdated);
             Assert.True(returnedAsset2.Content.SequenceEqual(content2));
+        }
+
+        [Fact]
+        public void GetPreviewPageByURL_PreviewContentIsNull_ReturnsNull()
+        {
+            // Arrange
+            var contentService = new ContentService(ContentfulClientFactory, PageService, PageContentService, AssetDownloader, Logger);
+
+            // Act
+            var result = contentService.GetPreviewPageByURL("some-url");
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task GetAssetsByTags_NoTagsProvided_ThrowsArgumentException()
+        {
+            // Arrange
+            var contentService = new ContentService(ContentfulClientFactory, PageService, PageContentService, AssetDownloader, Logger);
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<ArgumentException>(() => contentService.GetAssetsByTags());
+            Assert.Equal("At least one tag must be provided. (Parameter 'tags')", exception.Message);
+        }
+
+        [Fact]
+        public async Task GetAssetsByTags_AssetContentIsNull_ReturnsNoAsset()
+        {
+            // Arrange
+            var tags = new[] { "tag1" };
+
+            // Create an asset with SystemProperties and File but no content
+            var asset = new Asset
+            {
+                SystemProperties = new SystemProperties
+                {
+                    Id = "asset1",
+                    UpdatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.AddDays(-1)
+                },
+                File = new File { Url = "https://example.com/asset1.jpg" }
+            };
+
+            var collection = new ContentfulCollection<Asset>
+            {
+                Items = new List<Asset> { asset }
+            };
+
+            // Fake calls
+            A.CallTo(() => ContentfulClient.GetAssets($"?metadata.tags.sys.id[in]=tag1", A<CancellationToken>._))
+                .Returns(Task.FromResult(collection));
+
+            // Simulate null content for the asset
+            A.CallTo(() => AssetDownloader.DownloadAssetContentAsync("https://example.com/asset1.jpg"))
+                .Returns(Task.FromResult<byte[]>(null));
+
+            var contentService = new ContentService(ContentfulClientFactory, PageService, PageContentService, AssetDownloader, Logger);
+
+            // Act
+            var result = await contentService.GetAssetsByTags(tags);
+
+            // Assert that no assets are returned since the content is null
+            Assert.Empty(result);
         }
 
         private void CreateContentService()

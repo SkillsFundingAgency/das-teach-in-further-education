@@ -163,22 +163,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
         /// <returns>Returns the interim page with the specified URL if found, otherwise returns null.</returns>
         public Page? GetPreviewPageByURL(string url)
         {
-
-            try
-            {
-
-                return PreviewContent?.Pages.FirstOrDefault(a => a.PageURL == url);
-
-            }
-            catch (Exception _exception)
-            {
-
-                _logger.LogError(_exception, "Unable to get preview interim page by url: {URL}", url);
-
-                return null;
-
-            }
-
+            return PreviewContent?.Pages.FirstOrDefault(a => a.PageURL == url);
         }
 
         /// <summary>
@@ -197,7 +182,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
 
             var assetTasks = assets.Select(async asset => {
 
-                var content = await GetAssetContent(asset.File.Url);
+                var content = await GetAssetContent(asset.File?.Url);
 
                 if (content != null)
                 {
@@ -207,8 +192,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
                         Metadata = new AssetMetadata
                         {
                             Id = asset.SystemProperties.Id,
-                            Filename = asset.File.FileName,
-                            Url = asset.File.Url,
+                            Filename = asset.File!.FileName,
+                            Url = asset.File!.Url,
                             LastUpdated = asset.SystemProperties.UpdatedAt.GetValueOrDefault(asset.SystemProperties.CreatedAt.GetValueOrDefault()),
                         }
                     };

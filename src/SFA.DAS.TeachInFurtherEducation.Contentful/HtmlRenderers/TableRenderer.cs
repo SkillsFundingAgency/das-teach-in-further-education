@@ -46,16 +46,12 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
         /// <returns>The p-tag as a string.</returns>
         public async Task<string> RenderAsync(IContent content)
         {
-            var table = content as Table;
+            if (content is not Table table)
+            {
+                throw new ArgumentException("Invalid content passed to TableRenderer", nameof(content));
+            }
 
             var sb = new StringBuilder();
-
-            if(table == null)
-            {
-
-                return string.Empty;
-
-            }
              
             sb.Append("<table class=\"govuk-table\">");
 

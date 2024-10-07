@@ -8,7 +8,8 @@ function saveCookieSettings() {
 }
 function acceptCookies(acceptAll) {
     createCookie("DASSeenCookieMessage", true)
-    ["Analytics", "Functional"].forEach(type => createCookie(`${type}Consent`, acceptAll))
+    createCookie("AnalyticsConsent", acceptAll)
+    createCookie("FunctionalConsent", acceptAll)
     showBanner(acceptAll ? "cookieAccept" : "cookieReject")
     document.getElementById("cookieConsent").style.display = "none"
 }

@@ -46,16 +46,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
         /// <param name="content">The content to render.</param>
         /// <returns>The th-tag as a string.</returns>
         public async Task<string> RenderAsync(IContent content)
-        {
-            var tableHeader = content as TableHeader;
+        { 
+    
+            if (content is not TableHeader tableHeader)
+            {
+                throw new ArgumentException("Invalid content passed to TableHeaderRenderer", nameof(content));
+            }
 
             var sb = new StringBuilder();
-
-            if(tableHeader == null)
-            {
-                return string.Empty;
-
-            }
             
             sb.Append("<th class=\"govuk-table__header\">");
 
