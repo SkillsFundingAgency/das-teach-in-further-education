@@ -127,19 +127,17 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
             this IApplicationBuilder app)
         {
 
-            //app.UseResponseCompression();
-
             _ = app.Use(async (context, next) =>
             {
                 if (!context.Request.Path.Value!.StartsWith("/css") &&
                     !context.Request.Path.Value!.StartsWith("/js") &&
                     !context.Request.Path.Value!.StartsWith("/images"))
                 {
-                    context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                    context.Response.Headers.CacheControl = "no-cache, no-store, must-revalidate";
                 }
                 else
                 {
-                    context.Response.Headers["Cache-Control"] = "public, max-age=86400, immutable";
+                    context.Response.Headers.CacheControl = "public, max-age=86400, immutable";
                 }
                 await next();
             });

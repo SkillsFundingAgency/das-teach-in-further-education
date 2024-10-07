@@ -13,6 +13,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
     [Route("error")]
     public class ErrorController : Controller
     {
+        private const string __SYSTEMERRORVIEW = "ApplicationError";
+        private const string __PAGENOTFOUNDVIEW = "PageNotFound";
+
         private readonly ILogger<ErrorController> _log;
 
         private static readonly LayoutModel LayoutModel = new LayoutModel();
@@ -38,7 +41,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 
                 if (!ModelState.IsValid)
                 {
-                    return View("ApplicationError", LayoutModel);
+                    return View(__SYSTEMERRORVIEW, LayoutModel);
                 }
 
                 if (statusCode.HasValue)
@@ -46,18 +49,18 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
                     switch (statusCode.Value)
                     {
                         case 404:
-                            return View("PageNotFound", LayoutModel);
+                            return View(__PAGENOTFOUNDVIEW, LayoutModel);
                         case 500:
-                            return View("ApplicationError", LayoutModel);
+                            return View(__SYSTEMERRORVIEW, LayoutModel);
                     }
                 }
-                return View("ApplicationError", LayoutModel);
+                return View(__SYSTEMERRORVIEW, LayoutModel);
             }
             catch (Exception _exception)
             {
                 _log.LogError(_exception, "Unable to get model with populated footer");
 
-                return View("ApplicationError", LayoutModel);
+                return View(__SYSTEMERRORVIEW, LayoutModel);
             }
         }
     }

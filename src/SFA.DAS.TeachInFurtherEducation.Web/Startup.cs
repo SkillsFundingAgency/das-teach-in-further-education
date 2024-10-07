@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using AspNetCore.SEOHelper;
 using Contentful.Core.Configuration;
 using Contentful.Core.Models;
-using ContentfulExample.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -221,22 +220,19 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
         {
             app.UseAppSecurityHeaders(env, configuration);
 
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-                //app.UseExceptionHandler("/error");
-
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                // Custom HSTS options
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
                 app.UseHsts();
-            //}
+                app.UseStatusCodePagesWithReExecute("/error/{0}");
+            }
 
             app.UseHttpsRedirection();
             app.UseWebOptimizer();
@@ -247,8 +243,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             app.UseRouting();
             app.UseAuthorization();
             app.UseHealthCheckEndPoint();
-            app.UseStatusCodePagesWithReExecute("/error/{0}");
-
+            
             app.UseEndpoints(endpoints =>
             {
                 MapControllerRoute(endpoints,

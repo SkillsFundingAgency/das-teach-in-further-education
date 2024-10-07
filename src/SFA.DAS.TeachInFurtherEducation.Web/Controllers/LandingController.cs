@@ -23,7 +23,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
         {
             PageContentModel? pageModel = _contentModelService.GetPageContentModel(pageUrl);
 
-            if (pageModel == null)
+            if (!ModelState.IsValid || pageModel == null)
             {
                 throw new PageNotFoundException($"The requested url {pageUrl} could not be found");
             }
@@ -36,7 +36,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 
             PageContentModel? pageModel = await _contentModelService.GetPagePreviewModel(pageUrl);
 
-            if (pageModel == null)
+            if (!ModelState.IsValid || pageModel == null)
             {
                 throw new PageNotFoundException($"The requested url {pageUrl} could not be found");
             }

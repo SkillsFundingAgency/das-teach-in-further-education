@@ -13,7 +13,7 @@ function acceptCookies(acceptAll) {
     document.getElementById("cookieConsent").style.display = "none"
 }
 function createCookie(name, value) {
-    let expires = new Date(Date.now() + 31536000000).toGMTString() // 1 year
+    let expires = new Date(Date.now() + 31536000000).toGMTString() 
     document.cookie = `${name}=${value};expires=${expires};path=/;Secure`
 }
 function showBanner(id) {

@@ -12,13 +12,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 {
     public class ExceptionFilter : IExceptionFilter
     {
-        private readonly ILogger<ErrorController> _logger;
+        private readonly ILogger<ExceptionFilter> _logger;
 
         private static readonly LayoutModel LayoutModel = new LayoutModel();
 
         private readonly IContentService _contentService;
 
-        public ExceptionFilter(ILogger<ErrorController> logger, IContentService contentService)
+        public ExceptionFilter(ILogger<ExceptionFilter> logger, IContentService contentService)
         {
             _logger = logger;
             _contentService = contentService;

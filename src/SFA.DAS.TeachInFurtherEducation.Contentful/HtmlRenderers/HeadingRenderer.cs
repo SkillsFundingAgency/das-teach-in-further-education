@@ -63,12 +63,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
                     gdsHeadingClassSize = "m";
                     headingSize = 3;
                     break;
-                case Heading4 _:
+                default:
                     gdsHeadingClassSize = "s";
                     headingSize = 4;
                     break;
-                default:
-                    throw new ArgumentException("Only H1-H4 are supported", nameof(content));
             }
 
             var heading = content as IHeading;

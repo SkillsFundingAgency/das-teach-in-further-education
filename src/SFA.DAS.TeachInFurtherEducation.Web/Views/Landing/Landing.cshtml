@@ -6,7 +6,19 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewData["Title"] = Model!= null ? $"{Model.PageTitle}{(Model.Preview.IsPreview ? " Preview" : "")}" : "";
+    const string _title = "Title";
+
+    ViewData["Title"] = "";
+
+    if (Model != null)
+    {
+        ViewData[_title] = Model.PageTitle;
+
+        if (Model.Preview.IsPreview)
+        {
+            ViewData[_title] = ViewData[_title] + "(Preview)";
+        }
+    }
 }
 
 @section PreviewErrors {

@@ -18,14 +18,14 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests
 {
     public class ExceptionFilterTests
     {
-        private readonly ILogger<ErrorController> _logger;
+        private readonly ILogger<ExceptionFilter> _logger;
         private readonly IContentService _contentService;
         private readonly ExceptionFilter _exceptionFilter;
         private readonly ExceptionContext _context;
 
         public ExceptionFilterTests()
         {
-            _logger = A.Fake<ILogger<ErrorController>>();
+            _logger = A.Fake<ILogger<ExceptionFilter>>();
             _contentService = A.Fake<IContentService>();
 
             // Mock content for LayoutModel

@@ -41,39 +41,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
         }
 
-
-        ///// <summary>
-        ///// Generate specified partial view via the component type property.
-        ///// </summary>
-        ///// <param name="component">Encapsulated information regarding the unique component object.</param>
-        ///// <param name="tag">Tag to append the rendered partial view to.</param>
-        //private static void GenerateComponent(InterimPageComponent component, TagBuilder tag)
-        //{
-
-        //    try
-        //    {
-
-        //        var result = _viewRenderService.RenderToStringAsync(
-
-        //            MappedTypesToPartials[component.ComponentType ?? string.Empty],
-
-        //            component
-
-        //        ).Result;
-
-        //        tag.InnerHtml.AppendHtml(result);
-
-        //    }
-        //    catch(Exception _exception)
-        //    {
-
-        //        _logger.LogError(_exception, "Unable to generate componeont for type {ComponentType}.", component.ComponentType);
-
-        //    }
-
-        //}
-
-
         /// <summary>
         /// Convert a long text html document to a html string.
         /// </summary>
