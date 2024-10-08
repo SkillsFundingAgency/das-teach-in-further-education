@@ -9830,7 +9830,8 @@ a.dfe-header__link--service:focus {
     padding: 24px;
     display: flex;
     flex-grow: 1;
-    flex-direction: column
+    flex-direction: column;
+    width: 75%;
 }
 
 .dfe-card-container :last-child {
@@ -9863,8 +9864,8 @@ a.dfe-header__link--service:focus {
 }
 
 .dfe-card-link--header {
-    text-decoration: none;
-    color: #FFFFFF
+    color: #FFFFFF;
+    text-decoration: underline;
 }
 
 .dfe-card-link--header:after {
