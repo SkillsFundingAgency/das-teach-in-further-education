@@ -1,16 +1,20 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics
+@using SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity
+
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 
 @model LayoutModel
 @{
     string pageRoute = Model == null ? string.Empty : (Model.Preview.IsPreview ? "page-preview" : "page");
 }
+
 <!DOCTYPE html>
 <html lang="en" class="govuk-template">
 
 <head>
-    @* To-do - Implement these partials *@
-    @* <partial name="_GoogleAnalytics" model="GoogleAnalyticsTag.Head" /> *@
+    <partial name="_GoogleAnalyticsPartial" model="GoogleAnalyticsTag.Head" />
+    <partial name="_MicrosoftClarityPartial" model="MicrosoftClarityTag.Head" />
+
     <meta charset="utf-8">
     <meta name="facebook-domain-verification" content="j8fw22gxwwqy12i4udpfz88022dtwg"/>
     <title>@(ViewData["Title"] ?? "Teach in further education")</title>
@@ -41,29 +45,35 @@
     </script> *@
     <!--[if !IE 8]><!-->
     @* <link href="/css/main.css" rel="stylesheet" /> *@
+
     <link href="/css/site.css" rel="stylesheet" no-cdn/>
     <link href="/css/colours.css" rel="stylesheet" no-cdn/>
     <link href="/css/dfe_design_system.css" rel="stylesheet" no-cdn/>
+
     @* <link href="/css/TechInFurtheEdu.css" rel="stylesheet" no-cdn /> *@
     <!--<![endif]-->
     <meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
 
     <a id="layout-main-content-link" href="#main-content" class="govuk-skip-link">Skip to main content</a>
 
+    @await Html.PartialAsync("_CookieConsentPartial", Model?.footerLinks)
+
     @await Html.PartialAsync("_HomeMenuDesktopPartial", (Model?.MenuItems, Model?.Preview.IsPreview))
 
 </head>
 
 <body id="layout-body" class="govuk-template__body">
-@* To-do - Implement these partials *@
-@*  <partial name="_GoogleAnalytics" model="GoogleAnalyticsTag.Body" /> *@
+        
+    <partial name="_GoogleAnalyticsPartial" model="GoogleAnalyticsTag.Body" />
+
     <script nonce="@Context.GetNonce()">
         document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
 
-@* To-do - Implement these partials *@
-@* @await Html.PartialAsync("_CookieBannerPartial", Model)
+    
 
+@* To-do - Implement these partials *@
+@* 
     @await Html.PartialAsync("_BetaBannerPartial", Model?.BetaBanner)
 
     @RenderSection("BreadCrumbs", required: false)*@
@@ -79,7 +89,7 @@
 @await Html.PartialAsync("_FooterPartial", Model?.footerLinks)
 
 @* <script src="/libs/govuk-frontend/all.js"></script> *@
-<script src="/libs/jquery/jquery.min.js"></script>
+    <script integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous" src="/libs/jquery/jquery.min.js"></script>
 
 @* *@
 @* <script src="/js/das-all.js"></script> *@
@@ -97,6 +107,8 @@
 @*     }); *@
 @* *@
 @* </script> *@
+
+<script src="/js/cookie_consent.js" no-cdn></script>
 
 <environment include="Development">
     <script src="/js/app.js" no-cdn></script>

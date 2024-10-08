@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics
 {
+    [ExcludeFromCodeCoverage]
     public static class Extensions
     {
         public static bool GoogleAnalyticsIsEnabled(this ViewDataDictionary viewData)

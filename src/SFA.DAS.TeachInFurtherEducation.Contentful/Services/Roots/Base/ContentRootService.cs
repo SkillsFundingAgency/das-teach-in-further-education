@@ -19,13 +19,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base
             _htmlRenderer = htmlRenderer;
         }
 
-        protected static string Slugify(string? name)
-        {
-            ArgumentNullException.ThrowIfNull(name);
-
-            return name.ToLower().Replace(' ', '-');
-        }
-
         protected async Task<HtmlString?> ToHtmlString(Document? document)
         {
             if (document == null)

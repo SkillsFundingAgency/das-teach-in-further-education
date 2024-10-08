@@ -2,6 +2,8 @@
 {
     public static class RouteNames
     {
+        public const string Cookies = "CookiePolicy";
+
         public const string Error404 = "404";
         public const string Error500 = "500";
     }

@@ -124,7 +124,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             catch(Exception _exception)
             {
 
-                _logger.LogError(_exception, "Unable to render partial view {PartialViewName}", viewName);
+                _logger.LogError(_exception, "Unable to render partial view {viewName}", viewName);
 
                 return string.Empty;
 

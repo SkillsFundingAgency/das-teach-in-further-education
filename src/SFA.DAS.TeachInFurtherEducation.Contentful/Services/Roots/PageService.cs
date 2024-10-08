@@ -9,6 +9,8 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces.Roots;
 using ApiPage = SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api.Page;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
 {
@@ -26,8 +28,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
 
         public async Task<IEnumerable<PageRenamed>> GetAll(IContentfulClient contentfulClient)
         {
+            var cancellationToken = new CancellationToken();
+
             var builder = QueryBuilder<ApiPage>.New.ContentTypeIs("page").Include(3);
-            var pages = await contentfulClient.GetEntries(builder);
+            var pages = await contentfulClient.GetEntries(builder, cancellationToken);
             LogErrors(pages);
 
             return await Task.WhenAll(FilterValidUrl(pages, _logger).Select(ToContent));

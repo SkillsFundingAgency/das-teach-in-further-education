@@ -41,7 +41,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
         /// <exception cref="Exception">Thrown when no location is found or if all retry attempts fail.</exception>
         public async Task<LocationModel?> GetLocationByPostcode(string postcode)
         {
-            var requestUri = $"https://api.postcodes.io/postcodes/{HttpUtility.UrlEncode(postcode)}";
+            var requestUri = $"https://api.postcodes.io/postcodes/{HttpUtility.UrlEncode(postcode).Replace("+", "%20")}";
 
             for (int retry = 0; retry < MaxRetries; retry++)
             {
