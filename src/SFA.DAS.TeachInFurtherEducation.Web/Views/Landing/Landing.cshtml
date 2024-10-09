@@ -6,13 +6,25 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewData["Title"] = $"{Model.PageTitle}{(Model.Preview.IsPreview ? " Preview" : "")}";
+    const string _title = "Title";
+
+    ViewData["Title"] = "";
+
+    if (Model != null)
+    {
+        ViewData[_title] = Model.PageTitle;
+
+        if (Model.Preview.IsPreview)
+        {
+            ViewData[_title] = ViewData[_title] + "(Preview)";
+        }
+    }
 }
 
 @section PreviewErrors {
-    @await Html.PartialAsync("_PreviewErrorsPartial", Model.Preview)
+    @await Html.PartialAsync("_PreviewErrorsPartial", Model?.Preview)
 }
-@if (Model.PageComponents != null)
+@if (Model?.PageComponents != null)
 {
     @foreach (var component in Model.PageComponents)
     {
@@ -53,6 +65,12 @@
                 break;
             case LineSeparator lineSeparator:
                 @await Html.PartialAsync("_LineSeparatorPartial", lineSeparator)
+                break;
+            case UserJourney userJourney:
+                @await Html.PartialAsync("_UserJourneyPartial", userJourney)
+                break;
+            case ActionBanner actionBanner:
+                @await Html.PartialAsync("_ActionBannerPartial", actionBanner)
                 break;
 
             default:

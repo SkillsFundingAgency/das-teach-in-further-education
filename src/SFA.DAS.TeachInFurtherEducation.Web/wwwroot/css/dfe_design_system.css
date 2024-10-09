@@ -612,7 +612,7 @@
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
     font-size: .875rem;
-    line-height: 1.1428571429;
+    line-height: 1.143;
     margin-top: 0;
     margin-bottom: 15px
 }
@@ -1503,7 +1503,7 @@
 
 .govuk-back-link {
     font-size: .875rem;
-    line-height: 1.1428571429;
+    line-height: 1.143;
     font-family: Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -10652,7 +10652,7 @@ a.dfe-header__link--service:focus {
     padding-left: 10px;
     padding-right: 10px;
     display: block;
-    background: rgba(86, 148, 202, .1450980392)
+    background: rgba(86, 148, 202, .1451)
 }
 
 .ncs-search .search-wrapper::after {
@@ -10725,82 +10725,6 @@ a.dfe-header__link--service:focus {
     box-shadow: inset 0 0 0 2px
 }
 
-.ncs-highlight-box .ncs-highlight-box__card {
-    min-height: 170px;
-    background-color: rgba(86, 148, 202, .1450980392);
-    padding: 10px;
-    margin-bottom: 15px
-}
-
-.ncs-highlight-box .ncs-highlight-box__link {
-    text-decoration: none
-}
-
-.ncs-highlight-box .ncs-highlight-box__link:focus .ncs-highlight-box__card h3, .ncs-highlight-box .ncs-highlight-box__link:hover .ncs-highlight-box__card h3 {
-    text-decoration: underline;
-    color: #0b0c0c
-}
-
-.ncs-highlight-box .ncs-highlight-box__link:focus .ncs-highlight-box__card {
-    outline: #fd0 solid 3px;
-    outline-offset: 0;
-    box-shadow: inset 0 0 0 3px #0b0c0c
-}
-
-@media (max-width: 640px) {
-    .ncs-highlight-box__card {
-        min-height: auto
-    }
-}
-
-.ncs-notification-banner {
-    border: 4px solid #912b88;
-    background-color: #912b88
-}
-
-.ncs-notification-banner .govuk-notification-banner__heading {
-    font-size: 24px
-}
-
-.app-your-reference {
-    background-color: #f3f2f1;
-    padding: 15px;
-    margin-bottom: 30px;
-    border-left: 10px solid #d53880
-}
-
-.app-your-reference__code {
-    margin-top: 5px;
-    margin-bottom: 0
-}
-
-.app-your-reference__meta p {
-    margin-bottom: 0;
-    color: #0b0c0c
-}
-
-.app-your-reference__meta p:last-child {
-    margin-top: 5px
-}
-
-.ncs-panel--confirmation {
-    color: #0b0c0c;
-    background-color: rgba(86, 148, 202, .1450980392) !important
-}
-
-.ncs-panel--confirmation .ncs-progress--complete .ncs-progress__count {
-    color: #0b0c0c
-}
-
-.ncs-panel--confirmation .ncs-progress--complete .ncs-progress__bar span {
-    color: #0b0c0c;
-    background-color: #0b0c0c
-}
-
-.ncs-panel--confirmation .ncs-panel__title {
-    color: #0b0c0c !important
-}
-
 iframe {
     min-width: 100%;
     border: none;
@@ -10826,81 +10750,6 @@ code.hljs {
     position: relative
 }
 
-/*!
-Theme: GitHub
-Description: Light theme as seen on github.com
-Author: github.com
-Maintainer: @Hirse
-Updated: 2021-05-15
-
-Outdated base version: https://github.com/primer/github-syntax-light
-Current colors taken from GitHub's CSS
-*/
-.hljs {
-    color: #24292e;
-    background: #fff
-}
-
-.hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-variable.language_ {
-    color: #d73a49
-}
-
-.hljs-title, .hljs-title.class_, .hljs-title.class_.inherited__, .hljs-title.function_ {
-    color: #6f42c1
-}
-
-.hljs-attr, .hljs-attribute, .hljs-literal, .hljs-meta, .hljs-number, .hljs-operator, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id, .hljs-variable {
-    color: #005cc5
-}
-
-.hljs-meta .hljs-string, .hljs-regexp, .hljs-string {
-    color: #d73a49
-}
-
-.hljs-built_in, .hljs-symbol {
-    color: #e36209
-}
-
-.hljs-code, .hljs-comment, .hljs-formula {
-    color: #6a737d
-}
-
-.hljs-name, .hljs-quote, .hljs-selector-pseudo, .hljs-selector-tag {
-    color: #22863a
-}
-
-.hljs-subst {
-    color: #24292e
-}
-
-.hljs-section {
-    color: #005cc5;
-    font-weight: 700
-}
-
-.hljs-bullet {
-    color: #735c0f
-}
-
-.hljs-emphasis {
-    color: #24292e;
-    font-style: italic
-}
-
-.hljs-strong {
-    color: #24292e;
-    font-weight: 700
-}
-
-.hljs-addition {
-    color: #22863a;
-    background-color: #f0fff4
-}
-
-.hljs-deletion {
-    color: #b31d28;
-    background-color: #ffeef0
-}
 
 .app-width-container {
     max-width: 1220px

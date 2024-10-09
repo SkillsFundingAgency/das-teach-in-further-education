@@ -12,7 +12,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.Helpers;
 using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using Xunit;
 
-namespace SFA.DAS.TeachInFurtherEducation.Web.Tests.Helpers
+namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Helpers
 {
     public class CspReportInputFormatterTests
     {

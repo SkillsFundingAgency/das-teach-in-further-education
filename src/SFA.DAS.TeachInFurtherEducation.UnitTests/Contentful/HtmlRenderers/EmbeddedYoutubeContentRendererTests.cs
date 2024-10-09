@@ -1,4 +1,5 @@
 ﻿using Contentful.Core.Models;
+using SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -84,6 +85,28 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
 
             Assert.Equal(expectedHtml, html);
         }
+
+        [Fact]
+        public void SupportsContent_ReturnsFalse_WhenParagraphHasMultipleContents()
+        {
+            // Arrange: Create a Paragraph with more than one content item
+            var paragraph = new Paragraph
+            {
+                Content = new List<IContent>
+        {
+            new Text { Value = "<iframe>" },
+            new Text { Value = "extra content" }
+        }
+            };
+            var renderer = new EmbeddedYoutubeContentRenderer();
+
+            // Act: Call the method SupportsContent
+            var result = renderer.SupportsContent(paragraph);
+
+            // Assert: Ensure the method returns false
+            Assert.False(result);
+        }
+
 
         private Document CreateYouTubeDocument(string embeddedYouTube)
         {

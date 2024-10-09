@@ -3,27 +3,16 @@
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 
 @model (IEnumerable<MenuItem>?, bool?)
-<nav aria-label="top-menu" class="dfe-topnav" name="Other services navigation">
+<nav aria-label="top-menu" class="dfe-topnav fe-dfe-topnav" name="Other services navigation">
     <div class="govuk-width-container">
-        <div class="flex-nav">
-            @if (Model.Item1 != null && Model.Item1.Any())
-            {
-                var primaryMenuItems = Model.Item1.Where(x => x.TopLevelMenuItem);
-                <ul class="flex-left">
-                    @foreach (var item in primaryMenuItems)
-                    {
-                        <li>
-                            <a href="@(Model.Item2.HasValue && Model.Item2.Value ? $"/preview{item.MenuItemSource}" : item.MenuItemSource)" id="services-tab">@item.MenuItemText</a>
-                        </li>
-                    }
-                </ul>
-            }
+        <div class="flex-nav govuk-!-padding-top-5">
+            nbsp;
             <ul class="flex-right">
                 <li>
-                    &nbsp;
+                    <a href="#signUpForm" class="govuk-link">Sign up for emails</a>
                 </li>
                 <li>
-                    &nbsp;
+                    <image src="../images/envelope_jam.png" class="envelope-icon" aria-label="envelope icon"/>
                 </li>
             </ul>
         </div>
@@ -87,7 +76,6 @@
 </header>
 
 <script nonce="@Context.GetNonce()">
-    // Write your JavaScript code.
     (() => {
         var o = {
             621: () => {

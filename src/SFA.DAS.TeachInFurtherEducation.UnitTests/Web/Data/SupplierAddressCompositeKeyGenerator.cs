@@ -7,7 +7,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.Data.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
 using Xunit;
 
-namespace SFA.DAS.TeachInFurtherEducation.Web.Tests.Data
+namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.Data
 {
     public class SupplierAddressCompositeKeyGeneratorTests
     {

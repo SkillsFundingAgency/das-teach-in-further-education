@@ -3,12 +3,17 @@
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model RichTextContents
 
-<div class="govuk-width-container">
-
-    <div class="govuk-grid-row govuk-!-padding-top-6">
-        <div class="govuk-grid-column-full">
-            @ComponentService.ToHtmlString(@Model.PageContents)
+<div id="@Model.DataId" class="govuk-width-container">
+    @{
+        var bgColor = "bg-fe-white";
+        @if (!string.IsNullOrEmpty(Model.BackgroundColor) && Model.BackgroundColor == "Peach")
+        {
+            bgColor = "bg-fe-peach";
+        }
+        <div class="govuk-grid-row govuk-!-padding-top-6 @bgColor">
+            <div class="govuk-grid-column-full">
+                @ComponentService.ToHtmlString(@Model.PageContents)
+            </div>
         </div>
-    </div>
-</div>
-
+    }
+</div >

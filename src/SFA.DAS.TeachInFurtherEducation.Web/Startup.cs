@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using AspNetCore.SEOHelper;
 using Contentful.Core.Configuration;
 using Contentful.Core.Models;
-using ContentfulExample.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +31,11 @@ using SFA.DAS.TeachInFurtherEducation.Web.Security;
 using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.StartupServices;
+using System;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using NetEscapades.AspNetCore.SecurityHeaders;
+using System.Security.Cryptography;
+using SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -47,13 +51,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             Configuration = new ConfigurationBuilder()
                 .AddConfiguration(configuration)
 
-                //.AddAzureTableStorage(options =>
-                //{
-                //    options.ConfigurationKeys = configuration["ConfigNames"]?.Split(",");
-                //    options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
-                //    options.EnvironmentName = configuration["EnvironmentName"];
-                //    options.PreFixConfigurationKeys = false;
-                //})
+                .AddAzureTableStorage(options =>
+                {
+                    options.ConfigurationKeys = configuration["ConfigNames"]?.Split(",");
+                    options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
+                    options.EnvironmentName = configuration["EnvironmentName"];
+                    options.PreFixConfigurationKeys = false;
+                })
                 .Build();
         }
 
@@ -76,19 +80,41 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
+            // Enable Google Analytics
+            services.AddControllersWithViews(options =>
+            {
+                var googleAnalyticsConfiguration = Configuration.GetSection("GoogleAnalytics").Get<GoogleAnalyticsConfiguration>()!;
+                options.Filters.Add(new EnableGoogleAnalyticsAttribute(googleAnalyticsConfiguration));
+            });
+
+            // Enable Microsoft Clarity
+            services.AddControllersWithViews(options =>
+            {
+                var microsoftClarityConfiguration = Configuration.GetSection("MicrosoftClarity").Get<MicrosoftClarityConfiguration>()!;
+                options.Filters.Add(new EnableMicrosoftClarityAttribute(microsoftClarityConfiguration));
+            });
+
             services.AddRateLimiting(Configuration);
 
             services.AddNLog(Configuration).AddHealthChecks();
 
             services.AddApplicationInsightsTelemetry();
 
+            // Register CSPReportService
+            services.AddControllers(options =>
+            {
+                options.InputFormatters.Insert(0, new CspReportInputFormatter());
+            });
 
-#if DEBUG
+            // Add Exception Filter
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<ExceptionFilter>();
+            });
+
             services.AddControllersWithViews();
-#else
-            var googleAnalyticsConfiguration = Configuration.GetSection("GoogleAnalytics").Get<GoogleAnalyticsConfiguration>()!;
-            services.AddControllersWithViews(options => options.Filters.Add(new EnableGoogleAnalyticsAttribute(googleAnalyticsConfiguration)));
-#endif
+
+
 
             services.AddWebOptimizer(assetPipeline =>
             {
@@ -106,15 +132,32 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 }
             });
 
+            services.AddHsts(options =>
+            {
+                options.Preload = true; 
+                options.IncludeSubDomains = true;  
+                options.MaxAge = TimeSpan.FromDays(365); 
+            });
+
+            services.AddAntiforgery(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpClientWrapper, HttpClientWrapper>();
 
             services.AddScoped<IViewRenderService, ViewRenderService>();
 
             services.AddSingleton<HtmlRenderer>(a => ContentService.CreateHtmlRenderer());
 
-#pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
+            #pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
+
             var serviceProvider = services.BuildServiceProvider();
-#pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
+
+            #pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
 
             services.AddLogging(builder => builder.AddConsole());
 
@@ -140,7 +183,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             services.AddHostedService<SupplierAddressUpdateService>();
 
             services.Configure<EndpointsOptions>(Configuration.GetSection("Endpoints"));
-            services.Configure<GoogleAnalyticsConfiguration>(Configuration.GetSection("GoogleAnalytics"));
+            services.Configure<MicrosoftClarityConfiguration>(Configuration.GetSection("GoogleAnalytics"));
 
             // Register geolocation service (Postcodes.io in this case)
             services.AddHttpClient<PostcodesIoGeoLocationService>();
@@ -148,19 +191,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             // Register default Open XML Spreadsheet parser
             services.AddSingleton<ISpreadsheetParser, OpenXmlSpreadsheetParser>();
-            
+
             // Register composite key generator for SupplierAddress
             services.AddSingleton<ICompositeKeyGenerator<SupplierAddressModel>, SupplierAddressCompositeKeyGenerator>();
 
             // Register MailChimp service
             services.Configure<MailChimpMarketingServiceOptions>(Configuration.GetSection("MailChimp"));
             services.AddSingleton<IMarketingService, MailChimpMarketingService>();
-
-            // Register CSPReportService
-            services.AddControllers(options =>
-            {
-                options.InputFormatters.Insert(0, new CspReportInputFormatter());
-            });
 
             services.AddSingleton<ICspReportService, CspReportService>();
 
@@ -171,11 +208,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             services.AddDbContext<SqlDbContext>(options =>
                 options.UseSqlServer(
                     Configuration["SqlDB:ConnectionString"],
-                    sqlOptions => sqlOptions.UseNetTopologySuite() 
+                    sqlOptions => sqlOptions.UseNetTopologySuite()
                 ));
 
             services.AddScoped<ISupplierAddressRepository, SqlSupplierAddressRepository>();
-            
+
             services.AddScoped<ISupplierAddressService, SupplierAddressService>();
 
             services.AddTransient<ISitemap, Sitemap>()
@@ -183,7 +220,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
         {
             app.UseAppSecurityHeaders(env, configuration);
 
@@ -193,46 +230,20 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             }
             else
             {
-                app.UseExceptionHandler("/error/500");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                app.UseStatusCodePagesWithReExecute("/error/{0}");
             }
 
             app.UseHttpsRedirection();
             app.UseWebOptimizer();
+            app.UseCachingAndCompression();
             app.UseStaticFiles();
-
-            app.Use(async (context, next) =>
-            {
-                await next();
-
-                if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
-                {
-                    //Re-execute the request so the user gets the error page
-                    var originalPath = context.Request.Path.Value;
-                    context.Items["originalPath"] = originalPath;
-                    context.Request.Path = "/error/404";
-                    await next();
-                }
-            });
 
             app.UseXMLSitemap(env.ContentRootPath);
             app.UseRouting();
             app.UseAuthorization();
-
-            app.UseHealthChecks("/ping", new HealthCheckOptions
-            {
-                //By returning false to the Predicate option we ensure that none of the health checks registered in ConfigureServices are ran for this endpoint
-                Predicate = (_) => false,
-                ResponseWriter = (context, report) =>
-                {
-                    context.Response.ContentType = "application/json";
-                    return context.Response.WriteAsync("whiff-whaff");
-                }
-            });
-
-            app.UseHealthChecks("/health");
-
+            app.UseHealthCheckEndPoint();
+            
             app.UseEndpoints(endpoints =>
             {
                 MapControllerRoute(endpoints,

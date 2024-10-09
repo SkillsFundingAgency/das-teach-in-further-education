@@ -13,6 +13,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
     [Route("error")]
     public class ErrorController : Controller
     {
+        private const string __SYSTEMERRORVIEW = "ApplicationError";
+        private const string __PAGENOTFOUNDVIEW = "PageNotFound";
+
         private readonly ILogger<ErrorController> _log;
 
         private static readonly LayoutModel LayoutModel = new LayoutModel();
@@ -28,41 +31,37 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 
         }
 
-        [Route("404", Name = RouteNames.Error404)]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult PageNotFound()
+        [Route("{statusCode}")]
+        public IActionResult HandleError(int? statusCode)
         {
-
             try
             {
-
                 LayoutModel.footerLinks = _contentService.Content.FooterLinks;
                 LayoutModel.MenuItems = _contentService.Content.MenuItems;
 
-                return View(LayoutModel);
+                if (!ModelState.IsValid)
+                {
+                    return View(__SYSTEMERRORVIEW, LayoutModel);
+                }
 
+                if (statusCode.HasValue)
+                {
+                    switch (statusCode.Value)
+                    {
+                        case 404:
+                            return View(__PAGENOTFOUNDVIEW, LayoutModel);
+                        case 500:
+                            return View(__SYSTEMERRORVIEW, LayoutModel);
+                    }
+                }
+                return View(__SYSTEMERRORVIEW, LayoutModel);
             }
-            catch(Exception _exception)
+            catch (Exception _exception)
             {
-
                 _log.LogError(_exception, "Unable to get model with populated footer");
 
-                return View(LayoutModel);
-
+                return View(__SYSTEMERRORVIEW, LayoutModel);
             }
-
-        }
-
-        [Route("500", Name = RouteNames.Error500)]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult ApplicationError()
-        {
-            LayoutModel.footerLinks = _contentService.Content.FooterLinks;
-            LayoutModel.MenuItems = _contentService.Content.MenuItems;
-
-            IExceptionHandlerPathFeature? feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            _log.LogError($"500 result at {feature?.Path ?? "{unknown}"}", feature?.Error);
-            return View(LayoutModel);
         }
     }
 }

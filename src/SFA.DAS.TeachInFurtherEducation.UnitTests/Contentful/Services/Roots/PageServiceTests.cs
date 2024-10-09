@@ -1,81 +1,72 @@
-﻿//using AutoFixture;
-//using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Xunit;
-//using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots;
+﻿using Xunit;
+using FakeItEasy;
+using Microsoft.Extensions.Logging;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content;
+using Contentful.Core;
+using Contentful.Core.Search;
+using Microsoft.AspNetCore.Html;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Contentful.Core.Models;
+using System.Linq;
+using System.Threading;
+using ApiPage = SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api.Page;
 
-//namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services.Roots
-//{
-//    public class PageServiceTests : RootServiceTestBase<Page, PageService>
-//    {
-//        public PageService PageService { get; set; }
+namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services.Roots
+{
+    public class PageServiceTests
+    {
+        private readonly ILogger<PageService> _logger;
+        private readonly HtmlRenderer _htmlRenderer;
+        private readonly PageService _pageService;
+        private readonly IContentfulClient _contentfulClient;
 
-//        public PageServiceTests()
-//        {
-//            PageService = new PageService(HtmlRenderer, Logger);
-//        }
+        public PageServiceTests()
+        {
+            _logger = A.Fake<ILogger<PageService>>();
+            _htmlRenderer = A.Fake<HtmlRenderer>();
+            _contentfulClient = A.Fake<IContentfulClient>();
 
-//        [Fact]
-//        public async Task GetAll_SameNumberOfPagesTest()
-//        {
-//            const int numberOfPages = 3;
+            // Create the service instance
+            _pageService = new PageService(_htmlRenderer, _logger);
+        }
 
-//            ContentfulCollection.Items = Fixture.CreateMany<Page>(numberOfPages);
+        [Fact]
+        public async Task GetAll_ShouldReturnFilteredPages()
+        {
+            // Arrange: Mock some pages retrieved from Contentful
+            var page1 = new ApiPage()
+            {
+                PageTitle = "Page 1",
+                PageURL = "/page-1"
+            };
 
-//            var pages = await PageService.GetAll(ContentfulClient);
+            var page2 = new ApiPage()
+            {
+                PageTitle = "Page 2",
+                PageURL = "/page-2"
+            };
 
-//            Assert.NotNull(pages);
-//            Assert.Equal(numberOfPages, pages.Count());
-//        }
+            var pages = new List<ApiPage> { page1, page2 };
 
-//        [Fact]
-//        public async Task GetAll_PageTest()
-//        {
-//            const int numberOfPages = 1;
+            var contentfulCollection = new ContentfulCollection<ApiPage>
+            {
+                Items = pages
+            };
 
-//            ContentfulCollection.Items = Fixture.CreateMany<Page>(numberOfPages);
+            // Workaround for the optional argument issue
+            A.CallTo(() => _contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>.Ignored, A<CancellationToken>.Ignored))
+                .Returns(Task.FromResult(contentfulCollection));
 
-//            var pages = await PageService.GetAll(ContentfulClient);
+            // Act
+            var result = await _pageService.GetAll(_contentfulClient);
 
-//            var actualPage = pages.FirstOrDefault();
-//            Assert.NotNull(actualPage);
-
-//            var expectedSourcePage = ContentfulCollection.Items.First();
-//            Assert.Equal(expectedSourcePage.PageTitle, actualPage.Title);
-//            Assert.Equal(expectedSourcePage.PageURL, actualPage.Url);
-//            Assert.Equal(ExpectedContent.Value, actualPage.Content.Value);
-//        }
-
-//        [Fact]
-//        public async Task GetAll_NullUrlsFilteredOutTest()
-//        {
-//            const int numberOfPages = 3;
-
-//            var pages = Fixture.CreateMany<Page>(numberOfPages).ToArray();
-//            pages[1].PageURL = null;
-//            ContentfulCollection.Items = pages;
-
-//            var pagesResult = await PageService.GetAll(ContentfulClient);
-
-//            Assert.NotNull(pages);
-//            Assert.Equal(numberOfPages-1, pagesResult.Count());
-//        }
-
-//        [Fact]
-//        public async Task GetAll_EmptyUrlsFilteredOutTest()
-//        {
-//            const int numberOfPages = 3;
-
-//            var pages = Fixture.CreateMany<Page>(numberOfPages).ToArray();
-//            pages[0].PageURL = "";
-//            pages[2].PageURL = "";
-//            ContentfulCollection.Items = pages;
-
-//            var pagesResult = await PageService.GetAll(ContentfulClient);
-
-//            Assert.NotNull(pages);
-//            Assert.Single(pagesResult);
-//        }
-//    }
-//}
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count());
+            Assert.Contains(result, p => p.Title == "Page 1");
+            Assert.Contains(result, p => p.Title == "Page 2");
+        }
+    }
+}

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class LoggerExtensions
 {
@@ -43,12 +44,32 @@ public static class LoggerExtensions
 
     private static bool CheckLogMessages(IReadOnlyList<KeyValuePair<string, object>> readOnlyLists, string message)
     {
-        foreach (var kvp in readOnlyLists)
+        // Get the original message
+        var originalFormat = readOnlyLists.FirstOrDefault(k => k.Key =="{OriginalFormat}").Value?.ToString();
+
+        if (originalFormat != null)
         {
-            if (kvp.Value.ToString().Contains(message))
+            // Perform the substitutions
+            foreach (var kvp in readOnlyLists)
             {
-                return true;
+                if (kvp.Key != "{OriginalFormat}")
+                {
+                    originalFormat = originalFormat.Replace($"{{{kvp.Key}}}", kvp.Value.ToString());
+                }
             }
+
+            return (originalFormat == message);
+        }
+        else
+        {
+            foreach (var kvp in readOnlyLists)
+            {
+                if (kvp.Value.ToString().Contains(message))
+                {
+                    return true;
+                }
+            }
+
         }
 
         return false;

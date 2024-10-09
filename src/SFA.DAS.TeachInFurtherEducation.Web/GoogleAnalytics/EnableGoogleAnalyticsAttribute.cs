@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics
 {
+    [ExcludeFromCodeCoverage]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class EnableGoogleAnalyticsAttribute : ResultFilterAttribute
     {

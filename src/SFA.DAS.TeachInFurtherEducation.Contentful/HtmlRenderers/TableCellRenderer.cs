@@ -46,16 +46,12 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
         /// <returns>The td-tag as a string.</returns>
         public async Task<string> RenderAsync(IContent content)
         {
-            var tableCell = content as TableCell;
+            if (content is not TableCell tableCell)
+            {
+                throw new ArgumentException("Invalid content passed to TableCellRenderer", nameof(content));
+            }
 
             var sb = new StringBuilder();
-
-            if(tableCell == null)
-            {
-
-                return string.Empty;
-
-            }
             
             sb.Append("<td class=\"govuk-table__cell\">");
 

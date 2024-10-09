@@ -30,6 +30,8 @@ public class EntityResolver : IContentTypeResolver
             "fullImageCardBanner" => typeof(FullImageCardBanner),
             "headerFullImage" => typeof(HeaderFullImage),
             "lineSeparator" => typeof(LineSeparator),
+            "userJourney" => typeof(UserJourney),
+            "actionBanner" => typeof(ActionBanner),
             _ => null
         };
 #pragma warning restore CS8603 // Possible null reference return.

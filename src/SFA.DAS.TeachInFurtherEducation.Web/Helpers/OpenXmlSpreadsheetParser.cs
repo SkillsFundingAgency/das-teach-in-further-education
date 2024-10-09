@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ContentfulExample.Helpers
+namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
 {
     public class OpenXmlSpreadsheetParser : ISpreadsheetParser
     {

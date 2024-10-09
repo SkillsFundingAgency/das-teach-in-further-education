@@ -5,7 +5,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 {
 
     [ExcludeFromCodeCoverage]
-    public class LineSeparator : Common, IContent
+    public class LineSeparator : BaseModel, IContent
     {
         public required string Title { get; set; }
     }

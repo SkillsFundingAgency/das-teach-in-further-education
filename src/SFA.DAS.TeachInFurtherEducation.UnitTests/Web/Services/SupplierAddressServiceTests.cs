@@ -18,74 +18,77 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-public partial class SupplierAddressServiceTests
+namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 {
-    private readonly ISupplierAddressRepository _supplierAddressRepository;
-    private readonly IContentService _contentService;
-    private readonly IGeoLocationProvider _geoLocationProvider;
-    private readonly ISpreadsheetParser _spreadsheetParser;
-    private readonly ICompositeKeyGenerator<SupplierAddressModel> _compositeKeyGenerator;
-    private readonly ILogger<SupplierAddressService> _logger;
-    private readonly SupplierAddressService _service;
 
-    public SupplierAddressServiceTests()
+    public partial class SupplierAddressServiceTests
     {
-        _supplierAddressRepository = A.Fake<ISupplierAddressRepository>();
-        _contentService = A.Fake<IContentService>();
-        _geoLocationProvider = A.Fake<IGeoLocationProvider>();
-        _spreadsheetParser = A.Fake<ISpreadsheetParser>();
-        _compositeKeyGenerator = A.Fake<ICompositeKeyGenerator<SupplierAddressModel>>();
-        _logger = A.Fake<ILogger<SupplierAddressService>>();
+        private readonly ISupplierAddressRepository _supplierAddressRepository;
+        private readonly IContentService _contentService;
+        private readonly IGeoLocationProvider _geoLocationProvider;
+        private readonly ISpreadsheetParser _spreadsheetParser;
+        private readonly ICompositeKeyGenerator<SupplierAddressModel> _compositeKeyGenerator;
+        private readonly ILogger<SupplierAddressService> _logger;
+        private readonly SupplierAddressService _service;
 
-        // Create a mock service provider that implements ISupportRequiredService
-        var serviceProvider = A.Fake<IServiceProvider>(o => o.Implements<ISupportRequiredService>());
-
-        // Configure GetRequiredService to return the fake repository when requested
-        A.CallTo(() => ((ISupportRequiredService)serviceProvider).GetRequiredService(typeof(ISupplierAddressRepository)))
-            .Returns(_supplierAddressRepository);
-
-        // Optionally, configure GetRequiredService for other services if needed
-        // Example:
-        // A.CallTo(() => ((ISupportRequiredService)serviceProvider).GetRequiredService(typeof(AnotherService)))
-        //     .Returns(A.Fake<AnotherService>());
-
-        var serviceScopeFactory = A.Fake<IServiceScopeFactory>();
-        var serviceScope = A.Fake<IServiceScope>();
-
-        // Configure the service scope to return the fake service provider
-        A.CallTo(() => serviceScopeFactory.CreateScope()).Returns(serviceScope);
-        A.CallTo(() => serviceScope.ServiceProvider).Returns(serviceProvider);
-
-        _service = new SupplierAddressService(
-            serviceScopeFactory,
-            _supplierAddressRepository,
-            _contentService,
-            _geoLocationProvider,
-            _spreadsheetParser,
-            _compositeKeyGenerator,
-            _logger
-        );
-    }
-
-    [Fact]
-    public async Task GetSourceSupplierAddresses_ShouldReturnAddresses_WhenAssetExists()
-    {
-        var asset = new Asset<byte[]>
+        public SupplierAddressServiceTests()
         {
-            Content = Encoding.UTF8.GetBytes("<xml></xml>"),
-            Metadata = new AssetMetadata
+            _supplierAddressRepository = A.Fake<ISupplierAddressRepository>();
+            _contentService = A.Fake<IContentService>();
+            _geoLocationProvider = A.Fake<IGeoLocationProvider>();
+            _spreadsheetParser = A.Fake<ISpreadsheetParser>();
+            _compositeKeyGenerator = A.Fake<ICompositeKeyGenerator<SupplierAddressModel>>();
+            _logger = A.Fake<ILogger<SupplierAddressService>>();
+
+            // Create a mock service provider that implements ISupportRequiredService
+            var serviceProvider = A.Fake<IServiceProvider>(o => o.Implements<ISupportRequiredService>());
+
+            // Configure GetRequiredService to return the fake repository when requested
+            A.CallTo(() => ((ISupportRequiredService)serviceProvider).GetRequiredService(typeof(ISupplierAddressRepository)))
+                .Returns(_supplierAddressRepository);
+
+            // Optionally, configure GetRequiredService for other services if needed
+            // Example:
+            // A.CallTo(() => ((ISupportRequiredService)serviceProvider).GetRequiredService(typeof(AnotherService)))
+            //     .Returns(A.Fake<AnotherService>());
+
+            var serviceScopeFactory = A.Fake<IServiceScopeFactory>();
+            var serviceScope = A.Fake<IServiceScope>();
+
+            // Configure the service scope to return the fake service provider
+            A.CallTo(() => serviceScopeFactory.CreateScope()).Returns(serviceScope);
+            A.CallTo(() => serviceScope.ServiceProvider).Returns(serviceProvider);
+
+            _service = new SupplierAddressService(
+                serviceScopeFactory,
+                _supplierAddressRepository,
+                _contentService,
+                _geoLocationProvider,
+                _spreadsheetParser,
+                _compositeKeyGenerator,
+                _logger
+            );
+        }
+
+        [Fact]
+        public async Task GetSourceSupplierAddresses_ShouldReturnAddresses_WhenAssetExists()
+        {
+            var asset = new Asset<byte[]>
             {
-                Id = "asset-123",
-                Filename = "data.xmls",
-                Url = "https://example.com/assets/data.xmls",
-                LastUpdated = DateTime.UtcNow
-            }
-        };
+                Content = Encoding.UTF8.GetBytes("<xml></xml>"),
+                Metadata = new AssetMetadata
+                {
+                    Id = "asset-123",
+                    Filename = "data.xmls",
+                    Url = "https://example.com/assets/data.xmls",
+                    LastUpdated = DateTime.UtcNow
+                }
+            };
 
-        A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
-            .Returns(Task.FromResult(new List<Asset<byte[]>> { asset }));
+            A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
+                .Returns(Task.FromResult(new List<Asset<byte[]>> { asset }));
 
-        var rawData = new List<Dictionary<string, string>>
+            var rawData = new List<Dictionary<string, string>>
         {
             new Dictionary<string, string>
             {
@@ -97,64 +100,64 @@ public partial class SupplierAddressServiceTests
             }
         };
 
-        A.CallTo(() => _spreadsheetParser.ParseAsync(asset.Content))
-            .Returns(rawData);
+            A.CallTo(() => _spreadsheetParser.ParseAsync(asset.Content))
+                .Returns(rawData);
 
-        A.CallTo(() => _compositeKeyGenerator.GenerateKey(A<SupplierAddressModel>._))
-            .Returns("unique-key");
+            A.CallTo(() => _compositeKeyGenerator.GenerateKey(A<SupplierAddressModel>._))
+                .Returns("unique-key");
 
-        var result = await _service.GetSourceSupplierAddresses();
+            var result = await _service.GetSourceSupplierAddresses();
 
-        Assert.Single(result);
-        Assert.Equal("Test Supplier", result[0].OrganisationName);
-        Assert.Equal("123 Test St", result[0].AddressLine1);
-    }
+            Assert.Single(result);
+            Assert.Equal("Test Supplier", result[0].OrganisationName);
+            Assert.Equal("123 Test St", result[0].AddressLine1);
+        }
 
-    [Fact]
-    public async Task GetSourceSupplierAddresses_ShouldThrowFileNotFoundException_WhenNoAssetFound()
-    {
-        A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
-            .Returns(Task.FromResult(new List<Asset<byte[]>>()));
-
-        await Assert.ThrowsAsync<FileNotFoundException>(() => _service.GetSourceSupplierAddresses());
-    }
-
-    [Fact]
-    public async Task GetSupplierAddressAssetLastPublishedDate_ShouldReturnLastUpdatedDate()
-    {
-        var asset = new Asset<byte[]>
+        [Fact]
+        public async Task GetSourceSupplierAddresses_ShouldThrowFileNotFoundException_WhenNoAssetFound()
         {
-            Content = Encoding.UTF8.GetBytes("<xml></xml>"),
-            Metadata = new AssetMetadata
+            A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
+                .Returns(Task.FromResult(new List<Asset<byte[]>>()));
+
+            await Assert.ThrowsAsync<FileNotFoundException>(() => _service.GetSourceSupplierAddresses());
+        }
+
+        [Fact]
+        public async Task GetSupplierAddressAssetLastPublishedDate_ShouldReturnLastUpdatedDate()
+        {
+            var asset = new Asset<byte[]>
             {
-                Id = "asset-123",
-                Filename = "data.xmls",
-                Url = "https://example.com/assets/data.xmls",
-                LastUpdated = DateTime.UtcNow
-            }
-        };
+                Content = Encoding.UTF8.GetBytes("<xml></xml>"),
+                Metadata = new AssetMetadata
+                {
+                    Id = "asset-123",
+                    Filename = "data.xmls",
+                    Url = "https://example.com/assets/data.xmls",
+                    LastUpdated = DateTime.UtcNow
+                }
+            };
 
-        A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
-            .Returns(Task.FromResult(new List<Asset<byte[]>> { asset }));
+            A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
+                .Returns(Task.FromResult(new List<Asset<byte[]>> { asset }));
 
-        var result = await _service.GetSupplierAddressAssetLastPublishedDate();
+            var result = await _service.GetSupplierAddressAssetLastPublishedDate();
 
-        Assert.Equal(asset.Metadata.LastUpdated, result);
-    }
+            Assert.Equal(asset.Metadata.LastUpdated, result);
+        }
 
-    [Fact]
-    public async Task GetSupplierAddressAssetLastPublishedDate_ShouldThrowFileNotFoundException_WhenNoAssetFound()
-    {
-        A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
-            .Returns(Task.FromResult(new List<Asset<byte[]>>()));
+        [Fact]
+        public async Task GetSupplierAddressAssetLastPublishedDate_ShouldThrowFileNotFoundException_WhenNoAssetFound()
+        {
+            A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
+                .Returns(Task.FromResult(new List<Asset<byte[]>>()));
 
-        await Assert.ThrowsAsync<FileNotFoundException>(() => _service.GetSupplierAddressAssetLastPublishedDate());
-    }
+            await Assert.ThrowsAsync<FileNotFoundException>(() => _service.GetSupplierAddressAssetLastPublishedDate());
+        }
 
-    [Fact]
-    public async Task CreateSupplierAddresses_ShouldReturnAddresses_WhenCalledWithSourceAddresses()
-    {
-        var sourceAddresses = new List<SupplierAddressModel>
+        [Fact]
+        public async Task CreateSupplierAddresses_ShouldReturnAddresses_WhenCalledWithSourceAddresses()
+        {
+            var sourceAddresses = new List<SupplierAddressModel>
         {
             new SupplierAddressModel
             {
@@ -166,28 +169,28 @@ public partial class SupplierAddressServiceTests
             }
         };
 
-        var location = new Point(1.0, 1.0) { SRID = 4326 }; // Ensure you use the correct GeoPoint type
-        A.CallTo(() => _geoLocationProvider.GetLocationByPostcode("TST 1NG"))
-            .Returns(new LocationModel { Latitude = 1.0, Longitude = 1.0 });
+            var location = new Point(1.0, 1.0) { SRID = 4326 }; // Ensure you use the correct GeoPoint type
+            A.CallTo(() => _geoLocationProvider.GetLocationByPostcode("TST 1NG"))
+                .Returns(new LocationModel { Latitude = 1.0, Longitude = 1.0 });
 
-        // Configure the repository to return null (no existing address)
-        A.CallTo(() => _supplierAddressRepository.GetById(A<string>.Ignored, A<string>.Ignored))
-            .Returns((SupplierAddressModel)null);
+            // Configure the repository to return null (no existing address)
+            A.CallTo(() => _supplierAddressRepository.GetById(A<string>.Ignored, A<string>.Ignored))
+                .Returns((SupplierAddressModel)null);
 
-        var result = await _service.CreateSupplierAddresses(sourceAddresses, DateTime.UtcNow);
+            var result = await _service.CreateSupplierAddresses(sourceAddresses, DateTime.UtcNow);
 
-        Assert.Single(result);
-        Assert.NotNull(result[0].Location);
-    }
+            Assert.Single(result);
+            Assert.NotNull(result[0].Location);
+        }
 
-    [Fact]
-    public async Task GetSuppliersWithinRadiusOfPostcode_ShouldReturnAddresses_WhenPostcodeIsValid()
-    {
-        var postcodeLocation = new LocationModel { Latitude = 1.0, Longitude = 1.0 };
-        A.CallTo(() => _geoLocationProvider.GetLocationByPostcode("TST 1NG"))
-            .Returns(postcodeLocation);
+        [Fact]
+        public async Task GetSuppliersWithinRadiusOfPostcode_ShouldReturnAddresses_WhenPostcodeIsValid()
+        {
+            var postcodeLocation = new LocationModel { Latitude = 1.0, Longitude = 1.0 };
+            A.CallTo(() => _geoLocationProvider.GetLocationByPostcode("TST 1NG"))
+                .Returns(postcodeLocation);
 
-        var supplierAddresses = new List<SupplierAddressDistanceModel>
+            var supplierAddresses = new List<SupplierAddressDistanceModel>
         {
             new SupplierAddressDistanceModel
             {
@@ -203,46 +206,46 @@ public partial class SupplierAddressServiceTests
             }
         };
 
-        A.CallTo(() => _supplierAddressRepository.GetAddressesWithinDistance(1.0, 1.0, 10))
-            .Returns(supplierAddresses);
+            A.CallTo(() => _supplierAddressRepository.GetAddressesWithinDistance(1.0, 1.0, 10))
+                .Returns(supplierAddresses);
 
-        var result = await _service.GetSuppliersWithinRadiusOfPostcode("TST 1NG", 10);
+            var result = await _service.GetSuppliersWithinRadiusOfPostcode("TST 1NG", 10);
 
-        Assert.Single(result);
-        Assert.Equal("Test Org", result[0].Supplier.OrganisationName);
-    }
+            Assert.Single(result);
+            Assert.Equal("Test Org", result[0].Supplier.OrganisationName);
+        }
 
-    [Fact]
-    public async Task GetSourceSupplierAddresses_ShouldThrowInvalidOperationException_WhenAssetContentIsNull()
-    {
-        var asset = new Asset<byte[]>
+        [Fact]
+        public async Task GetSourceSupplierAddresses_ShouldThrowInvalidOperationException_WhenAssetContentIsNull()
         {
-            Content = null,
-            Metadata = null
-        };
+            var asset = new Asset<byte[]>
+            {
+                Content = null,
+                Metadata = null
+            };
 
-        A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
-            .Returns(Task.FromResult(new List<Asset<byte[]>> { asset }));
+            A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
+                .Returns(Task.FromResult(new List<Asset<byte[]>> { asset }));
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() => _service.GetSourceSupplierAddresses());
-    }
+            await Assert.ThrowsAsync<InvalidOperationException>(() => _service.GetSourceSupplierAddresses());
+        }
 
-    [Fact]
-    public async Task GetSuppliersWithinRadiusOfPostcode_ShouldReturnEmptyList_WhenPostcodeIsInvalid()
-    {
-        A.CallTo(() => _geoLocationProvider.GetLocationByPostcode("INVALID"))
-            .Returns((LocationModel)null);
+        [Fact]
+        public async Task GetSuppliersWithinRadiusOfPostcode_ShouldReturnEmptyList_WhenPostcodeIsInvalid()
+        {
+            A.CallTo(() => _geoLocationProvider.GetLocationByPostcode("INVALID"))
+                .Returns((LocationModel)null);
 
-        var result = await _service.GetSuppliersWithinRadiusOfPostcode("INVALID", 10);
+            var result = await _service.GetSuppliersWithinRadiusOfPostcode("INVALID", 10);
 
-        Assert.Empty(result);
-    }
+            Assert.Empty(result);
+        }
 
-    [Fact]
-    public async Task CreateSupplierAddresses_ShouldLogErrorAndExcludeAddress_WhenGetByIdThrows()
-    {
-        // Arrange
-        var sourceAddresses = new List<SupplierAddressModel>
+        [Fact]
+        public async Task CreateSupplierAddresses_ShouldLogErrorAndExcludeAddress_WhenGetByIdThrows()
+        {
+            // Arrange
+            var sourceAddresses = new List<SupplierAddressModel>
         {
             new SupplierAddressModel
             {
@@ -254,19 +257,20 @@ public partial class SupplierAddressServiceTests
             }
         };
 
-        // Configure the repository to throw an exception when GetById is called
-        var exception = new Exception("Database error");
-        A.CallTo(() => _supplierAddressRepository.GetById(A<string>.Ignored, A<string>.Ignored))
-            .Throws(exception);
-                
+            // Configure the repository to throw an exception when GetById is called
+            var exception = new Exception("Database error");
+            A.CallTo(() => _supplierAddressRepository.GetById(A<string>.Ignored, A<string>.Ignored))
+                .Throws(exception);
 
-        // Act
-        var result = await _service.CreateSupplierAddresses(sourceAddresses, DateTime.UtcNow);
 
-        // Assert
-        // Verify that the resulting list does not contain the address that caused the exception
-        Assert.Empty(result);
+            // Act
+            var result = await _service.CreateSupplierAddresses(sourceAddresses, DateTime.UtcNow);
 
-        _logger.VerifyLog(Microsoft.Extensions.Logging.LogLevel.Error, "Database error").MustHaveHappenedOnceExactly();
+            // Assert
+            // Verify that the resulting list does not contain the address that caused the exception
+            Assert.Empty(result);
+
+            _logger.VerifyLog(Microsoft.Extensions.Logging.LogLevel.Error, "Database error").MustHaveHappenedOnceExactly();
+        }
     }
 }

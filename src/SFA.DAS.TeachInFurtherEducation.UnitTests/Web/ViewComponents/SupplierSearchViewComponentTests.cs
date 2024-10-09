@@ -2,6 +2,7 @@
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
@@ -104,6 +105,90 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.ViewComponents
 
             Assert.Equal("Supplier A", model.SearchResults[1].Name);
             Assert.Equal(Math.Round(4.4 / 1.60934, 1), model.SearchResults[1].Distance);
+        }
+
+        [Fact]
+        public async Task InvokeAsync_EmptyPostcode_ValidationMessageUpdated()
+        {
+            // Arrange
+            var supplierSearchContent = new SupplierSearch
+            {
+                SupplierSearchTitle = "Search Title",
+                Heading = "Search Heading",
+                NoResultsMessage = "No suppliers found.",
+                ButtonText = "Search",
+                SearchWithinMiles = 25
+            };
+
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Method = "POST";
+            httpContext.Request.Form = new FormCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>
+            {
+                { "formIdentifier", "supplier-search" },
+                { "postcode", "" },
+                { "radius", "10" }
+            });
+
+            _viewComponent.ViewComponentContext = new ViewComponentContext
+            {
+                ViewContext = new ViewContext
+                {
+                    HttpContext = httpContext
+                }
+            };
+            
+            // Act
+            var result = await _viewComponent.InvokeAsync(supplierSearchContent);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewViewComponentResult>(result);
+            var modelState = Assert.IsType<ModelStateDictionary>(viewResult.ViewData.ModelState);
+            
+            Assert.False(modelState.IsValid);
+            Assert.True(modelState.ContainsKey("PostCode"));
+            Assert.Equal(1, modelState.ErrorCount);
+        }
+
+        [Fact]
+        public async Task InvokeAsync_InvalidPostcode_ValidationMessageUpdated()
+        {
+            // Arrange
+            var supplierSearchContent = new SupplierSearch
+            {
+                SupplierSearchTitle = "Search Title",
+                Heading = "Search Heading",
+                NoResultsMessage = "No suppliers found.",
+                ButtonText = "Search",
+                SearchWithinMiles = 25
+            };
+
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Method = "POST";
+            httpContext.Request.Form = new FormCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>
+            {
+                { "formIdentifier", "supplier-search" },
+                { "postcode", "NOT A VALID POSTCODE" },
+                { "radius", "10" }
+            });
+
+            _viewComponent.ViewComponentContext = new ViewComponentContext
+            {
+                ViewContext = new ViewContext
+                {
+                    HttpContext = httpContext
+                }
+            };
+
+            // Act
+            var result = await _viewComponent.InvokeAsync(supplierSearchContent);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewViewComponentResult>(result);
+            var modelState = Assert.IsType<ModelStateDictionary>(viewResult.ViewData.ModelState);
+
+            Assert.False(modelState.IsValid);
+            Assert.True(modelState.ContainsKey("PostCode"));
+            Assert.Equal(1, modelState.ErrorCount);
         }
     }
 }
