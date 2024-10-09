@@ -30,3 +30,15 @@ function deleteCookie(name) {
 function deleteAllCookies() {
     ["DASSeenCookieMessage", "AnalyticsConsent", "FunctionalConsent"].forEach(deleteCookie)
 }
+function attachCookieEvent(elemId, func) {
+    document.addEventListener('DOMContentLoaded', function () {
+        var element = document.getElementById(elemId);
+        if (element) {
+            element.addEventListener('click', func);
+        }
+    });
+}
+attachCookieEvent('acceptCookiesButton', function () { acceptCookies(true); });
+attachCookieEvent('rejectCookiesButton', function () { acceptCookies(false); });
+attachCookieEvent('acceptCookieBanner', function () { hideBanner('cookieAccept'); });
+attachCookieEvent('rejectCookieBanner', function () { hideBanner('cookieReject'); });

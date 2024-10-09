@@ -12,7 +12,7 @@
     !Context.Request.Cookies.ContainsKey(CookieKeys.AnalyticsConsent) ||
     !Context.Request.Cookies.ContainsKey(CookieKeys.FunctionalConsent))
 {
-    <section aria-label="Cookies on Find an apprenticeship" class="govuk-cookie-banner" data-nosnippet="" id="cookieConsent">
+    <section aria-label="Cookies on Teach in Further Education" class="govuk-cookie-banner" data-nosnippet="" id="cookieConsent">
         <div class="govuk-cookie-banner__message govuk-width-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
@@ -26,17 +26,17 @@
                 </div>
             </div>
             <div class="govuk-button-group">
-                <button type="button" class="govuk-button" onclick="acceptCookies(true);" data-module="govuk-button">
+                <button type="button" class="govuk-button" id="acceptCookiesButton" data-module="govuk-button">
                     Accept analytics cookies
                 </button>
-                <button type="button" class="govuk-button" onclick="acceptCookies(false);" data-module="govuk-button">
+                <button type="button" class="govuk-button" id="rejectCookiesButton" data-module="govuk-button">
                     Reject analytics cookies
                 </button>
                 <a class="govuk-link" href="@cookiePage">View cookies</a>
             </div>
         </div>
     </section>
-    <section aria-label="Cookies on Find an apprenticeship" class="govuk-cookie-banner" data-nosnippet="" hidden id="cookieAccept">
+    <section aria-label="Cookies on Teach in Further Education" class="govuk-cookie-banner" data-nosnippet="" hidden id="cookieAccept">
         <div class="govuk-cookie-banner__message govuk-width-container" role="alert">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
@@ -48,13 +48,13 @@
                 </div>
             </div>
             <div class="govuk-button-group">
-                <button type="button" class="govuk-button" onclick="hideAcceptBanner();" data-module="govuk-button">
+                <button type="button" class="govuk-button" id="acceptCookieBanner" data-module="govuk-button">
                     Hide cookie message
                 </button>
             </div>
         </div>
     </section>
-    <section aria-label="Cookies on Find an apprenticeship" class="govuk-cookie-banner" data-nosnippet="" hidden id="cookieReject">
+    <section aria-label="Cookies on Teach in Further Education" class="govuk-cookie-banner" data-nosnippet="" hidden id="cookieReject">
         <div class="govuk-cookie-banner__message govuk-width-container" role="alert">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="govuk-button-group">
-                <button type="button" class="govuk-button" onclick="hideRejectBanner();" data-module="govuk-button">
+                <button type="button" class="govuk-button" id="rejectCookieBanner" data-module="govuk-button">
                     Hide cookie message
                 </button>
             </div>
