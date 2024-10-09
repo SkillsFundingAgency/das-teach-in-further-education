@@ -15,6 +15,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
         public Document? PrimarySection { get; set; }
 
         public Document? SecondarySection { get; set; }
+        public string? BackgroundColor { get; set; }
 
     }
 

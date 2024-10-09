@@ -35,7 +35,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
                 .SelectMany(c => new[] { $"https://{(char)c}.bing.com" })
                 .ToArray();
 
-            builder.AddReportUri().To(configuration["csp:violationReportUrl"]!);
+            var violationReportUrl = configuration["csp:violationReportUrl"];
+
+            if (!string.IsNullOrEmpty(violationReportUrl))
+            {
+                builder.AddReportUri().To(violationReportUrl!);
+            }
+            
             builder.AddReportTo("csp-violations");            
 
             builder.AddUpgradeInsecureRequests();
@@ -110,15 +116,23 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
             IConfiguration configuration)
         {
             _ = app.UseSecurityHeaders(policies =>
+            {
                 policies
                     .AddDefaultSecurityHeaders()
                     .AddContentSecurityPolicy(builder => BuildCsp(builder, env, configuration))
                     .AddCustomHeader("X-Permitted-Cross-Domain-Policies", "none")
                     .AddXssProtectionBlock()
-                    .AddReportingEndpoints(builder => builder.AddEndpoint("csp-violations", configuration["csp:violationReportUrl"]!))
                     .RemoveServerHeader()
-                    .RemoveCustomHeader("X-Powered-By")
-             );
+                    .RemoveCustomHeader("X-Powered-By");
+
+                var violationReportUrl = configuration["csp:violationReportUrl"];
+
+                if (!string.IsNullOrEmpty(violationReportUrl))
+                {
+                    policies
+                        .AddReportingEndpoints(builder => builder.AddEndpoint("csp-violations", configuration["csp:violationReportUrl"]!));
+                }
+            });
 
             return app;
         }
