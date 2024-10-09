@@ -172,6 +172,18 @@
     }
 }
 
+.fe-preamble {
+    .teaching-fe-logo {
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+        .teaching-fe-logo {
+            display: none;
+        }
+    }
+}
+
 .contact-us-banner {
     background-color: #003a69;
 
@@ -233,16 +245,13 @@
 
 .dfe-header__search {
     .fe-logo {
-        width: 347px;
-        height: 97px;
         flex-shrink: 0;
     }
 
     @media (max-width: 768px) {
         .fe-logo {
-            width: 175px;
-            height: 50px;
-            flex-shrink: 0;
+            width: calc(50%);
+            height:calc(50%);
         }
     }
 }

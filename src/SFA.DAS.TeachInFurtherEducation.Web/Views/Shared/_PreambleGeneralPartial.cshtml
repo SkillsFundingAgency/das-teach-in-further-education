@@ -5,32 +5,51 @@
 
 @if (Model.Item1 != null || Model.Item2 != null)
 {
-    <section class="dfe-page-header dfe-page-header--with-sub-nav">
-        @if (Model.Item2 != null)
-        {
-            @await Html.PartialAsync(
-                "_BreadcrumbPartial",
-                (Model.Item2, Model.Item4)
-            )
-        }
+    var bgColor =  "bg-fe-peach";
+    @if (!string.IsNullOrEmpty(Model.Item1?.BackgroundColor) && 
+         Model.Item1?.BackgroundColor == "White")
+    {
+        bgColor = "bg-fe-white";
+    }
+    <div class="fe-preamble @bgColor">
+        <section class="dfe-page-header dfe-page-header--with-sub-nav">
+            @if (Model.Item2 != null)
+            {
+                @await Html.PartialAsync(
+                    "_BreadcrumbPartial",
+                    (Model.Item2, Model.Item4)
+                )
+            }
 
-        <div class="govuk-width-container">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    @if (Model.Item1 != null)
-                    {
-                        @if (!string.IsNullOrEmpty(Model.Item1.BannerHeader))
+            <div class="govuk-width-container ">
+                <div class="govuk-grid-row govuk-!-margin-top-5">
+                    <div class="govuk-grid-column-two-thirds">
+                        @if (Model.Item1 != null && !string.IsNullOrEmpty(Model.Item1.BannerHeader))
                         {
-                            <h1 class="govuk-heading-xl  govuk-!-margin-top-5">@Model.Item1.BannerHeader</h1>
+                            <h1 class="govuk-heading">@Model.Item1.BannerHeader</h1>
                         }
-
-                        @if (Model.Item1?.PrimarySection != null)
+                    </div>
+                    <div class="govuk-grid-column-one-third govuk-!-padding-top-2">
+                        <image src="/images/DesignSystem/Teaching-FE-logo.png" class="teaching-fe-logo" alt="teaching fe logo"/>
+                    </div>
+                </div>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        @if (Model.Item1 is { PrimarySection: not null })
                         {
                             @ComponentService.ToHtmlString(Model.Item1.PrimarySection)
                         }
-                    }
+                    </div>
+                </div>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        @if (Model.Item1 is { SecondarySection: not null })
+                        {
+                            @ComponentService.ToHtmlString(Model.Item1.SecondarySection)
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 }
