@@ -47,7 +47,7 @@ stages:
   jobs:
   - template: pipeline-templates/job/code-build.yml
     parameters:
-      SolutionBaseName: $(SolutionBaseName).Web
+      SolutionBaseName: $(SolutionBaseName)
       BuildConfiguration: $(BuildConfiguration)
   - template: azure-pipelines-templates/build/job/dacpac-template.yml@das-platform-building-blocks
     parameters:
@@ -66,7 +66,7 @@ stages:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: AT
-      SolutionBaseName: $(SolutionBaseName).Web
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-DAS-DevTest-ARM
       OverrideBlockOnPossibleDataLoss: ${{ parameters.OverrideBlockOnPossibleDataLoss  }}
 
@@ -81,7 +81,7 @@ stages:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: TEST
-      SolutionBaseName: $(SolutionBaseName).Web
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-DAS-DevTest-ARM
       OverrideBlockOnPossibleDataLoss: ${{ parameters.OverrideBlockOnPossibleDataLoss  }}
 
@@ -95,7 +95,7 @@ stages:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: TEST2
-      SolutionBaseName: $(SolutionBaseName).Web
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-DAS-DevTest-ARM
       OverrideBlockOnPossibleDataLoss: ${{ parameters.OverrideBlockOnPossibleDataLoss  }}
 
@@ -110,7 +110,7 @@ stages:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: PP
-      SolutionBaseName: $(SolutionBaseName).Web
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-DIG-PreProd-ARM
       OverrideBlockOnPossibleDataLoss: ${{ parameters.OverrideBlockOnPossibleDataLoss  }}
 
@@ -125,7 +125,7 @@ stages:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: PROD
-      SolutionBaseName: $(SolutionBaseName).Web
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-DIG-Prod-ARM
       OverrideBlockOnPossibleDataLoss: ${{ parameters.OverrideBlockOnPossibleDataLoss  }}
 
@@ -140,7 +140,7 @@ stages:
   - template: pipeline-templates/job/deploy.yml
     parameters:
       Environment: MO
-      SolutionBaseName: $(SolutionBaseName).Web
+      SolutionBaseName: $(SolutionBaseName)
       ServiceConnection: SFA-ASM-ModelOffice-ARM
       OverrideBlockOnPossibleDataLoss: ${{ parameters.OverrideBlockOnPossibleDataLoss  }}
 
