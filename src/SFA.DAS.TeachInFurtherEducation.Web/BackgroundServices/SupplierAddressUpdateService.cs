@@ -53,15 +53,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
 
             _enabled = options.Enabled;
 
-            if (string.IsNullOrEmpty(options.CronSchedule))
-                throw new ConfigurationMissingException("SupplierAddressUpdates:CronSchedule");
+            // Obtain cron schedule from config or default
+            var cronSchedule = options.CronSchedule ?? "* * * * *";
+            _cronExpression = CronExpression.Parse(cronSchedule);
 
-            _cronExpression = CronExpression.Parse(options.CronSchedule);
             _lastAssetPublishedDate = lastAssetPublishedDate;
         }
 
-        //todo: page with content version?
-
+        [ExcludeFromCodeCoverage]
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Supplier Address Update Service running.");

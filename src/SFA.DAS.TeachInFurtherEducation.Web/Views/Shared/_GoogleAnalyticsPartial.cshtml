@@ -1,23 +1,29 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics
-@* ﻿@using SFA.DAS.FAA.Web.Infrastructure *@
-@* @using WebEssentials.AspNetCore.CdnTagHelpers *@
-@* @if (Context.Request.Cookies.ContainsKey(CookieKeys.AnalyticsConsent)
-    && Context.Request.Cookies.TryGetValue(CookieKeys.AnalyticsConsent,
-        out var isConsentGiven)
-    && bool.TryParse(isConsentGiven, out var consentResult) && consentResult)
+@using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
+@using WebEssentials.AspNetCore.CdnTagHelpers
+
+@{
+    // Check if Analytics Consent is given
+    bool consentGiven = false;
+    if (Context.Request.Cookies.ContainsKey(CookieKeys.AnalyticsConsent)
+        && Context.Request.Cookies.TryGetValue(CookieKeys.AnalyticsConsent, out var isConsentGiven)
+        && bool.TryParse(isConsentGiven, out var consentResult))
+    {
+        consentGiven = consentResult;
+    }
+
+    var googleAnalyticsConfig = ViewData.GetGoogleTagManagerId();
+}
+
+@if (consentGiven && ViewData.GoogleAnalyticsIsEnabled())
 {
- *@    <!-- Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
     <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WB9MZV5"
+        <iframe src="https://www.googletagmanager.com/ns.html?id=@googleAnalyticsConfig"
                 height="0" width="0" style="display: none; visibility: hidden" title=""></iframe>
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-@{
-    var googleAnalyticsConfig = ViewData.GetGoogleTagManagerId();
-}
-
-@if (ViewData.GoogleAnalyticsIsEnabled()) {
     <script nonce="@Context.GetNonce()">
         window.dataLayer = window.dataLayer || [];
 
@@ -40,5 +46,3 @@
         })(window, document, 'script', 'dataLayer', '@googleAnalyticsConfig', '@Context.GetNonce()');
     </script>
 }
-
-@* } *@

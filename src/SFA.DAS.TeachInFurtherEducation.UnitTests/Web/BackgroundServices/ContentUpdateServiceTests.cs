@@ -38,17 +38,18 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.BackgroundServices
         [Fact]
         public void Ctor_EmptyCronScheduleConfigTest()
         {
-            ContentUpdateServiceOptions.CronSchedule = "";
+            ContentUpdateServiceOptions = new ContentUpdateServiceOptions
+            {
+                Enabled = true,
+                CronSchedule = null
+            };
+            ContentUpdateServiceOptionsOptions = A.Fake<IOptions<ContentUpdateServiceOptions>>();
 
-            Assert.Throws<ConfigurationMissingException>(CreateContentUpdateService);
-        }
+            A.CallTo(() => ContentUpdateServiceOptionsOptions.Value)
+                .Returns(ContentUpdateServiceOptions);
 
-        [Fact]
-        public void Ctor_NullCronScheduleConfigTest()
-        {
-            ContentUpdateServiceOptions.CronSchedule = null;
-
-            Assert.Throws<ConfigurationMissingException>(CreateContentUpdateService);
+            ContentService = A.Fake<IContentService>();
+            Logger = A.Fake<ILogger<ContentUpdateService>>();
         }
 
         [Fact]

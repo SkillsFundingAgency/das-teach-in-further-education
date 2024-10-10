@@ -23,7 +23,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
     {
         private static void BuildCsp(CspBuilder builder, IWebHostEnvironment env, IConfiguration configuration)
         {
-            string cdnUrl = configuration["cdn:url"]!;
+            string cdnUrl = configuration["cdn:url"]!.TrimEnd('/', '\\');
 
             string clarityId = configuration["MicrosoftClarity:MsClarityId"]!;
 
@@ -81,7 +81,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
             var scriptSrc = builder.AddScriptSrc()
                 .Self()
                 .WithNonce()
-                .From(new[] { "https://das-at-frnt-end.azureedge.net", "https://das-at-frnt-end.azureedge.net/libs/jquery/jquery.min.js", $"https://www.clarity.ms/tag/{clarityId}", "https://www.clarity.ms/s/0.7.47/clarity.js", "https://www.googletagmanager.com" });
+                .From(new[] { cdnUrl, $"{cdnUrl}/libs/jquery/jquery.min.js", $"https://www.clarity.ms/tag/{clarityId}", "https://www.clarity.ms/s/0.7.47/clarity.js", "https://www.googletagmanager.com" });
 
             builder.AddStyleSrc()
                 .Self()
