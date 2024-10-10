@@ -48,17 +48,20 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         {
             _currentEnvironment = env;
 
-            Configuration = new ConfigurationBuilder()
-                .AddConfiguration(configuration)
-
-                .AddAzureTableStorage(options =>
+            var configBuilder = new ConfigurationBuilder()
+                .AddConfiguration(configuration);
+                    
+            if (!_currentEnvironment.IsDevelopment()) {
+                configBuilder.AddAzureTableStorage(options =>
                 {
                     options.ConfigurationKeys = configuration["ConfigNames"]?.Split(",");
                     options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
                     options.EnvironmentName = configuration["EnvironmentName"];
                     options.PreFixConfigurationKeys = false;
-                })
-                .Build();
+                });
+            }
+
+            Configuration = configBuilder.Build();
         }
 
         public IConfiguration Configuration { get; }
