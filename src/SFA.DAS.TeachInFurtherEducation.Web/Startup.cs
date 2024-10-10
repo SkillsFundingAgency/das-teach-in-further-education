@@ -94,7 +94,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 options.Filters.Add(new EnableMicrosoftClarityAttribute(microsoftClarityConfiguration));
             });
 
-            services.AddRateLimiting(Configuration);
+            services.AddRateLimiting();
 
             services.AddNLog(Configuration).AddHealthChecks();
 
@@ -113,8 +113,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             });
 
             services.AddControllersWithViews();
-
-
 
             services.AddWebOptimizer(assetPipeline =>
             {

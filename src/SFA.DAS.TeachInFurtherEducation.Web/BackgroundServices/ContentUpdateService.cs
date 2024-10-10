@@ -38,10 +38,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
 
             _enabled = options.Enabled;
 
-            if (string.IsNullOrEmpty(options.CronSchedule))
-                throw new ConfigurationMissingException("ContentUpdates:CronSchedule");
-
-            _cronExpression = CronExpression.Parse(options.CronSchedule);
+            // Obtain cron schedule from config or default
+            var cronSchedule = options.CronSchedule ?? "0,2 6-23 * * *";
+            _cronExpression = CronExpression.Parse(cronSchedule);
         }
 
         //todo: page with content version?
