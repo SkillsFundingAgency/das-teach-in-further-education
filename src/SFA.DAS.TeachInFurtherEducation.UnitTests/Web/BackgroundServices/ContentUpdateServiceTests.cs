@@ -36,6 +36,23 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.BackgroundServices
         }
 
         [Fact]
+        public void Ctor_EmptyCronScheduleConfigTest()
+        {
+            ContentUpdateServiceOptions = new ContentUpdateServiceOptions
+            {
+                Enabled = true,
+                CronSchedule = null
+            };
+            ContentUpdateServiceOptionsOptions = A.Fake<IOptions<ContentUpdateServiceOptions>>();
+
+            A.CallTo(() => ContentUpdateServiceOptionsOptions.Value)
+                .Returns(ContentUpdateServiceOptions);
+
+            ContentService = A.Fake<IContentService>();
+            Logger = A.Fake<ILogger<ContentUpdateService>>();
+        }
+
+        [Fact]
         public async Task StartAsync_NotEnabledDontUpdateTest()
         {
             ContentUpdateServiceOptions.Enabled = false;

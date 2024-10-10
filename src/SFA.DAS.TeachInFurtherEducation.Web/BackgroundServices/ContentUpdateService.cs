@@ -43,8 +43,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
             _cronExpression = CronExpression.Parse(cronSchedule);
         }
 
-        //todo: page with content version?
-
+        [ExcludeFromCodeCoverage]
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Content Update Service running.");

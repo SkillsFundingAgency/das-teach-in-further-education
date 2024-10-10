@@ -60,8 +60,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
             _lastAssetPublishedDate = lastAssetPublishedDate;
         }
 
-        //todo: page with content version?
-
+        [ExcludeFromCodeCoverage]
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Supplier Address Update Service running.");
