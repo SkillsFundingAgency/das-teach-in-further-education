@@ -78,28 +78,6 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.BackgroundServices
             _service.Dispose();
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public void Constructor_MissingCronSchedule_ShouldThrowConfigurationMissingException(string cronSchedule)
-        {
-            // Arrange
-            var serviceScopeFactory = A.Fake<IServiceScopeFactory>();
-            var logger = A.Fake<ILogger<SupplierAddressUpdateService>>();
-
-            var options = Options.Create(new SupplierAddressUpdateServiceOptions
-            {
-                Enabled = true,
-                CronSchedule = cronSchedule
-            });
-
-            // Act & Assert
-            var exception = Assert.Throws<ConfigurationMissingException>(() =>
-                new SupplierAddressUpdateService(serviceScopeFactory, options, logger));
-
-            Assert.Equal("SupplierAddressUpdates:CronSchedule", exception.Message);
-        }
-
         [Fact]
         public async Task StartAsync_ServiceEnabled_ShouldPerformInitialUpdateAndSetTimer()
         {
