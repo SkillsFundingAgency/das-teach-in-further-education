@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Web.Helpers;
+using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
+using System.Collections.Generic;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
 {
@@ -52,18 +54,28 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                         return View("Default", model);
                     }
 
+                    var results = new List<SupplierAddressDistanceModel>();
+
                     // If valid, proceed with the search
-                    //var results = await _supplierAddressService.GetSuppliersWithinRadiusOfPostcode(postcode.Trim(), radiusKm);
-                    var latLong = await _supplierAddressService.GetSupplierPostcodeLocation(postcode.Trim());
+                    try
+                    {
+                        results.AddRange(await _supplierAddressService.GetSuppliersWithinRadiusOfPostcode(postcode.Trim(), radiusKm));
+                    }
+                    finally
+                    {
+                        var latLong = await _supplierAddressService.GetSupplierPostcodeLocation(postcode.Trim());
 
-                    model.Postcode = postcode.ToUpper();
-                    model.LatLong = $"{{{latLong?.Latitude.ToString()}, {latLong?.Longitude.ToString()}}} radius {radiusKm}";
+                        model.Postcode = postcode.ToUpper();
+                        model.LatLong = $"{{{latLong?.Latitude.ToString()}, {latLong?.Longitude.ToString()}}} radius {radiusKm}";
 
-                    //model.SearchResults = results
-                    //    .Select(r => new SupplierSearchResultViewModel(r))
-                    //    .OrderBy(r => r.Distance)
-                    //    .ThenBy(r => r.Name)
-                    //    .ToList();
+                        model.SearchResults = results
+                            .Select(r => new SupplierSearchResultViewModel(r))
+                            .OrderBy(r => r.Distance)
+                            .ThenBy(r => r.Name)
+                            .ToList();
+                    }
+                    
+                    
                 }
             }
 
