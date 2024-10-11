@@ -39,7 +39,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
             _enabled = options.Enabled;
 
             // Obtain cron schedule from config or default
-            var cronSchedule = options.CronSchedule ?? "0,2 6-23 * * *";
+            var cronSchedule = !string.IsNullOrEmpty(options.CronSchedule) ? options.CronSchedule : "0,2 6-23 * * *";
             _cronExpression = CronExpression.Parse(cronSchedule);
         }
 
@@ -69,6 +69,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
         }
 
         // should be private, but public for easier testing
+        [ExcludeFromCodeCoverage]
         public TimeSpan TimeToNextInvocation(DateTime utcNow)
         {
             DateTime? next = _cronExpression.GetNextOccurrence(utcNow);

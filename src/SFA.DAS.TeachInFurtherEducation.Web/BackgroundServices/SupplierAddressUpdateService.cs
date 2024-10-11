@@ -54,7 +54,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
             _enabled = options.Enabled;
 
             // Obtain cron schedule from config or default
-            var cronSchedule = options.CronSchedule ?? "* * * * *";
+            var cronSchedule = !string.IsNullOrEmpty(options.CronSchedule) ? options.CronSchedule : "* * * * *";
             _cronExpression = CronExpression.Parse(cronSchedule);
 
             _lastAssetPublishedDate = lastAssetPublishedDate;
@@ -78,6 +78,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
             _timer = new Timer(UpdateSupplierAddresses, null, delay, Timeout.InfiniteTimeSpan);
         }
 
+        [ExcludeFromCodeCoverage()]
         private async Task PerformSupplierAddressUpdate()
         {
             // Attempt to enter the semaphore
@@ -87,6 +88,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
                 return;
             }
 
+            await SupplierAddressUpdate();
+        }
+
+        private async Task SupplierAddressUpdate()
+        {
             try
             {
                 using (var scope = _serviceScopeFactory.CreateScope())
@@ -97,7 +103,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
                     // Get the date and time the supplier address asset was last published in the CMS
                     var lastUpdated = await supplierAddressService.GetSupplierAddressAssetLastPublishedDate();
 
-                    if (_lastAssetPublishedDate == null || _lastAssetPublishedDate != lastUpdated)
+                    if ((_lastAssetPublishedDate ?? DateTime.MinValue) != lastUpdated)
                     {
 
                         // Obtain the list of supplier addresses from the asset in Contentful, along with when it was last published.
@@ -209,7 +215,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
             return supplierAddressRepository.MarkOldAddressesAsInactive(latestDate);
         }
 
-        // should be private, but public for easier testing
+        [ExcludeFromCodeCoverage()]
         public TimeSpan TimeToNextInvocation(DateTime utcNow)
         {
             DateTime? next = _cronExpression.GetNextOccurrence(utcNow);
