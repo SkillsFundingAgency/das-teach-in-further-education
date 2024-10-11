@@ -19,7 +19,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
 
         public static string GetCssClassName()
         {
-            return $"back-color-{new Random().Next().ToString()}";
+            return $"back-color-{DateTime.Now.Ticks.ToString()[6..]}";
         }
     }
 }
