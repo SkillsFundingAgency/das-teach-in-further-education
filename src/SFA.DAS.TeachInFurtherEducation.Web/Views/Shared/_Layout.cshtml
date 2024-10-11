@@ -70,13 +70,11 @@
         document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
 
-    
+    @* To-do - Implement these partials *@
+    @* 
+        @await Html.PartialAsync("_BetaBannerPartial", Model?.BetaBanner)
 
-@* To-do - Implement these partials *@
-@* 
-    @await Html.PartialAsync("_BetaBannerPartial", Model?.BetaBanner)
-
-    @RenderSection("BreadCrumbs", required: false)*@
+        @RenderSection("BreadCrumbs", required: false)*@
 
 @RenderSection("PreviewErrors", required: false)
 
@@ -88,41 +86,23 @@
 
 @await Html.PartialAsync("_FooterPartial", Model?.footerLinks)
 
-@* <script src="/libs/govuk-frontend/all.js"></script> *@
     <script integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous" src="/libs/jquery/jquery.min.js"></script>
+    <script src="/js/cookie_consent.js" no-cdn></script>
 
-@* *@
-@* <script src="/js/das-all.js"></script> *@
-@* <script src="/js/app.min.js"></script> *@
-@* <script src="/js/interim-pages.js" no-cdn></script> *@
+    <environment include="Development">
+        <script src="/js/app.js" no-cdn></script>
+        @* <script src="/js/show_hide.js" no-cdn></script>
+            <script src="/js/filter.js" no-cdn></script>
+            <script src="/js/interim-pages.js" no-cdn></script>
+            <script src="/js/cookies/utils.js" no-cdn></script>
+            <script src="/js/cookies/consent.js" no-cdn></script>
+            <script src="/js/cookies/cookie-banner.js" no-cdn></script>
+            <script src="/js/cookies/cookies-page.js" no-cdn></script>*@
+    </environment>
 
-@* <script asp-add-nonce> *@
-@* *@
-@*     window.DASFrontend.initAll(); *@
-@* *@
-@*     document.addEventListener("DOMContentLoaded", function () { *@
-@* *@
-@*         initMobileView(); *@
-@* *@
-@*     }); *@
-@* *@
-@* </script> *@
-
-<script src="/js/cookie_consent.js" no-cdn></script>
-
-<environment include="Development">
-    <script src="/js/app.js" no-cdn></script>
-    @* <script src="/js/show_hide.js" no-cdn></script>
-        <script src="/js/filter.js" no-cdn></script>
-        <script src="/js/interim-pages.js" no-cdn></script>
-        <script src="/js/cookies/utils.js" no-cdn></script>
-        <script src="/js/cookies/consent.js" no-cdn></script>
-        <script src="/js/cookies/cookie-banner.js" no-cdn></script>
-        <script src="/js/cookies/cookies-page.js" no-cdn></script>*@
-</environment>
-<environment exclude="Development">
-    <script src="/js/site.js" no-cdn></script>
-</environment>
+    <environment exclude="Development">
+        <script src="/js/site.js" no-cdn></script>
+    </environment>
 </body>
 
 </html>

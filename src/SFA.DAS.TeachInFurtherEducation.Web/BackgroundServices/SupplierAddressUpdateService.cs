@@ -53,15 +53,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
 
             _enabled = options.Enabled;
 
-            if (string.IsNullOrEmpty(options.CronSchedule))
-                throw new ConfigurationMissingException("SupplierAddressUpdates:CronSchedule");
+            // Obtain cron schedule from config or default
+            var cronSchedule = !string.IsNullOrEmpty(options.CronSchedule) ? options.CronSchedule : "* * * * *";
+            _cronExpression = CronExpression.Parse(cronSchedule);
 
-            _cronExpression = CronExpression.Parse(options.CronSchedule);
             _lastAssetPublishedDate = lastAssetPublishedDate;
         }
 
-        //todo: page with content version?
-
+        [ExcludeFromCodeCoverage]
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Supplier Address Update Service running.");
@@ -79,6 +78,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
             _timer = new Timer(UpdateSupplierAddresses, null, delay, Timeout.InfiniteTimeSpan);
         }
 
+        [ExcludeFromCodeCoverage()]
         private async Task PerformSupplierAddressUpdate()
         {
             // Attempt to enter the semaphore
@@ -88,6 +88,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
                 return;
             }
 
+            await SupplierAddressUpdate();
+        }
+
+        private async Task SupplierAddressUpdate()
+        {
             try
             {
                 using (var scope = _serviceScopeFactory.CreateScope())
@@ -98,7 +103,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
                     // Get the date and time the supplier address asset was last published in the CMS
                     var lastUpdated = await supplierAddressService.GetSupplierAddressAssetLastPublishedDate();
 
-                    if (_lastAssetPublishedDate == null || _lastAssetPublishedDate != lastUpdated)
+                    if ((_lastAssetPublishedDate ?? DateTime.MinValue) != lastUpdated)
                     {
 
                         // Obtain the list of supplier addresses from the asset in Contentful, along with when it was last published.
@@ -210,7 +215,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices
             return supplierAddressRepository.MarkOldAddressesAsInactive(latestDate);
         }
 
-        // should be private, but public for easier testing
+        [ExcludeFromCodeCoverage()]
         public TimeSpan TimeToNextInvocation(DateTime utcNow)
         {
             DateTime? next = _cronExpression.GetNextOccurrence(utcNow);

@@ -268,5 +268,15 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
             return retVal;
         }
+
+        /// <summary>
+        /// Get Lat/Long of the supplied postcode
+        /// </summary>
+        /// <param name="postcode">The postcode to use as the reference point for the search.</param>
+        /// <returns>A <see cref="LocationModel"/> containing the latitude and longitude of the provided postcode</returns>
+        public Task<LocationModel?> GetSupplierPostcodeLocation(string postcode)
+        {
+            return _geoLocationProvider.GetLocationByPostcode(postcode);
+        }
     }
 }

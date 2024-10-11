@@ -36,22 +36,6 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.BackgroundServices
         }
 
         [Fact]
-        public void Ctor_EmptyCronScheduleConfigTest()
-        {
-            ContentUpdateServiceOptions.CronSchedule = "";
-
-            Assert.Throws<ConfigurationMissingException>(CreateContentUpdateService);
-        }
-
-        [Fact]
-        public void Ctor_NullCronScheduleConfigTest()
-        {
-            ContentUpdateServiceOptions.CronSchedule = null;
-
-            Assert.Throws<ConfigurationMissingException>(CreateContentUpdateService);
-        }
-
-        [Fact]
         public async Task StartAsync_NotEnabledDontUpdateTest()
         {
             ContentUpdateServiceOptions.Enabled = false;
@@ -72,6 +56,23 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.BackgroundServices
         [InlineData("01:03:00", "3-58/5 8-18 * * *", "2022-01-31T07:00:00.0000000Z")]
         [InlineData("00:04:00", "3-58/5 8-18 * * *", "2022-01-31T08:04:00.0000000Z")]
         public void TimeToNextInvocation_Tests(string expectedDelay, string cronSchedule, string utcNow)
+        {
+            ContentUpdateServiceOptions.CronSchedule = cronSchedule;
+            var contentUpdateService = CreateContentUpdateService();
+
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            var utcNowDateTime = DateTime.ParseExact(utcNow, "o", provider).ToUniversalTime();
+
+            var delay = contentUpdateService.TimeToNextInvocation(utcNowDateTime);
+
+            var expectedDelayTimeSpan = TimeSpan.ParseExact(expectedDelay, "c", provider);
+            Assert.Equal(expectedDelayTimeSpan, delay);
+        }
+
+        [Theory]
+        [InlineData("00:00:58", "", "2022-01-31T05:59:02.0000000Z")] 
+        [InlineData("00:00:58", null, "2022-01-31T05:59:02.0000000Z")]
+        public void TimeToNextInvocation_WithDefaultSchedule_Tests(string expectedDelay, string cronSchedule, string utcNow)
         {
             ContentUpdateServiceOptions.CronSchedule = cronSchedule;
             var contentUpdateService = CreateContentUpdateService();
