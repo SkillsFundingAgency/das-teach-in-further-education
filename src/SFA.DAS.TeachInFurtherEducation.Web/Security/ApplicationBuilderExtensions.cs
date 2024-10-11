@@ -1,16 +1,11 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using NetEscapades.AspNetCore.SecurityHeaders;
-using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 {
@@ -85,6 +80,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 
             builder.AddStyleSrc()
                 .Self()
+                .WithNonce()
                 .From(new[] { cdnUrl, "https://rsms.me" });
 
             // Allow inline styles and scripts for development
