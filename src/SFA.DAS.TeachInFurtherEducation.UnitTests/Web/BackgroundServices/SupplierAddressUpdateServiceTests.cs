@@ -78,28 +78,6 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.BackgroundServices
             _service.Dispose();
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public void Constructor_MissingCronSchedule_ShouldThrowConfigurationMissingException(string cronSchedule)
-        {
-            // Arrange
-            var serviceScopeFactory = A.Fake<IServiceScopeFactory>();
-            var logger = A.Fake<ILogger<SupplierAddressUpdateService>>();
-
-            var options = Options.Create(new SupplierAddressUpdateServiceOptions
-            {
-                Enabled = true,
-                CronSchedule = cronSchedule
-            });
-
-            // Act & Assert
-            var exception = Assert.Throws<ConfigurationMissingException>(() =>
-                new SupplierAddressUpdateService(serviceScopeFactory, options, logger));
-
-            Assert.Equal("SupplierAddressUpdates:CronSchedule", exception.Message);
-        }
-
         [Fact]
         public async Task StartAsync_ServiceEnabled_ShouldPerformInitialUpdateAndSetTimer()
         {
@@ -286,9 +264,6 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.BackgroundServices
             };
             var serviceOptions = Options.Create(options);
 
-            // Initialize CronExpression
-            var cronExpression = CronExpression.Parse(options.CronSchedule);
-
             var service = new SupplierAddressUpdateService(
                 _serviceScopeFactory,
                 serviceOptions,
@@ -308,6 +283,70 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.BackgroundServices
             A.CallTo(() => _supplierAddressRepository.MarkOldAddressesAsInactive(A<DateTime>._))
                 .Returns(Task.CompletedTask);
             
+            // Act
+            await service.StartAsync(CancellationToken.None);
+
+            _logger.VerifyLogMustHaveHappened(LogLevel.Information, $"Supplier addresses have not been published since the last update at: {lastUpdated}");
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public async Task PerformSupplierAddressUpdate_NoCronScheduleProvided_ShouldLogInformation(string cronSchedule)
+        {
+            var lastUpdated = DateTime.Parse("01 January 2024 12:00:00");
+
+            var sourceSuppliers = new List<SupplierAddressModel>();
+            sourceSuppliers.Add(new SupplierAddressModel()
+            {
+                Id = "B22408D8-DAA3-4043-9AA8-C55FE30EE4CE",
+                OrganisationName = "Test Supplier",
+                ParentOrganisation = "Parent Organisation",
+                AddressLine1 = "Address Line 1",
+                AddressLine2 = "Address Line 2",
+                AddressLine3 = "Address Line 3",
+                Area = "Midlands",
+                City = "City",
+                County = "County",
+                Postcode = "TE5 T1G",
+                Telephone = "_44 (0)1221 122 121",
+                Type = "College",
+                Website = "http://TestSupplier.com",
+                IsActive = true,
+                Location = new NetTopologySuite.Geometries.Point(1.0001, 32.0001),
+                LastUpdated = lastUpdated,
+            });
+
+            var addressCountsGroupedByDate = new Dictionary<DateTime, int>();
+            addressCountsGroupedByDate.Add(lastUpdated, 1);
+
+            // Setup options
+            var options = new SupplierAddressUpdateServiceOptions
+            {
+                Enabled = true,
+                CronSchedule = cronSchedule
+            };
+            var serviceOptions = Options.Create(options);
+
+            var service = new SupplierAddressUpdateService(
+                _serviceScopeFactory,
+                serviceOptions,
+                _logger,
+                lastUpdated
+            );
+
+            // Arrange
+            A.CallTo(() => _supplierAddressService.GetSupplierAddressAssetLastPublishedDate())
+                .Returns(Task.FromResult(lastUpdated));
+            A.CallTo(() => _supplierAddressService.GetSourceSupplierAddresses())
+                .Returns(Task.FromResult(sourceSuppliers));
+            A.CallTo(() => _supplierAddressRepository.GetAddressCountsGroupedByDate())
+                .Returns(Task.FromResult((IDictionary<DateTime, int>)addressCountsGroupedByDate));
+            A.CallTo(() => _supplierAddressService.CreateSupplierAddresses(A<List<SupplierAddressModel>>._, A<DateTime>._))
+                .Returns(Task.FromResult(sourceSuppliers));
+            A.CallTo(() => _supplierAddressRepository.MarkOldAddressesAsInactive(A<DateTime>._))
+                .Returns(Task.CompletedTask);
+
             // Act
             await service.StartAsync(CancellationToken.None);
 
@@ -385,5 +424,50 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.BackgroundServices
                 "An error occurred while retrieving supplier addresses."
             );
         }
+
+        [Fact]
+        public async Task PerformSupplierAddressUpdate_WhenAddOrUpdateThrowsException_ShouldLogError()
+        {
+            // Arrange
+            var supplierAddresses = new List<SupplierAddressModel>
+            {
+                new SupplierAddressModel
+                {
+                    Id = "B22408D8-DAA3-4043-9AA8-C55FE30EE4CE",
+                    OrganisationName = "Test Supplier",
+                    Postcode = "TE5 T1G"
+                }
+            };
+
+            var lastUpdated = DateTime.UtcNow;
+            var exception = new Exception("An error occurred during AddOrUpdate");
+
+            A.CallTo(() => _supplierAddressService.GetSupplierAddressAssetLastPublishedDate())
+                .Returns(lastUpdated);
+
+            A.CallTo(() => _supplierAddressService.GetSourceSupplierAddresses())
+                .Returns(supplierAddresses);
+
+            A.CallTo(() => _supplierAddressRepository.GetAddressCountsGroupedByDate())
+                .Returns(new Dictionary<DateTime, int>());
+
+            // Ensure CreateSupplierAddresses returns a non-empty list
+            A.CallTo(() => _supplierAddressService.CreateSupplierAddresses(A<List<SupplierAddressModel>>._, A<DateTime>._))
+                .Returns(supplierAddresses);
+
+            // Mock the repository to throw an exception during the AddOrUpdate call
+            A.CallTo(() => _supplierAddressRepository.AddOrUpdate(A<SupplierAddressModel>._, A<string>._))
+                .Throws(exception);
+
+            // Act
+            await _service.StartAsync(CancellationToken.None);
+
+            // Assert
+            A.CallTo(() => _supplierAddressRepository.AddOrUpdate(A<SupplierAddressModel>._, A<string>._))
+                .MustHaveHappened();
+
+            _logger.VerifyLogMustHaveHappened(LogLevel.Error, exception.Message);
+        }
+             
     }
 }

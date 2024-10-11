@@ -14,5 +14,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces
 
         Task<DateTime> GetSupplierAddressAssetLastPublishedDate();
         Task<List<SupplierAddressDistanceModel>> GetSuppliersWithinRadiusOfPostcode(string postcode, double distanceKm);
+
+        Task<LocationModel?> GetSupplierPostcodeLocation(string postcode);
     }
 }

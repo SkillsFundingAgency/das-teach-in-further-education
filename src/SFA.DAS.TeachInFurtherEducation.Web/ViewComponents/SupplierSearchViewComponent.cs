@@ -6,6 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Web.Helpers;
+using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
+using System.Collections.Generic;
+using System;
+using Microsoft.Extensions.Logging;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
 {
@@ -13,10 +17,12 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
     {
         const string _formIdentifier = "supplier-search";
         private readonly ISupplierAddressService _supplierAddressService;
+        private readonly ILogger<SupplierSearchViewComponent> _logger;
 
-        public SupplierSearchViewComponent(ISupplierAddressService supplierAddressService)
+        public SupplierSearchViewComponent(ISupplierAddressService supplierAddressService, ILogger<SupplierSearchViewComponent> logger)
         {
             _supplierAddressService = supplierAddressService;
+            _logger = logger;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(SupplierSearch supplierSearchContent)
@@ -36,7 +42,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                     int radiusMiles = int.TryParse(Request.Form["radius"], out var parsedRadius) ? parsedRadius : 25;
                     double radiusKm = radiusMiles * 1.60934;
 
-
                     // Perform validation of the postcode
                     if (string.IsNullOrWhiteSpace(postcode))
                     {
@@ -53,16 +58,26 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                         return View("Default", model);
                     }
 
-                    // If valid, proceed with the search
-                    var results = await _supplierAddressService.GetSuppliersWithinRadiusOfPostcode(postcode.Trim(), radiusKm);
+                    var results = new List<SupplierAddressDistanceModel>();
 
-                    model.Postcode = postcode.ToUpper();
+                    try
+                    {
+                        results.AddRange(await _supplierAddressService.GetSuppliersWithinRadiusOfPostcode(postcode.Trim(), radiusKm));
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "An error occured while performing a search for supplier addresses");
+                    }
+                    finally
+                    {
+                        model.Postcode = postcode.ToUpper();
 
-                    model.SearchResults = results
-                        .Select(r => new SupplierSearchResultViewModel(r))
-                        .OrderBy(r => r.Distance)
-                        .ThenBy(r => r.Name)
-                        .ToList();
+                        model.SearchResults = results
+                            .Select(r => new SupplierSearchResultViewModel(r))
+                            .OrderBy(r => r.Distance)
+                            .ThenBy(r => r.Name)
+                            .ToList();
+                    }
                 }
             }
 
