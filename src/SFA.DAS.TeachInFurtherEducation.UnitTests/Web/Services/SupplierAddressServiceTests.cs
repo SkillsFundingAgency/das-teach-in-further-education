@@ -281,7 +281,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             var expectedLocation = new LocationModel { Latitude = 51.5074, Longitude = -0.1278 }; // Example lat/long
 
             A.CallTo(() => _geoLocationProvider.GetLocationByPostcode(postcode))
-                .Returns(Task.FromResult<LocationModel?>(expectedLocation));
+                .Returns(Task.FromResult<LocationModel>(expectedLocation));
 
             // Act
             var result = await _service.GetSupplierPostcodeLocation(postcode);
@@ -298,7 +298,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             // Arrange
             var postcode = "INVALID";
             A.CallTo(() => _geoLocationProvider.GetLocationByPostcode(postcode))
-                .Returns(Task.FromResult<LocationModel?>(null));
+                .Returns(Task.FromResult<LocationModel>(null));
 
             // Act
             var result = await _service.GetSupplierPostcodeLocation(postcode);

@@ -8,6 +8,8 @@ using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Web.Helpers;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
 using System.Collections.Generic;
+using System;
+using Microsoft.Extensions.Logging;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
 {
@@ -15,10 +17,12 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
     {
         const string _formIdentifier = "supplier-search";
         private readonly ISupplierAddressService _supplierAddressService;
+        private readonly ILogger<SupplierSearchViewComponent> _logger;
 
-        public SupplierSearchViewComponent(ISupplierAddressService supplierAddressService)
+        public SupplierSearchViewComponent(ISupplierAddressService supplierAddressService, ILogger<SupplierSearchViewComponent> logger)
         {
             _supplierAddressService = supplierAddressService;
+            _logger = logger;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(SupplierSearch supplierSearchContent)
@@ -56,10 +60,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
 
                     var results = new List<SupplierAddressDistanceModel>();
 
-                    // If valid, proceed with the search
                     try
                     {
                         results.AddRange(await _supplierAddressService.GetSuppliersWithinRadiusOfPostcode(postcode.Trim(), radiusKm));
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "An error occured while performing a search for supplier addresses");
                     }
                     finally
                     {

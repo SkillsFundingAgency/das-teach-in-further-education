@@ -1,10 +1,12 @@
 ﻿// SupplierSearchViewComponentTests.cs
+using Castle.Core.Logging;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
+using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Models;
@@ -21,12 +23,14 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.ViewComponents
     public class SupplierSearchViewComponentTests
     {
         private readonly ISupplierAddressService _fakeSupplierAddressService;
+        private readonly ILogger<SupplierSearchViewComponent> _fakeLogger;
         private readonly SupplierSearchViewComponent _viewComponent;
 
         public SupplierSearchViewComponentTests()
         {
             _fakeSupplierAddressService = A.Fake<ISupplierAddressService>();
-            _viewComponent = new SupplierSearchViewComponent(_fakeSupplierAddressService);
+            _fakeLogger = A.Fake<ILogger<SupplierSearchViewComponent>>();
+            _viewComponent = new SupplierSearchViewComponent(_fakeSupplierAddressService, _fakeLogger);
         }
 
         [Fact]
