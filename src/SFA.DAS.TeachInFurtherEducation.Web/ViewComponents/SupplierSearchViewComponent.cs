@@ -70,10 +70,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                     }
                     finally
                     {
-                        var latLong = await _supplierAddressService.GetSupplierPostcodeLocation(postcode.Trim());
-
                         model.Postcode = postcode.ToUpper();
-                        model.LatLong = $"{{{latLong?.Latitude.ToString()}, {latLong?.Longitude.ToString()}}} radius {radiusKm}";
 
                         model.SearchResults = results
                             .Select(r => new SupplierSearchResultViewModel(r))
@@ -81,8 +78,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                             .ThenBy(r => r.Name)
                             .ToList();
                     }
-                    
-                    
                 }
             }
 
