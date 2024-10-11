@@ -29,7 +29,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         }
 
         [Required(ErrorMessage = "Postcode is required.")]
-        public string? Postcode { get; set; }  
+        public string? Postcode { get; set; }
+        public string? LatLong { get; set; }
 
         public List<SupplierSearchResultViewModel>? SearchResults { get; set; }  
     }

@@ -246,16 +246,16 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
         {
             // Arrange
             var sourceAddresses = new List<SupplierAddressModel>
-        {
-            new SupplierAddressModel
             {
-                OrganisationName = "Test Supplier",
-                Postcode = "TST 1NG",
-                City = "Test City",
-                AddressLine1 = "123 Test St",
-                Type = "Type A"
-            }
-        };
+                new SupplierAddressModel
+                {
+                    OrganisationName = "Test Supplier",
+                    Postcode = "TST 1NG",
+                    City = "Test City",
+                    AddressLine1 = "123 Test St",
+                    Type = "Type A"
+                }
+            };
 
             // Configure the repository to throw an exception when GetById is called
             var exception = new Exception("Database error");
@@ -272,5 +272,40 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
             _logger.VerifyLog(Microsoft.Extensions.Logging.LogLevel.Error, "Database error").MustHaveHappenedOnceExactly();
         }
+
+        [Fact]
+        public async Task GetSupplierPostcodeLocation_ShouldReturnLocationModel_WhenPostcodeIsValid()
+        {
+            // Arrange
+            var postcode = "TST 1NG";
+            var expectedLocation = new LocationModel { Latitude = 51.5074, Longitude = -0.1278 }; // Example lat/long
+
+            A.CallTo(() => _geoLocationProvider.GetLocationByPostcode(postcode))
+                .Returns(Task.FromResult<LocationModel?>(expectedLocation));
+
+            // Act
+            var result = await _service.GetSupplierPostcodeLocation(postcode);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(expectedLocation.Latitude, result!.Latitude);
+            Assert.Equal(expectedLocation.Longitude, result.Longitude);
+        }
+
+        [Fact]
+        public async Task GetSupplierPostcodeLocation_ShouldReturnNull_WhenPostcodeIsInvalid()
+        {
+            // Arrange
+            var postcode = "INVALID";
+            A.CallTo(() => _geoLocationProvider.GetLocationByPostcode(postcode))
+                .Returns(Task.FromResult<LocationModel?>(null));
+
+            // Act
+            var result = await _service.GetSupplierPostcodeLocation(postcode);
+
+            // Assert
+            Assert.Null(result);
+        }
+
     }
 }

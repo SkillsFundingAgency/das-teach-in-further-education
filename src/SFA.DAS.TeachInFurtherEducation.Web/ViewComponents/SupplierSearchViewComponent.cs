@@ -36,7 +36,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                     int radiusMiles = int.TryParse(Request.Form["radius"], out var parsedRadius) ? parsedRadius : 25;
                     double radiusKm = radiusMiles * 1.60934;
 
-
                     // Perform validation of the postcode
                     if (string.IsNullOrWhiteSpace(postcode))
                     {
@@ -54,15 +53,17 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                     }
 
                     // If valid, proceed with the search
-                    var results = await _supplierAddressService.GetSuppliersWithinRadiusOfPostcode(postcode.Trim(), radiusKm);
+                    //var results = await _supplierAddressService.GetSuppliersWithinRadiusOfPostcode(postcode.Trim(), radiusKm);
+                    var latLong = await _supplierAddressService.GetSupplierPostcodeLocation(postcode.Trim());
 
                     model.Postcode = postcode.ToUpper();
+                    model.LatLong = $"{{{latLong?.Latitude.ToString()}, {latLong?.Longitude.ToString()}}} radius {radiusKm}";
 
-                    model.SearchResults = results
-                        .Select(r => new SupplierSearchResultViewModel(r))
-                        .OrderBy(r => r.Distance)
-                        .ThenBy(r => r.Name)
-                        .ToList();
+                    //model.SearchResults = results
+                    //    .Select(r => new SupplierSearchResultViewModel(r))
+                    //    .OrderBy(r => r.Distance)
+                    //    .ThenBy(r => r.Name)
+                    //    .ToList();
                 }
             }
 
