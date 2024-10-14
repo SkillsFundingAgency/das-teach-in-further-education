@@ -1,15 +1,18 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Helpers
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model ImageCardBanner;
 
 @if (Model != null)
 {
-    var bgColor = "bg-fe-blue";
-    @if (Model.BackgroundColor == "Black")
-    {
-        bgColor = "bg-fe-black";
+    var backColor = StringHelper.GetCssClassName();
+    <style nonce="@Context.GetNonce()">
+    .@backColor {
+        background-color: @Model.BackgroundColor;
     }
-    <section class="fe-image-card-banner-medium @bgColor">
+    </style>
+    
+    <section class="fe-image-card-banner-medium @backColor">
         <div id="@Model.DataId" class="govuk-width-container">
             <div class="flex-nav">
                 <div class="flex-left govuk-!-padding-top-6">

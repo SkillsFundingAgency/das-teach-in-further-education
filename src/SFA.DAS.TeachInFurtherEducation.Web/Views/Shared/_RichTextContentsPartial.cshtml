@@ -1,18 +1,20 @@
-﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model
-@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Helpers
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model RichTextContents
 
 <div id="@Model.DataId" class="govuk-width-container">
     @{
-        var bgColor = "bg-fe-white";
-        @if (!string.IsNullOrEmpty(Model.BackgroundColor) && Model.BackgroundColor == "Peach")
-        {
-            bgColor = "bg-fe-peach";
+        var backColor = StringHelper.GetCssClassName();
+        <style nonce="@Context.GetNonce()">
+        .@backColor {
+            background-color: @Model.BackgroundColor;
         }
-        <div class="govuk-grid-row govuk-!-padding-top-6 @bgColor">
+        </style>
+
+        <div class="govuk-grid-row govuk-!-padding-top-6 @backColor">
             <div class="govuk-grid-column-full">
-                @ComponentService.ToHtmlString(@Model.PageContents)
+                @ComponentService.ToHtmlString(Model.PageContents)
             </div>
         </div>
     }

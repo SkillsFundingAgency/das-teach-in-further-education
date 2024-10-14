@@ -1,29 +1,39 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Helpers
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model ContactUs;
 
-<div id="@Model.DataId" class="govuk-grid-row contact-us-banner govuk-!-padding-3 ">
-    <div class="govuk-width-container ">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h3>@Model.Heading</h3>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                @ComponentService.ToHtmlString(Model.ContactUsContents)
-            </div>
-            <div class="govuk-grid-column-one-quarter govuk-body">
-                <div class="govuk-grid-row">
-                    <image src="../images/phone.png" class="image-icon" aria-label = "phone icon"   />
-                    @{ var telphone = Model.Phone.Replace(" ", ""); }
-                    <a href="tel:@{@telphone}" class="govuk-link">@Model.Phone</a>
+@{
+    var backColor = StringHelper.GetCssClassName();
+    <style nonce="@Context.GetNonce()">
+    .@backColor {
+        background-color: @Model.BackgroundColor;
+    }
+    </style>
+
+    <div id="@Model.DataId" class="govuk-grid-row contact-us-banner @backColor govuk-!-padding-3 ">
+        <div class="govuk-width-container ">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h3>@Model.Heading</h3>
                 </div>
-                <div class="govuk-grid-row">
-                    <image src="../images/envelope.png" class="image-icon" aria-label = "envelope icon"  />
-                    <a href="mailto:@{@Model.Email}" class="govuk-link">@Model.Email</a>
+            </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    @ComponentService.ToHtmlString(Model.ContactUsContents)
+                </div>
+                <div class="govuk-grid-column-one-quarter govuk-body">
+                    <div class="govuk-grid-row">
+                        <image src="../images/phone.png" class="image-icon" aria-label="phone icon"/>
+                        @{ var telphone = Model.Phone.Replace(" ", ""); }
+                        <a href="tel:@{@telphone}" class="govuk-link">@Model.Phone</a>
+                    </div>
+                    <div class="govuk-grid-row">
+                        <image src="../images/envelope.png" class="image-icon" aria-label="envelope icon"/>
+                        <a href="mailto:@{@Model.Email}" class="govuk-link">@Model.Email</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}

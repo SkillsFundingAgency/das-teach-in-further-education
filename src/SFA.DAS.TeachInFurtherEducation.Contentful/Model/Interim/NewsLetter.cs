@@ -28,5 +28,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
         public string? SelectedOption { get; set; }
 
         public required string SuccessMessage { get; set; } = "You have successfully subscribed to the newsletter!";
+        public string? BackgroundColor { get; set; }
     }
 }
