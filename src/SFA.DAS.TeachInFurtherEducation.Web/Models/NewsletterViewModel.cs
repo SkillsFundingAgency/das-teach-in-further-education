@@ -107,6 +107,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         /// Indicates whether the form has been submitted.
         /// </summary>
         public bool IsSubmitted { get; set; }
+        public string? BackgroundColor { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewsLetterViewModel"/> class
@@ -122,6 +123,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
             SubjectSelectOptions = newsLetterContent.SubjectSelectOptions;
             LocationFieldLabel = newsLetterContent.LocationFieldLabel;
             LocationSelectOptions = newsLetterContent.LocationSelectOptions;
+            BackgroundColor = newsLetterContent.BackgroundColor;
         }
     }
 }
