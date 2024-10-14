@@ -57,7 +57,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
                     new SelectOption { OptionValue = 1, OptionText = "New York", OptionTitle = "New York" },
                     new SelectOption { OptionValue = 2, OptionText = "London", OptionTitle = "London" }
                 },
-                SuccessMessage = "Thank you for subscribing!"
+                SuccessMessage = "Thank you for subscribing!",
+                BackgroundColor = "#FFEBDB"
             };
 
             var renderer = ContentService.CreateHtmlRenderer();

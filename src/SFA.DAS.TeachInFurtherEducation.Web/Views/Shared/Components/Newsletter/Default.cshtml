@@ -1,138 +1,148 @@
-﻿@model NewsLetterViewModel
-
-<div class="govuk-grid-row" id="signUpForm">
-    <div class="govuk-width-container">
-        <div id="newsletter" class="govuk-grid-row govuk-!-padding-right-4">
-            <div class="govuk-grid-column-two-thirds">
-                <h4 class="govuk-heading">@Model.NewsLetterHeading</h4>
-                @Html.Raw(Model.NewsLetterDescription)
-            </div>
-        </div>
-
-        <!-- Success Message -->
-        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-        {
-            <div class="govuk-panel govuk-panel--confirmation">
-                <h1 class="govuk-panel__title">Subscription Successful</h1>
-                <div class="govuk-panel__body">@Model.SuccessMessage</div>
-            </div>
-        }
-
-        <!-- Error Message -->
-        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-        {
-            <div class="govuk-error-summary">
-                <div>
-                    <h2 class="govuk-error-summary__title">There was a problem</h2>
-                    <ul class="govuk-list govuk-error-summary__list">
-                        <li>@Model.ErrorMessage</li>
-                    </ul>
+﻿@using SFA.DAS.TeachInFurtherEducation.Web.Helpers
+@model NewsLetterViewModel
+@{
+    var backColor = StringHelper.GetCssClassName();
+    <style nonce="@Context.GetNonce()">
+    .@backColor {
+        background-color: @Model.BackgroundColor;
+    }
+    </style>
+    
+    <div class="govuk-grid-row @backColor" id="signUpForm">
+        <div class="govuk-width-container">
+            <div id="newsletter" class="govuk-grid-row govuk-!-padding-right-4">
+                <div class="govuk-grid-column-two-thirds">
+                    <h4 class="govuk-heading">@Model.NewsLetterHeading</h4>
+                    @Html.Raw(Model.NewsLetterDescription)
                 </div>
             </div>
-        }
 
-        <!-- Begin Form -->
-        @if (string.IsNullOrEmpty(Model.SuccessMessage)) // Only show the form if there's no success message
-        {
-            <form method="post" action="#newsletter">
-                @Html.AntiForgeryToken()
+            <!-- Success Message -->
+            @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+            {
+                <div class="govuk-panel govuk-panel--confirmation">
+                    <h1 class="govuk-panel__title">Subscription Successful</h1>
+                    <div class="govuk-panel__body">@Model.SuccessMessage</div>
+                </div>
+            }
 
-                <input type="hidden" name="formIdentifier" value="newsletter" />
-
-                <!-- First Name Field -->
-                <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
-                    <div class="govuk-grid-column-two-thirds">
-                        <label class="govuk-label" for="firstName">First Name</label>
-                        <input class="govuk-input @(ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
-                               id="firstName" name="firstName" type="text" value="@Model.FirstName" maxlength="50">
-                        @if (ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0)
-                        {
-                            <span class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["FirstName"]?.Errors[0].ErrorMessage
-                            </span>
-                        }
+            <!-- Error Message -->
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="govuk-error-summary">
+                    <div>
+                        <h2 class="govuk-error-summary__title">There was a problem</h2>
+                        <ul class="govuk-list govuk-error-summary__list">
+                            <li>@Model.ErrorMessage</li>
+                        </ul>
                     </div>
                 </div>
+            }
 
-                <!-- Last Name Field -->
-                <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
-                    <div class="govuk-grid-column-two-thirds">
-                        <label class="govuk-label" for="lastName">Last Name</label>
-                        <input class="govuk-input @(ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
-                               id="lastName" name="lastName" type="text" value="@Model.LastName" maxlength="50">
-                        @if (ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0)
-                        {
-                            <span class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["LastName"]?.Errors[0].ErrorMessage
-                            </span>
-                        }
+            <!-- Begin Form -->
+            @if (string.IsNullOrEmpty(Model.SuccessMessage)) // Only show the form if there's no success message
+            {
+                <form method="post" action="#newsletter">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="formIdentifier" value="newsletter"/>
+
+                    <!-- First Name Field -->
+                    <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
+                        <div class="govuk-grid-column-two-thirds">
+                            <label class="govuk-label" for="firstName">First Name</label>
+                            <input class="govuk-input @(ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
+                                   id="firstName" name="firstName" type="text" value="@Model.FirstName" maxlength="50">
+                            @if (ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0)
+                            {
+                                <span class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["FirstName"]?.Errors[0].ErrorMessage
+                                </span>
+                            }
+                        </div>
                     </div>
-                </div>
 
-                <!-- Email Address Field -->
-                <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
-                    <div class="govuk-grid-column-two-thirds">
-                        <label class="govuk-label" for="emailAddress">@Model.EmailIdLabel</label>
-                        <input class="govuk-input @(ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
-                               id="emailAddress" name="emailAddress" type="text" value="@Model.EmailAddress">
-                        @if (ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0)
-                        {
-                            <span class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["EmailAddress"]?.Errors[0].ErrorMessage
-                            </span>
-                        }
+                    <!-- Last Name Field -->
+                    <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
+                        <div class="govuk-grid-column-two-thirds">
+                            <label class="govuk-label" for="lastName">Last Name</label>
+                            <input class="govuk-input @(ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
+                                   id="lastName" name="lastName" type="text" value="@Model.LastName" maxlength="50">
+                            @if (ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0)
+                            {
+                                <span class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["LastName"]?.Errors[0].ErrorMessage
+                                </span>
+                            }
+                        </div>
                     </div>
-                </div>
 
-                <!-- Subject Select Dropdown -->
-                <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
-                    <div class="govuk-grid-column-two-thirds">
-                        <label class="govuk-label" for="subject">@Model.SubjectFieldLabel</label>
-                        @Html.DropDownList(
+                    <!-- Email Address Field -->
+                    <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
+                        <div class="govuk-grid-column-two-thirds">
+                            <label class="govuk-label" for="emailAddress">@Model.EmailIdLabel</label>
+                            <input class="govuk-input @(ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
+                                   id="emailAddress" name="emailAddress" type="text" value="@Model.EmailAddress">
+                            @if (ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0)
+                            {
+                                <span class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["EmailAddress"]?.Errors[0].ErrorMessage
+                                </span>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Subject Select Dropdown -->
+                    <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
+                        <div class="govuk-grid-column-two-thirds">
+                            <label class="govuk-label" for="subject">@Model.SubjectFieldLabel</label>
+                            @Html.DropDownList(
                                 "subject",
-                                Model.SubjectSelectOptions.Select(item => new SelectListItem {
+                                Model.SubjectSelectOptions.Select(item => new SelectListItem
+                                {
                                     Text = item.OptionText,
                                     Value = item.OptionValue.ToString()
                                 }).ToList(),
                                 new { @class = "govuk-select " + (ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0 ? "govuk-select--error" : "") }
-                        )
+                            )
 
-                        @if (ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0)
-                        {
-                            <span class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["SelectedSubject"]?.Errors[0].ErrorMessage
-                            </span>
-                        }
+                            @if (ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0)
+                            {
+                                <span class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["SelectedSubject"]?.Errors[0].ErrorMessage
+                                </span>
+                            }
+                        </div>
                     </div>
-                </div>
 
-                <!-- Location Select Dropdown -->
-                <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
-                    <div class="govuk-grid-column-two-thirds">
-                        <label class="govuk-label" for="location">@Model.LocationFieldLabel</label>
-                        @Html.DropDownList(
+                    <!-- Location Select Dropdown -->
+                    <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
+                        <div class="govuk-grid-column-two-thirds">
+                            <label class="govuk-label" for="location">@Model.LocationFieldLabel</label>
+                            @Html.DropDownList(
                                 "location",
-                                Model.LocationSelectOptions.Select(item => new SelectListItem {
+                                Model.LocationSelectOptions.Select(item => new SelectListItem
+                                {
                                     Text = item.OptionText,
                                     Value = item.OptionValue.ToString()
                                 }).ToList(),
                                 new { @class = "govuk-select " + (ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0 ? "govuk-select--error" : "") }
-                        )
+                            )
 
-                        @if (ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0)
-                        {
-                            <span class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["SelectedLocation"]?.Errors[0].ErrorMessage
-                            </span>
-                        }
+                            @if (ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0)
+                            {
+                                <span class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["SelectedLocation"]?.Errors[0].ErrorMessage
+                                </span>
+                            }
+                        </div>
                     </div>
-                </div>
 
-                <!-- Submit Button -->
-                <div class="govuk-!-padding-top-4">
-                    <button type="submit" class="govuk-button" data-module="govuk-button">Submit</button>
-                </div>
-            </form>
-        }
-    </div>
-</div>
+                    <!-- Submit Button -->
+                    <div class="govuk-!-padding-top-4">
+                        <button type="submit" class="govuk-button" data-module="govuk-button">Submit</button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>}
