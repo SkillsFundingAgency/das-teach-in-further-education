@@ -1,17 +1,19 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Helpers
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 
 @model Tuple<Preamble?, Breadcrumbs?, bool, bool, string>
 
 @if (Model.Item1 != null || Model.Item2 != null)
 {
-    var bgColor =  "bg-fe-peach";
-    @if (!string.IsNullOrEmpty(Model.Item1?.BackgroundColor) && 
-         Model.Item1?.BackgroundColor == "White")
-    {
-        bgColor = "bg-fe-white";
+    var backColor = StringHelper.GetCssClassName();
+    <style nonce="@Context.GetNonce()">
+    .@backColor {
+        background-color: @Model.Item1?.BackgroundColor;
     }
-    <div class="fe-preamble @bgColor">
+    </style>
+    
+    <div class="fe-preamble @backColor">
         <section class="dfe-page-header dfe-page-header--with-sub-nav">
             @if (Model.Item2 != null)
             {
