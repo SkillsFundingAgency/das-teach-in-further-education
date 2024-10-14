@@ -36,6 +36,7 @@ using DocumentFormat.OpenXml.Drawing.Diagrams;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using System.Security.Cryptography;
 using SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity;
+using Azure.Identity;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -70,6 +71,19 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         public void ConfigureServices(IServiceCollection services)
         {
             var formOptionsConfig = Configuration.GetSection("FormOptions").Get<FormOptionsConfig>();
+
+
+            services.AddSingleton(new ChainedTokenCredential(
+                new ManagedIdentityCredential(),
+                new AzureCliCredential(),
+                new VisualStudioCodeCredential(),
+                new VisualStudioCredential())
+            );
+
+
+
+
+
 
             // Configure a maxium submission size for security purposes
             services.Configure<FormOptions>(options =>

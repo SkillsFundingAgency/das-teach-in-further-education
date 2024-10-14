@@ -1,26 +1,65 @@
-﻿using Azure.Identity;
+﻿using Azure.Core;
+using Azure.Identity;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Data
 {
     [ExcludeFromCodeCoverage]
-    public class SqlDBContext : DbContext
+    public class SqlDbContext : DbContext
     {
         private const string AzureResource = "https://database.windows.net/";
 
         private readonly ChainedTokenCredential _azureServiceTokenProvider;
         private readonly SqlDbContextConfiguration _configuration;
+        private readonly IWebHostEnvironment _currentEnvironment;
 
         public DbSet<SupplierAddressModel> SupplierAddresses { get; set; }
 
-        public SqlDBContext(IOptions<SqlDbContextConfiguration> configuration, DbContextOptions<SqlDBContext> options, ChainedTokenCredential azureServiceTokenProvider): base(options)
+        public SqlDbContext(IOptions<SqlDbContextConfiguration> configuration,
+                            DbContextOptions<SqlDbContext> options,
+                            IWebHostEnvironment currentEnvironment,
+                            ChainedTokenCredential azureServiceTokenProvider) : base(options)
         {
             this._configuration = configuration.Value;
             this._azureServiceTokenProvider = azureServiceTokenProvider;
+            this._currentEnvironment = currentEnvironment;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (_configuration == null
+                || _azureServiceTokenProvider == null
+                || _currentEnvironment.IsDevelopment())
+            {
+                return;
+            }
+
+            var sqlConnectionString = _configuration.SqlConnectionString;
+            if (string.IsNullOrEmpty(sqlConnectionString))
+            {
+                sqlConnectionString = $"Server=tcp:${_configuration.ServerName}.database.windows.net,1433;Initial Catalog={_configuration.DatabaseName};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=\"Active Directory Default\";";
+            }
+
+            var connection = new SqlConnection
+            {
+                ConnectionString = sqlConnectionString,
+                AccessToken = _azureServiceTokenProvider!.GetTokenAsync(new TokenRequestContext(scopes: new string[] { AzureResource })).Result.Token
+            };
+
+            optionsBuilder.UseSqlServer(connection, options =>
+                options.EnableRetryOnFailure(
+                    5,
+                    TimeSpan.FromSeconds(20),
+                    null
+                ));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,9 +68,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
             {
                 entity.HasKey(e => e.Id);
 
-                // Map the Location property to SQL Server GEOGRAPHY type using NetTopologySuite
                 entity.Property(e => e.Location)
-                    .HasColumnType("geography");   // Ensure Location is stored as a GEOGRAPHY type in SQL Server
+                    .HasColumnType("geography");   
             });
         }
     }
