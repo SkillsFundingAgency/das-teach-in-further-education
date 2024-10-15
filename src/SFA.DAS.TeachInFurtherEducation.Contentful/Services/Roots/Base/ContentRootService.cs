@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Contentful.Core;
 using Contentful.Core.Models;
+using Contentful.Core.Search;
 using Microsoft.AspNetCore.Html;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Interfaces;
@@ -44,6 +47,36 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base
             html = html.Replace("\r", "\r\n");
 
             return new HtmlString(html);
+        }
+
+        /// <summary>
+        /// Retrieves the content ids for interim pages
+        /// </summary>
+        /// <param name="contentfulClient">The Contentful client used to retrieve data from the CMS.</param>
+        /// <returns>Returns a list of content ids</returns>
+        [ExcludeFromCodeCoverage]
+        protected async Task<IEnumerable<string>> GetAllPageContentIds(IContentfulClient contentfulClient, ILogger logger)
+        {
+            logger.LogInformation("Beginning {MethodName}...", nameof(GetAllPageContentIds));
+
+            var retVal = new List<string>();
+
+            try
+            {
+                var query = QueryBuilder<dynamic>.New.ContentTypeIs("page").Include(3);
+                var entries = await contentfulClient.GetEntries(query);
+
+                if (entries != null)
+                {
+                    retVal.AddRange(entries.Items.Select(entry => (string)entry.sys.id.ToString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
+
+            return retVal;
         }
 
         protected static IEnumerable<T> FilterValidUrl<T>(IEnumerable<T> roots, ILogger logger)

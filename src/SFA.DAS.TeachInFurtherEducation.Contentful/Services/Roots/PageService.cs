@@ -27,36 +27,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
 
         }
 
-        /// <summary>
-        /// Retrieves the content ids for interim pages
-        /// </summary>
-        /// <param name="contentfulClient">The Contentful client used to retrieve data from the CMS.</param>
-        /// <returns>Returns a list of content ids</returns>
-        [ExcludeFromCodeCoverage]
-        public async Task<IEnumerable<string>> GetAllPageContentIds(IContentfulClient contentfulClient)
-        {
-            _logger.LogInformation("Beginning {MethodName}...", nameof(GetAllPageContentIds));
-
-            var retVal = new List<string>();
-
-            try
-            {
-                var query = QueryBuilder<dynamic>.New.ContentTypeIs("page").Include(3);
-                var entries = await contentfulClient.GetEntries(query);
-
-                if (entries != null)
-                {
-                    retVal.AddRange(entries.Items.Select(entry => (string)entry.sys.id.ToString()));
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-            }
-
-            return retVal;
-        }
-
         public async Task<IEnumerable<PageRenamed>> GetAll(IContentfulClient contentfulClient)
         {
 
@@ -70,7 +40,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
 
                 var pages = new List<ApiPage>();
 
-                var ids = await GetAllPageContentIds(contentfulClient);
+                var ids = await GetAllPageContentIds(contentfulClient, _logger);
 
                 var cancellationToken = new CancellationToken();
 
