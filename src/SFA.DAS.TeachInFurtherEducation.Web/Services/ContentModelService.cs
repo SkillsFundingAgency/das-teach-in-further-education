@@ -101,7 +101,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
             try
             {
-
                 var previewContent = await _contentService.UpdatePreview();
 
                 Page? previewPage = _contentService.GetPreviewPageByURL(pageURL);

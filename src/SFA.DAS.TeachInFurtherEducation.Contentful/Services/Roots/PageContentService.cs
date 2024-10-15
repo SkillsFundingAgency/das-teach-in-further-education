@@ -16,6 +16,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using static System.Net.Mime.MediaTypeNames;
+using Newtonsoft.Json;
+using Contentful.Core.Extensions;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
 {
@@ -33,6 +37,36 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
         }
 
         /// <summary>
+        /// Retrieves the content ids for interim pages
+        /// </summary>
+        /// <param name="contentfulClient">The Contentful client used to retrieve data from the CMS.</param>
+        /// <returns>Returns a list of content ids</returns>
+        [ExcludeFromCodeCoverage]
+        public async Task<IEnumerable<string>> GetAllPageContentIds(IContentfulClient contentfulClient)
+        {
+            _logger.LogInformation("Beginning {MethodName}...", nameof(GetAllPageContentIds));
+
+            var retVal = new List<string>();
+
+            try
+            {
+                var query = QueryBuilder<dynamic>.New.ContentTypeIs("page").Include(3);
+                var entries = await contentfulClient.GetEntries(query);
+
+                if (entries != null)
+                {
+                    retVal.AddRange(entries.Items.Select(entry => (string)entry.sys.id.ToString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+
+            return retVal;
+        }
+        
+        /// <summary>
         /// Retrieves the interim landing page from the Contentful CMS using the provided Contentful client.
         /// </summary>
         /// <param name="contentfulClient">The Contentful client used to retrieve data from the CMS.</param>
@@ -44,25 +78,36 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
 
             try
             {
+                // This is failing for Pre-Prod (getting all pages in once go)
+                //var builder = QueryBuilder<ApiPage>.New.ContentTypeIs("page").Include(3);
+                //var pages = await contentfulClient.GetEntries(builder);
 
-                var builder = QueryBuilder<ApiPage>.New.ContentTypeIs("page").Include(3);
-                var pages = await contentfulClient.GetEntries(builder);
-                LogErrors(pages);
+                var pages = new List<ApiPage>();
+
+                var ids = await GetAllPageContentIds(contentfulClient);
+
+                var cancellationToken = new CancellationToken();
+
+                foreach (var id in ids)
+                {
+                    var pageQuery = QueryBuilder<ApiPage>.New.ContentTypeIs("page").FieldEquals("sys.id", id).Include(3);
+
+                    var pagesWithContent = await contentfulClient.GetEntries(pageQuery, cancellationToken);
+                    LogErrors(pagesWithContent);
+
+                    pages.AddRange(pagesWithContent);
+                }
 
                 return await Task.WhenAll(FilterValidUrl(pages, _logger).Select(ToContent));
             }
-            catch(Exception _Exception)
+            catch (Exception _Exception)
             {
-
                 _logger.LogError(_Exception, "Unable to get pages.");
 
                 return Enumerable.Empty<Page>();
-
             }
-
         }
 
-        //todo: ctor on Page?
         private async Task<Page> ToContent(ApiPage apiPage)
         {
             return new Page(

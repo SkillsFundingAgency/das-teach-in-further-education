@@ -15,6 +15,9 @@ using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using System.Linq;
 using ApiPage = SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api.Page;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Interfaces;
+using System.Dynamic;
+using KellermanSoftware.CompareNetObjects;
+using StackExchange.Redis;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
 {
@@ -40,7 +43,6 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
         [Fact(DisplayName = "PageContentService - GetLandingPage - WithMatchingPage - ReturnsLandingPage")]
         public async Task PageContentService_GetLandingPage_WithMatchingPage_ReturnsLandingPage()
         {
-
             var contentfulClient = A.Fake<IContentfulClient>();
 
             var pageContentService = new PageContentService(htmlRenderer, Logger);
@@ -55,6 +57,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
                     PageURL = "Home"
                 }
             ];
+
+            SetupContentIds(contentfulClient, "TestPage");
 
             A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>._, A<CancellationToken>._)).Returns(entries);
 
@@ -402,6 +406,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
                 Items = new List<ApiPage> { apiPage }
             };
 
+            SetupContentIds(contentfulClient, "TestPage");
+
             A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>._, A<CancellationToken>._)).Returns(entries);
 
             // Act
@@ -411,6 +417,86 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
             Assert.NotNull(result);
             Assert.Single(result);
             Assert.Equal("Test Page", result.First().PageTitle);
+        }
+
+        private void SetupContentIds(IContentfulClient contentfulClient, params string[] ids)
+        {
+            // Mock page IDs returned from GetAllPageContentIds
+            var contentIds = new ContentfulCollection<dynamic>
+            {
+                Items = new List<dynamic>(ids.Select(id =>
+                {
+                    dynamic sys = new ExpandoObject();
+                    sys.id = id;
+
+                    dynamic entry = new ExpandoObject();
+                    entry.sys = sys;
+
+                    return entry;
+                }))
+            };
+
+            // Mock GetEntries for content IDs
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<dynamic>>._, A<CancellationToken>._))
+                .Returns(Task.FromResult(contentIds));
+        }
+
+        [Fact(DisplayName = "PageContentService - GetAllPages - Handles Exception and Logs Error")]
+        public async Task PageContentService_GetAllPages_HandlesExceptionAndLogsError()
+        {
+            // Arrange
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var pageContentService = new PageContentService(htmlRenderer, Logger);
+
+            // Mock GetAllPageContentIds to return some IDs
+            var pageIds = new List<string> { "TestPage1", "TestPage2" };
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<dynamic>>._, A<CancellationToken>._))
+                .Returns(Task.FromResult(new ContentfulCollection<dynamic>
+                {
+                    Items = pageIds.Select(id => new { sys = new { id = id } }).ToList<dynamic>()
+                }));
+
+            SetupContentIds(contentfulClient, "TestPage1");
+
+            // Mock GetEntries to throw an exception when retrieving pages
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>._, A<CancellationToken>._))
+                .Throws(new Exception("Simulated exception"));
+
+            // Act
+            var result = await pageContentService.GetAllPages(contentfulClient);
+
+            // Assert
+            // Verify the result is an empty collection
+            Assert.Empty(result);
+
+            Logger.VerifyLogMustHaveHappened(LogLevel.Error, "Unable to get pages.");
+        }
+
+        [Fact(DisplayName = "PageContentService - GetAllPages - Retrieves Pages Correctly")]
+        public async Task PageContentService_GetAllPages_RetrievesPagesCorrectly()
+        {
+            // Arrange
+            var contentfulClient = A.Fake<IContentfulClient>();
+            var pageContentService = new PageContentService(htmlRenderer, Logger);
+                       
+            SetupContentIds(contentfulClient, "TestPage1");
+
+            // Mock GetEntries for actual pages
+            var apiPage1 = new ApiPage { PageURL = "TestPage1", PageTitle = "Page 1 Title", PageTemplate = "template1" };
+
+            var pagesCollection1 = new ContentfulCollection<ApiPage> { Items = new List<ApiPage> { apiPage1 } };
+
+            // Mock GetEntries to return pages based on the sys.id
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>.That.Matches(q => q.Build().Contains("TestPage1")), A<CancellationToken>._))
+                .Returns(Task.FromResult(pagesCollection1));
+
+            // Act
+            var result = await pageContentService.GetAllPages(contentfulClient);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Count());
+            Assert.Contains(result, r => r.PageTitle == "Page 1 Title");
         }
 
         [Fact(DisplayName = "PageContentService - GetAllPages - CallsToHtmlString with Valid Document")]
@@ -440,7 +526,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
                 Items = new List<ApiPage> { apiPage }
             };
 
-            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>._, A<CancellationToken>._)).Returns(entries);
+            SetupContentIds(contentfulClient, "TestPage");
+
+            // Mock GetEntries to return pages based on the sys.id
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>.That.Matches(q => q.Build().Contains("TestPage")), A<CancellationToken>._))
+                .Returns(Task.FromResult(entries));
 
             // Act
             var result = await pageContentService.GetAllPages(contentfulClient);
@@ -451,26 +541,55 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
             Assert.Equal("Test Page", result.First().PageTitle);
         }
 
-
         [Fact(DisplayName = "PageContentService - GetAllPages - LogsWarningForExcludedUrls")]
         public async Task PageContentService_GetAllPages_LogsWarningForExcludedUrls()
         {
-            // Arrange
             var contentfulClient = A.Fake<IContentfulClient>();
             var logger = A.Fake<ILogger<PageContentService>>();
             var pageContentService = new PageContentService(htmlRenderer, logger);
 
-            var entries = new ContentfulCollection<ApiPage>
+            // Arrange: Mock some pages retrieved from Contentful
+            var page1 = new ApiPage()
             {
-                Items = new List<ApiPage>
-                {
-                    new ApiPage { PageURL = "valid-url", PageTitle = "Valid Page" },
-                    new ApiPage { PageURL = null, PageTitle = "Invalid Page" }, // This should be excluded
-                    new ApiPage { PageURL = "", PageTitle = "Empty URL Page" }  // This should also be excluded
-                }
+                PageTitle = "Page 1",
+                PageURL = "valid-url"
             };
 
-            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>._, A<CancellationToken>._)).Returns(entries);
+            var page2 = new ApiPage()
+            {
+                PageTitle = "Page 2",
+                PageURL = null
+            };
+
+            var page3= new ApiPage()
+            {
+                PageTitle = "Page 3",
+                PageURL = ""
+            };
+
+            var pages = new List<ApiPage> { page1, page2 };
+
+            var contentfulCollection = new ContentfulCollection<ApiPage>
+            {
+                Items = pages
+            };
+
+            SetupContentIds(contentfulClient, "TestPage1", "TestPage2", "TestPage3");
+
+            // Mock GetEntries for actual pages
+            var pagesCollection1 = new ContentfulCollection<ApiPage> { Items = new List<ApiPage> { page1 } };
+            var pagesCollection2 = new ContentfulCollection<ApiPage> { Items = new List<ApiPage> { page2 } };
+            var pagesCollection3 = new ContentfulCollection<ApiPage> { Items = new List<ApiPage> { page3 } };
+
+            // Mock GetEntries to return pages based on the sys.id
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>.That.Matches(q => q.Build().Contains("TestPage1")), A<CancellationToken>._))
+                .Returns(Task.FromResult(pagesCollection1));
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>.That.Matches(q => q.Build().Contains("TestPage2")), A<CancellationToken>._))
+                .Returns(Task.FromResult(pagesCollection2));
+
+            A.CallTo(() => contentfulClient.GetEntries(A<QueryBuilder<ApiPage>>.That.Matches(q => q.Build().Contains("TestPage3")), A<CancellationToken>._))
+                .Returns(Task.FromResult(pagesCollection3));
 
             // Act
             var result = await pageContentService.GetAllPages(contentfulClient);

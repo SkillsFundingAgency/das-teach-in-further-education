@@ -42,13 +42,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
                 return;
             }
 
-            var sqlConnectionString = _configuration.SqlConnectionString;
-            if (string.IsNullOrEmpty(sqlConnectionString))
-            {
-                sqlConnectionString = $"Server=tcp:${_configuration.ServerName}.database.windows.net,1433;Database={_configuration.DatabaseName};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            }
-
-            var connection = new SqlConnection(sqlConnectionString);
+            var connection = new SqlConnection(_configuration.SqlConnectionString);
             connection.AccessToken = _azureServiceTokenProvider.GetTokenAsync(new TokenRequestContext(new string[] { AzureResource })).GetAwaiter().GetResult().Token;
 
             optionsBuilder.UseSqlServer(connection, options =>

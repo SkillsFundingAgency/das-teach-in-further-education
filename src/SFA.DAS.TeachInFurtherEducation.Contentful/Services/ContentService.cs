@@ -101,9 +101,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
                 menuItems,
 
                 footerLinks
-
             );
-
         }
 
         public static HtmlRenderer CreateHtmlRenderer()
@@ -141,7 +139,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
 
             try
             {
-
                 return this.Content.Pages.FirstOrDefault(a => a.PageURL == url);
 
             }
