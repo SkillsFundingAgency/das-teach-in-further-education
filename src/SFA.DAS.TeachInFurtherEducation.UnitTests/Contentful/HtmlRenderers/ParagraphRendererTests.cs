@@ -32,7 +32,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
 
             var html = await renderer.ToHtml(doc);
 
-            Assert.Equal("<p class=\"govuk-body-l govuk-!-margin-bottom-6\">Gobble</p>", html);
+            Assert.Equal("<p class=\"govuk-body govuk-!-margin-bottom-6\">Gobble</p>", html);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
             var html = await renderer.ToHtml(doc);
 
             // Assert
-            Assert.Equal("<p class=\"govuk-body-l govuk-!-margin-bottom-6\"><div>This is a div content</div></p>", html);
+            Assert.Equal("<p class=\"govuk-body govuk-!-margin-bottom-6\"><div>This is a div content</div></p>", html);
         }
 
 
