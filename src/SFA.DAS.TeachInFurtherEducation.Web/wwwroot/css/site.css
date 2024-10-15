@@ -88,29 +88,10 @@
 
     .govuk-body {
         color: #fff;
-        font-size: 18px;
     }
-
-    .govuk-body-m {
-        color: #fff;
-    }
-
-    .govuk-link {
-        color: #fff !important;
-        background: url("../images/icon-before.png") no-repeat left center;
-        background-size: .5375rem .7875rem;
-        padding-left: .8125rem;
-    }
-
+    
     @media (max-width: 768px) {
-
-        .govuk-body {
-            font-size: 14px;
-        }
-
-        .govuk-link {
-            font-size: 14px;
-        }
+        height: 44px;
     }
 }
 
@@ -189,7 +170,7 @@
         color: #fff;
     }
 
-    .govuk-body-l {
+    .govuk-body {
         color: #fff;
     }
 
@@ -206,12 +187,7 @@
             padding: 10px;
         }
 
-        .govuk-body {
-            font-size: 18px;
-        }
-
         .govuk-link {
-            font-size: 16px;
             position: absolute;
             padding: 12px 5px;
         }
