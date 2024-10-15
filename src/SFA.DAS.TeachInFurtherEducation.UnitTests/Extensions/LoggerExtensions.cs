@@ -58,7 +58,7 @@ public static class LoggerExtensions
                 }
             }
 
-            return (originalFormat == message);
+            return (originalFormat.Contains(message));
         }
         else
         {

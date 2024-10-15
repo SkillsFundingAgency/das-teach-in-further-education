@@ -173,13 +173,19 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
             var assets = await _contentService.GetAssetsByTags("supplierAddresses");
 
-            if (assets.Count != 1)
+            if (assets.Count == 0)
             {
-                throw new FileNotFoundException("Expected exactly one asset with the 'supplier-addresses' tag, but found none or multiple.");
+                throw new FileNotFoundException("No asset found with the 'supplier-addresses' tag.");
+            }
+
+            if (assets.Count > 1)
+            {
+                var assetUrls = assets.Select(a => a.Metadata.Url).ToList();
+                _logger.LogWarning("Multiple assets found with the 'supplier-addresses' tag: {@AssetUrls}", assetUrls);
+                throw new InvalidOperationException($"Expected exactly one asset but found {assets.Count}. Asset URLs: {string.Join(", ", assetUrls)}");
             }
 
             var supplierAddressesSpreadsheet = assets.Single();
-
             return supplierAddressesSpreadsheet.Metadata.LastUpdated;
         }
 

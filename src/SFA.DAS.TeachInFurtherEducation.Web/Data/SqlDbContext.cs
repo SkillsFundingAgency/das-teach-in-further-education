@@ -48,18 +48,12 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
                 sqlConnectionString = $"Server=tcp:${_configuration.ServerName}.database.windows.net,1433;Database={_configuration.DatabaseName};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             }
 
-            var connection = new SqlConnection
-            {
-                ConnectionString = sqlConnectionString,
-                AccessToken = _azureServiceTokenProvider!.GetTokenAsync(new TokenRequestContext(scopes: new string[] { AzureResource })).Result.Token
-            };
+            var connection = new SqlConnection(sqlConnectionString);
+            connection.AccessToken = _azureServiceTokenProvider.GetTokenAsync(new TokenRequestContext(new string[] { AzureResource })).GetAwaiter().GetResult().Token;
 
             optionsBuilder.UseSqlServer(connection, options =>
-                options.EnableRetryOnFailure(
-                    5,
-                    TimeSpan.FromSeconds(20),
-                    null
-                ));
+                options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(20), null)
+            );
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
