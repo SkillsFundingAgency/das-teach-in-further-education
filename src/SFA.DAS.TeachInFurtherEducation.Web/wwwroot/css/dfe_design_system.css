@@ -174,7 +174,6 @@
 
 @media (min-width: 40.0625em) {
     .govuk-list {
-        /*font-size: 19px ;*/
         line-height: 1.3157894737
     }
 }
@@ -1071,16 +1070,6 @@
     -moz-text-size-adjust: 100%;
     text-size-adjust: 100%
 }
-
-/*@supports (position:-webkit-sticky) or (position:sticky) {*/
-/*    .govuk-template {*/
-/*        scroll-padding-top: 60px*/
-/*    }*/
-
-/*    .govuk-template:not(:has(.govuk-exit-this-page)) {*/
-/*        scroll-padding-top: 0*/
-/*    }*/
-/*}*/
 
 @media screen {
     .govuk-template {
@@ -5045,7 +5034,6 @@
 
 .govuk-radios--small .govuk-radios__item:hover .govuk-radios__input:focus + .govuk-radios__label::before {
     box-shadow: 0 0 0 4px
-    /*#fd0 0 0 0 10px #b1b4b6*/
 }
 
 @media screen and (forced-colors: active),(-ms-high-contrast: active) {
@@ -7694,7 +7682,6 @@ thead th {
 
 td, th {
     font-size: 16px;
-    /*font-size: 1;*/
     line-height: 1.33333;
     padding-bottom: 8px;
     padding-right: 16px;
@@ -7707,7 +7694,6 @@ td, th {
 @media (min-width: 40.0625em) {
     td, th {
         font-size: 19px;
-        /*font-size: 1.1875;*/
         line-height: 1.33333
     }
 }
@@ -7748,7 +7734,6 @@ th {
 caption {
     font-weight: 700;
     font-size: 18px;
-    /*font-size: 1.125;*/
     line-height: 1.33333;
     text-align: left
 }
@@ -7756,7 +7741,6 @@ caption {
 @media (min-width: 40.0625em) {
     caption {
         font-size: 22px;
-        /*font-size: 1.375;*/
         line-height: 1.33333
     }
 }
@@ -8062,7 +8046,6 @@ caption {
 
 .dfe-list, ol, ul {
     font-size: 16px;
-    /*font-size: 1;*/
     line-height: 1.33333;
     margin-bottom: 16px;
     list-style-type: none;
@@ -8073,7 +8056,6 @@ caption {
 @media (min-width: 40.0625em) {
     .dfe-list, ol, ul {
         font-size: 19px;
-        /*font-size: 1.1875;*/
         line-height: 1.33333
     }
 }
@@ -8130,7 +8112,6 @@ caption {
 
 .dfe-heading-xl, .govuk-heading-xl, h1 {
     font-size: 32px;
-    /*font-size: 2;*/
     line-height: 1.33333;
     display: block;
     font-weight: 700;
