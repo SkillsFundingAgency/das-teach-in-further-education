@@ -42,7 +42,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
                 return;
             }
 
-            var connection = new SqlConnection(_configuration.SqlConnectionString);
+            var connection = new SqlConnection(_configuration.ConnectionString);
             connection.AccessToken = _azureServiceTokenProvider.GetTokenAsync(new TokenRequestContext(new string[] { AzureResource })).GetAwaiter().GetResult().Token;
 
             optionsBuilder.UseSqlServer(connection, options =>

@@ -5,6 +5,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data.Models
     [ExcludeFromCodeCoverage]
     public class SqlDbContextConfiguration
     {
-        public string SqlConnectionString { get; set; } = "";
+        public string ConnectionString { get; set; } = "";
     }
 }
