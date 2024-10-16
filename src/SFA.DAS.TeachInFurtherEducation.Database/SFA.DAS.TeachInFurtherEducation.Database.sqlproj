@@ -61,4 +61,7 @@
   <ItemGroup>
     <Build Include="Tables\SupplierAddresses.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql" />
+  </ItemGroup>
 </Project>

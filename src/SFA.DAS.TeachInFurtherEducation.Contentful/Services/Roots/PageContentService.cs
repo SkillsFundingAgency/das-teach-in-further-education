@@ -29,55 +29,20 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
 
         private readonly ILogger<PageContentService> _logger;
 
-        public PageContentService(HtmlRenderer htmlRenderer, ILogger<PageContentService> logger) : base(htmlRenderer)
+        public PageContentService(HtmlRenderer htmlRenderer, ILogger<PageContentService> logger) : base(htmlRenderer, logger)
         {
 
             _logger = logger;
 
         }
-                
+
         /// <summary>
         /// Retrieves the interim landing page from the Contentful CMS using the provided Contentful client.
         /// </summary>
         /// <param name="contentfulClient">The Contentful client used to retrieve data from the CMS.</param>
         /// <returns>Returns an interim landing page object if found, otherwise returns null.</returns>
-        public async Task<IEnumerable<Page>> GetAllPages(IContentfulClient contentfulClient)
-        {
-
-            _logger.LogInformation("Beginning {MethodName}...", nameof(GetAllPages));
-
-            try
-            {
-                // This is failing for Pre-Prod (getting all pages in once go)
-                //var builder = QueryBuilder<ApiPage>.New.ContentTypeIs("page").Include(3);
-                //var pages = await contentfulClient.GetEntries(builder);
-
-                var pages = new List<ApiPage>();
-
-                var ids = await GetAllPageContentIds(contentfulClient, _logger);
-
-                var cancellationToken = new CancellationToken();
-
-                foreach (var id in ids)
-                {
-                    var pageQuery = QueryBuilder<ApiPage>.New.ContentTypeIs("page").FieldEquals("sys.id", id).Include(3);
-
-                    var pagesWithContent = await contentfulClient.GetEntries(pageQuery, cancellationToken);
-                    LogErrors(pagesWithContent);
-
-                    pages.AddRange(pagesWithContent);
-                }
-
-                return await Task.WhenAll(FilterValidUrl(pages, _logger).Select(ToContent));
-            }
-            catch (Exception _Exception)
-            {
-                _logger.LogError(_Exception, "Unable to get pages.");
-
-                return Enumerable.Empty<Page>();
-            }
-        }
-
+        public Task<IEnumerable<Page>> GetAllPages(IContentfulClient contentfulClient) => base.GetContentSync<Page>(contentfulClient, "page", ToContent);
+        
         private async Task<Page> ToContent(ApiPage apiPage)
         {
             return new Page(

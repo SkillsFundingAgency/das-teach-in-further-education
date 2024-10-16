@@ -2,24 +2,32 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Contentful.Core;
 using Contentful.Core.Models;
+using Contentful.Core.Models.Management;
 using Contentful.Core.Search;
 using Microsoft.AspNetCore.Html;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Interfaces;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content.Interfaces;
+using ApiPage = SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api.Page;
 
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base
 {
     public class ContentRootService
     {
         private readonly HtmlRenderer _htmlRenderer;
+        private readonly ILogger _logger;
 
-        public ContentRootService(HtmlRenderer htmlRenderer)
+        public ContentRootService(HtmlRenderer htmlRenderer, ILogger logger)
         {
             _htmlRenderer = htmlRenderer;
+            _logger = logger;
         }
 
         protected async Task<HtmlString?> ToHtmlString(Document? document)
@@ -47,6 +55,42 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base
             html = html.Replace("\r", "\r\n");
 
             return new HtmlString(html);
+        }
+
+        protected async Task<IEnumerable<T>> GetContentSync<T>(IContentfulClient contentfulClient, string contentType, Func<ApiPage, Task<T>> toContent)
+        {
+
+            _logger.LogInformation("Beginning {MethodName}...", nameof(GetContentSync));
+
+            try
+            {
+                // This is failing for Pre-Prod (getting all pages in once go)
+                //var builder = QueryBuilder<ApiPage>.New.ContentTypeIs("page").Include(3);
+                //var pages = await contentfulClient.GetEntries(builder);
+
+                var pages = new List<ApiPage>();
+
+                var ids = await GetAllPageContentIds(contentfulClient, _logger);
+                var cancellationToken = new CancellationToken();
+
+                foreach (var id in ids)
+                {
+                    var pageQuery = QueryBuilder<ApiPage>.New.ContentTypeIs(contentType).FieldEquals("sys.id", id).Include(3);
+
+                    var pagesWithContent = await contentfulClient.GetEntries(pageQuery, cancellationToken);
+                    LogErrors(pagesWithContent);
+
+                    pages.AddRange(pagesWithContent);
+                }
+
+                return await Task.WhenAll(FilterValidUrl(pages, _logger).Select(toContent));
+            }
+            catch (Exception _Exception)
+            {
+                _logger.LogError(_Exception, "Unable to get pages.");
+
+                return Enumerable.Empty<T>();
+            }
         }
 
         /// <summary>
