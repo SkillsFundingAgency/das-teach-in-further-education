@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
 using System;
@@ -20,17 +21,20 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
         private readonly ChainedTokenCredential _azureServiceTokenProvider;
         private readonly SqlDbContextConfiguration _configuration;
         private readonly IWebHostEnvironment _currentEnvironment;
+        private readonly ILogger<SqlDbContext> _logger;
 
         public DbSet<SupplierAddressModel> SupplierAddresses { get; set; }
 
         public SqlDbContext(IOptions<SqlDbContextConfiguration> configuration,
                             DbContextOptions<SqlDbContext> options,
                             IWebHostEnvironment currentEnvironment,
-                            ChainedTokenCredential azureServiceTokenProvider) : base(options)
+                            ChainedTokenCredential azureServiceTokenProvider, 
+                            ILogger<SqlDbContext> logger) : base(options)
         {
             this._configuration = configuration.Value;
             this._azureServiceTokenProvider = azureServiceTokenProvider;
             this._currentEnvironment = currentEnvironment;
+            this._logger = logger;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -41,6 +45,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
             {
                 return;
             }
+
+            _logger.LogInformation($"Using connection string {_configuration.ConnectionString}");
 
             var connection = new SqlConnection(_configuration.ConnectionString);
             connection.AccessToken = _azureServiceTokenProvider.GetTokenAsync(new TokenRequestContext(new string[] { AzureResource })).GetAwaiter().GetResult().Token;
