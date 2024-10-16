@@ -1,4 +1,5 @@
-﻿using Contentful.Core.Models;
+﻿using Contentful.Core.Extensions;
+using Contentful.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
@@ -36,6 +38,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
         private readonly ISpreadsheetParser _spreadsheetParser;
         private readonly IGeoLocationProvider _geoLocationProvider;
         private readonly ICompositeKeyGenerator<SupplierAddressModel> _compositeKeyGenerator;
+        private readonly IConfiguration _configuration;
 
 
         private readonly ILogger<SupplierAddressService> _logger;
@@ -53,7 +56,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             IGeoLocationProvider geoLocationProvider,
             ISpreadsheetParser spreadsheetParser,
             ICompositeKeyGenerator<SupplierAddressModel> compositeKeyGenerator,
-            ILogger<SupplierAddressService> logger)
+            ILogger<SupplierAddressService> logger, 
+            IConfiguration configuration)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _supplierAddressRepository = supplierAddressRepository;
@@ -62,6 +66,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             _spreadsheetParser = spreadsheetParser;
             _compositeKeyGenerator = compositeKeyGenerator;
             _logger = logger;
+
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -264,6 +270,12 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
         public async Task<List<SupplierAddressDistanceModel>> GetSuppliersWithinRadiusOfPostcode(string postcode, double distanceKm)
         {
             var retVal = new List<SupplierAddressDistanceModel>();
+
+            if (_configuration != null)
+            {
+                var config = string.Join(",", _configuration.AsEnumerable().Select(kvp => $"{kvp.Key}:{kvp.Value}").ToList());
+                _logger.LogInformation($"dbg-{config}");
+            }
 
             var postcodeLocation = await _geoLocationProvider.GetLocationByPostcode(postcode);
             if (postcodeLocation != null)

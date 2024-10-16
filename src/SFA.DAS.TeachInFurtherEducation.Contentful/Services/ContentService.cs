@@ -118,6 +118,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services
             htmlRenderer.AddRenderer(new CtaContentRenderer(htmlRenderer.Renderers));
             htmlRenderer.AddRenderer(new GdsHtmlRenderers.HeadingRenderer(htmlRenderer.Renderers));
             htmlRenderer.AddRenderer(new GdsHtmlRenderers.HorizontalRulerContentRenderer());
+            htmlRenderer.AddRenderer(new GdsHtmlRenderers.EntryStructureRenderer(htmlRenderer.Renderers));
             htmlRenderer.AddRenderer(new GdsHtmlRenderers.HyperlinkContentRenderer(htmlRenderer.Renderers));
             htmlRenderer.AddRenderer(new GdsHtmlRenderers.ListContentRenderer(htmlRenderer.Renderers));
             htmlRenderer.AddRenderer(new GdsParagraphRenderer(htmlRenderer.Renderers));
