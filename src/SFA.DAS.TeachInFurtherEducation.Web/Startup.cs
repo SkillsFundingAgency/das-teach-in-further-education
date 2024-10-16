@@ -38,6 +38,7 @@ using System.Security.Cryptography;
 using SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity;
 using Azure.Identity;
 using Microsoft.AspNetCore.DataProtection;
+using Contentful.Core.Extensions;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -236,6 +237,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             services.AddTransient<ISitemap, Sitemap>()
                 .AddHostedService<SitemapGeneratorService>();
+
+            logger.LogTrace($"trc-dbg-{Configuration.ConvertObjectToJsonString()}");
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
