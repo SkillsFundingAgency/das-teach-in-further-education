@@ -495,7 +495,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(1, result.Count());
+            Assert.Single(result);
             Assert.Contains(result, r => r.PageTitle == "Page 1 Title");
         }
 

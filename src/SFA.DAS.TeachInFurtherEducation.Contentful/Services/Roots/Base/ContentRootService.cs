@@ -64,11 +64,16 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base
 
             try
             {
+#pragma warning disable S125
+
                 // This is failing for Pre-Prod (getting all pages in once go)
                 //var builder = QueryBuilder<ApiPage>.New.ContentTypeIs("page").Include(3);
                 //var pages = await contentfulClient.GetEntries(builder);
 
+#pragma warning restore S125 
+
                 var pages = new List<ApiPage>();
+
 
                 var ids = await GetAllPageContentIds(contentfulClient, _logger);
                 var cancellationToken = new CancellationToken();
