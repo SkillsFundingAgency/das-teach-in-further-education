@@ -224,7 +224,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             // Register the DbContext for SQL Server with NetTopologySuite for geospatial support
             services.AddDbContext<SqlDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration["SqlDB:SqlConnectionString"],
+                    Configuration["SqlDB:ConnectionString"],
                     sqlOptions => sqlOptions.UseNetTopologySuite()
                 ));
 
