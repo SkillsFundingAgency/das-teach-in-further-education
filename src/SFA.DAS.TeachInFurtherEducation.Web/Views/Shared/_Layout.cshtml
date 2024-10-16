@@ -7,14 +7,14 @@
 @inject IDataProtectionProvider DataProtectionProvider
 
 @{
-    var configData = Configuration
-        .AsEnumerable()
-        .Where(c => c.Value != null)
-        .ToDictionary(c => c.Key, c => c.Value);
+    // var configData = Configuration
+    //     .AsEnumerable()
+    //     .Where(c => c.Value != null)
+    //     .ToDictionary(c => c.Key, c => c.Value);
 
-    var jsonData = System.Text.Json.JsonSerializer.Serialize(configData);
-    var protector = DataProtectionProvider.CreateProtector("ytvi76tvi6tb6tbzi76texzi7362xt2376rtbx2i736");
-    var encryptedConfig = protector.Protect(jsonData);
+    // var jsonData = System.Text.Json.JsonSerializer.Serialize(configData);
+    // var protector = DataProtectionProvider.CreateProtector("ytvi76tvi6tb6tbzi76texzi7362xt2376rtbx2i736");
+    // var encryptedConfig = protector.Protect(jsonData);
 
     // try
     // {
