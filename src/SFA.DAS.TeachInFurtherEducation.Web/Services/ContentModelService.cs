@@ -29,7 +29,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
         #region Constructors
 
-        public ContentModelService(ILogger<ContentModelService> logger, IContentService contentService, HtmlRenderer htmlRenderer) :base(htmlRenderer)
+        public ContentModelService(ILogger<ContentModelService> logger, IContentService contentService, HtmlRenderer htmlRenderer) : base(htmlRenderer, logger)
         {
 
             _logger = logger;
@@ -101,7 +101,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
             try
             {
-
                 var previewContent = await _contentService.UpdatePreview();
 
                 Page? previewPage = _contentService.GetPreviewPageByURL(pageURL);

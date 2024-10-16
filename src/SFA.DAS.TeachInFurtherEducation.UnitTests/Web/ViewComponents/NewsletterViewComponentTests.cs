@@ -408,6 +408,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             A.CallTo(() => _marketingServiceFake.SubscribeUser(A<NewsLetterSubscriberModel>._)).MustNotHaveHappened();
         }
 
+
         /// <summary>
         /// Tests that a POST request with a valid form identifier but both location and subject IDs are non-integer throws a FormatException.
         /// </summary>

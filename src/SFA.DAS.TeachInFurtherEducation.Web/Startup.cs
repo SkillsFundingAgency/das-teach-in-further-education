@@ -36,6 +36,7 @@ using DocumentFormat.OpenXml.Drawing.Diagrams;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using System.Security.Cryptography;
 using SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity;
+using Azure.Identity;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -70,6 +71,19 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         public void ConfigureServices(IServiceCollection services)
         {
             var formOptionsConfig = Configuration.GetSection("FormOptions").Get<FormOptionsConfig>();
+
+
+            services.AddSingleton(new ChainedTokenCredential(
+                new ManagedIdentityCredential(),
+                new AzureCliCredential(),
+                new VisualStudioCodeCredential(),
+                new VisualStudioCredential())
+            );
+
+
+
+
+
 
             // Configure a maxium submission size for security purposes
             services.Configure<FormOptions>(options =>
@@ -205,10 +219,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             // Register IHttpContextAccessor for accessing HttpContext
             services.AddHttpContextAccessor();
 
+            // Setup DB Configuration
+            services.Configure<SqlDbContextConfiguration>(Configuration.GetSection("SqlDB"));
+
             // Register the DbContext for SQL Server with NetTopologySuite for geospatial support
             services.AddDbContext<SqlDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration["SqlDB:ConnectionString"],
+                    Configuration["SqlDB:SqlConnectionString"],
                     sqlOptions => sqlOptions.UseNetTopologySuite()
                 ));
 

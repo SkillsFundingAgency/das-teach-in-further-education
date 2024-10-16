@@ -293,6 +293,52 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
         }
 
         [Fact]
+        public async Task GetSupplierAddressAssetLastPublishedDate_ShouldThrowInvalidOperationException_WhenMultipleAssetsFound()
+        {
+            // Arrange
+            var asset1 = new Asset<byte[]>
+            {
+                Content = Encoding.UTF8.GetBytes("<xml></xml>"),
+                Metadata = new AssetMetadata
+                {
+                    Url = "//images.ctfassets.net/97af9qkbawls/1U6Bc6O9aj7l491vPqsXqO/044a9f972eb96dc335503f9f474a4a78/Sample_Image.jpg",
+                    LastUpdated = DateTime.UtcNow.AddDays(-2),
+                    Filename = "Sample_Image.jpg",
+                    Id = "Sample_Image"
+                }
+            };
+
+            var asset2 = new Asset<byte[]>
+            {
+                Content = Encoding.UTF8.GetBytes("<xml></xml>"),
+                Metadata = new AssetMetadata
+                {
+                    Url = "//assets.ctfassets.net/97af9qkbawls/4nNRhk2abfRk7qEzbouTqt/44045536dd6d808a706cfd7a0e933c26/Filtered_AoC_Data_V3.xlsx",
+                    LastUpdated = DateTime.UtcNow.AddDays(-1),
+                    Filename = "Filtered_AoC_Data_V3.xlsx",
+                    Id = "Filtered_AoC_Data_V3"
+                }
+            };
+
+            // Simulate multiple assets being returned by the content service
+            A.CallTo(() => _contentService.GetAssetsByTags("supplierAddresses"))
+                .Returns(Task.FromResult(new List<Asset<byte[]>> { asset1, asset2 }));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _service.GetSupplierAddressAssetLastPublishedDate());
+
+            // Assert that the exception message contains the correct URLs
+            Assert.Contains("//images.ctfassets.net/97af9qkbawls/1U6Bc6O9aj7l491vPqsXqO/044a9f972eb96dc335503f9f474a4a78/Sample_Image.jpg", exception.Message);
+            Assert.Contains("//assets.ctfassets.net/97af9qkbawls/4nNRhk2abfRk7qEzbouTqt/44045536dd6d808a706cfd7a0e933c26/Filtered_AoC_Data_V3.xlsx", exception.Message);
+
+            // Verify that the warning was logged
+            _logger.VerifyLogMustHaveHappened(
+                Microsoft.Extensions.Logging.LogLevel.Warning,
+                "Multiple assets found with the 'supplier-addresses' tag"
+            );
+        }
+
+        [Fact]
         public async Task GetSupplierPostcodeLocation_ShouldReturnNull_WhenPostcodeIsInvalid()
         {
             // Arrange
@@ -306,6 +352,5 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             // Assert
             Assert.Null(result);
         }
-
     }
 }
