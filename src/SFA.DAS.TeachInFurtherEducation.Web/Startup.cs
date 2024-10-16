@@ -219,6 +219,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             // Register IHttpContextAccessor for accessing HttpContext
             services.AddHttpContextAccessor();
 
+            // Setup DB Configuration
+            services.Configure<SqlDbContextConfiguration>(Configuration.GetSection("SqlDB"));
+
             // Register the DbContext for SQL Server with NetTopologySuite for geospatial support
             services.AddDbContext<SqlDbContext>(options =>
                 options.UseSqlServer(
