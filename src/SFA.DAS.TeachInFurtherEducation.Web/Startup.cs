@@ -82,11 +82,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 new VisualStudioCredential())
             );
 
-
-
-
-
-
             // Configure a maxium submission size for security purposes
             services.Configure<FormOptions>(options =>
             {
@@ -186,6 +181,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             ComponentService.Initialize(logger, viewRenderService, htmlRenderer);
 
+            logger.LogInformation("lg-dbg" + Configuration.ConvertObjectToJsonString());
+
             services.AddSingleton<IAssetDownloader, AssetDownloader>();
 
             services.AddSingleton<IContentModelService, ContentModelService>();
@@ -237,8 +234,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             services.AddTransient<ISitemap, Sitemap>()
                 .AddHostedService<SitemapGeneratorService>();
-
-            logger.LogTrace($"trc-dbg-{Configuration.ConvertObjectToJsonString()}");
 
         }
 
