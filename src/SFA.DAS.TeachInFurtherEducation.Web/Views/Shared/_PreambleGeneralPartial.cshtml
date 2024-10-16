@@ -7,13 +7,20 @@
 @if (Model.Item1 != null || Model.Item2 != null)
 {
     var backColor = StringHelper.GetCssClassName();
+    var secondarySectionColor = $"secondary-{StringHelper.GetCssClassName()}";
     <style nonce="@Context.GetNonce()">
     .@backColor {
         background-color: @Model.Item1?.BackgroundColor;
     }
+    .@secondarySectionColor {
+        background-color: @Model.Item1?.SecondarySectionBackgroundColour;
+        border: 2px solid @Model.Item1?.SecondarySectionBorderColour;
+        border-radius: 10px;
+        padding: 10px;
+    }
     </style>
     
-    <div class="fe-preamble @backColor">
+    <div class="fe-preamble govuk-!-padding-bottom-6 @backColor"  >
         <section class="dfe-page-header dfe-page-header--with-sub-nav">
             @if (Model.Item2 != null)
             {
@@ -44,7 +51,7 @@
                     </div>
                 </div>
                 <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds">
+                    <div class="govuk-grid-column-two-thirds @secondarySectionColor">
                         @if (Model.Item1 is { SecondarySection: not null })
                         {
                             @ComponentService.ToHtmlString(Model.Item1.SecondarySection)
