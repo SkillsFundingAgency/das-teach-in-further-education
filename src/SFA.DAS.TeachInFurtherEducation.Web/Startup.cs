@@ -37,6 +37,7 @@ using NetEscapades.AspNetCore.SecurityHeaders;
 using System.Security.Cryptography;
 using SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity;
 using Azure.Identity;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {

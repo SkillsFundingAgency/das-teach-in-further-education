@@ -1,5 +1,32 @@
-﻿@using SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics
+﻿@using Microsoft.AspNetCore.DataProtection
+@using Microsoft.Extensions.Configuration
+@using SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics
 @using SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity
+
+@inject IConfiguration Configuration
+@inject IDataProtectionProvider DataProtectionProvider
+
+@{
+    var configData = Configuration
+        .AsEnumerable()
+        .Where(c => c.Value != null)
+        .ToDictionary(c => c.Key, c => c.Value);
+
+    var jsonData = System.Text.Json.JsonSerializer.Serialize(configData);
+    var protector = DataProtectionProvider.CreateProtector("ytvi76tvi6tb6tbzi76texzi7362xt2376rtbx2i736");
+    var encryptedConfig = protector.Protect(jsonData);
+
+    // try
+    // {
+    //     var cfg = System.IO.File.ReadAllText(@"c:\temp\config.txt");
+    //     var decrypt = protector.Unprotect(cfg);
+    //     System.IO.File.WriteAllText(@"c:\temp\cfgdec.txt", decrypt);
+    // }
+    // catch (Exception ex)
+    // {
+    //     Console.WriteLine(ex);
+    // }
+}
 
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 
@@ -103,6 +130,10 @@
     <environment exclude="Development">
         <script src="/js/site.js" no-cdn></script>
     </environment>
+
+    <div style="display:none;" id="encryptedConfigData">
+        @encryptedConfig
+    </div>
 </body>
 
 </html>
