@@ -237,7 +237,6 @@
 
 .govuk-heading {
     color: #000;
-    font-family: "BasicCommercial LT Light";
     font-size: 55px;
     font-style: normal;
     font-weight: 700;
@@ -291,7 +290,6 @@
 
 .govuk-heading-l {
     color: #0b0c0c;
-    font-family: BasicCommercial LT Light, Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 700;
@@ -336,7 +334,6 @@
 
 .govuk-heading-m {
     color: #0b0c0c;
-    font-family: BasicCommercial LT Light, Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 700;
@@ -9787,7 +9784,6 @@ a.dfe-header__link--service:focus {
     flex-direction: column;
     gap: 15px;
     margin-bottom: 30px;
-    margin-top: 30px;
 }
 
 @media (min-width: 40.0625em) {
