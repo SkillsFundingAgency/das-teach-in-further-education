@@ -39,21 +39,29 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (_configuration == null
-                || _azureServiceTokenProvider == null
-                || _currentEnvironment.IsDevelopment())
+            if (_configuration != null && !string.IsNullOrEmpty(_configuration.ConnectionString))
             {
-                return;
+                var connection = new SqlConnection(_configuration.ConnectionString);
+
+                if (!_currentEnvironment.IsDevelopment())
+                {
+                    if (_azureServiceTokenProvider != null)
+                    {
+                        _logger.LogInformation($"Using connection string {_configuration.ConnectionString} with Integrated Authentication");
+                        connection.AccessToken = _azureServiceTokenProvider.GetTokenAsync(new TokenRequestContext(new string[] { AzureResource })).GetAwaiter().GetResult().Token;
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"Using connection string {_configuration.ConnectionString}");
+                    }
+                }
+
+                optionsBuilder.UseSqlServer(connection, options =>
+                {
+                    options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(20), null);
+                    options.UseNetTopologySuite();
+                });
             }
-
-            _logger.LogInformation($"Using connection string {_configuration.ConnectionString}");
-
-            var connection = new SqlConnection(_configuration.ConnectionString);
-            connection.AccessToken = _azureServiceTokenProvider.GetTokenAsync(new TokenRequestContext(new string[] { AzureResource })).GetAwaiter().GetResult().Token;
-
-            optionsBuilder.UseSqlServer(connection, options =>
-                options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(20), null)
-            );
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
