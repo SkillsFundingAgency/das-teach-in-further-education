@@ -235,6 +235,15 @@
     }
 }
 
+.govuk-heading {
+    color: #000;
+    font-family: "BasicCommercial LT Light";
+    font-size: 55px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 76px;
+}
+
 .govuk-heading-xl {
     color: #0b0c0c;
     font-family: Inter, sans-serif;
@@ -282,7 +291,7 @@
 
 .govuk-heading-l {
     color: #0b0c0c;
-    font-family: Inter, sans-serif;
+    font-family: BasicCommercial LT Light, Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 700;
@@ -327,7 +336,7 @@
 
 .govuk-heading-m {
     color: #0b0c0c;
-    font-family: Inter, sans-serif;
+    font-family: BasicCommercial LT Light, Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 700;
@@ -562,7 +571,7 @@
 
 .govuk-body, .govuk-body-m, p {
     color: #0b0c0c;
-    font-family: Inter, sans-serif;
+    font-family: Arial, Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
