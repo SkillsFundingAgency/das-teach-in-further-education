@@ -18,14 +18,16 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         public string NoResultsMessage { get; init; }
         public string ButtonText { get; init; }
         public int SearchWithinMiles { get; init; }
+        public string? DataId { get; init; }
 
-        public SupplierSearchViewModel(SupplierSearch supplierSearchContent)
+        public SupplierSearchViewModel(SupplierSearch supplierSearchContent )
         {
-            this.Title = supplierSearchContent.SupplierSearchTitle;
-            this.Heading = supplierSearchContent.Heading;
-            this.NoResultsMessage = supplierSearchContent.NoResultsMessage;
-            this.ButtonText = supplierSearchContent.ButtonText;
-            this.SearchWithinMiles = supplierSearchContent.SearchWithinMiles;
+            Title = supplierSearchContent.SupplierSearchTitle;
+            Heading = supplierSearchContent.Heading;
+            NoResultsMessage = supplierSearchContent.NoResultsMessage;
+            ButtonText = supplierSearchContent.ButtonText;
+            SearchWithinMiles = supplierSearchContent.SearchWithinMiles;
+            DataId = supplierSearchContent.DataId;
         }
 
         [Required(ErrorMessage = "Postcode is required.")]
@@ -47,10 +49,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         {
             const double milesPerKilometer = 0.621371;
 
-            this.Name = searchResult.Supplier.OrganisationName;
-            this.Website = searchResult.Supplier.Website;
+            Name = searchResult.Supplier.OrganisationName;
+            Website = searchResult.Supplier.Website;
 
-            this.Address = AddressHelper.FormatAddress(
+            Address = AddressHelper.FormatAddress(
                 searchResult.Supplier.AddressLine1,
                 searchResult.Supplier.AddressLine2,
                 searchResult.Supplier.AddressLine3,
@@ -58,11 +60,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
                 searchResult.Supplier.County,
                 searchResult.Supplier.Postcode).ReplaceLineEndings("<br>");
 
-            this.Parent = searchResult.Supplier.ParentOrganisation;
+            Parent = searchResult.Supplier.ParentOrganisation;
 
             double miles = searchResult.Distance * milesPerKilometer;
 
-            this.Distance =Math.Round(miles, 1);
+            Distance =Math.Round(miles, 1);
         }
     }
 }
