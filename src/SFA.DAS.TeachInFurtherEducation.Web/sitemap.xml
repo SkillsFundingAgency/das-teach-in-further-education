@@ -1,6 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://localhost:44318/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/How-to-prepare-a-micro-teach-for-interview</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/talk-to-an-adviser</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/Step-3-start-your-job-search</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/Step-5-after-the%2520interview</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/Teach-in-Digital-and-IT-case-study</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/find-funding-and-training</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/funding-and-training-options</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/search-for-a-teaching-job</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/teach-construction-sector-page</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/Teach-in-Digital-and-IT-sector-page</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/landing-page</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/become-a-fe-teacher</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
     <loc>https://localhost:44318/page/painting-a-picture-of%2520life-in-FE-from-a-decorating-teacher</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -16,57 +81,7 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://localhost:44318/page/Step-3-start-your-job-search</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/landing-page</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/find-funding-and-training</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/teach-construction-sector-page</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
     <loc>https://localhost:44318/page/is-teaching-right-for-me</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/talk-to-an-adviser</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/search-for-a-teaching-job</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/become-a-fe-teacher</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/Teach-in-Digital-and-IT-sector-page</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/Teach-in-Digital-and-IT-case-study</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/Step-5-after-the%2520interview</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -82,21 +97,6 @@
   </url>
   <url>
     <loc>https://localhost:44318/page/Step-2-write-an-updated-cv</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/How-to-prepare-a-micro-teach-for-interview</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/funding-and-training-options</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

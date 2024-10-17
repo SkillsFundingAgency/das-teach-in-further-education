@@ -37,6 +37,8 @@ using NetEscapades.AspNetCore.SecurityHeaders;
 using System.Security.Cryptography;
 using SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity;
 using Azure.Identity;
+using Microsoft.AspNetCore.DataProtection;
+using Contentful.Core.Extensions;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -70,20 +72,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add database suppoer
+            services.AddDatabaseRegistration(Configuration, _currentEnvironment.EnvironmentName);
+
             var formOptionsConfig = Configuration.GetSection("FormOptions").Get<FormOptionsConfig>();
-
-
-            services.AddSingleton(new ChainedTokenCredential(
-                new ManagedIdentityCredential(),
-                new AzureCliCredential(),
-                new VisualStudioCodeCredential(),
-                new VisualStudioCredential())
-            );
-
-
-
-
-
 
             // Configure a maxium submission size for security purposes
             services.Configure<FormOptions>(options =>
@@ -219,15 +211,15 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             // Register IHttpContextAccessor for accessing HttpContext
             services.AddHttpContextAccessor();
 
-            // Setup DB Configuration
-            services.Configure<SqlDbContextConfiguration>(Configuration.GetSection("SqlDB"));
+            //// Setup DB Configuration
+            //services.Configure<SqlDbContextConfiguration>(Configuration.GetSection("SqlDB"));
 
-            // Register the DbContext for SQL Server with NetTopologySuite for geospatial support
-            services.AddDbContext<SqlDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration["SqlDB:SqlConnectionString"],
-                    sqlOptions => sqlOptions.UseNetTopologySuite()
-                ));
+            //// Register the DbContext for SQL Server with NetTopologySuite for geospatial support
+            //services.AddDbContext<SqlDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration["SqlDB:ConnectionString"],
+            //        sqlOptions => sqlOptions.UseNetTopologySuite()
+            //    ));
 
             services.AddScoped<ISupplierAddressRepository, SqlSupplierAddressRepository>();
 
@@ -235,6 +227,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             services.AddTransient<ISitemap, Sitemap>()
                 .AddHostedService<SitemapGeneratorService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

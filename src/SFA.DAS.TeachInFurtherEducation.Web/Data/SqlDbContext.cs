@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
 using System;
@@ -20,34 +21,47 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Data
         private readonly ChainedTokenCredential _azureServiceTokenProvider;
         private readonly SqlDbContextConfiguration _configuration;
         private readonly IWebHostEnvironment _currentEnvironment;
+        private readonly ILogger<SqlDbContext> _logger;
 
         public DbSet<SupplierAddressModel> SupplierAddresses { get; set; }
 
         public SqlDbContext(IOptions<SqlDbContextConfiguration> configuration,
                             DbContextOptions<SqlDbContext> options,
                             IWebHostEnvironment currentEnvironment,
-                            ChainedTokenCredential azureServiceTokenProvider) : base(options)
+                            ChainedTokenCredential azureServiceTokenProvider, 
+                            ILogger<SqlDbContext> logger) : base(options)
         {
             this._configuration = configuration.Value;
             this._azureServiceTokenProvider = azureServiceTokenProvider;
             this._currentEnvironment = currentEnvironment;
+            this._logger = logger;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (_configuration == null
-                || _azureServiceTokenProvider == null
-                || _currentEnvironment.IsDevelopment())
+            if (_configuration != null && !string.IsNullOrEmpty(_configuration.ConnectionString))
             {
-                return;
+                var connection = new SqlConnection(_configuration.ConnectionString);
+
+                if (!_currentEnvironment.IsDevelopment())
+                {
+                    if (_azureServiceTokenProvider != null)
+                    {
+                        _logger.LogInformation($"Using connection string {_configuration.ConnectionString} with Integrated Authentication");
+                        connection.AccessToken = _azureServiceTokenProvider.GetTokenAsync(new TokenRequestContext(new string[] { AzureResource })).GetAwaiter().GetResult().Token;
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"Using connection string {_configuration.ConnectionString}");
+                    }
+                }
+
+                optionsBuilder.UseSqlServer(connection, options =>
+                {
+                    options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(20), null);
+                    options.UseNetTopologySuite();
+                });
             }
-
-            var connection = new SqlConnection(_configuration.SqlConnectionString);
-            connection.AccessToken = _azureServiceTokenProvider.GetTokenAsync(new TokenRequestContext(new string[] { AzureResource })).GetAwaiter().GetResult().Token;
-
-            optionsBuilder.UseSqlServer(connection, options =>
-                options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(20), null)
-            );
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

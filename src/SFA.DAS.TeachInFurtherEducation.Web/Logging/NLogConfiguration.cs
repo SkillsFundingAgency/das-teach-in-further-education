@@ -15,7 +15,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Logging
     {
         public void ConfigureNLog(string minimumLogLevel)
         {
-            const string appName = "das-find-employment-schemes";
+            const string appName = "das-tife";
             string? env = Environment.GetEnvironmentVariable("EnvironmentName");
             var config = new LoggingConfiguration();
 
