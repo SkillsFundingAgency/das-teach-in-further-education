@@ -66,7 +66,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                 _geoLocationProvider,
                 _spreadsheetParser,
                 _compositeKeyGenerator,
-                _logger, null
+                _logger
             );
         }
 
