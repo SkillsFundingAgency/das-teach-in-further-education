@@ -12,7 +12,7 @@
         <div class="govuk-width-container">
             <div id="newsletter" class="govuk-grid-row govuk-!-padding-right-4">
                 <div class="govuk-grid-column-two-thirds">
-                    <h4 class="govuk-heading">@Model.NewsLetterHeading</h4>
+                    <h2 class="govuk-heading">@Model.NewsLetterHeading</h2>
                     @Html.Raw(Model.NewsLetterDescription)
                 </div>
             </div>
@@ -21,7 +21,7 @@
             @if (!string.IsNullOrEmpty(Model.SuccessMessage))
             {
                 <div class="govuk-panel govuk-panel--confirmation">
-                    <h1 class="govuk-panel__title">Subscription Successful</h1>
+                    <h4 class="govuk-panel__title">Subscription Successful</h4>
                     <div class="govuk-panel__body">@Model.SuccessMessage</div>
                 </div>
             }
