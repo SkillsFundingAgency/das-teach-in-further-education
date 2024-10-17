@@ -19,8 +19,8 @@
         padding: 10px;
     }
     </style>
-    
-    <div class="fe-preamble govuk-!-padding-bottom-6 @backColor"  >
+
+    <div class="fe-preamble govuk-!-padding-bottom-6 @backColor">
         <section class="dfe-page-header dfe-page-header--with-sub-nav">
             @if (Model.Item2 != null)
             {
@@ -42,22 +42,24 @@
                         <image src="/images/DesignSystem/Teaching-FE-logo.png" class="teaching-fe-logo" alt="teaching fe logo"/>
                     </div>
                 </div>
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds">
-                        @if (Model.Item1 is { PrimarySection: not null })
-                        {
+                @if (Model.Item1 is { PrimarySection: not null })
+                {
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+
                             @ComponentService.ToHtmlString(Model.Item1.PrimarySection)
-                        }
+
+                        </div>
                     </div>
-                </div>
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds @secondarySectionColor">
-                        @if (Model.Item1 is { SecondarySection: not null })
-                        {
+                }
+                @if (Model.Item1 is { SecondarySection: not null })
+                {
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds @secondarySectionColor">
                             @ComponentService.ToHtmlString(Model.Item1.SecondarySection)
-                        }
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </section>
     </div>
