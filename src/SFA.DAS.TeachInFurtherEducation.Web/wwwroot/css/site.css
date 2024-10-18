@@ -109,7 +109,14 @@
         }
     }
 }
+
 .fe-content-box {
+    
+    .content-box {
+        padding: 20px !important;
+        border-radius: 25px;
+    }
+    
     .govuk-grid-column-two-thirds{
         padding: 0;
     }
@@ -171,10 +178,16 @@
         }
     }
 }
-
-.contact-us-banner {
+.fe-tile-section {
+    .govuk-grid-column-full{
+        padding: 0;
+    }
+}
+.fe-contact-us-banner {
+       
     h3 {
         color: #fff;
+        margin-bottom: 0 ;
     }
 
     .govuk-body {
