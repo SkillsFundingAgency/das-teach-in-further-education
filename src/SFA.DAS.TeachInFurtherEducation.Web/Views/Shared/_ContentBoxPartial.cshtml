@@ -1,16 +1,18 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Helpers
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model ContentBox
 @{
-    var bgColor = "bg-fe-white";
-    @if (!string.IsNullOrEmpty(Model.BackgroundColor) && 
-         Model.BackgroundColor == "Peach")
-    {
-        bgColor = "bg-fe-peach";
+    var backColor = StringHelper.GetCssClassName();
+    <style nonce="@Context.GetNonce()">
+    .@backColor {
+        background-color: @Model.BackgroundColor;
     }
-    <div id="@Model.DataId" class="govuk-width-container govuk-!-padding-top-6">
+    </style>
+    
+    <div id="@Model.DataId" class="govuk-width-container fe-content-box govuk-!-padding-top-2">
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds @bgColor">
+            <div class="govuk-grid-column-two-thirds @backColor content-box"> 
                 @ComponentService.ToHtmlString(Model.ContentBoxContents)
             </div>
         </div>

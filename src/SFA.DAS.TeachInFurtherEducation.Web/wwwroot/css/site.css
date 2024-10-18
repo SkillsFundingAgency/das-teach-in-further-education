@@ -1,6 +1,5 @@
 
 .fe-image-card-banner-medium {
-    margin-top: 5px;
     padding-bottom: 0;
 
     height: 300px;
@@ -42,7 +41,6 @@
 }
 
 .fe-image-card-banner-large {
-    margin-top: 5px;
     padding-bottom: 0;
     height: 380px;
 
@@ -89,42 +87,37 @@
 
     .govuk-body {
         color: #fff;
-        font-size: 18px;
     }
-
-    .govuk-body-m {
-        color: #fff;
-    }
-
-    .govuk-link {
-        color: #fff !important;
-        background: url("../images/icon-before.png") no-repeat left center;
-        background-size: .5375rem .7875rem;
-        padding-left: .8125rem;
-    }
-
+    
     @media (max-width: 768px) {
-
-        .govuk-body {
-            font-size: 14px;
-        }
-
-        .govuk-link {
-            font-size: 14px;
-        }
+        height: 44px;
     }
 }
 
 .fe-header-full-image {
+    height: 580px;
     img {
         width: 100%;
         height: 580px;
     }
 
     @media (max-width: 768px) {
+        height: 270px;
         img {
             height: 270px;
         }
+    }
+}
+
+.fe-content-box {
+    
+    .content-box {
+        padding: 20px !important;
+        border-radius: 25px;
+    }
+    
+    .govuk-grid-column-two-thirds{
+        padding: 0;
     }
 }
 
@@ -187,13 +180,19 @@
         }
     }
 }
-
-.contact-us-banner {
+.fe-tile-section {
+    .govuk-grid-column-full{
+        padding: 0;
+    }
+}
+.fe-contact-us-banner {
+       
     h3 {
         color: #fff;
+        margin-bottom: 0 ;
     }
 
-    .govuk-body-l {
+    .govuk-body {
         color: #fff;
     }
 
@@ -210,12 +209,7 @@
             padding: 10px;
         }
 
-        .govuk-body {
-            font-size: 18px;
-        }
-
         .govuk-link {
-            font-size: 16px;
             position: absolute;
             padding: 12px 5px;
         }
