@@ -7,13 +7,13 @@
         background-color: @Model.BackgroundColor;
     }
     </style>
-    
-    <div class="govuk-grid-row @backColor" id="signUpForm">
+    <div class="govuk-grid-row @backColor govuk-!-padding-3">
         <div class="govuk-width-container">
-            <div id="newsletter" class="govuk-grid-row govuk-!-padding-right-4">
+
+           <div id="newsletter" class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <h2 class="govuk-heading">@Model.NewsLetterHeading</h2>
-                    @Html.Raw(Model.NewsLetterDescription)
+                     @Html.Raw(Model.NewsLetterDescription)
                 </div>
             </div>
 
@@ -48,11 +48,11 @@
                     <input type="hidden" name="formIdentifier" value="newsletter"/>
 
                     <!-- First Name Field -->
-                    <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
+                    <div class="govuk-grid-row govuk-!-padding-top-5">
                         <div class="govuk-grid-column-two-thirds">
                             <label class="govuk-label" for="firstName">First Name</label>
-                            <input class="govuk-input @(ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
-                                   id="firstName" name="firstName" type="text" value="@Model.FirstName" maxlength="50">
+                            <input class="govuk-input govuk-!-width-full @(ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
+                                    id="firstName" name="firstName" type="text" value="@Model.FirstName" maxlength="50">
                             @if (ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0)
                             {
                                 <span class="govuk-error-message">
@@ -63,11 +63,11 @@
                     </div>
 
                     <!-- Last Name Field -->
-                    <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
+                    <div class="govuk-grid-row govuk-!-padding-top-5">
                         <div class="govuk-grid-column-two-thirds">
                             <label class="govuk-label" for="lastName">Last Name</label>
-                            <input class="govuk-input @(ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
-                                   id="lastName" name="lastName" type="text" value="@Model.LastName" maxlength="50">
+                            <input class="govuk-input govuk-!-width-full @(ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
+                                    id="lastName" name="lastName" type="text" value="@Model.LastName" maxlength="50">
                             @if (ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0)
                             {
                                 <span class="govuk-error-message">
@@ -78,11 +78,11 @@
                     </div>
 
                     <!-- Email Address Field -->
-                    <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
+                    <div class="govuk-grid-row govuk-!-padding-top-5">
                         <div class="govuk-grid-column-two-thirds">
                             <label class="govuk-label" for="emailAddress">@Model.EmailIdLabel</label>
-                            <input class="govuk-input @(ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
-                                   id="emailAddress" name="emailAddress" type="text" value="@Model.EmailAddress">
+                            <input class="govuk-input govuk-!-width-full @(ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
+                                    id="emailAddress" name="emailAddress" type="text" value="@Model.EmailAddress">
                             @if (ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0)
                             {
                                 <span class="govuk-error-message">
@@ -93,7 +93,7 @@
                     </div>
 
                     <!-- Subject Select Dropdown -->
-                    <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
+                    <div class="govuk-grid-row govuk-!-padding-top-5">
                         <div class="govuk-grid-column-two-thirds">
                             <label class="govuk-label" for="subject">@Model.SubjectFieldLabel</label>
                             @Html.DropDownList(
@@ -103,7 +103,7 @@
                                     Text = item.OptionText,
                                     Value = item.OptionValue.ToString()
                                 }).ToList(),
-                                new { @class = "govuk-select " + (ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0 ? "govuk-select--error" : "") }
+                                new { @class = "govuk-select govuk-!-width-full " + (ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0 ? "govuk-select--error" : "") }
                             )
 
                             @if (ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0)
@@ -116,7 +116,7 @@
                     </div>
 
                     <!-- Location Select Dropdown -->
-                    <div class="govuk-grid-row govuk-!-padding-right-4 govuk-!-padding-top-5">
+                    <div class="govuk-grid-row govuk-!-padding-top-5">
                         <div class="govuk-grid-column-two-thirds">
                             <label class="govuk-label" for="location">@Model.LocationFieldLabel</label>
                             @Html.DropDownList(
@@ -126,7 +126,7 @@
                                     Text = item.OptionText,
                                     Value = item.OptionValue.ToString()
                                 }).ToList(),
-                                new { @class = "govuk-select " + (ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0 ? "govuk-select--error" : "") }
+                                new { @class = "govuk-select govuk-!-width-full " + (ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0 ? "govuk-select--error" : "") }
                             )
 
                             @if (ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0)
@@ -145,4 +145,5 @@
                 </form>
             }
         </div>
-    </div>}
+    </div>
+}
