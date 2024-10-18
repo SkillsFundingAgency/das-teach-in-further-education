@@ -1,7 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://localhost:44318/page/What-subjects-can-I-teach</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/is-teaching-right-for-me</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/funding-and-training-options</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
     <loc>https://localhost:44318/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/Daily%2520life%2520as%2520a%2520Further%2520Education%2520teacher</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/Teach-in-Digital-and-IT-sector-page</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/talk-to-an-adviser</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/find-funding-and-training</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/search-for-a-teaching-job</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,7 +51,12 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://localhost:44318/page/talk-to-an-adviser</loc>
+    <loc>https://localhost:44318/page/landing-page</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/Teach-in-Digital-and-IT-case-study</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -26,37 +71,7 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://localhost:44318/page/Teach-in-Digital-and-IT-case-study</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/find-funding-and-training</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/funding-and-training-options</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/search-for-a-teaching-job</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
     <loc>https://localhost:44318/page/teach-construction-sector-page</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/Teach-in-Digital-and-IT-sector-page</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/landing-page</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -71,17 +86,7 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://localhost:44318/page/What-subjects-can-I-teach</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
     <loc>https://localhost:44318/page/Building-up-the-next-generation-with-an-FE-engineering-tutor</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/is-teaching-right-for-me</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
