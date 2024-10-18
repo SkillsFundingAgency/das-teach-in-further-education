@@ -17,6 +17,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
     public class NewsletterViewComponent : ViewComponent
     {
         const string _formIdentifier = "newsletter";
+
         private readonly IMarketingService _marketingService;
 
         public NewsletterViewComponent(IMarketingService marketingService)
