@@ -9673,7 +9673,6 @@ b, strong {
 
 .dfe-header__service-name {
     margin-bottom: 12px;
-    margin-bottom: 12px
 }
 
 a.dfe-header__link--service {
@@ -9718,7 +9717,7 @@ a.dfe-header__link--service:focus {
 
 .dfe-header__service-name {
     display: block;
-    padding-left: 0;
+    padding-left: 20px;
     padding-right: 0;
     color: #fff;
     margin-bottom: 16px
