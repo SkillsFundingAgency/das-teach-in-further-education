@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Castle.Core.Logging;
 using Contentful.Core.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.Interfaces;
@@ -21,20 +19,21 @@ using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.ViewComponents;
 using Xunit;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Text;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
 {
     public class NewsletterViewComponentTests
     {
-        private readonly IMarketingService _marketingServiceFake;
-        private readonly NewsletterViewComponent _viewComponent;
-        private readonly NewsLetter _newsLetterContent;
+        private IMarketingService _marketingServiceFake;
+        private NewsletterViewComponent _viewComponent;
+        private NewsLetter _newsLetterContent;
 
         public NewsletterViewComponentTests()
+        {
+            Initialize();
+        }
+
+        private void Initialize()
         {
             _marketingServiceFake = A.Fake<IMarketingService>();
             _viewComponent = new NewsletterViewComponent(_marketingServiceFake);
