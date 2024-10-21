@@ -100,8 +100,8 @@
                                 "subject",
                                 Model.SubjectSelectOptions.Select(item => new SelectListItem
                                 {
-                                    Text = item.OptionText,
-                                    Value = item.OptionValue.ToString()
+                                    Text = item?.OptionText,
+                                    Value = item?.OptionValue.ToString()
                                 }).ToList(),
                                 new { @class = "govuk-select govuk-!-width-full " + (ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0 ? "govuk-select--error" : "") }
                             )
@@ -123,8 +123,8 @@
                                 "location",
                                 Model.LocationSelectOptions.Select(item => new SelectListItem
                                 {
-                                    Text = item.OptionText,
-                                    Value = item.OptionValue.ToString()
+                                    Text = item?.OptionText,
+                                    Value = item?.OptionValue.ToString()
                                 }).ToList(),
                                 new { @class = "govuk-select govuk-!-width-full " + (ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0 ? "govuk-select--error" : "") }
                             )

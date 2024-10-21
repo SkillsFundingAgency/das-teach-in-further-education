@@ -151,6 +151,131 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.Services
             _logger.VerifyLogMustHaveHappened(LogLevel.Error, $"Network error when subscribing user: {ex.InnerException.Message}");
         }
 
+        [Fact]
+        public async Task SubscribeUser_WhenMailChimpApiReturnsErrorWithDetail_ThrowsHttpRequestExceptionWithDetailMessage()
+        {
+            // Arrange
+            var subscriber = new NewsLetterSubscriberModel
+            {
+                FirstName = "Alice",
+                LastName = "Johnson",
+                EmailAddress = "alice.johnson@example.com",
+                Location = "1", // New York
+                SubjectArea = "Math" // Subject area
+            };
+
+            var getResponse = new HttpResponseMessage(HttpStatusCode.NotFound);
+            A.CallTo(() => _httpClientWrapper.SendAsync(A<HttpRequestMessage>.That.Matches(r => r.Method == HttpMethod.Get)))
+                .Returns(getResponse);
+
+            var errorResponseContent = "{\"detail\": \"Email address already exists.\"}";
+            var errorResponse = new HttpResponseMessage(HttpStatusCode.BadRequest)
+            {
+                Content = new StringContent(errorResponseContent, Encoding.UTF8, "application/json")
+            };
+
+            A.CallTo(() => _httpClientWrapper.SendAsync(A<HttpRequestMessage>.That.Matches(r => r.Method == HttpMethod.Put)))
+                .Returns(errorResponse);
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<HttpRequestException>(async () => await _service.SubscribeUser(subscriber));
+
+            // Assert that the exception message is as expected
+            Assert.NotNull(exception.InnerException);
+            Assert.Equal("Email address already exists.", exception.InnerException.Message); // Ensure the detail is correctly thrown
+        }
+
+        [Fact]
+        public async Task SubscribeUser_WhenMailChimpApiReturnsErrorWithDetailButWithInvalidJSONInTheMessage_ThrowsHttpRequestExceptionWithDetailMessage()
+        {
+            // Arrange
+            var subscriber = new NewsLetterSubscriberModel
+            {
+                FirstName = "Alice",
+                LastName = "Johnson",
+                EmailAddress = "alice.johnson@example.com",
+                Location = "1", // New York
+                SubjectArea = "Math" // Subject area
+            };
+
+            var getResponse = new HttpResponseMessage(HttpStatusCode.NotFound);
+            A.CallTo(() => _httpClientWrapper.SendAsync(A<HttpRequestMessage>.That.Matches(r => r.Method == HttpMethod.Get)))
+                .Returns(getResponse);
+
+            var errorResponseContent = "invalid json";
+            var errorResponse = new HttpResponseMessage(HttpStatusCode.BadRequest)
+            {
+                Content = new StringContent(errorResponseContent, Encoding.UTF8, "application/json")
+            };
+
+            A.CallTo(() => _httpClientWrapper.SendAsync(A<HttpRequestMessage>.That.Matches(r => r.Method == HttpMethod.Put)))
+                .Returns(errorResponse);
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<HttpRequestException>(async () => await _service.SubscribeUser(subscriber));
+
+            // Assert that the exception message is as expected
+            Assert.NotNull(exception.InnerException);
+            Assert.Equal("There was a problem processing your request. Please try again later.", exception.Message); // Ensure the detail is correctly thrown
+        }
+
+        [Fact]
+        public async Task SubscribeUser_WhenUnexpectedExceptionOccurs_ThrowsHttpRequestException()
+        {
+            // Arrange
+            var subscriber = new NewsLetterSubscriberModel
+            {
+                FirstName = "Charlie",
+                LastName = "Smith",
+                EmailAddress = "charlie.smith@example.com",
+                Location = "1", // New York
+                SubjectArea = "Art"
+            };
+
+            var getResponse = new HttpResponseMessage(HttpStatusCode.NotFound);
+            A.CallTo(() => _httpClientWrapper.SendAsync(A<HttpRequestMessage>.That.Matches(r => r.Method == HttpMethod.Get)))
+                .Returns(getResponse);
+
+            // Simulate an unexpected exception during the PUT request
+            A.CallTo(() => _httpClientWrapper.SendAsync(A<HttpRequestMessage>.That.Matches(r => r.Method == HttpMethod.Put)))
+                .ThrowsAsync(new Exception("Unexpected error occurred during the process"));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<HttpRequestException>(async () => await _service.SubscribeUser(subscriber));
+
+            // Assert that the exception message is as expected
+            Assert.Equal("An unexpected error occurred while subscribing the user.", exception.Message);
+            _logger.VerifyLogMustHaveHappened(LogLevel.Error, "Unexpected error when subscribing user: Unexpected error occurred during the process");
+        }
+
+        [Fact]
+        public async Task SubscribeUser_WhenNetworkErrorOccurs_ThrowsHttpRequestException()
+        {
+            // Arrange
+            var subscriber = new NewsLetterSubscriberModel
+            {
+                FirstName = "Bob",
+                LastName = "Brown",
+                EmailAddress = "bob.brown@example.com",
+                Location = "1", // New York
+                SubjectArea = "Science" // Subject area
+            };
+
+            var getResponse = new HttpResponseMessage(HttpStatusCode.NotFound);
+            A.CallTo(() => _httpClientWrapper.SendAsync(A<HttpRequestMessage>.That.Matches(r => r.Method == HttpMethod.Get)))
+                .Returns(getResponse);
+
+            var httpRequestException = new HttpRequestException("Network issue");
+            A.CallTo(() => _httpClientWrapper.SendAsync(A<HttpRequestMessage>.That.Matches(r => r.Method == HttpMethod.Put)))
+                .ThrowsAsync(httpRequestException);
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<HttpRequestException>(async () => await _service.SubscribeUser(subscriber));
+
+            // Assert that the exception message is as expected
+            Assert.Equal("There was a problem processing your request. Please try again later.", exception.Message);
+        }
+
         #endregion
     }
 }

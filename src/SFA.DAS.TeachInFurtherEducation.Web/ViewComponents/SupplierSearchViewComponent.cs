@@ -71,6 +71,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                     finally
                     {
                         model.Postcode = postcode.ToUpper();
+                        model.SuccessMessage = model.SuccessMessage ?? $"Nearest colleges to {model.Postcode}";
 
                         model.SearchResults = results
                             .Select(r => new SupplierSearchResultViewModel(r))

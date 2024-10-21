@@ -94,5 +94,66 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
 
             Assert.True(model.Preview.IsPreview);
         }
+
+        [Fact]
+        public void GetPageContentModel_WhenExceptionIsThrown_LogsErrorAndReturnsNull()
+        {
+            // Arrange
+            string pageURL = "unknownPageUrl";
+            A.CallTo(() => ContentService.GetPageByURL(pageURL))
+                .Throws(new Exception("Service failure"));
+
+            // Act
+            var result = ContentModelService.GetPageContentModel(pageURL);
+
+            // Assert
+            Assert.Null(result); // Should return null
+            LoggerService.VerifyLogMustHaveHappened(LogLevel.Error, "Unable to get a page."); // Verify logging with your logger extension
+        }
+
+        [Fact]
+        public async Task GetPagePreviewModel_WhenExceptionIsThrown_LogsErrorAndReturnsNull()
+        {
+            // Arrange
+            string pageURL = "unknownPageUrl";
+            A.CallTo(() => ContentService.UpdatePreview()).Returns(Content);
+            A.CallTo(() => ContentService.GetPreviewPageByURL(pageURL)).Throws(new Exception("Preview service failure"));
+
+            // Act
+            var result = await ContentModelService.GetPagePreviewModel(pageURL);
+
+            // Assert
+            Assert.Null(result); // Should return null
+            LoggerService.VerifyLogMustHaveHappened(LogLevel.Error, "Unable to get interim preview landing page."); // Verify logging with your logger extension
+        }
+
+        [Fact]
+        public async Task GetPagePreviewModel_WhenPreviewPageIsNull_ReturnsNull()
+        {
+            // Arrange
+            string pageURL = "unknownPageUrl";
+            A.CallTo(() => ContentService.UpdatePreview()).Returns(Content);
+            A.CallTo(() => ContentService.GetPreviewPageByURL(pageURL)).Returns(null); // Simulating a null preview page
+
+            // Act
+            var result = await ContentModelService.GetPagePreviewModel(pageURL);
+
+            // Assert
+            Assert.Null(result); // Should return null
+        }
+
+        [Fact]
+        public void LandingModel_WhenInitialized_ShouldBeNull()
+        {
+            // Arrange
+            // Create an instance of the ContentModelService
+            var service = new ContentModelService(LoggerService, ContentService, htmlRenderer);
+
+            // Act
+            var landingModel = service.LandingModel;
+
+            // Assert
+            Assert.Null(landingModel); // Verify that it is null upon initialization
+        }
     }
 }

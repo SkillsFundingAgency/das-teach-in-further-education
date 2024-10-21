@@ -14,7 +14,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 
         public required string Heading { get; set; }
 
-        public required string NoResultsMessage { get; set; }
+        public required string NoResultMessage { get; set; }
+
+        public required string SuccessMessage { get; set; }
 
         public required string ButtonText { get; set; }
 
