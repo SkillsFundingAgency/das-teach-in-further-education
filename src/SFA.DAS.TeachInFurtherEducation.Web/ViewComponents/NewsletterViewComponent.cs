@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
+using NUglify.Helpers;
 
 #pragma warning disable S6932
 
@@ -104,10 +105,18 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                             model.SuccessMessage = newsLetterContent.SuccessMessage;
                             model.IsSubmitted = true;
                         }
-                        catch (HttpRequestException)
+                        catch (HttpRequestException hre)
                         {
-                            // Handle network issue
-                            model.ErrorMessage = "Network error occurred. Please try again.";
+                            if (hre.InnerException != null && !string.IsNullOrWhiteSpace(hre.InnerException.Message))
+                            {
+                                var emailError = hre.InnerException.Message;
+                                ModelState.AddModelError("emailAddress", emailError);
+                            }
+                            else
+                            {
+                                // Handle network issue
+                                model.ErrorMessage = "Network error occurred. Please try again.";
+                            }
                         }
                         catch (Exception)
                         {

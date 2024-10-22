@@ -15,7 +15,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
     {
         public string Title { get; init; }
         public string Heading { get; init; }
-        public string NoResultsMessage { get; init; }
+        public string NoResultMessage { get; init; }
+        public string SuccessMessage { get; set; }
         public string ButtonText { get; init; }
         public int SearchWithinMiles { get; init; }
         public string? DataId { get; init; }
@@ -24,7 +25,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         {
             Title = supplierSearchContent.SupplierSearchTitle;
             Heading = supplierSearchContent.Heading;
-            NoResultsMessage = supplierSearchContent.NoResultsMessage;
+            NoResultMessage = supplierSearchContent.NoResultMessage;
+            SuccessMessage = supplierSearchContent.SuccessMessage;
             ButtonText = supplierSearchContent.ButtonText;
             SearchWithinMiles = supplierSearchContent.SearchWithinMiles;
             DataId = supplierSearchContent.DataId;

@@ -103,7 +103,27 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             {
                 var errorResponse = await response.Content.ReadAsStringAsync();
                 _logger.LogError($"Failed to {action} subscriber: {response.StatusCode}, {errorResponse}");
-                throw new HttpRequestException($"MailChimp {action} failed: {response.StatusCode} - {errorResponse}");
+
+                string errorMessage = $"MailChimp {action} failed: {response.StatusCode} - {errorResponse}";
+                string? mailchimpError = null;
+
+                try
+                {
+                    mailchimpError = Newtonsoft.Json.Linq.JObject.Parse(errorResponse)["detail"]?.ToString();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message);
+                }
+
+                if (!string.IsNullOrEmpty(mailchimpError))
+                {
+                    throw new HttpRequestException(mailchimpError);
+                }
+                else
+                {
+                    throw new HttpRequestException(errorMessage);
+                }
             }
             else
             {

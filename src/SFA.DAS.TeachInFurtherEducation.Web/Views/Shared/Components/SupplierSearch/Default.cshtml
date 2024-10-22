@@ -1,104 +1,105 @@
 ﻿@model SupplierSearchViewModel
 
 <div id="@Model.DataId" class="govuk-width-container govuk-!-padding-top-6">
+    <div id="search-results" class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-l">@Model.Title</h2>
+        </div>
+    </div>
+
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds bg-fe-white">
-            
-            <div id="search-results" class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    <h2 class="govuk-heading">@Model.Title</h2>
+        <div class="govuk-grid-column-two-thirds">
+            <!-- Form for searching supplier addresses -->
+            <form method="post" action="#search-results">
+                <input type="hidden" name="formIdentifier" value="supplier-search" />
+                <input id="radius" name="radius" type="hidden" value="@Model.SearchWithinMiles" />
+
+                <div class="govuk-form-group @((ViewData.ModelState["Postcode"] != null) ? "govuk-form-group--error" : "")">
+                    <label class="govuk-label" for="postcode">@Model.Heading</label>
+
+                    @if (ViewData.ModelState["Postcode"] != null)
+                    {
+                        <span id="postcode-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span>
+                            @ViewData.ModelState["Postcode"]!.Errors.FirstOrDefault()?.ErrorMessage
+                        </span>
+                    }
+
+                    <input class="govuk-input @((ViewData.ModelState["Postcode"] != null) ? "govuk-input--error" : "")"
+                            id="postcode"
+                            name="postcode"
+                            type="text"
+                            value="@Model.Postcode"
+                            aria-describedby="postcode-error" />
                 </div>
-            </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
 
-                    <!-- Form for searching supplier addresses -->
-                    <form method="post" action="#search-results">
-                        <input type="hidden" name="formIdentifier" value="supplier-search" />
-                        <input id="radius" name="radius" type="hidden" value="@Model.SearchWithinMiles" />
+                <button class="govuk-button" type="submit">@Model.ButtonText</button>
 
-                        <div class="govuk-form-group @((ViewData.ModelState["Postcode"] != null) ? "govuk-form-group--error" : "")">
-                            <label class="govuk-label" for="postcode">@Model.Heading</label>
-
-                            @if (ViewData.ModelState["Postcode"] != null)
-                            {
-                                <span id="postcode-error" class="govuk-error-message">
-                                    <span class="govuk-visually-hidden">Error:</span>
-                                    @ViewData.ModelState["Postcode"]!.Errors.FirstOrDefault()?.ErrorMessage
-                                </span>
-                            }
-
-                            <input class="govuk-input @((ViewData.ModelState["Postcode"] != null) ? "govuk-input--error" : "")"
-                                   id="postcode"
-                                   name="postcode"
-                                   type="text"
-                                   value="@Model.Postcode"
-                                   aria-describedby="postcode-error" />
-                        </div>
-
-                        @* <div class="govuk-form-group">
-                            <input class="govuk-input" id="postcode" name="postcode" type="text" value="@Model.Postcode" />
-                        </div> *@
-
-                        <button class="govuk-button" type="submit">@Model.ButtonText</button>
-
-                        @Html.AntiForgeryToken() <!-- Protect the POST request -->
-                    </form>
-                </div>
-            </div>
-
-            @if (Model.SearchResults != null)
-            {
-                <div class="govuk-grid-row govuk-!-padding-right-4">
-                    <div class="govuk-grid-column-two-thirds">
-                        <h3 class="govuk-heading-m">Nearest colleges to @Model.Postcode</h3>
-                        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-                        @if (!Model.SearchResults.Any())
-                        {
-                            <p>@Model.NoResultsMessage</p>
-                        }
-                        else
-                        {
-                            @foreach (var result in Model.SearchResults)
-                            {
-                                <div class="govuk-summary-list--no-border">
-                                    <h4 class="govuk-heading-m">@result.Name</h4>
-                                    <dl class="govuk-summary-list govuk-summary-list--no-border">
-                                        <div class="govuk-summary-list__row">
-                                            <dt class="govuk-summary-list__key">Website</dt>
-                                            <dd class="govuk-summary-list__value">
-                                                <a href="@result.Website" class="govuk-link" rel="noreferrer noopener" target="_blank">@result.Website (opens in new tab)</a>
-                                            </dd>
-                                        </div>
-                                        <div class="govuk-summary-list__row">
-                                            <dt class="govuk-summary-list__key">Address</dt>
-                                            <dd class="govuk-summary-list__value">
-                                                @Html.Raw(result.Address)
-                                            </dd>
-                                        </div>
-                                        @if (!String.IsNullOrEmpty(result.Parent))
-                                        {
-                                            <div class="govuk-summary-list__row">
-                                                <dt class="govuk-summary-list__key">College group</dt>
-                                                <dd class="govuk-summary-list__value">@result.Parent</dd>
-                                            </div>
-                                        }
-                                        <div class="govuk-summary-list__row">
-                                            <dt class="govuk-summary-list__key">Distance</dt>
-                                            <dd class="govuk-summary-list__value">@result.Distance miles</dd>
-                                        </div>
-                                    </dl>
-                                </div>
-
-                                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-                            }
-                        }
-                    </div>
-                </div>
-            }
+                @Html.AntiForgeryToken() <!-- Protect the POST request -->
+            </form>
 
         </div>
     </div>
+
+    @if (Model.SearchResults != null)
+    {
+        @if (!Model.SearchResults.Any())
+        {
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h3 class="govuk-heading-m">@Model.NoResultMessage</h3>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h3 class="govuk-heading-m">@Model.SuccessMessage</h3>
+                    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                </div>
+            </div>
+            
+            <div class="govuk-grid-row govuk-!-padding-right-4">
+                <div class="govuk-grid-column-two-thirds">
+            
+                    @foreach (var result in Model.SearchResults)
+                    {
+                        <div class="govuk-summary-list--no-border">
+                            <h4 class="govuk-heading-m">@result.Name</h4>
+                            <dl class="govuk-summary-list govuk-summary-list--no-border">
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">Website</dt>
+                                    <dd class="govuk-summary-list__value">
+                                        <a href="@result.Website" class="govuk-link" rel="noreferrer noopener" target="_blank">@result.Website (opens in new tab)</a>
+                                    </dd>
+                                </div>
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">Address</dt>
+                                    <dd class="govuk-summary-list__value">
+                                        @Html.Raw(result.Address)
+                                    </dd>
+                                </div>
+                                @if (!String.IsNullOrEmpty(result.Parent))
+                                {
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">College group</dt>
+                                        <dd class="govuk-summary-list__value">@result.Parent</dd>
+                                    </div>
+                                }
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">Distance</dt>
+                                    <dd class="govuk-summary-list__value">@result.Distance miles</dd>
+                                </div>
+                            </dl>
+                        </div>
+
+                        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                    }
+                    }
+                </div>
+            </div>
+        }
+    }
 </div>
 

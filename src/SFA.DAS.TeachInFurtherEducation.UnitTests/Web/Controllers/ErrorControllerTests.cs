@@ -48,8 +48,48 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Controllers
             var layoutModel = result.Model as LayoutModel;
             Assert.NotNull(layoutModel);
             Assert.NotNull(layoutModel.footerLinks);
+         
             Assert.NotNull(layoutModel.MenuItems);
         }
+
+        [Fact]
+        public void HandleError_WhenUnhandledStatusCodeIsProvided_ReturnsApplicationErrorView()
+        {
+            // Arrange
+            int statusCode = 418; // Status code that does not have a specific case
+
+            // Act
+            var result = _controller.HandleError(statusCode) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("ApplicationError", result.ViewName);
+            Assert.IsType<LayoutModel>(result.Model);
+        }
+
+        [Fact]
+        public void HandleError_WhenModelStateIsInvalid_ReturnsSystemErrorView()
+        {
+            // Arrange
+            // Simulate invalid ModelState
+            _controller.ModelState.AddModelError("key", "error message");
+            int statusCode = 500; // Status code is not important in this case
+
+            // Act
+            var result = _controller.HandleError(statusCode) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("ApplicationError", result.ViewName);
+            Assert.IsType<LayoutModel>(result.Model);
+
+            // Verify that the layout model is populated
+            var layoutModel = result.Model as LayoutModel;
+            Assert.NotNull(layoutModel);
+            Assert.NotNull(layoutModel.footerLinks);
+            Assert.NotNull(layoutModel.MenuItems);
+        }
+
 
         [Fact]
         public void HandleError_WhenStatusCodeIs500_ReturnsApplicationErrorView()
@@ -109,5 +149,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Controllers
                 "Unable to get model with populated footer"
             );
         }
+
+
     }
 }
