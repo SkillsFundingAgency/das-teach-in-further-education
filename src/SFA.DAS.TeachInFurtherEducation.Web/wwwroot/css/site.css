@@ -281,13 +281,6 @@
     }
 }
 
-.dfe-header {
-    @media (max-width: 768px) {
-        .dfe-header__service-name {
-            padding-left: 10px;
-        }
-    }
-}
 
 /*Added by SPAR to ensure that the first column of summary lists is an equal width*/
 .govuk-summary-list__row {
