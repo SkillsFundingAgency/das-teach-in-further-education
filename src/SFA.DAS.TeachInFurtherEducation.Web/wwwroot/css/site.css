@@ -216,6 +216,11 @@
 
 .fe-contact-us-banner {
 
+    .image-icon-mail {
+        height: 60px;
+        width: 80px;
+    }
+    
     h3 {
         color: #fff;
         margin-bottom: 0;
@@ -232,7 +237,8 @@
     }
 
     @media (max-width: 768px) {
-        .image-icon {
+        
+        .image-icon, .image-icon-mail {
             height: 40px;
             width: 34px;
             padding: 10px;
