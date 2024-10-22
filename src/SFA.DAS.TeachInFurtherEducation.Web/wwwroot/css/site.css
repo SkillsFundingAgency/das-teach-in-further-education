@@ -79,7 +79,29 @@
         }
     }
 }
-
+.fe-navigation{
+    span {
+        color: #1D70B8;
+        font-size: 19px;
+        font-weight: 700;
+        padding-left: 30px;
+    }
+    .span-next {
+        background: url("../images/DesignSystem/Next.png") no-repeat left center;
+    }
+    .span-previous {
+        background: url("../images/DesignSystem/Previous.png") no-repeat left center;
+    }
+    .govuk-link{
+        padding-left: 30px;
+    }
+    .splitter {
+      border-bottom: 1px solid #505A5F;
+        margin-bottom: 15px;
+        margin-left: 0;
+    }
+    
+}
 .fe-action-banner {
     margin-top: 5px;
     padding-bottom: 0;

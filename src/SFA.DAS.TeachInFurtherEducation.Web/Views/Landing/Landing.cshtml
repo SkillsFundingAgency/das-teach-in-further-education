@@ -72,9 +72,10 @@
             case ActionBanner actionBanner:
                 @await Html.PartialAsync("_ActionBannerPartial", actionBanner)
                 break;
-
+            case Navigation navigation:
+                @await Html.PartialAsync("_NavigationPartial", navigation)
+                break;
             default:
-
                 break;
         }
     }
