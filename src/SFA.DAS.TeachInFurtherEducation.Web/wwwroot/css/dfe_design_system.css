@@ -9681,7 +9681,6 @@ a.dfe-header__link--service {
     /*font-size: 1.125;*/
     line-height: 1.33333;
     text-decoration: none;
-    text-decoration: none;
     color: #fff
 }
 
@@ -9717,7 +9716,6 @@ a.dfe-header__link--service:focus {
 
 .dfe-header__service-name {
     display: block;
-    padding-left: 20px;
     padding-right: 0;
     color: #fff;
     margin-bottom: 16px
