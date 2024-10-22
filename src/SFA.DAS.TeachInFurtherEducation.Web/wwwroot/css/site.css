@@ -116,7 +116,7 @@
     }
 
     @media (max-width: 768px) {
-        height: 44px;
+        /*height: 44px;*/
     }
 }
 
@@ -203,7 +203,11 @@
 
     @media (max-width: 768px) {
         .teaching-fe-logo {
-            display: none;
+            padding-bottom: 20px;
+        }
+        .govuk-grid-column-two-thirds {
+            width: 100%;
+            float: left;
         }
     }
 }

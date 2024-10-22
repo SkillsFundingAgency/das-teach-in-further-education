@@ -157,8 +157,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
-    font-size: 19px;
-    line-height: 1.25;
     color: #0b0c0c;
     margin-top: 0;
     margin-bottom: 15px;
@@ -9272,7 +9270,7 @@ b, strong {
 
 @media (min-width: 40.0625em) {
     .dfe-header__menu {
-        float: left
+        float: right;
     }
 }
 
@@ -11109,7 +11107,8 @@ code.hljs {
 
 .govuk-width-container {
     margin: 0 16px;
-    max-width: 1200px
+    max-width: 1200px;
+    padding: 0 15px;
 }
 
 @media (min-width: 48.0625em) {
