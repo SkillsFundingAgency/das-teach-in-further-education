@@ -46,14 +46,16 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
                 SubjectFieldLabel = "Select Subject",
                 SubjectSelectOptions = new List<SelectOption>
                 {
-                    new SelectOption { OptionValue = 1, OptionText = "Math", OptionTitle = "Math" },
-                    new SelectOption { OptionValue = 2, OptionText = "Science", OptionTitle = "Science" }
+                    new SelectOption { OptionValue = 1, OptionText = "Choose a Subject", OptionTitle = "Choose a Subject" },
+                    new SelectOption { OptionValue = 2, OptionText = "Math", OptionTitle = "Math" },
+                    new SelectOption { OptionValue = 3, OptionText = "Science", OptionTitle = "Science" }
                 },
                 LocationFieldLabel = "Select Location",
                 LocationSelectOptions = new List<SelectOption>
                 {
-                    new SelectOption { OptionValue = 1, OptionText = "New York", OptionTitle = "New York" },
-                    new SelectOption { OptionValue = 2, OptionText = "London", OptionTitle = "London" }
+                    new SelectOption { OptionValue = 1, OptionText = "Choose a Location", OptionTitle = "Choose a Location" },
+                    new SelectOption { OptionValue = 2, OptionText = "New York", OptionTitle = "New York" },
+                    new SelectOption { OptionValue = 3, OptionText = "London", OptionTitle = "London" }
                 },
                 SuccessMessage = "Thank you for subscribing!",
                 BackgroundColor = "#FFEBDB"
@@ -139,8 +141,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
                 { "firstName", "Alice" },
                 { "lastName", "Johnson" },
                 { "emailAddress", "alice.johnson@example.com" },
-                { "location", "1" },
-                { "subject", "2" }
+                { "location", "2" },
+                { "subject", "3" }
             };
 
             var innerException = new Exception("Email address already exists.");
@@ -221,8 +223,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
                 { "firstName", "" }, // Missing first name
                 { "lastName", "Doe" },
                 { "emailAddress", "invalid-email" }, // Invalid email
-                { "location", "1" },
-                { "subject", "2" }
+                { "location", "1" }, // Not selected location
+                { "subject", "1" } // Not selected subject
             };
             SetupViewComponentContext("POST", formData);
 
@@ -238,7 +240,9 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             Assert.False(modelState.IsValid);
             Assert.True(modelState.ContainsKey("FirstName"));
             Assert.True(modelState.ContainsKey("EmailAddress"));
-            Assert.Equal(2, modelState.ErrorCount);
+            Assert.True(modelState.ContainsKey("SelectedLocation"));
+            Assert.True(modelState.ContainsKey("SelectedSubject"));
+            Assert.Equal(4, modelState.ErrorCount);
 
             A.CallTo(() => _marketingServiceFake.SubscribeUser(A<NewsLetterSubscriberModel>._)).MustNotHaveHappened();
         }
@@ -252,8 +256,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
                 { "firstName", "John" },
                 { "lastName", "Doe" },
                 { "emailAddress", "john.doe@example.com" },
-                { "location", "1" }, // New York
-                { "subject", "2" } // Science
+                { "location", "2" }, // New York
+                { "subject", "3" } // Science
             };
             SetupViewComponentContext("POST", formData);
 
@@ -286,8 +290,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
                 { "firstName", "Jane" },
                 { "lastName", "Smith" },
                 { "emailAddress", "jane.smith@example.com" },
-                { "location", "2" }, // London
-                { "subject", "1" } // Math
+                { "location", "3" }, // London
+                { "subject", "2" } // Math
             };
             SetupViewComponentContext("POST", formData);
 
@@ -315,8 +319,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
                 { "firstName", "Bob" },
                 { "lastName", "Brown" },
                 { "emailAddress", "bob.brown@example.com" },
-                { "location", "1" }, // New York
-                { "subject", "1" } // Math
+                { "location", "2" }, // New York
+                { "subject", "2" } // Math
             };
             SetupViewComponentContext("POST", formData);
 
@@ -345,7 +349,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
                 { "lastName", "Black" },
                 { "emailAddress", "eve.black@example.com" },
                 { "location", "invalid" }, // Non-integer
-                { "subject", "1" } // Math
+                { "subject", "2" } // Math
             };
             SetupViewComponentContext("POST", formData);
 
@@ -363,7 +367,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
                 { "firstName", "Frank" },
                 { "lastName", "Green" },
                 { "emailAddress", "frank.green@example.com" },
-                { "location", "1" }, // New York
+                { "location", "2" }, // New York
                 { "subject", "invalid" } // Non-integer
             };
             SetupViewComponentContext("POST", formData);

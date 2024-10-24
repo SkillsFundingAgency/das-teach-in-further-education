@@ -57,6 +57,18 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                     var validationContext = new ValidationContext(model, null, null);
                     bool isValid = Validator.TryValidateObject(model, validationContext, validationResults, true);
 
+                    if (model.SelectedSubject == model.SubjectSelectOptions.ToArray()[0]?.OptionValue.ToString() || model.SelectedSubject == "Choose a subject area")
+                    {
+                        ModelState.AddModelError("SelectedSubject", "Select a subject");
+                        isValid = false;
+                    }
+
+                    if (model.SelectedLocation == model.LocationSelectOptions.ToArray()[0]?.OptionValue.ToString() || model.SelectedLocation == "Choose a location")
+                    {
+                        ModelState.AddModelError("SelectedLocation", "Select a location");
+                        isValid = false;
+                    }
+
                     // Add validation errors to the ModelState
                     if (!isValid)
                     {

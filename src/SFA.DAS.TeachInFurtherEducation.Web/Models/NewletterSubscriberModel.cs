@@ -11,12 +11,21 @@ using System.Diagnostics.CodeAnalysis;
 namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 {
     [ExcludeFromCodeCoverage]
-    public class NewsLetterSubscriberModel 
+    public class NewsLetterSubscriberModel
     {
+       
         public required string EmailAddress { get; set; }
+
+        [Required(ErrorMessage = "Enter your first name")]
         public required string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Enter your last name")]
         public required string LastName { get; set; }
+
+        [Required(ErrorMessage = "Select a subject")]
         public string? SubjectArea { get; set; }
+
+        [Required(ErrorMessage = "Select a location")]
         public string? Location { get; set; }
     }
 }
