@@ -258,5 +258,117 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
             Assert.Collection(model.Preview.PreviewErrors,
                 e => Assert.Equal("MarketingPage content must not be blank", e.Value));
         }
+
+        [Fact]
+        public void GetPageModel_CookiePageUrlWhenMarketingPageMissing_ReturnsNull()
+        {
+            // Arrange: Remove the MarketingPage from the Pages collection
+            Pages = Pages.Where(p => p != MarketingPage).ToArray();
+
+            A.CallTo(() => Content.Pagess)
+                .Returns(Pages);
+
+            // Re-initialize the PageService to rebuild the page models
+            PageService = new PageService(ContentService);
+
+            // Act
+            var model = PageService.GetPageModel(CookiePageUrl);
+
+            // Assert
+            Assert.Null(model);
+        }
+
+        [Fact]
+        public async Task GetPageModelPreview_WhenCookiePageModelIsNull_ReturnsNull()
+        {
+            // Arrange
+            // Create a fake preview content without AnalyticsPage and MarketingPage
+            var previewContent = A.Fake<IContent>();
+
+            // Remove AnalyticsPage and MarketingPage from the Pages collection
+            var pagesWithoutCookiePages = Pages
+                .Where(p => p.Url != "analyticscookies" && p.Url != "marketingcookies")
+                .ToArray();
+
+            A.CallTo(() => previewContent.Pagess)
+                .Returns(pagesWithoutCookiePages);
+
+            A.CallTo(() => ContentService.UpdatePreview())
+                .Returns(previewContent);
+
+            // Act
+            var model = await PageService.GetPageModelPreview("cookies");
+
+            // Assert
+            Assert.Null(model);
+        }
+
+        [Fact]
+        public async Task GetPageModelPreview_UnknownPageUrl_ReturnsNull()
+        {
+            // Arrange
+            // Create a fake preview content with existing pages
+            var previewContent = A.Fake<IContent>();
+
+            // Assume the Pages collection contains some pages
+            var existingPages = Fixture.CreateMany<PageRenamed>(3).ToArray();
+
+            A.CallTo(() => previewContent.Pagess)
+                .Returns(existingPages);
+
+            A.CallTo(() => ContentService.UpdatePreview())
+                .Returns(previewContent);
+
+            // Use a pageUrl that does not exist in the Pages collection
+            string unknownPageUrl = "unknown-page-url";
+
+            // Act
+            var model = await PageService.GetPageModelPreview(unknownPageUrl);
+
+            // Assert
+            Assert.Null(model);
+        }
+
+        [Fact]
+        public void OnContentUpdated_WhenContentIsUpdated_PageModelsAreRebuilt()
+        {
+            // Arrange
+            // Initial content with PageA
+            var initialContent = A.Fake<IContent>();
+            var initialPage = new PageRenamed("Initial Title", "page-a", new HtmlString("Initial Content"));
+            A.CallTo(() => initialContent.Pagess).Returns(new[] { initialPage });
+            A.CallTo(() => ContentService.Content).Returns(initialContent);
+
+            // Create the PageService with the initial content
+            PageService = new PageService(ContentService);
+
+            // Verify that the initial page is available
+            var initialModel = PageService.GetPageModel("page-a");
+            Assert.NotNull(initialModel);
+            Assert.Equal("Initial Title", initialModel.Page.Title);
+
+            // Act
+            // Update the content to have PageB instead of PageA
+            var updatedContent = A.Fake<IContent>();
+            var updatedPage = new PageRenamed("Updated Title", "page-b", new HtmlString("Updated Content"));
+            A.CallTo(() => updatedContent.Pagess).Returns(new[] { updatedPage });
+            A.CallTo(() => ContentService.Content).Returns(updatedContent);
+
+            // Raise the ContentUpdated event to trigger OnContentUpdated
+            ContentService.ContentUpdated += Raise.WithEmpty();
+
+            // Assert
+            // The initial page should no longer be available
+            var modelAfterUpdate = PageService.GetPageModel("page-a");
+            Assert.Null(modelAfterUpdate);
+
+            // The updated page should now be available
+            var updatedModel = PageService.GetPageModel("page-b");
+            Assert.NotNull(updatedModel);
+            Assert.Equal("Updated Title", updatedModel.Page.Title);
+        }
+
+
+
     }
 }
