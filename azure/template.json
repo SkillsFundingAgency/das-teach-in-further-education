@@ -88,6 +88,14 @@
         },
         "stubAuth": {
             "type": "string"
+        },
+        "additionalCustomHostname": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "additionalKeyVaultCertificateName": {
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
@@ -96,7 +104,8 @@
         "resourceGroupName": "[concat(variables('resourceNamePrefix'), '-rg')]",
         "databaseName": "[concat(variables('resourceNamePrefix'), '-db')]",
         "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
-        "configNames": "SFA.DAS.TeachInFurtherEducation.Web"
+        "configNames": "SFA.DAS.TeachInFurtherEducation.Web",
+        "ifAdditionalCustomHostname": "[greater(length(parameters('additionalCustomHostname')), 0)]"
     },
     "resources": [
         {
@@ -278,6 +287,56 @@
                     },
                     "logAnalyticsWorkspaceName": {
                         "value": "[parameters('logAnalyticsWorkspaceName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2021-04-01",
+            "name": "[concat(variables('appServiceName'), '-app-service-certificate-','old-',parameters('utcValue'))]",
+            "condition": "[variables('ifAdditionalCustomHostname')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'app-service-certificate.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "keyVaultCertificateName": {
+                        "value": "[parameters('additionalKeyVaultCertificateName')]"
+                    },
+                    "keyVaultName": {
+                        "value": "[parameters('sharedKeyVaultName')]"
+                    },
+                    "keyVaultResourceGroup": {
+                        "value": "[parameters('sharedManagementResourceGroup')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2021-04-01",
+            "name": "[concat(variables('appServiceName'), '-app-service-hostname-binding', parameters('utcValue'))]",
+            "condition": "[variables('ifAdditionalCustomHostname')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('resourceGroupName')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'app-service-hostname-binding.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "customHostname": {
+                        "value": "[parameters('additionalCustomHostname')]"
+                    },
+                    "appServiceName": {
+                        "value": "[variables('appServiceName')]"
+                    },
+                    "certificateThumbprint": {
+                        "value": "[if(variables('ifAdditionalCustomHostname'), reference(concat(variables('appServiceName'), '-app-service-certificate-','old-', parameters('utcValue'))).outputs.certificateThumbprint.value, 'placeholder')]"
                     }
                 }
             }
