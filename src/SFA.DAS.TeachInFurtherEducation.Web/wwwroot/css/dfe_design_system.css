@@ -8957,7 +8957,6 @@ b, strong {
 
 @media (min-width: 40.0625em) {
     .dfe-header__search {
-        float: left;
         margin-left: 8px
     }
 }

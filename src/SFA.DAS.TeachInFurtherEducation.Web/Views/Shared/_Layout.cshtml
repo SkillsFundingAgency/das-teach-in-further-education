@@ -59,7 +59,7 @@
 
     @await Html.PartialAsync("_CookieConsentPartial", Model?.footerLinks)
 
-    @await Html.PartialAsync("_HomeMenuDesktopPartial", (Model?.MenuItems, Model?.Preview.IsPreview))
+    @await Html.PartialAsync("_LayoutMenuPartial", (Model?.MenuItems, Model?.Preview.IsPreview))
 
 </head>
 
