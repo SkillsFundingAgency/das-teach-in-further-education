@@ -59,15 +59,15 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         /// Gets or sets the email address provided by the user.
         /// This field is required and must be a valid email format.
         /// </summary>
-        [Required(ErrorMessage = "Email address is required.")]
-        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [Required(ErrorMessage = "Enter an email address in the correct format, like name@example.com")]
+        [EmailAddress(ErrorMessage = "Enter an email address in the correct format, like name@example.com")]
         public string? EmailAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the first name provided by the user.
         /// This field is required and must not exceed 50 characters.
         /// </summary>
-        [Required(ErrorMessage = "First name is required.")]
+        [Required(ErrorMessage = "Enter your first name")]
         [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
         public string? FirstName { get; set; }
 
@@ -75,7 +75,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         /// Gets or sets the last name provided by the user.
         /// This field is required and must not exceed 50 characters.
         /// </summary>
-        [Required(ErrorMessage = "Last name is required.")]
+        [Required(ErrorMessage = "Enter your last name")]
         [StringLength(50, ErrorMessage = "Last name cannot be longer than 50 characters.")]
         public string? LastName { get; set; }
 
@@ -83,14 +83,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         /// Gets or sets the subject area selected by the user from the dropdown.
         /// This field is required and must be selected by the user.
         /// </summary>
-        [Required(ErrorMessage = "Please select a subject.")]
+        [Required(ErrorMessage = "Select a subject")]
         public string? SelectedSubject { get; set; }
 
         /// <summary>
         /// Gets or sets the location selected by the user from the dropdown.
         /// This field is required and must be selected by the user.
         /// </summary>
-        [Required(ErrorMessage = "Please select a location.")]
+        [Required(ErrorMessage = "Select a location")]
         public string? SelectedLocation { get; set; }
 
         /// <summary>
