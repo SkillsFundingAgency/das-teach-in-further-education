@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -13,12 +14,12 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
     public class Http301RedirectionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly RedirectConfig _config;
+        private readonly Http301RedirectConfig _config;
         private readonly ILogger<Http301RedirectionMiddleware> _logger;
 
         TimeSpan _regexTimeout = TimeSpan.FromMilliseconds(500);
 
-        public Http301RedirectionMiddleware(RequestDelegate next, RedirectConfig config, ILogger<Http301RedirectionMiddleware> logger)
+        public Http301RedirectionMiddleware(RequestDelegate next, Http301RedirectConfig config, ILogger<Http301RedirectionMiddleware> logger)
         {
             _next = next;
             _config = config;
@@ -27,14 +28,15 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             PrecompileRegexPatterns();
         }
 
+        [ExcludeFromCodeCoverage]
         private void PrecompileRegexPatterns()
         {
             foreach (var trigger in _config.Triggers)
             {
-                trigger.CompiledExp = new Regex(trigger.Exp, RegexOptions.Compiled | RegexOptions.IgnoreCase, _regexTimeout);
+                trigger.CompiledExp = trigger.CompiledExp ?? new Regex(trigger.Exp, RegexOptions.Compiled | RegexOptions.IgnoreCase, _regexTimeout);
                 foreach (var rule in trigger.Rules)
                 {
-                    rule.CompiledExp = new Regex(rule.Exp, RegexOptions.Compiled | RegexOptions.IgnoreCase, _regexTimeout);
+                    rule.CompiledExp = rule.CompiledExp ?? new Regex(rule.Exp, RegexOptions.Compiled | RegexOptions.IgnoreCase, _regexTimeout);
                 }
             }
         }
@@ -44,7 +46,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             var requestUrl = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}{context.Request.QueryString}";
             var referrer = context.Request.Headers["Referer"].ToString();
 
-            Func<Regex?, Boolean> matchExp = (Regex? exp) =>
+            bool matchExp(Regex? exp)
             {
                 if (exp == null) return false;
 
@@ -57,12 +59,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
                     _logger.LogWarning(ex, "Regex match timed out for pattern '{Pattern}' and input '{Input}'", exp!.ToString(), requestUrl);
                     return false;
                 }
-                catch (ArgumentException ex)
-                {
-                    _logger.LogWarning(ex, "Invalid regex pattern '{Pattern}'", exp!.ToString());
-                    return false;
-                }
-            };
+            }
 
             var matchingRule = _config.Triggers?
                 .Where(t => matchExp(t.CompiledExp))

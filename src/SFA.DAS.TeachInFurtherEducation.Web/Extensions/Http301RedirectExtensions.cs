@@ -17,7 +17,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Extensions
         public static void Add301Redirection(this IServiceCollection services, IConfiguration configuration, string? environmentName)
         {
             var redirectConfigSection = configuration.GetSection("301Redirection");
-            var redirectConfig = redirectConfigSection.Get<RedirectConfig>() ?? new RedirectConfig();
+            var redirectConfig = redirectConfigSection.Get<Http301RedirectConfig>() ?? new Http301RedirectConfig();
 
             services.AddSingleton(redirectConfig);
         }
