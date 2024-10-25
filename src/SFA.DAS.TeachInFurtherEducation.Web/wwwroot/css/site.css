@@ -301,19 +301,6 @@
     }
 }
 
-.dfe-header__search {
-    .fe-logo {
-        flex-shrink: 0;
-    }
-
-    @media (max-width: 768px) {
-        .fe-logo {
-            width: calc(50%);
-            height: calc(50%);
-        }
-    }
-}
-
 
 /*Added by SPAR to ensure that the first column of summary lists is an equal width*/
 .govuk-summary-list__row {
@@ -327,4 +314,36 @@
 
 .govuk-summary-list__value {
     flex: 1 !important; /* Value column takes up the remaining space */
+}
+
+.dfe-header {
+    .fe-logo {
+        flex-shrink: 0;
+    }
+   
+    @media (min-width: 40.0625em) and (max-width: 61.865em) {
+        .dfe-header__menu{
+            padding-left: 10px;
+        }
+        .fe-logo {
+            width: calc(70%);
+            height: calc(70%);
+        }
+    }
+    @media (max-width: 48.0525em) {
+        .dfe-header__menu{
+            padding-left: 10px;
+        }
+        .fe-logo {
+            width: calc(50%);
+            height: calc(50%);
+           
+        }
+    }
+    @media (min-width: 61.875em) {
+        .fe-logo {
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
