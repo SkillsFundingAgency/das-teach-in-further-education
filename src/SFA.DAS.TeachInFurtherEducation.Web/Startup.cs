@@ -72,6 +72,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             // Add database suppoer
             services.AddDatabaseRegistration(Configuration, _currentEnvironment.EnvironmentName);
 
@@ -208,18 +209,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             services.AddSingleton<ICspReportService, CspReportService>();
 
+            // Http 301 redirection config
+            services.Add301Redirection(Configuration, _currentEnvironment.EnvironmentName);
+
             // Register IHttpContextAccessor for accessing HttpContext
             services.AddHttpContextAccessor();
-
-            //// Setup DB Configuration
-            //services.Configure<SqlDbContextConfiguration>(Configuration.GetSection("SqlDB"));
-
-            //// Register the DbContext for SQL Server with NetTopologySuite for geospatial support
-            //services.AddDbContext<SqlDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration["SqlDB:ConnectionString"],
-            //        sqlOptions => sqlOptions.UseNetTopologySuite()
-            //    ));
 
             services.AddScoped<ISupplierAddressRepository, SqlSupplierAddressRepository>();
 
@@ -245,7 +239,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 app.UseStatusCodePagesWithReExecute("/error/{0}");
             }
 
+            app.Use301Redirection();
             app.UseHttpsRedirection();
+
             app.UseWebOptimizer();
             app.UseCachingAndCompression();
             app.UseStaticFiles();
