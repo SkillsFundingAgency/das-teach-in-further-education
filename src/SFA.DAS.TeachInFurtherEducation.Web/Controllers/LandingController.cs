@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using SFA.DAS.TeachInFurtherEducation.Web.Exceptions;
+using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure;
 using SFA.DAS.TeachInFurtherEducation.Web.Models;
-using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using System.Threading.Tasks;
 
@@ -19,9 +18,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
         }
 
         //[ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any, NoStore = false)]
-        public IActionResult Landing(string pageUrl = "home")
+        public IActionResult Landing(string pageUrl = RouteNames.Home)
         {
-            PageContentModel? pageModel = _contentModelService.GetPageContentModel(pageUrl);
+            var pageModel = _contentModelService.GetPageContentModel(pageUrl);
 
             if (!ModelState.IsValid || pageModel == null)
             {
@@ -31,7 +30,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
             return View(nameof(Landing), pageModel);
         }
 
-        public async Task<IActionResult> PagePreview(string pageUrl = "home")
+        public async Task<IActionResult> PagePreview(string pageUrl = RouteNames.Home)
         {
 
             

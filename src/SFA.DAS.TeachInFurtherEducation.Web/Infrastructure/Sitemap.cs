@@ -50,7 +50,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
                             .AbsoluteUri
             }));
 
-            SitemapNode? home = nodes.Find(x => x.Url.EndsWith("/home"));
+            SitemapNode? home = nodes.Find(x => x.Url.EndsWith($"/{RouteNames.Home}"));
             if (home != null)
                 home.Url = home.Url[..^9];
 
