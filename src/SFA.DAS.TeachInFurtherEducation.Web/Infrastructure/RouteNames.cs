@@ -6,5 +6,6 @@
 
         public const string Error404 = "404";
         public const string Error500 = "500";
+        public const string Home = "home";
     }
 }

@@ -13,6 +13,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using System.Collections.Generic;
+using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure;
 
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
@@ -27,6 +28,26 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
         public IContent Content { get; set; }
         public ContentModelService ContentModelService { get; set; }
         public ContentfulModels.HtmlRenderer htmlRenderer { get; set; }
+
+        private IEnumerable<MenuItem> _menus = new List<MenuItem>
+        {
+            new()
+            {
+                MenuItemOrder = 1,
+                MenuItemSource = "/",
+                MenuItemText = "Home",
+                MenuItemTitle = "home",
+                TopLevelMenuItem = false
+            },
+            new()
+            {
+                MenuItemOrder = 2,
+                MenuItemSource = "/find-funding-and-training",
+                MenuItemText = "Find funding and training",
+                MenuItemTitle = "Find funding and training",
+                TopLevelMenuItem = false
+            }
+        };
 
         public ContentModelServiceTests()
         {
@@ -53,8 +74,10 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
             A.CallTo(() => ContentService.GetPageByURL("unknowUrl"))
                 .Returns(null);
 
-            var TestPage = new Page("TestURL", "TestTitle", "TestTemplate",null, new  List<ContentfulModels.IContent>(), new HtmlString(""));
-            var HomePage = new Page("HomePageURL", "HolePageTitle", "HomeTemplate", null, new List<ContentfulModels.IContent>(), new HtmlString(""));
+            var TestPage = new Page("TestURL", "TestTitle", "TestTemplate", null, new List<ContentfulModels.IContent>(),
+                new HtmlString(""));
+            var HomePage = new Page("HomePageURL", "HolePageTitle", "HomeTemplate", null,
+                new List<ContentfulModels.IContent>(), new HtmlString(""));
 
             Pages = new[] { TestPage, HomePage };
 
@@ -108,7 +131,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
 
             // Assert
             Assert.Null(result); // Should return null
-            LoggerService.VerifyLogMustHaveHappened(LogLevel.Error, "Unable to get a page."); // Verify logging with your logger extension
+            LoggerService.VerifyLogMustHaveHappened(LogLevel.Error,
+                "Unable to get a page."); // Verify logging with your logger extension
         }
 
         [Fact]
@@ -117,14 +141,16 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
             // Arrange
             string pageURL = "unknownPageUrl";
             A.CallTo(() => ContentService.UpdatePreview()).Returns(Content);
-            A.CallTo(() => ContentService.GetPreviewPageByURL(pageURL)).Throws(new Exception("Preview service failure"));
+            A.CallTo(() => ContentService.GetPreviewPageByURL(pageURL))
+                .Throws(new Exception("Preview service failure"));
 
             // Act
             var result = await ContentModelService.GetPagePreviewModel(pageURL);
 
             // Assert
             Assert.Null(result); // Should return null
-            LoggerService.VerifyLogMustHaveHappened(LogLevel.Error, "Unable to get interim preview landing page."); // Verify logging with your logger extension
+            LoggerService.VerifyLogMustHaveHappened(LogLevel.Error,
+                "Unable to get interim preview landing page."); // Verify logging with your logger extension
         }
 
         [Fact]
@@ -154,6 +180,46 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
 
             // Assert
             Assert.Null(landingModel); // Verify that it is null upon initialization
+        }
+
+        [Fact]
+        public void GetMenuItems_Should_Return_Current_Menu_Selection_For_Home_page()
+        {
+            // Arrange
+            // Create an instance of the ContentModelService
+            var service = new ContentModelService(LoggerService, ContentService, htmlRenderer);
+
+            // Act
+            var currentMenus = service.GetMenuItems(ref _menus, RouteNames.Home);
+            
+            // Assert
+            Assert.Equal(1, currentMenus.Count(x => x.IsCurrentPage));
+        }
+        [Fact]
+        public void GetMenuItems_Should_Return_Current_Menu_Selection_For_Training_page()
+        {
+            // Arrange
+            // Create an instance of the ContentModelService
+            var service = new ContentModelService(LoggerService, ContentService, htmlRenderer);
+
+            // Act
+            var currentMenus = service.GetMenuItems(ref _menus, "find-funding-and-training");
+            
+            // Assert
+            Assert.Equal(1, currentMenus.Count(x => x.IsCurrentPage));
+        }
+        [Fact]
+        public void GetMenuItems_Should_Return_Current_Menu_Selection_For_Page_Not_Found_page()
+        {
+            // Arrange
+            // Create an instance of the ContentModelService
+            var service = new ContentModelService(LoggerService, ContentService, htmlRenderer);
+
+            // Act
+            var currentMenus = service.GetMenuItems(ref _menus, "find-funding");
+            
+            // Assert
+            Assert.Equal(0, currentMenus.Count(x => x.IsCurrentPage));
         }
     }
 }
