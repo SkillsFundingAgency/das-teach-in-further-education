@@ -1,19 +1,19 @@
-﻿using System;
+﻿using AutoFixture.Kernel;
 using AutoFixture;
-using AutoFixture.Kernel;
 using ContentfulModels = Contentful.Core.Models;
 using FakeItEasy;
-using System.Linq;
-using Xunit;
 using IContent = SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content.Interfaces.IContent;
-using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
-using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
-using System.Collections.Generic;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure;
+using SFA.DAS.TeachInFurtherEducation.Web.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System;
+using Xunit;
 
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
