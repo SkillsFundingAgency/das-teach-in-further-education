@@ -1,6 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://localhost:44318/page/Step-5-after-the-interview</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/Step-3-start-your-job-search</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/Step-4-how-to-prepare-for-interviews</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://localhost:44318/page/painting-a-picture-of%2520life-in-FE-from-a-decorating-teacher</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
     <loc>https://localhost:44318/page/Step-2-write-an-updated-cv</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -21,22 +41,7 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://localhost:44318/page/Step-4-how-to-prepare-for-interviews</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/Step-3-start-your-job-search</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
     <loc>https://localhost:44318/page/teach-construction-sector-page</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/painting-a-picture-of%2520life-in-FE-from-a-decorating-teacher</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -82,11 +87,6 @@
   </url>
   <url>
     <loc>https://localhost:44318/page/landing-page</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://localhost:44318/page/Step-5-after-the-interview</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

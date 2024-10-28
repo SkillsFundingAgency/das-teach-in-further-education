@@ -19,7 +19,7 @@
 
                     @if (ViewData.ModelState["Postcode"] != null)
                     {
-                        <span id="postcode-error" class="govuk-error-message">
+                        <span id="postcode-error" class="govuk-error-message" aria-live="assertive" role="alert">
                             <span class="govuk-visually-hidden">Error:</span>
                             @ViewData.ModelState["Postcode"]!.Errors.FirstOrDefault()?.ErrorMessage
                         </span>
