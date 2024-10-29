@@ -16,6 +16,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
         public required int MenuItemOrder { get; set; }
 
         public required bool TopLevelMenuItem { get; set; }
+        
+        public bool IsCurrentPage { get; set; }
     }
 
 }

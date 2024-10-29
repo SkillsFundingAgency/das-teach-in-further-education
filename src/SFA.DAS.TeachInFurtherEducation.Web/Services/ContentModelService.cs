@@ -1,154 +1,110 @@
 ﻿using Contentful.Core.Models;
 using Microsoft.AspNetCore.Html;
 using Microsoft.Extensions.Logging;
-using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Content.Interfaces;
+using NUglify.Helpers;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots.Base;
 using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
+using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure;
 
-namespace SFA.DAS.TeachInFurtherEducation.Web.Services
+namespace SFA.DAS.TeachInFurtherEducation.Web.Services;
+
+public class ContentModelService(
+    ILogger<ContentModelService> logger,
+    IContentService contentService,
+    HtmlRenderer htmlRenderer)
+    : ContentRootService(htmlRenderer, logger), IContentModelService
 {
+    public PageContentModel? LandingModel { get; set; }
 
-    public class ContentModelService : ContentRootService, IContentModelService
+    /// <summary>
+    /// Retrieves the landing model containing data from various content sources.
+    /// </summary>
+    /// <returns>Returns the model if available, otherwise returns null.</returns>
+    public PageContentModel? GetPageContentModel(string pageUrl)
     {
-
-        #region Properties
-
-        private readonly ILogger<ContentModelService> _logger;
-
-        private readonly IContentService _contentService;
-
-        public PageContentModel? LandingModel { get; set; }
-
-        #endregion
-
-        #region Constructors
-
-        public ContentModelService(ILogger<ContentModelService> logger, IContentService contentService, HtmlRenderer htmlRenderer) : base(htmlRenderer, logger)
+        try
         {
-
-            _logger = logger;
-
-            _contentService = contentService;
-
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Retrieves the landing model containing data from various content sources.
-        /// </summary>
-        /// <returns>Returns the model if available, otherwise returns null.</returns>
-        public PageContentModel? GetPageContentModel(string pageURL)
-        {
-            try
+            var page = contentService.GetPageByURL(pageUrl);
+            var menus = contentService.Content.MenuItems;
+            var menuItems = GetMenuItems(ref menus, pageUrl);
+            if (page == null)
             {
-                Page? page = _contentService.GetPageByURL(pageURL);
-
-
-                if (page == null)
-                {
-
-                    return null;
-
-                }
-
-                return new PageContentModel()
-                {
-
-                    PageURL = page.PageURL,
-
-                    PageTitle = page.PageTitle,
-
-                    PageTemplate = page.PageTemplate,
-
-                    Breadcrumbs = page.Breadcrumbs,
-
-                    MenuItems = _contentService.Content.MenuItems,
-
-                    footerLinks = _contentService.Content.FooterLinks,
-
-                    PageComponents = page.PageComponents,
-                };
-
-            }
-            catch(Exception _exception)
-            {
-
-                _logger.LogError(_exception, "Unable to get a page.");
-
                 return null;
-
             }
 
+            return new PageContentModel()
+            {
+                PageURL = page.PageURL,
+                PageTitle = page.PageTitle,
+                PageTemplate = page.PageTemplate,
+                Breadcrumbs = page.Breadcrumbs,
+                MenuItems = menuItems,
+                footerLinks = contentService.Content.FooterLinks,
+                PageComponents = page.PageComponents,
+            };
         }
-
-        #region Preview Models
-
-        /// <summary>
-        /// Retrieves the landing model containing data from various content sources in preview mode.
-        /// </summary>
-        /// <returns>Returns the model if available, otherwise returns null.</returns>
-        public async Task<PageContentModel?> GetPagePreviewModel(string pageURL)
+        catch (Exception exception)
         {
+            logger.LogError(exception, " - Unable to get a page.");
 
-            try
-            {
-                var previewContent = await _contentService.UpdatePreview();
-
-                Page? previewPage = _contentService.GetPreviewPageByURL(pageURL);
-
-                if (previewPage == null)
-                {
-
-                    return null;
-
-                }
-
-                return new PageContentModel()
-                {
-
-                    PageURL = previewPage.PageURL,
-
-                    PageTitle = previewPage.PageTitle,
-
-                    PageTemplate = previewPage.PageTemplate,
-
-                    Breadcrumbs = previewPage.Breadcrumbs,
-
-                    PageComponents = previewPage.PageComponents,
-
-                    MenuItems = previewContent.MenuItems,
-
-                    footerLinks = previewContent.FooterLinks,
-
-                    Preview = new PreviewModel(Enumerable.Empty<HtmlString>())
-
-                };
-
-            }
-            catch (Exception _exception)
-            {
-
-                _logger.LogError(_exception, "Unable to get interim preview landing page.");
-
-                return null;
-
-            }
-
+            return null;
         }
-
-        #endregion
-
-        #endregion
-
     }
 
+
+    /// <summary>
+    /// Retrieves the landing model containing data from various content sources in preview mode.
+    /// </summary>
+    /// <returns>Returns the model if available, otherwise returns null.</returns>
+    public async Task<PageContentModel?> GetPagePreviewModel(string pageUrl)
+    {
+        try
+        {
+            var previewContent = await contentService.UpdatePreview();
+            var previewPage = contentService.GetPreviewPageByURL(pageUrl);
+            var menus = previewContent.MenuItems;
+            var menuItems = GetMenuItems(ref menus, pageUrl);
+
+            if (previewPage == null)
+            {
+                return null;
+            }
+
+            return new PageContentModel()
+            {
+                PageURL = previewPage.PageURL,
+                PageTitle = previewPage.PageTitle,
+                PageTemplate = previewPage.PageTemplate,
+                Breadcrumbs = previewPage.Breadcrumbs,
+                PageComponents = previewPage.PageComponents,
+                MenuItems = menuItems,
+                footerLinks = previewContent.FooterLinks,
+                Preview = new PreviewModel(Enumerable.Empty<HtmlString>())
+            };
+        }
+        catch (Exception exception)
+        {
+            logger.LogError(exception, " - Unable to get interim preview landing page.");
+            return null;
+        }
+    }
+
+    public IEnumerable<MenuItem> GetMenuItems(ref IEnumerable<MenuItem> menuItems, string pageUrl)
+    {
+        menuItems.ForEach(x => x.IsCurrentPage = false);
+        var pagePath = pageUrl == RouteNames.Home ? "/" : $"/{pageUrl}";
+        var currentMenu = menuItems.FirstOrDefault(x => x.MenuItemSource == pagePath);
+        if (currentMenu != null)
+        {
+            currentMenu.IsCurrentPage = true;
+        }
+        return menuItems;
+    }
 }

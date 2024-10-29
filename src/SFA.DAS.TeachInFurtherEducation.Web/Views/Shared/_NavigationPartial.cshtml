@@ -3,36 +3,48 @@
 
 @if (Model != null)
 {
-    if (!string.IsNullOrEmpty(Model.PreviousText))
-    {
-        <div class="govuk-width-container fe-navigation govuk-!-padding-top-2 govuk-!-padding-bottom-1">
-            <div class="govuk-grid-row govuk-grid-column-two-thirds">
-                <span class="span-previous">Previous</span>
-            </div>
-            <div class="govuk-grid-row govuk-grid-column-two-thirds ">
-                <a class="govuk-link" href="@Model.PreviousTextSource">@Model.PreviousText</a>
-            </div>
-        </div>
-    }
-    
-    if (!string.IsNullOrEmpty(Model.PreviousText) && !string.IsNullOrEmpty(Model.NextText))
-    {
-        <div class="govuk-width-container fe-navigation ">
-            <div class="govuk-grid-row govuk-grid-column-two-thirds splitter">
-                &nbsp;
-            </div>
-        </div>
-    }
-
+    var bottomSpace = "govuk-!-padding-bottom-5";
     if (!string.IsNullOrEmpty(Model.NextText))
     {
-        <div class="govuk-width-container fe-navigation govuk-!-padding-top-2">
-            <div class="govuk-grid-row govuk-grid-column-two-thirds">
-                <span class="span-next">Next</span>
-            </div>
-            <div class="govuk-grid-row govuk-grid-column-two-thirds govuk-!-padding-bottom-5">
-                <a class="govuk-link" href="@Model.NextTextSource">@Model.NextText</a>
-            </div>
-        </div>
+        bottomSpace = "govuk-!-padding-bottom-2";
     }
+
+    <div class="govuk-width-container fe-navigation">
+        @if (!string.IsNullOrEmpty(Model.PreviousText))
+        {
+            <div class="govuk-grid-row govuk-!-padding-top-2">
+                <div class="govuk-grid-column-two-thirds">
+                    <span class="span-previous">Previous</span>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row @bottomSpace">
+                <div class="govuk-grid-column-two-thirds">
+                    <a class="govuk-link" href="@Model.PreviousTextSource">@Model.PreviousText</a>
+                </div>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.PreviousText) && !string.IsNullOrEmpty(Model.NextText))
+        {
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds splitter">
+                    &nbsp;
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.NextText))
+        {
+            <div class="govuk-grid-row govuk-!-padding-top-3">
+                <div class="  govuk-grid-column-two-thirds">
+                    <span class="span-next">Next</span>
+                </div>
+            </div>
+            <div class="govuk-grid-row  govuk-!-padding-bottom-5">
+                <div class=" govuk-grid-column-two-thirds ">
+                    <a class="govuk-link" href="@Model.NextTextSource">@Model.NextText</a>
+                </div>
+            </div>
+        }
+    </div>
 }
