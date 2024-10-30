@@ -46,11 +46,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                     model.SelectedLocation = Request.Form["location"];
                     model.SelectedSubject = Request.Form["subject"];
 
-                    model.FirstName = model.FirstName?.Replace("\n", "_").Replace("\r", "_");
-                    model.LastName = model.LastName?.Replace("\n", "_").Replace("\r", "_");
-                    model.EmailAddress = model.EmailAddress?.Replace("\n", "_").Replace("\r", "_");
-                    model.SelectedLocation = model.SelectedLocation?.Replace("\n", "_").Replace("\r", "_");
-                    model.SelectedSubject = model.SelectedSubject?.Replace("\n", "_").Replace("\r", "_");
+                    model.FirstName = model.FirstName?.Replace("\n", "_").Replace("\r", "_").Trim();
+                    model.LastName = model.LastName?.Replace("\n", "_").Replace("\r", "_").Trim();
+                    model.EmailAddress = model.EmailAddress?.Replace("\n", "_").Replace("\r", "_").Trim();
+                    model.SelectedLocation = model.SelectedLocation?.Replace("\n", "_").Replace("\r", "_").Trim();
+                    model.SelectedSubject = model.SelectedSubject?.Replace("\n", "_").Replace("\r", "_").Trim();
 
                     // Validate the model manually
                     var validationResults = new List<ValidationResult>();

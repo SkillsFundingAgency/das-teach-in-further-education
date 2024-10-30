@@ -10,6 +10,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
 using System.Collections.Generic;
 using System;
 using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
 {
@@ -27,6 +28,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(SupplierSearch supplierSearchContent)
         {
+            var postcodeDistrictExp = new Regex(@"^\s*([a-zA-Z0-9]+)", RegexOptions.IgnoreCase, new TimeSpan(0, 0, 2));
+
             var model = new SupplierSearchViewModel(supplierSearchContent);
 
             // Check if the form has been submitted
@@ -71,6 +74,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                     finally
                     {
                         model.Postcode = postcode.ToUpper();
+                        if (postcodeDistrictExp.IsMatch(model.Postcode!))
+                        {
+                            model.PostcodeDistrict = postcodeDistrictExp.Match(model.Postcode!).Groups[1].Value;
+                        }
+
                         model.SuccessMessage = model.SuccessMessage ?? $"Nearest colleges to {model.Postcode}";
 
                         model.SearchResults = results

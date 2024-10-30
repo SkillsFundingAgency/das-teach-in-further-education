@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using static System.Net.WebRequestMethods;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Security
 {
@@ -48,13 +49,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
             builder.AddImgSrc()
                 .Self()
                 .From(clarityMS)
-                .From(clarityImg)
-                .From(new[] { cdnUrl, "https://ssl.gstatic.com", "https://www.gstatic.com", "https://www.google-analytics.com", "https://images.ctfassets.net" });
+            .From(clarityImg)
+                .From(new[] { cdnUrl, "https://ssl.gstatic.com", "https://www.gstatic.com", "https://www.google-analytics.com", "https://images.ctfassets.net", "https://www.google.co.uk" });
 
             var connectSrc = builder.AddConnectSrc()
                 .Self()
                 .From(clarityMS)
-                .From("https://region1.analytics.google.com");
+                .From(new[] { "https://region1.analytics.google.com", "https://stats.g.doubleclick.net", "https://region1.analytics.google.com", "https://www.google-analytics.com" });
 
             builder.AddFormAction()
                 .Self()

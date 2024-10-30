@@ -248,6 +248,40 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
         }
 
         [Fact]
+        public async Task InvokeAsync_PostRequest_ValidFormIdentifier_NullValues_ReturnsViewWithErrors()
+        {
+            var formData = new Dictionary<string, string>
+            {
+                { "formIdentifier", "newsletter" },
+                { "firstName", null }, // Missing first name
+                { "lastName", null },
+                { "emailAddress",  null }, // Invalid email
+                { "location", null }, // Not selected location
+                { "subject", null } // Not selected subject
+            };
+            SetupViewComponentContext("POST", formData);
+
+            var result = await _viewComponent.InvokeAsync(_newsLetterContent) as ViewViewComponentResult;
+
+            Assert.NotNull(result);
+            var model = Assert.IsType<NewsLetterViewModel>(result.ViewData.Model);
+            Assert.False(model.IsSubmitted);
+            Assert.Null(model.SuccessMessage);
+            Assert.Null(model.ErrorMessage);
+
+            var modelState = _viewComponent.ViewComponentContext.ViewData.ModelState;
+            Assert.False(modelState.IsValid);
+            Assert.True(modelState.ContainsKey("FirstName"));
+            Assert.True(modelState.ContainsKey("LastName"));
+            Assert.True(modelState.ContainsKey("EmailAddress"));
+            Assert.True(modelState.ContainsKey("SelectedLocation"));
+            Assert.True(modelState.ContainsKey("SelectedSubject"));
+            Assert.Equal(5, modelState.ErrorCount);
+
+            A.CallTo(() => _marketingServiceFake.SubscribeUser(A<NewsLetterSubscriberModel>._)).MustNotHaveHappened();
+        }
+
+        [Fact]
         public async Task InvokeAsync_PostRequest_ValidFormIdentifier_ValidModel_SuccessfulSubscription_ReturnsViewWithSuccess()
         {
             var formData = new Dictionary<string, string>

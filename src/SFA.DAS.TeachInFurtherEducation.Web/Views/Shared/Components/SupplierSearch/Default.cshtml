@@ -11,7 +11,9 @@
         <div class="govuk-grid-column-two-thirds">
             <!-- Form for searching supplier addresses -->
             <form id="supplierSearch" method="post" action="#search-results">
-                <input type="hidden" name="formIdentifier" value="supplier-search" />
+                <input type="hidden" name="formIdentifier" id="formIdentifier" value="supplier-search" />
+                <input type="hidden" name="halfPostcode" id="halfPostcode" value="@Model.PostcodeDistrict" />
+                
                 <input id="radius" name="radius" type="hidden" value="@Model.SearchWithinMiles" />
 
                 <div class="govuk-form-group @((ViewData.ModelState["Postcode"] != null) ? "govuk-form-group--error" : "")">
