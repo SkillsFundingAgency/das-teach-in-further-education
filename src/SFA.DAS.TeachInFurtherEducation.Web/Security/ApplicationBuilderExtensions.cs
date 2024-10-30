@@ -54,7 +54,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
             var connectSrc = builder.AddConnectSrc()
                 .Self()
                 .From(clarityMS)
-                .From("https://region1.analytics.google.com");
+                .From(new[] { "https://region1.analytics.google.com", "https://stats.g.doubleclick.net", "https://region1.analytics.google.com", "https://www.google-analytics.com" });
 
             builder.AddFormAction()
                 .Self()
