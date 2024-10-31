@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Contentful.Core.Models;
 
@@ -8,9 +10,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
     /// <summary>
     /// A renderer for a GDS compliant hyperlink.
     /// </summary>
-    public class HyperlinkContentRenderer : IContentRenderer
+    public partial class HyperlinkContentRenderer : IContentRenderer
     {
         private readonly ContentRendererCollection _rendererCollection;
+
+        private Regex _newTabExp = NewTabExpression();
 
         /// <summary>
         /// Initializes a new GdsHyperlinkContentRenderer.
@@ -51,7 +55,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
 
             // if the text content of the link ends with "(opens in new tab)", then we make the link open in a new tab
             string? firstTextValue = link.Content.OfType<Text>().FirstOrDefault()?.Value;
-            if (firstTextValue != null && firstTextValue.EndsWith("(opens in new tab)"))
+
+            if (firstTextValue != null && _newTabExp.IsMatch(firstTextValue))
                 sb.Append(" rel=\"noreferrer noopener\" target=\"_blank\"");
 
             sb.Append('>');
@@ -67,5 +72,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
 
             return sb.ToString();
         }
+
+        [ExcludeFromCodeCoverage]
+        [GeneratedRegex("[(]\\s*open[^)]+new\\stab\\s*[)]", RegexOptions.IgnoreCase, 200)]
+        private static partial Regex NewTabExpression();
     }
 }
