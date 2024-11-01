@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "BC-Bold";
+    src: url("/fonts/BasicCommercialLTStd-Bold.woff2") format("woff2"), url("/fonts/BasicCommercialLTStd-Bold.woff") format("woff"), url("/fonts/BasicCommercialLTStd-Bold.otf") format('opentype'), url("/fonts/BasicCommercialLTStd-Bold.ttf") format('truetype');
+    font-weight: 700;
+}
 
 .fe-image-card-banner-medium {
     padding-bottom: 0;
@@ -137,22 +142,6 @@
 
     @media (max-width: 768px) {
         padding-bottom: 30px;
-    }
-}
-
-.fe-header-full-image {
-    height: 599px;
-
-    img {
-        width: 100%;
-        height: 599px;
-    }
-
-    @media (max-width: 768px) {
-        height: 190px;
-        img {
-            height: 190px;
-        }
     }
 }
 
@@ -345,5 +334,84 @@
             width: 100%;
             height: 100%;
         }
+    }
+}
+
+.fe-header-full-image {
+    position: relative;
+    height: 599px;
+    img {
+        width: 100%;
+        height: 599px;
+    }
+
+    @media (max-width: 768px) {
+        height: 190px;
+        img {
+            height: 190px;
+        }
+    }
+
+.fe-header-full-image-text-overlay {
+    position: absolute;
+    left: max(0px, calc(((100vw - 1200px) / 2) - 42px));
+    color: #000;
+    text-align: left;
+    span {
+        padding: 0px 20px 0px 42px;
+        display: inline-block;
+        font-size: 4rem;
+        font-weight: 700;
+        font-family: "BC-Bold", Arial, sans-serif;
+        line-height: 1.2;
+    }
+}
+
+.fe-header-full-image-text-overlay-lines-1 {
+    top: 260px;
+}
+
+.fe-header-full-image-text-overlay-lines-2 {
+    top: 170px;
+}
+
+.fe-header-full-image-text-overlay-lines-3 {
+    top: 160px;
+}
+
+@media (min-width: 40.0625em) and (max-width: 61.865em) {
+    .fe-header-full-image-text-overlay-lines-1 {
+        top: 260px;
+    }
+
+    .fe-header-full-image-text-overlay-lines-2 {
+        top: 170px;
+    }
+
+    .fe-header-full-image-text-overlay-lines-3 {
+        top: 160px;
+    }
+
+    .fe-header-full-image-text-overlay span {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 48.0525em) {
+    .fe-header-full-image-text-overlay-lines-1 {
+        top: 85px;
+    }
+
+    .fe-header-full-image-text-overlay-lines-2 {
+        top: 40px;
+    }
+
+    .fe-header-full-image-text-overlay-lines-3 {
+        top: 40px;
+    }
+
+    .fe-header-full-image-text-overlay span {
+        font-size: 2rem;
+        padding: 0px 20px 0px 32px;
     }
 }
