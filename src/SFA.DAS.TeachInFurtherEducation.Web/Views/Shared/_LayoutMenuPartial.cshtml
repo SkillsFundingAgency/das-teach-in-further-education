@@ -1,7 +1,13 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 
 @model (IEnumerable<MenuItem>?, bool?)
+@{
+    var homeMenu = Model.Item1!.FirstOrDefault(x=> !x.TopLevelMenuItem 
+                                               && x.MenuItemText.Equals(RouteNames.Home, StringComparison.CurrentCultureIgnoreCase));
+    var homeLink = homeMenu?.MenuItemSource;
+}
 <nav aria-label="top-menu" class="dfe-topnav fe-dfe-topnav" name="Other services navigation">
     <div class="govuk-width-container">
         <div class="flex-nav govuk-!-padding-top-5">
@@ -25,7 +31,7 @@
 <header class="dfe-header" role="banner">
     <div class="dfe-width-container dfe-header__container">
         <div class="dfe-header__logo">
-            <a class="dfe-header__link" href="/" aria-label="DfE homepage">
+            <a class="dfe-header__link" href="@homeLink" aria-label="DfE homepage">
                 <image src="/images/DesignSystem/dfe-logo.png" class="dfe-logo" alt=""/>
                 <image src="/images/DesignSystem/dfe-logo-alt.png" class="dfe-logo-hover" alt=""/>
             </a>
@@ -39,10 +45,6 @@
             </div>
         </div>
     </div>
-    <div class="dfe-width-container dfe-header__service-name">
-        <a href="/" class="dfe-header__link--service">Further Education</a>
-    </div>
-
 
     <nav class="dfe-header__navigation" id="header-navigation" role="navigation" aria-label="Primary navigation" aria-labelledby="label-navigation">
         <div class="dfe-width-container">
