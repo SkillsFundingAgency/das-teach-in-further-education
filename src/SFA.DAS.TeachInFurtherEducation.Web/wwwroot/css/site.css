@@ -1,6 +1,6 @@
 @font-face {
     font-family: "BC-Bold";
-    src: url("/fonts/BasicCommercialLTStd-Bold.woff2") format("woff2"), url("/fonts/BasicCommercialLTStd-Bold.woff") format("woff"), url("/fonts/BasicCommercialLTStd-Bold.otf") format('opentype'), url("/fonts/BasicCommercialLTStd-Bold.ttf") format('truetype');
+    src: url("/fonts/BasicCommercialLTStd-Bold.otf") format('opentype');
     font-weight: 700;
 }
 
