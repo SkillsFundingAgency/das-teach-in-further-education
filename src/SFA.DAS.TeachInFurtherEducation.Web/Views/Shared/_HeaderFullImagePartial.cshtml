@@ -1,10 +1,50 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Helpers
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @model HeaderFullImage;
 
 @if (Model != null)
 {
+    var backColor = StringHelper.GetCssClassName();
+
+    @if (!string.IsNullOrEmpty(Model.TitleBackgroundColour)) {
+        <style nonce="@Context.GetNonce()">
+            .@backColor {
+                background-color: @Model.TitleBackgroundColour;
+            }
+        </style>
+    }
+
+    var titleLines = new[] { Model.FirstLineTitle, Model.SecondLineTitle, Model.ThirdLineTitle }
+       .Where(titleLine => !string.IsNullOrEmpty(titleLine))
+       .Count();
+
    <section class="fe-header-full-image">
       <img src="@ComponentService.GetMediaImageSource(Model.HeaderImage)" alt="@Model.Title"/>
-   </section>
+        @if (titleLines > 0)
+        {
+            <div class="fe-header-full-image-text-overlay fe-header-full-image-text-overlay-lines-@titleLines" aria-hidden="true">
+                @if (!string.IsNullOrEmpty(Model.FirstLineTitle))
+                {
+                    <span class="@backColor">@Model.FirstLineTitle.Trim()</span>
+                    @if (!string.IsNullOrEmpty(Model.SecondLineTitle))
+                    {
+                        <br />
+                    }
+                }
+                @if (!string.IsNullOrEmpty(Model.SecondLineTitle))
+                {
+                    <span class="@backColor">@Model.SecondLineTitle.Trim()</span>
+                    @if (!string.IsNullOrEmpty(Model.ThirdLineTitle))
+                    {
+                        <br />
+                    }
+                }
+                @if (!string.IsNullOrEmpty(Model.ThirdLineTitle))
+                {
+                    <span class="@backColor">@Model.ThirdLineTitle.Trim()</span>
+                }
+            </div>    
+        }
+    </section>
 }
