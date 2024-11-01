@@ -401,7 +401,7 @@
 
 @media (max-width: 48.0525em) {
     .fe-header-full-image-text-overlay-lines-1 {
-        top: 260px;
+        top: 85px;
     }
 
     .fe-header-full-image-text-overlay-lines-2 {
@@ -409,10 +409,11 @@
     }
 
     .fe-header-full-image-text-overlay-lines-3 {
-        top: 160px;
+        top: 40px;
     }
 
     .fe-header-full-image-text-overlay span {
         font-size: 2rem;
+        padding: 0px 20px 0px 32px;
     }
 }
