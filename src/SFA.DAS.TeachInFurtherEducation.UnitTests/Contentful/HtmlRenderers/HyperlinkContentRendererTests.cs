@@ -50,20 +50,24 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
             Assert.Equal("<a href=\"https://example.com\" title=\"title\" class=\"govuk-link\">text</a>", html);
         }
 
-        [Fact]
-        public async Task ToHtml_GdsParagraphRenderer_NewTabTest()
+        [Theory]
+        [InlineData("(opens in a new tab)")]
+        [InlineData("(opens in new tab)")]
+        [InlineData("(   opens in a new tab   )")]
+        [InlineData("(OpEnS In A nEw TaB)")]
+        public async Task ToHtml_GdsParagraphRenderer_NewTabTest(string suffix)
         {
             Hyperlink.Content = new List<IContent>
             {
                 new Text
                 {
-                    Value = "text (opens in new tab)",
+                    Value = $"text {suffix}",
                 }
             };
 
             var html = await HtmlRenderer.ToHtml(Document);
 
-            Assert.Equal("<a href=\"https://example.com\" title=\"title\" class=\"govuk-link\" rel=\"noreferrer noopener\" target=\"_blank\">text (opens in new tab)</a>", html);
+            Assert.Equal($"<a href=\"https://example.com\" title=\"title\" class=\"govuk-link\" rel=\"noreferrer noopener\" target=\"_blank\">text {suffix}</a>", html);
         }
     }
 }
