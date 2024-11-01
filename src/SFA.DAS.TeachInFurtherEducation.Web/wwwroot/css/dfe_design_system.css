@@ -9475,7 +9475,7 @@ b, strong {
     .dfe-header__navigation-item {
         border-top: 0;
         margin: 0;
-        text-align: center
+        text-align: left;
     }
 
     .dfe-header__navigation-item a {
