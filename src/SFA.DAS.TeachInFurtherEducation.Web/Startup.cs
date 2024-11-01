@@ -121,7 +121,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             {
                 options.Filters.Add<ExceptionFilter>();
             });
-
+            
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+                options.Cookie.HttpOnly = true; // Ensures the session cookie is accessible only by the server
+                options.Cookie.IsEssential = true; // Required for GDPR compliance
+            });
+            
             services.AddControllersWithViews();
 
             services.AddWebOptimizer(assetPipeline =>
@@ -250,7 +257,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             app.UseRouting();
             app.UseAuthorization();
             app.UseHealthCheckEndPoint();
-            
+            app.UseSession(); // Add the session middleware
             app.UseEndpoints(endpoints =>
             {
                 MapControllerRoute(endpoints,
