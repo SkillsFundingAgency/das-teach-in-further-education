@@ -150,6 +150,7 @@
     .content-box {
         padding: 20px !important;
         border-radius: 25px;
+        margin-bottom: 20px !important;
     }
 
     .govuk-grid-column-two-thirds {
@@ -210,7 +211,10 @@
         flex-shrink: 0;
         padding-left: 50px;
     }
-
+    
+    .text-underline {
+        text-decoration: underline;
+    }
     @media (max-width: 768px) {
         .teaching-fe-logo {
             padding-bottom: 20px;

@@ -16,5 +16,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
         public string? BackgroundColor { get; set; }
         public string? SecondarySectionBackgroundColour { get; set; }
         public string? SecondarySectionBorderColour { get; set; }
+        public string? ContactPhoneNumber { get; set; }
+        public string? ContactEmail { get; set; }
     }
 }

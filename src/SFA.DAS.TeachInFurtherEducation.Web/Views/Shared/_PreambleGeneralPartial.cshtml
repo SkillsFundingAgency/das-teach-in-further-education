@@ -60,6 +60,26 @@
                         </div>
                     </div>
                 }
+                @if (Model.Item1 is { ContactPhoneNumber: not null })
+                {
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        @{ var telphone = Model.Item1.ContactPhoneNumber.Replace(" ", ""); }
+                        <a href="tel:@{@telphone}" title="@telphone"  class="govuk-button">
+                            Call: @Model.Item1.ContactPhoneNumber
+                        </a>
+                    </div>
+                </div>
+                }
+                @if (Model.Item1 is { ContactEmail: not null })
+                {
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                         <a href="mailto:@{@Model.Item1.ContactEmail}" title="@Model.Item1.ContactEmail" 
+                            class="govuk-button">Email: <span class="text-underline">@Model.Item1.ContactEmail</span></a>
+                    </div>
+                </div>
+                }
             </div>
         </section>
     </div>
