@@ -9,7 +9,7 @@
 }
 
 .govuk-link, a {
-    font-family: Inter, sans-serif;
+    font-family: Arial, Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-decoration: underline;
@@ -610,7 +610,7 @@
 
 .govuk-body-s {
     color: #0b0c0c;
-    font-family: Inter, sans-serif;
+    font-family: Arial, Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
@@ -654,7 +654,7 @@
 
 .govuk-body-xs {
     color: #0b0c0c;
-    font-family: Inter, sans-serif;
+    font-family: Arial, Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
@@ -800,7 +800,7 @@
 }
 
 .govuk-button-group .govuk-link {
-    font-family: Inter, sans-serif;
+    font-family: Arial, Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
