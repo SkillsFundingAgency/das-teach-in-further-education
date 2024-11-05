@@ -74,7 +74,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
         }
 
         [ExcludeFromCodeCoverage]
-        [GeneratedRegex("[(]\\s*open[^)]+new\\stab\\s*[)]", RegexOptions.IgnoreCase, 200)]
+        [GeneratedRegex("[^w]\\s*open[^)]+new\\stab\\s*[)]?", RegexOptions.IgnoreCase, 200)]
         private static partial Regex NewTabExpression();
     }
 }
