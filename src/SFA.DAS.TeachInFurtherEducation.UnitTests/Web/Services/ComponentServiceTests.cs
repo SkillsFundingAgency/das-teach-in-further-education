@@ -5,6 +5,7 @@ using Contentful.Core.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using System;
 using Microsoft.AspNetCore.Html;
+using System.Collections.Generic;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
 {
@@ -142,6 +143,26 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
 
             // Assert
             Assert.Null(result);
+        }
+
+        [Theory]
+        [InlineData("(opens in a new tab)", true)]
+        [InlineData("- opens in a new tab", true)]
+        [InlineData("this is a link - opens in a new tab", true)]
+        [InlineData("this is a link-opens in a new tab", true)]
+        [InlineData("this is a link opens in a new tab", true)]
+        [InlineData("(opens in new tab)", true)]
+        [InlineData("(   opens in a new tab   )", true)]
+        [InlineData("(OpEnS In A nEw TaB)", true)]
+        [InlineData("- OpEnS In A nEw TaB", true)]
+        [InlineData("No new tab to see here", false)]
+        public void IsOpenInNewTab_WithLnkText_ReturnsBool(string linkText, bool expectedOutcome)
+        {
+            // Act
+            var result = ComponentService.IsOpenInNewTab(linkText);
+
+            // Assert
+            Assert.Equal(result, expectedOutcome);
         }
     }
 }

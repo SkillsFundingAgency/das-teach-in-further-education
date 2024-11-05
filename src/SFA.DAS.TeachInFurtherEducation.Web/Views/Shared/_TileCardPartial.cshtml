@@ -24,12 +24,13 @@
             @foreach (var tile in Model.Item1.Tiles.OrderBy(a => a.TileOrder))
             {
                 var ariaLabeledBy = !String.IsNullOrEmpty(tile.TileID) ? tile.TileID : Regex.Replace(tile.TileHeading.ToLower(), "[^a-z0-9\\s]", "", RegexOptions.Singleline, new TimeSpan(0, 0, 5)).Replace(" ", "-");
+                var target = ComponentService.IsOpenInNewTab(tile.TileHeading) ? $"_blank" : "";
 
                 <div class="dfe-card">
                     <img src="@ComponentService.GetMediaImageSource(tile.TileImage)" alt="@tile.TileTitle"/>
                     <div class="dfe-card-container">
                         <h3 id="link-@ariaLabeledBy" class="govuk-heading-m">
-                            <a class="govuk-link govuk-link--no-visited-state dfe-card-link--header" href="@(Model.Item2 ? $"/preview{tile.TileSource}" : tile.TileSource)" aria-labelledby="link-@ariaLabeledBy p-@ariaLabeledBy">@Html.Raw(Html.Encode(tile.TileHeading))</a>
+                            <a class="govuk-link govuk-link--no-visited-state dfe-card-link--header" @(target != null ? $"target=\"{target}\"" : "") href="@(Model.Item2 ? $"/preview{tile.TileSource}" : tile.TileSource)" aria-labelledby="link-@ariaLabeledBy p-@ariaLabeledBy">@Html.Raw(Html.Encode(tile.TileHeading))</a>
                         </h3>
                         @ComponentService.AddIdToTopElement(ComponentService.ToHtmlString(tile.TileDescription), "p-" + ariaLabeledBy)
                     </div>

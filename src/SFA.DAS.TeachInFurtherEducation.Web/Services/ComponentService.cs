@@ -10,6 +10,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.References;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Services
@@ -27,6 +28,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 #pragma warning restore CS8618
 
         #endregion
+
+
 
         #region Methods
 
@@ -53,6 +56,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 
             return ToNormalisedHtmlString(html);
 
+        }
+
+        public static Boolean IsOpenInNewTab(string linkText)
+        {
+            var exp = new Regex("[^w]\\s*open[^)]+new\\stab\\s*[)]?", RegexOptions.IgnoreCase, new TimeSpan(0, 0, 0, 0, 200));
+
+            return exp.IsMatch(linkText);
         }
 
         /// <summary>
