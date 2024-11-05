@@ -52,9 +52,14 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
 
         [Theory]
         [InlineData("(opens in a new tab)")]
+        [InlineData("opens in a new tab")]
+        [InlineData("this is a link - opens in a new tab")]
+        [InlineData("this is a link-opens in a new tab")]
+        [InlineData("this is a link opens in a new tab")]
         [InlineData("(opens in new tab)")]
         [InlineData("(   opens in a new tab   )")]
         [InlineData("(OpEnS In A nEw TaB)")]
+        [InlineData("OpEnS In A nEw TaB")]
         public async Task ToHtml_GdsParagraphRenderer_NewTabTest(string suffix)
         {
             Hyperlink.Content = new List<IContent>
