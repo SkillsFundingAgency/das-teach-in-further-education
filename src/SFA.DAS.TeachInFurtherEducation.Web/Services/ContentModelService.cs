@@ -27,13 +27,20 @@ public class ContentModelService(
     /// Retrieves the landing model containing data from various content sources.
     /// </summary>
     /// <returns>Returns the model if available, otherwise returns null.</returns>
-    public PageContentModel? GetPageContentModel(string pageUrl)
+    public PageContentModel? GetPageContentModel(string pageUrl, bool isLandingPage = false)
     {
         try
         {
             var page = contentService.GetPageByURL(pageUrl);
             var menus = contentService.Content.MenuItems;
-            var menuItems = GetMenuItems(ref menus, pageUrl);
+            var menuItems = GetMenuItems(ref menus, pageUrl, isLandingPage);
+            var breadcrumbs =  page?.Breadcrumbs;
+            
+            if (breadcrumbs != null)
+            {
+                breadcrumbs = GetBreadcrumbs(ref breadcrumbs, isLandingPage);
+            }
+
             if (page == null)
             {
                 return null;
@@ -44,7 +51,7 @@ public class ContentModelService(
                 PageURL = page.PageURL,
                 PageTitle = page.PageTitle,
                 PageTemplate = page.PageTemplate,
-                Breadcrumbs = page.Breadcrumbs,
+                Breadcrumbs = breadcrumbs,
                 MenuItems = menuItems,
                 footerLinks = contentService.Content.FooterLinks,
                 PageComponents = page.PageComponents,
@@ -53,7 +60,6 @@ public class ContentModelService(
         catch (Exception exception)
         {
             logger.LogError(exception, " - Unable to get a page.");
-
             return null;
         }
     }
@@ -63,26 +69,31 @@ public class ContentModelService(
     /// Retrieves the landing model containing data from various content sources in preview mode.
     /// </summary>
     /// <returns>Returns the model if available, otherwise returns null.</returns>
-    public async Task<PageContentModel?> GetPagePreviewModel(string pageUrl)
+    public async Task<PageContentModel?> GetPagePreviewModel(string pageUrl, bool isLandingPage = false)
     {
         try
         {
             var previewContent = await contentService.UpdatePreview();
             var previewPage = contentService.GetPreviewPageByURL(pageUrl);
             var menus = previewContent.MenuItems;
-            var menuItems = GetMenuItems(ref menus, pageUrl);
-
+            var menuItems = GetMenuItems(ref menus, pageUrl, isLandingPage);
+            
             if (previewPage == null)
             {
                 return null;
             }
-
+            
+            var breadcrumbs =  previewPage.Breadcrumbs;
+            if (breadcrumbs != null)
+            {
+                breadcrumbs = GetBreadcrumbs(ref breadcrumbs, isLandingPage);
+            }
             return new PageContentModel()
             {
                 PageURL = previewPage.PageURL,
                 PageTitle = previewPage.PageTitle,
                 PageTemplate = previewPage.PageTemplate,
-                Breadcrumbs = previewPage.Breadcrumbs,
+                Breadcrumbs = breadcrumbs,
                 PageComponents = previewPage.PageComponents,
                 MenuItems = menuItems,
                 footerLinks = previewContent.FooterLinks,
@@ -96,7 +107,8 @@ public class ContentModelService(
         }
     }
 
-    public IEnumerable<MenuItem> GetMenuItems(ref IEnumerable<MenuItem> menuItems, string pageUrl)
+    public IEnumerable<MenuItem> GetMenuItems(ref IEnumerable<MenuItem> menuItems, string pageUrl,
+        bool isLandingPage = false)
     {
         menuItems.ForEach(x => x.IsCurrentPage = false);
         var pagePath = pageUrl == RouteNames.Home ? "/" : $"/{pageUrl}";
@@ -105,6 +117,26 @@ public class ContentModelService(
         {
             currentMenu.IsCurrentPage = true;
         }
+
+        var homeMenu = menuItems.FirstOrDefault(x => x.MenuItemText.Equals(RouteNames.Home, StringComparison.CurrentCultureIgnoreCase));
+        if (homeMenu != null)
+        {
+            homeMenu.MenuItemSource = isLandingPage ?  $"/{RouteNames.LandingPage}" : "/";
+        }
+
         return menuItems;
+    }
+
+    public Breadcrumbs GetBreadcrumbs(ref Breadcrumbs breadcrumbs, bool isLandingPage = false)
+    {
+        var homeLink =     breadcrumbs.BreadcrumLinks.Where(x=> !string.IsNullOrEmpty(x.BreadcrumbLinkText) )
+            .FirstOrDefault(x=>   x.BreadcrumbLinkText.Equals(RouteNames.Home, StringComparison.CurrentCultureIgnoreCase));
+
+        if (homeLink != null)
+        {
+            homeLink.BreadcrumbLinkSource = isLandingPage ? $"/{RouteNames.LandingPage}" : "/";
+        }
+
+        return breadcrumbs;
     }
 }

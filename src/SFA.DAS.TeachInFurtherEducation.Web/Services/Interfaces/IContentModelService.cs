@@ -9,11 +9,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces
     public interface IContentModelService
     {
 
-        PageContentModel? GetPageContentModel(string pageUrl);
+        PageContentModel? GetPageContentModel(string pageUrl, bool isLandingPage = false);
 
-        Task<PageContentModel?> GetPagePreviewModel(string pageUrl);
-        IEnumerable<MenuItem> GetMenuItems(ref IEnumerable<MenuItem> menuItems, string pageUrl);
-
+        Task<PageContentModel?> GetPagePreviewModel(string pageUrl, bool isLandingPage = false);
+        IEnumerable<MenuItem> GetMenuItems(ref IEnumerable<MenuItem> menuItems, string pageUrl, bool isLandingPage = false);
+        Breadcrumbs GetBreadcrumbs(ref Breadcrumbs breadcrumbs, bool isLandingPage = false);
     }
 
 }

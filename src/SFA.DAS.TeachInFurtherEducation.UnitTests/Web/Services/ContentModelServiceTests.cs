@@ -49,6 +49,30 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
             }
         };
 
+        private Breadcrumbs _breadcrumbs = new Breadcrumbs
+        {
+            BreadcrumbTitle = "Home",
+            BreadcrumLinks =
+            [
+                new BreadcrumbLink
+                {
+                    BreadcrumbLinkText = "Home",
+                    BreadcrumbLinkSource = "/",
+                    BreadcrumbLinkTitle = "Home",
+                    BreadcrumbLinkActive = false,
+                    BreadcrumbLinkOrder = 0
+                },
+
+                new BreadcrumbLink
+                {
+                    BreadcrumbLinkText = "How to become a FE teacher",
+                    BreadcrumbLinkSource = "/how-to-become-a-fe-teacher",
+                    BreadcrumbLinkTitle = "How to become a FE teacher",
+                    BreadcrumbLinkActive = false,
+                    BreadcrumbLinkOrder = 1
+                }
+            ]
+        };
         public ContentModelServiceTests()
         {
             Fixture = new Fixture();
@@ -220,6 +244,31 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Services
             
             // Assert
             Assert.Equal(0, currentMenus.Count(x => x.IsCurrentPage));
+        }
+        
+        [Fact]
+        public void GetBreadcrumbs_Should_Return_Home_Link()
+        {
+            // Arrange
+            // Create an instance of the ContentModelService
+            var service = new ContentModelService(LoggerService, ContentService, htmlRenderer);
+            // Act
+            var currentMenus = service.GetBreadcrumbs(ref _breadcrumbs, false);
+            
+            // Assert
+            Assert.Equal("/", currentMenus.BreadcrumLinks.First(x=> x.BreadcrumbLinkText.Equals(RouteNames.Home, StringComparison.CurrentCultureIgnoreCase)).BreadcrumbLinkSource);
+        }
+        [Fact]
+        public void GetBreadcrumbs_Should_Return_Landing_Page_Link()
+        {
+            // Arrange
+            // Create an instance of the ContentModelService
+            var service = new ContentModelService(LoggerService, ContentService, htmlRenderer);
+            // Act
+            var currentMenus = service.GetBreadcrumbs(ref _breadcrumbs, true);
+            
+            // Assert
+            Assert.Equal($"/{RouteNames.LandingPage}", currentMenus.BreadcrumLinks.First(x=> x.BreadcrumbLinkText.Equals(RouteNames.Home, StringComparison.CurrentCultureIgnoreCase)).BreadcrumbLinkSource);
         }
     }
 }

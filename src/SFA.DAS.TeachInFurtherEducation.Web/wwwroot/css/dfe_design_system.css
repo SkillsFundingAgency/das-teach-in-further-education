@@ -5336,7 +5336,8 @@
 
 .govuk-summary-list__key {
     margin-bottom: 5px;
-    font-weight: 700
+    font-weight: 700;
+    padding-right: 10px;
 }
 
 @media (min-width: 40.0625em) {

@@ -8,6 +8,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Controllers;
@@ -22,6 +23,14 @@ public class LandingControllerTests
     {
         _contentModelService = A.Fake<IContentModelService>();
         _controller = new LandingController(_contentModelService);
+        var httpContext = new DefaultHttpContext
+        {
+            Session = A.Fake<ISession>()
+        };
+        _controller.ControllerContext = new ControllerContext()
+        {
+            HttpContext = httpContext
+        };
     }
 
     [Fact]
@@ -29,7 +38,7 @@ public class LandingControllerTests
     {
         // Arrange
 
-        A.CallTo(() => _contentModelService.GetPageContentModel(RouteName)).Returns(null as PageContentModel);
+        A.CallTo(() => _contentModelService.GetPageContentModel(RouteName, false)).Returns(null as PageContentModel);
 
         // Act & Assert
         var exception = Assert.Throws<PageNotFoundException>(() => _controller.Landing(RouteName));
@@ -50,8 +59,12 @@ public class LandingControllerTests
             Breadcrumbs = null, // Optional
             PageComponents = new List<IContent>() // Optional
         };
-        A.CallTo(() => _contentModelService.GetPageContentModel(RouteName)).Returns(pageModel);
+        
+           
 
+            
+        A.CallTo(() => _contentModelService.GetPageContentModel(RouteName, false)).Returns(pageModel);
+         
         // Act
         var result = _controller.Landing(RouteName) as ViewResult;
 
@@ -65,7 +78,7 @@ public class LandingControllerTests
     public async Task PagePreview_WhenPageModelIsNull_ThrowsPageNotFoundException()
     {
         // Arrange
-        A.CallTo(() => _contentModelService.GetPagePreviewModel(RouteName))
+        A.CallTo(() => _contentModelService.GetPagePreviewModel(RouteName,false))
             .Returns(Task.FromResult<PageContentModel>(null));
 
         // Act & Assert
@@ -86,7 +99,7 @@ public class LandingControllerTests
             Breadcrumbs = null, // Optional
             PageComponents = new List<IContent>() // Optional
         };
-        A.CallTo(() => _contentModelService.GetPagePreviewModel(RouteName)).Returns(Task.FromResult(pageModel));
+        A.CallTo(() => _contentModelService.GetPagePreviewModel(RouteName,false)).Returns(Task.FromResult(pageModel));
 
         // Act
         var result = await _controller.PagePreview(RouteName) as ViewResult;
