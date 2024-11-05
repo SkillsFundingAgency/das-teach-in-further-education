@@ -55,6 +55,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
         [InlineData("opens in a new tab")]
         [InlineData("this is a link - opens in a new tab")]
         [InlineData("this is a link-opens in a new tab")]
+        [InlineData("this is a link opens in a new tab")]
         [InlineData("(opens in new tab)")]
         [InlineData("(   opens in a new tab   )")]
         [InlineData("(OpEnS In A nEw TaB)")]
