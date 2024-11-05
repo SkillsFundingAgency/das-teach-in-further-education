@@ -24,7 +24,7 @@
             @foreach (var tile in Model.Item1.Tiles.OrderBy(a => a.TileOrder))
             {
                 var ariaLabeledBy = !String.IsNullOrEmpty(tile.TileID) ? tile.TileID : Regex.Replace(tile.TileHeading.ToLower(), "[^a-z0-9\\s]", "", RegexOptions.Singleline, new TimeSpan(0, 0, 5)).Replace(" ", "-");
-                var target = ComponentService.IsOpenInNewTab(tile.TileHeading) ? $"_blank" : "";
+                var target = ComponentService.IsOpenInNewTab(tile.TileHeading) ? $"_blank" : null;
 
                 <div class="dfe-card">
                     <img src="@ComponentService.GetMediaImageSource(tile.TileImage)" alt="@tile.TileTitle"/>
