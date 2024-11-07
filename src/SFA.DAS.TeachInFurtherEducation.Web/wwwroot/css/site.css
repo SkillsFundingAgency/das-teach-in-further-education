@@ -355,6 +355,7 @@
         width: 100%;
         height: 599px;
         object-fit: cover;
+        object-position: top;
     }
 }
 
