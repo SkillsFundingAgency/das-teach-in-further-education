@@ -5,6 +5,7 @@
     var extraMargin = StringHelper.GetCssClassName();
     <style nonce="@Context.GetNonce()">
     .@extraMargin {
+        background-color: @Model.BackgroundColor;
         margin-top: @(string.IsNullOrEmpty(Model.TopMargin) ? "0" : Model.TopMargin + "px");
         margin-bottom: @(string.IsNullOrEmpty(Model.BottomMargin) ? "0" : Model.BottomMargin + "px");
     }

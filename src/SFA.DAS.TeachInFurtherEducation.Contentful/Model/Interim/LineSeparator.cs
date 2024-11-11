@@ -9,5 +9,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
         public required string Title { get; set; }
         public string? TopMargin { get; set; }
         public string? BottomMargin { get; set; }
+        public string? BackgroundColor { get; set; }
     }
 }
