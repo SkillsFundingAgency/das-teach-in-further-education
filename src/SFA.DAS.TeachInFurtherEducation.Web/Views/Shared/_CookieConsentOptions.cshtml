@@ -1,0 +1,181 @@
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@model CookieConsentOptions;
+
+@{
+    var nonce = @Context.GetNonce();
+}
+
+@if (Model != null)
+{
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row govuk-!-padding-top-6">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l">Change your cookie settings</h2>
+                <div id="javascript-disabled-message" class="govuk-body">
+                    <p>We cannot change your cookie settings at the moment because JavaScript is not running in your browser. To fix this, try:</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>turning on JavaScript in your browser settings</li>
+                        <li>reloading this page</li>
+                    </ul>
+                </div>
+
+                <!-- Display if JavaScript is enabled -->
+                <form id="cookie-settings-form" action="javascript:void(0);" style="display: none;">
+                    @if (Model.ConsentToUseFunctionalCookies) {
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                    Do you want to accept analytics cookies?
+                                </legend>
+                                <div class="govuk-radios" data-module="govuk-radios">
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input" id="cookies-analytics-yes" name="cookies-analytics" type="radio" value="yes">
+                                        <label class="govuk-label govuk-radios__label" for="cookies-analytics-yes">Yes</label>
+                                    </div>
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input" id="cookies-analytics-no" name="cookies-analytics" type="radio" value="no">
+                                        <label class="govuk-label govuk-radios__label" for="cookies-analytics-no">No</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    }
+                    @if (Model.ConsentToUseAnalyticsCookies) {
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                    Do you want to accept functional cookies?
+                                </legend>
+                                <div class="govuk-radios" data-module="govuk-radios">
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input" id="cookies-functional-yes" name="cookies-functional" type="radio" value="yes">
+                                        <label class="govuk-label govuk-radios__label" for="cookies-functional-yes">Yes</label>
+                                    </div>
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input" id="cookies-functional-no" name="cookies-functional" type="radio" value="no">
+                                        <label class="govuk-label govuk-radios__label" for="cookies-functional-no">No</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    }
+
+                    <button type="button" class="govuk-button" id="save-cookie-settings" data-module="govuk-button">
+                        Save cookie settings
+                    </button>
+                </form>
+
+                <!-- Notification banner -->
+                <div id="confirmation-banner" class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" hidden>
+                    <div class="govuk-notification-banner__header">
+                        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">Success</h2>
+                    </div>
+                    <div class="govuk-notification-banner__content">
+                        <p class="govuk-notification-banner__heading">
+                            You’ve set your cookie preferences. <a class="govuk-notification-banner__link" href="#"></a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script nonce="@nonce">
+        (() => {
+            function initialiseConsentSettings() {
+                document.getElementById("javascript-disabled-message").style.display = "none";
+                document.getElementById("cookie-settings-form").style.display = "block";
+
+                const analyticsConsent = retrieveCookieValue("AnalyticsConsent");
+                const functionalConsent = retrieveCookieValue("FunctionalConsent");
+
+                // Set analytics radio buttons only if they exist in the DOM
+                const analyticsYes = document.getElementById("cookies-analytics-yes");
+                const analyticsNo = document.getElementById("cookies-analytics-no");
+
+                if (analyticsYes && analyticsNo) {
+                    analyticsYes.checked = analyticsConsent === "true";
+                    analyticsNo.checked = analyticsConsent === "false" || !analyticsConsent;
+                }
+
+                // Set functional radio buttons only if they exist in the DOM
+                const functionalYes = document.getElementById("cookies-functional-yes");
+                const functionalNo = document.getElementById("cookies-functional-no");
+                if (functionalYes && functionalNo) {
+                    functionalYes.checked = functionalConsent === "true";
+                    functionalNo.checked = functionalConsent === "false" || !functionalConsent;
+                }
+            }
+
+            function saveConsentSettings() {
+                const analyticsConsent = document.querySelector('input[name="cookies-analytics"]:checked')?.value;
+                const functionalConsent = document.querySelector('input[name="cookies-functional"]:checked')?.value;
+
+                if (analyticsConsent) setCookieValue("AnalyticsConsent", analyticsConsent === 'yes');
+                if (functionalConsent) setCookieValue("FunctionalConsent", functionalConsent === 'yes');
+
+                setCookieValue("DASSeenCookieMessage", "true");
+
+                if (analyticsConsent === "no" || functionalConsent === "no") {
+                    deleteTrackingCookies();
+                }
+
+                displayNotificationBanner("confirmation-banner");
+                hideCookieBanner();
+            }
+
+            function setCookieValue(name, value) {
+                const expires = new Date(Date.now() + 31536000000).toGMTString();
+                document.cookie = `${name}=${value};expires=${expires};path=/;Secure`;
+            }
+
+            function retrieveCookieValue(name) {
+                const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+                return match ? match[2] : null;
+            }
+
+            function displayNotificationBanner(bannerId) {
+                document.getElementById(bannerId).removeAttribute("hidden");
+            }
+
+            function hideCookieBanner() {
+                const banner = document.getElementById("cookieConsent");
+                if (banner) banner.style.display = "none";
+            }
+
+            function deleteCookie(name, domain = '') {
+                const domainPart = domain ? `;domain=${domain}` : '';
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; Secure${domainPart}`;
+            }
+
+            function acceptCookies() {
+                // Update the radio button states
+                document.getElementById("cookies-analytics-yes").checked = true;
+                document.getElementById("cookies-analytics-no").checked = false;
+                document.getElementById("cookies-functional-yes").checked = true;
+                document.getElementById("cookies-functional-no").checked = false;
+            }
+
+            function deleteTrackingCookies() {
+                deleteCookie('_ga', '.education.gov.uk');
+                deleteCookie('_gid', '.education.gov.uk');
+                deleteCookie('_gat', '.education.gov.uk');
+                deleteCookie('_gat_UA-147153376-36', '.education.gov.uk');
+                deleteCookie('_clsk', '.education.gov.uk');
+                deleteCookie('_clck', '.education.gov.uk');
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                initialiseConsentSettings();
+                document.getElementById("save-cookie-settings").addEventListener("click", (e) => {
+                    e.preventDefault();
+                    saveConsentSettings();
+                });
+            });
+
+            document.getElementById("acceptCookiesButton").addEventListener("click", (e) => {
+                acceptCookies(); 
+            });
+        })();
+    </script>
+}

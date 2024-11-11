@@ -75,6 +75,9 @@
             case Navigation navigation:
                 @await Html.PartialAsync("_NavigationPartial", navigation)
                 break;
+            case CookieConsentOptions cookieConsentOptions:
+                @await Html.PartialAsync("_CookieConsentOptions", cookieConsentOptions)
+                break;
             default:
                 break;
         }

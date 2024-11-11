@@ -33,6 +33,7 @@ public class EntityResolver : IContentTypeResolver
             "userJourney" => typeof(UserJourney),
             "actionBanner" => typeof(ActionBanner),
             "navigation" => typeof(Navigation),
+            "cookieConsentOptions" => typeof(CookieConsentOptions),
             _ => null
         };
 #pragma warning restore CS8603 // Possible null reference return.
