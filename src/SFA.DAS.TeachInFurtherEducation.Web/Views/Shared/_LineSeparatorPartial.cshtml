@@ -1,7 +1,17 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Helpers
 @model LineSeparator;
-
-@if (Model != null)
-{
-    <div class="govuk-width-container fe-line-separator">&nbsp;</div>
+@{
+    var extraMargin = StringHelper.GetCssClassName();
+    <style nonce="@Context.GetNonce()">
+    .@extraMargin {
+        background-color: @Model.BackgroundColor;
+        margin-top: @(string.IsNullOrEmpty(Model.TopMargin) ? "0" : Model.TopMargin + "px");
+        margin-bottom: @(string.IsNullOrEmpty(Model.BottomMargin) ? "0" : Model.BottomMargin + "px");
+    }
+</style>
+    if (Model != null)
+    {
+        <div id="@Model.DataId" class="govuk-width-container fe-line-separator @extraMargin">&nbsp;</div>
+    }
 }
