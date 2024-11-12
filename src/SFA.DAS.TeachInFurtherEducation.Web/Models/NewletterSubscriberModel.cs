@@ -22,10 +22,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         [Required(ErrorMessage = "Enter your last name")]
         public required string LastName { get; set; }
 
-        [Required(ErrorMessage = "Select a subject")]
+        [Required(ErrorMessage = "Select a subject are that you are interested in")]
         public string? SubjectArea { get; set; }
 
-        [Required(ErrorMessage = "Select a location")]
+        [Required(ErrorMessage = "Select a your current location")]
         public string? Location { get; set; }
     }
 }

@@ -17,9 +17,14 @@
     <partial name="_GoogleAnalyticsPartial" model="GoogleAnalyticsTag.Head" />
     <partial name="_MicrosoftClarityPartial" model="MicrosoftClarityTag.Head" />
 
+    @{
+        var titleSuffix = "Teach in further education - Department for Education";
+        var title = ViewData["Title"] != null ? ViewData["Title"]!.ToString() + " - " + titleSuffix : titleSuffix;
+    }
+
     <meta charset="utf-8">
     <meta name="facebook-domain-verification" content="j8fw22gxwwqy12i4udpfz88022dtwg"/>
-    <title>@(ViewData["Title"] ?? "Teach in further education")</title>
+    <title>@(title)</title>
     @*<meta name="google-site-verification" content="avl5-ikN80oG2UTyfmwII7lbiVHyNcSiKHhJy5eKEZI">*@
     <meta name="description"
           content="Teach in further education.">

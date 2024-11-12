@@ -10,6 +10,7 @@ using System;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using NUglify.Helpers;
+using System.Linq;
 
 #pragma warning disable S6932
 
@@ -40,11 +41,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                 if (formIdentifier == _formIdentifier)
                 {
                     // Manually bind the form values to the model
-                    model.FirstName = Request.Form["firstName"];
-                    model.LastName = Request.Form["lastName"];
-                    model.EmailAddress = Request.Form["emailAddress"];
-                    model.SelectedLocation = Request.Form["location"];
-                    model.SelectedSubject = Request.Form["subject"];
+                    model.FirstName = Request.Form["FirstName"];
+                    model.LastName = Request.Form["LastName"];
+                    model.EmailAddress = Request.Form["EmailAddress"];
+                    model.SelectedLocation = Request.Form["SelectedLocation"];
+                    model.SelectedSubject = Request.Form["SelectedSubject"];
 
                     model.FirstName = model.FirstName?.Replace("\n", "_").Replace("\r", "_").Trim();
                     model.LastName = model.LastName?.Replace("\n", "_").Replace("\r", "_").Trim();
@@ -88,13 +89,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                         string? selectedLocation = null;
                         string? selectedSubject = null;
 
-                        var locationId = Request.Form["location"].ToString();
+                        var locationId = Request.Form["SelectedLocation"].ToString();
                         if (!string.IsNullOrEmpty(locationId))
                         {
                             selectedLocation = newsLetterContent.LocationSelectOptions.Find(option => option.OptionValue == int.Parse(locationId))?.OptionText;
                         }
 
-                        var subjectId = Request.Form["subject"].ToString();
+                        var subjectId = Request.Form["SelectedSubject"].ToString();
                         if (!string.IsNullOrEmpty(subjectId))
                         {
                             selectedSubject = newsLetterContent.SubjectSelectOptions.Find(option => option.OptionValue == int.Parse(subjectId))?.OptionText;
