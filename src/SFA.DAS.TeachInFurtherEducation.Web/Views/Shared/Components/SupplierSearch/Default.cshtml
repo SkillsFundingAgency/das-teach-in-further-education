@@ -20,7 +20,7 @@
                 <input id="radius" name="radius" type="hidden" value="@Model.SearchWithinMiles" />
 
 			    <!-- Error Summary -->
-			    @if (ViewData.ModelState.IsValid == false)
+			    @if (!ViewData.ModelState.IsValid)
 			    {
 			        <div class="govuk-error-summary" role="alert" aria-labelledby="error-summary-title" aria-describedby="error-summary-list">
 			            <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
