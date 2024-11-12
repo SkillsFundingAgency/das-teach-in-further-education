@@ -138,11 +138,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             var formData = new Dictionary<string, string>
             {
                 { "formIdentifier", "newsletter" },
-                { "firstName", "Alice" },
-                { "lastName", "Johnson" },
-                { "emailAddress", "alice.johnson@example.com" },
-                { "location", "2" },
-                { "subject", "3" }
+                { "FirstName", "Alice" },
+                { "LastName", "Johnson" },
+                { "EmailAddress", "alice.johnson@example.com" },
+                { "SelectedLocation", "2" },
+                { "SelectedSubject", "3" }
             };
 
             var innerException = new Exception("Email address already exists.");
@@ -165,8 +165,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
 
             var modelState = _viewComponent.ViewComponentContext.ViewData.ModelState;
             Assert.False(modelState.IsValid);
-            Assert.True(modelState.ContainsKey("emailAddress")); // Check for email address error
-            Assert.Equal("Email address already exists.", modelState["emailAddress"].Errors[0].ErrorMessage); // Assert the inner exception message
+            Assert.True(modelState.ContainsKey("EmailAddress")); // Check for email address error
+            Assert.Equal("Email address already exists.", modelState["EmailAddress"].Errors[0].ErrorMessage); // Assert the inner exception message
         }
 
         [Fact]
@@ -220,11 +220,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             var formData = new Dictionary<string, string>
             {
                 { "formIdentifier", "newsletter" },
-                { "firstName", "" }, // Missing first name
-                { "lastName", "Doe" },
-                { "emailAddress", "invalid-email" }, // Invalid email
-                { "location", "1" }, // Not selected location
-                { "subject", "1" } // Not selected subject
+                { "FirstName", "" }, // Missing first name
+                { "LastName", "Doe" },
+                { "EmailAddress", "invalid-email" }, // Invalid email
+                { "SelectedLocation", "1" }, // Not selected location
+                { "SelectedSubject", "1" } // Not selected subject
             };
             SetupViewComponentContext("POST", formData);
 
@@ -253,11 +253,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             var formData = new Dictionary<string, string>
             {
                 { "formIdentifier", "newsletter" },
-                { "firstName", null }, // Missing first name
-                { "lastName", null },
-                { "emailAddress",  null }, // Invalid email
-                { "location", null }, // Not selected location
-                { "subject", null } // Not selected subject
+                { "FirstName", null }, // Missing first name
+                { "LastName", null },
+                { "EmailAddress",  null }, // Invalid email
+                { "SelectLocation", null }, // Not selected location
+                { "SelectedSubject", null } // Not selected subject
             };
             SetupViewComponentContext("POST", formData);
 
@@ -287,11 +287,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             var formData = new Dictionary<string, string>
             {
                 { "formIdentifier", "newsletter" },
-                { "firstName", "John" },
-                { "lastName", "Doe" },
-                { "emailAddress", "john.doe@example.com" },
-                { "location", "2" }, // New York
-                { "subject", "3" } // Science
+                { "FirstName", "John" },
+                { "LastName", "Doe" },
+                { "EmailAddress", "john.doe@example.com" },
+                { "SelectedLocation", "2" }, // New York
+                { "SelectedSubject", "3" } // Science
             };
             SetupViewComponentContext("POST", formData);
 
@@ -321,11 +321,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             var formData = new Dictionary<string, string>
             {
                 { "formIdentifier", "newsletter" },
-                { "firstName", "Jane" },
-                { "lastName", "Smith" },
-                { "emailAddress", "jane.smith@example.com" },
-                { "location", "3" }, // London
-                { "subject", "2" } // Math
+                { "FirstName", "Jane" },
+                { "LastName", "Smith" },
+                { "EmailAddress", "jane.smith@example.com" },
+                { "SelectedLocation", "3" }, // London
+                { "SelectedSubject", "2" } // Math
             };
             SetupViewComponentContext("POST", formData);
 
@@ -350,11 +350,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             var formData = new Dictionary<string, string>
             {
                 { "formIdentifier", "newsletter" },
-                { "firstName", "Bob" },
-                { "lastName", "Brown" },
-                { "emailAddress", "bob.brown@example.com" },
-                { "location", "2" }, // New York
-                { "subject", "2" } // Math
+                { "FirstName", "Bob" },
+                { "LastName", "Brown" },
+                { "EmailAddress", "bob.brown@example.com" },
+                { "SelectedLocation", "2" }, // New York
+                { "SelectedSubject", "2" } // Math
             };
             SetupViewComponentContext("POST", formData);
 
@@ -379,11 +379,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             var formData = new Dictionary<string, string>
             {
                 { "formIdentifier", "newsletter" },
-                { "firstName", "Eve" },
-                { "lastName", "Black" },
-                { "emailAddress", "eve.black@example.com" },
-                { "location", "invalid" }, // Non-integer
-                { "subject", "2" } // Math
+                { "FirstName", "Eve" },
+                { "LastName", "Black" },
+                { "EmailAddress", "eve.black@example.com" },
+                { "SelectedLocation", "invalid" }, // Non-integer
+                { "SelectedSubject", "2" } // Math
             };
             SetupViewComponentContext("POST", formData);
 
@@ -398,11 +398,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             var formData = new Dictionary<string, string>
             {
                 { "formIdentifier", "newsletter" },
-                { "firstName", "Frank" },
-                { "lastName", "Green" },
-                { "emailAddress", "frank.green@example.com" },
-                { "location", "2" }, // New York
-                { "subject", "invalid" } // Non-integer
+                { "FirstName", "Frank" },
+                { "LastName", "Green" },
+                { "EmailAddress", "frank.green@example.com" },
+                { "SelectedLocation", "2" }, // New York
+                { "SelectedSubject", "invalid" } // Non-integer
             };
             SetupViewComponentContext("POST", formData);
 
@@ -417,11 +417,11 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             var formData = new Dictionary<string, string>
             {
                 { "formIdentifier", "newsletter" },
-                { "firstName", "Grace" },
-                { "lastName", "Hopper" },
-                { "emailAddress", "grace.hopper@example.com" },
-                { "location", "invalid" }, // Non-integer
-                { "subject", "invalid" } // Non-integer
+                { "FirstName", "Grace" },
+                { "LastName", "Hopper" },
+                { "EmailAddress", "grace.hopper@example.com" },
+                { "SelectedLocation", "invalid" }, // Non-integer
+                { "SelectedSubject", "invalid" } // Non-integer
             };
             SetupViewComponentContext("POST", formData);
 

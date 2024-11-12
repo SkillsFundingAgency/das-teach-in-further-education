@@ -59,10 +59,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
             }
 
             // Regular expression for UK postcodes
-            string postcodePattern = @"^([A-Z]{1,2}\d[A-Z\d]?|\d[A-Z]{2})\s*\d[A-Z]{2}$";
-
-            // Remove spaces and convert to uppercase for consistency
-            string cleanedPostcode = postcode.Replace(" ", "").ToUpper();
+            string postcodePattern = @"^\s*([A-Z]{1,2}\d[A-Z\d]?|\d[A-Z]{2})\s*\d[A-Z]{2}\s*$";
 
             try
             {
@@ -73,7 +70,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
                 Regex regex = new Regex(postcodePattern, RegexOptions.None, regexTimeout);
 
                 // Return true if the postcode matches the pattern, false otherwise
-                return regex.IsMatch(cleanedPostcode);
+                return regex.IsMatch(postcode);
             }
             catch (RegexMatchTimeoutException)
             {
