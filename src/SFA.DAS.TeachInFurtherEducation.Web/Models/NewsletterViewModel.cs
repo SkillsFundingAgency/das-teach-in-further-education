@@ -83,14 +83,14 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
         /// Gets or sets the subject area selected by the user from the dropdown.
         /// This field is required and must be selected by the user.
         /// </summary>
-        [Required(ErrorMessage = "Select a subject are that you are interested in.")]
+        [Required(ErrorMessage = "Select a subject that you are interested in teaching.")]
         public string? SelectedSubject { get; set; }
 
         /// <summary>
         /// Gets or sets the location selected by the user from the dropdown.
         /// This field is required and must be selected by the user.
         /// </summary>
-        [Required(ErrorMessage = "Select A location where you are interested in teaching.")]
+        [Required(ErrorMessage = "Select the location where you would like to teach.")]
         public string? SelectedLocation { get; set; }
 
         /// <summary>
