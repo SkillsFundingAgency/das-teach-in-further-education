@@ -1,22 +1,20 @@
-﻿@using System.Web;
-@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
-@using SFA.DAS.TeachInFurtherEducation.Web.Services
+﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
 @model PageContentModel
 
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    const string _title = "Title";
+    const string title = "Title";
 
-    ViewData["Title"] = "";
+    ViewData[title] = string.Empty;
 
     if (Model != null)
     {
-        ViewData[_title] = Model.PageTitle;
+        ViewData[title] = $"{Model.PageTitle[..Math.Min(Model.PageTitle.Length, 64)]} - Teach in further education - Department for Education";
 
         if (Model.Preview.IsPreview)
         {
-            ViewData[_title] = ViewData[_title] + "(Preview)";
+            ViewData[title] = ViewData[title] + " (Preview)";
         }
     }
 }

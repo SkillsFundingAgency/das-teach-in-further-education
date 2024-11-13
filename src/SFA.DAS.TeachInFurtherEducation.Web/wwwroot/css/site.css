@@ -102,14 +102,13 @@
 }
 
 
-.fe-navigation {
-    & span {
-        color: #1D70B8;
-        font-size: 19px;
-        font-weight: 700;
-        padding-left: 30px;
-    }
+.fe-navigation span {
+    color: #1D70B8;
+    font-size: 19px;
+    font-weight: 700;
+    padding-left: 30px;
 }
+
 
 .fe-navigation .span-next {
     background: url("../images/DesignSystem/Next.png") no-repeat left center;
@@ -162,17 +161,16 @@
 
 
 .fe-full-image-card-banner {
-
     border: 1px solid #dee2e6;
+}
 
-    & img {
-        width: 100%;
-        height: 240px;
-    }
+.fe-full-image-card-banner img {
+    width: 100%;
+    height: 240px;
 }
 
 @media (max-width: 768px) {
-    .fe-full-image-card-banner & img {
+    .fe-full-image-card-banner img {
         height: 120px;
     }
 }
@@ -187,18 +185,16 @@
     height: 83px;
 }
 
-.fe-dfe-topnav .flex-right {
-
-    & li {
-        display: flex;
-        height: 100%;
-        justify-content: flex-start;
-
-        & svg {
-            align-self: center;
-        }
-    }
+.fe-dfe-topnav .flex-right li {
+    display: flex;
+    height: 100%;
+    justify-content: flex-start;
 }
+
+.fe-dfe-topnav .flex-right svg {
+    align-self: center;
+}
+
 
 .fe-dfe-topnav .govuk-link {
     color: #FFFFFF !important;
@@ -232,12 +228,10 @@
 }
 
 
-.fe-tile-section {
-    .govuk-grid-column-full {
-        padding: 0;
-    }
+.fe-tile-section
+.govuk-grid-column-full {
+    padding: 0;
 }
-
 
 .fe-contact-us-banner .image-icon-mail {
     height: 60px;
@@ -273,7 +267,6 @@
     }
 
 }
-
 
 .video-content .video-tife-iframe {
     height: 350px;
@@ -349,40 +342,43 @@
 .fe-header-full-image {
     position: relative;
     height: 599px;
-
-    & img {
-        width: 100%;
-        height: 599px;
-        object-fit: cover;
-        object-position: top;
-    }
 }
+
+.fe-header-full-image img {
+    width: 100%;
+    height: 599px;
+    object-fit: cover;
+    object-position: top;
+}
+
 
 @media (max-width: 768px) {
     .fe-header-full-image {
         height: 190px;
+    }
 
-        & img {
-            height: 190px;
-        }
+    .fe-header-full-image img {
+        height: 190px;
     }
 }
+
 
 .fe-header-full-image-text-overlay {
     position: absolute;
     left: max(0px, calc(((100vw - 1200px) / 2) - 42px));
     color: #000;
     text-align: left;
-
-  &  span {
-        padding: 0px 20px 0px 42px;
-        display: inline-block;
-        font-size: 4rem;
-        font-weight: 700;
-        font-family: "BC-Bold", Arial, sans-serif;
-        line-height: 1.2;
-    }
 }
+
+.fe-header-full-image-text-overlay span {
+    padding: 0px 20px 0px 42px;
+    display: inline-block;
+    font-size: 4rem;
+    font-weight: 700;
+    font-family: "BC-Bold", Arial, sans-serif;
+    line-height: 1.2;
+}
+
 
 .fe-header-full-image-text-overlay-lines-1 {
     top: 260px;
