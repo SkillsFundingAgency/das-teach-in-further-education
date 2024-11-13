@@ -60,13 +60,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
 
                     if (model.SelectedSubject == model.SubjectSelectOptions.ToArray()[0]?.OptionValue.ToString() || model.SelectedSubject == "Choose a subject area")
                     {
-                        ModelState.AddModelError("SelectedSubject", "Select a subject");
+                        ModelState.AddModelError("SelectedSubject", "Select a subject that you are interested in teaching.");
                         isValid = false;
                     }
 
                     if (model.SelectedLocation == model.LocationSelectOptions.ToArray()[0]?.OptionValue.ToString() || model.SelectedLocation == "Choose a location")
                     {
-                        ModelState.AddModelError("SelectedLocation", "Select a location");
+                        ModelState.AddModelError("SelectedLocation", "Select the location where you would like to teach.");
                         isValid = false;
                     }
 
