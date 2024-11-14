@@ -33,6 +33,9 @@
     padding-left: .8125rem;
 }
 
+.fe-image-card-banner-medium .govuk-link:focus  {
+    color: 	#0b0c0c !important;
+}
 
 @media (max-width: 768px) {
     .fe-image-card-banner-medium .image-card-banner__mobile {
@@ -56,7 +59,6 @@
         font-size: 16px;
     }
 }
-
 
 .fe-image-card-banner-large {
     padding-bottom: 0;
@@ -82,6 +84,9 @@
     padding-left: .8125rem;
 }
 
+.fe-image-card-banner-large .govuk-link:focus  {
+    color: 	#0b0c0c !important;
+}
 
 @media (max-width: 768px) {
     .fe-image-card-banner-large .image-card-banner__mobile {
@@ -101,14 +106,12 @@
     }
 }
 
-
 .fe-navigation span {
     color: #1D70B8;
     font-size: 19px;
     font-weight: 700;
     padding-left: 30px;
 }
-
 
 .fe-navigation .span-next {
     background: url("../images/DesignSystem/Next.png") no-repeat left center;
@@ -127,7 +130,6 @@
     margin-bottom: 15px;
     margin-left: 0;
 }
-
 
 .fe-action-banner {
     margin-top: 5px;
@@ -148,7 +150,6 @@
     }
 }
 
-
 .fe-content-box .content-box {
     padding: 20px !important;
     border-radius: 25px;
@@ -159,7 +160,6 @@
     padding: 0;
 }
 
-
 .fe-full-image-card-banner {
     border: 1px solid #dee2e6;
 }
@@ -168,6 +168,7 @@
     width: 100%;
     height: 240px;
 }
+
 
 @media (max-width: 768px) {
     .fe-full-image-card-banner img {
@@ -191,7 +192,7 @@
     justify-content: flex-start;
 }
 
-.fe-dfe-topnav .flex-right svg {
+.fe-dfe-topnav .flex-right li svg {
     align-self: center;
 }
 
@@ -202,9 +203,7 @@
 }
 
 .fe-dfe-topnav .govuk-link :hover {
-
 }
-
 
 .fe-preamble .teaching-fe-logo {
     flex-shrink: 0;
@@ -227,16 +226,16 @@
     }
 }
 
-
-.fe-tile-section
-.govuk-grid-column-full {
+.fe-tile-section .govuk-grid-column-full {
     padding: 0;
 }
+
 
 .fe-contact-us-banner .image-icon-mail {
     height: 60px;
     width: 80px;
 }
+
 
 .fe-contact-us-banner h3 {
     color: #fff;
@@ -253,9 +252,13 @@
     padding: 25px 10px;
 }
 
-@media (max-width: 768px) {
+.fe-contact-us-banner .govuk-link:focus {
+    color: #0b0c0c !important;
+}
 
-    .fe-contact-us-banner .image-icon, .fe-contact-us-banner .image-icon-mail {
+@media (max-width: 768px) {
+    .fe-contact-us-banner .image-icon,
+    .fe-contact-us-banner .image-icon-mail {
         height: 40px;
         width: 34px;
         padding: 10px;
@@ -288,7 +291,6 @@
     }
 }
 
-
 /*Added by SPAR to ensure that the first column of summary lists is an equal width*/
 .govuk-summary-list__row {
     display: flex !important;
@@ -302,7 +304,6 @@
 .govuk-summary-list__value {
     flex: 1 !important; /* Value column takes up the remaining space */
 }
-
 
 .dfe-header .fe-logo {
     flex-shrink: 0;
@@ -327,7 +328,6 @@
     .dfe-header .fe-logo {
         width: calc(50%);
         height: calc(50%);
-
     }
 }
 
@@ -337,7 +337,6 @@
         height: 100%;
     }
 }
-
 
 .fe-header-full-image {
     position: relative;
@@ -351,7 +350,6 @@
     object-position: top;
 }
 
-
 @media (max-width: 768px) {
     .fe-header-full-image {
         height: 190px;
@@ -361,7 +359,6 @@
         height: 190px;
     }
 }
-
 
 .fe-header-full-image-text-overlay {
     position: absolute;
