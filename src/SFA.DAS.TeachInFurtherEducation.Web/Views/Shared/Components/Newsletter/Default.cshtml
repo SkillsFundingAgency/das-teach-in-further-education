@@ -35,19 +35,31 @@
                     <!-- Error Summary -->
                     @if (!ViewData.ModelState.IsValid)
                     {
-                        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
-                            <h2 class="govuk-error-summary__title" id="error-summary-title">There was a problem</h2>
-                            <div class="govuk-error-summary__body">
-                                <ul class="govuk-list govuk-error-summary__list">
-                                    @foreach (var modelState in ViewData.ModelState.Where(ms => ms.Value?.Errors.Count > 0))
-                                    {
-                                        var fieldId = modelState.Key;
-                                        var errorMessage = modelState.Value?.Errors[0].ErrorMessage;
-                                        <li><a href="#@fieldId">@errorMessage</a></li>
-                                    }
-                                </ul>
+                        var modelStateErrors = ViewData.ModelState.Where(ms => ms.Value?.Errors.Count > 0 &&
+                        (
+                            ms.Key == nameof(Model.FirstName) ||
+                            ms.Key == nameof(Model.LastName) ||
+                            ms.Key == nameof(Model.EmailAddress) ||
+                            ms.Key == nameof(Model.SelectedLocation) ||
+                            ms.Key == nameof(Model.SelectedSubject)
+                        ));
+
+                        if (modelStateErrors.Any())
+                        {
+                            <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+                                <h2 class="govuk-error-summary__title" id="error-summary-title">There was a problem</h2>
+                                <div class="govuk-error-summary__body">
+                                    <ul class="govuk-list govuk-error-summary__list">
+                                        @foreach (var modelState in modelStateErrors)
+                                        {
+                                            var fieldId = modelState.Key;
+                                            var errorMessage = modelState.Value?.Errors[0].ErrorMessage;
+                                            <li><a href="#@fieldId">@errorMessage</a></li>
+                                        }
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
 
                     <!-- Begin Form -->

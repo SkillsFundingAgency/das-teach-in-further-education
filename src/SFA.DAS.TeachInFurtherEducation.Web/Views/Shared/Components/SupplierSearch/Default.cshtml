@@ -22,19 +22,28 @@
 			    <!-- Error Summary -->
 			    @if (!ViewData.ModelState.IsValid)
 			    {
-			        <div class="govuk-error-summary" role="alert" aria-labelledby="error-summary-title" aria-describedby="error-summary-list">
-			            <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
-			            <div id="error-summary-list">
-			                <ul class="govuk-list govuk-error-summary__list">
-			                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-			                    {
-			                        <li>
-			                            <a href="#postcode">@error.ErrorMessage</a>
-			                        </li>
-			                    }
-			                </ul>
+                    var modelStateErrors = ViewData.ModelState.Where(ms => ms.Value?.Errors.Count > 0 &&
+                    (
+                        ms.Key == nameof(Model.Postcode)
+                    ));
+
+                    if (modelStateErrors.Any())
+                    {
+			            <div class="govuk-error-summary" role="alert" aria-labelledby="error-summary-title" aria-describedby="error-summary-list">
+			                <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+			                <div id="error-summary-list">
+			                    <ul class="govuk-list govuk-error-summary__list">
+                                    @foreach (var modelState in modelStateErrors)
+                                        {
+                                            var fieldId = modelState.Key;
+                                            var errorMessage = modelState.Value?.Errors[0].ErrorMessage;
+                                            <li><a href="#@fieldId">@errorMessage</a></li>
+                                        }
+
+			                    </ul>
+			                </div>
 			            </div>
-			        </div>
+                    }
 			    }
 
                 <!-- Postcode Input Field -->

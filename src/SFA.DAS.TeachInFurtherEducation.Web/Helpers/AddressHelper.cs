@@ -67,7 +67,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
                 if (timeoutMs <= 0) throw new RegexMatchTimeoutException();
                 TimeSpan regexTimeout = TimeSpan.FromMilliseconds(timeoutMs);
 
-                Regex regex = new Regex(postcodePattern, RegexOptions.None, regexTimeout);
+                Regex regex = new Regex(postcodePattern, RegexOptions.IgnoreCase, regexTimeout);
 
                 // Return true if the postcode matches the pattern, false otherwise
                 return regex.IsMatch(postcode);
