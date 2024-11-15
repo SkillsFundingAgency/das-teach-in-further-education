@@ -94,6 +94,7 @@ public class ContentModelService(
                 PageURL = previewPage.PageURL,
                 PageTitle = previewPage.PageTitle,
                 PageTemplate = previewPage.PageTemplate,
+                MetaDescription = previewPage.MetaDescription,
                 Breadcrumbs = breadcrumbs,
                 PageComponents = previewPage.PageComponents,
                 MenuItems = menuItems,

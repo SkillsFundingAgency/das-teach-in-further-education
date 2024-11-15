@@ -51,7 +51,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots
                  apiPage.PageTemplate,
                  apiPage.Breadcrumbs,
                  apiPage.PageComponents!,
-                 (await ToHtmlString(apiPage.Contents)!)
+                 (await ToHtmlString(apiPage.Contents))!,
+                 apiPage.MetaDescription ?? ""
             );
         }
 
