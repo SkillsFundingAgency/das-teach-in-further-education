@@ -5,6 +5,7 @@
 
 @{
     const string title = "Title";
+    const string description = "MetaDescription";
 
     ViewData[title] = string.Empty;
 
@@ -16,6 +17,8 @@
         {
             ViewData[title] = ViewData[title] + " (Preview)";
         }
+
+        ViewData[description] = Model.MetaDescription;
     }
 }
 

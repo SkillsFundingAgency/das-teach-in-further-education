@@ -18,6 +18,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api
 
         public string? PageURL { get; set; }
 
+        public string? MetaDescription { get; set; }
+
         public string PageTemplate { get; set; } = "";
 
         public Breadcrumbs? Breadcrumbs { get; set; }
