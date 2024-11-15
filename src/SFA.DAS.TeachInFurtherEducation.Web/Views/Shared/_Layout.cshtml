@@ -18,8 +18,7 @@
     <partial name="_MicrosoftClarityPartial" model="MicrosoftClarityTag.Head" />
 
     @{
-        var titleSuffix = "Teach in further education - Department for Education";
-        var title = ViewData["Title"] != null ? ViewData["Title"]!.ToString() + " - " + titleSuffix : titleSuffix;
+        var title = ViewData["Title"];
         var description = ViewData["MetaDescription"]?.ToString();
     }
 

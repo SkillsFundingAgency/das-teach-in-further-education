@@ -20,7 +20,7 @@
        .Count();
 
    <section class="fe-header-full-image">
-      <img src="@ComponentService.GetMediaImageSource(Model.HeaderImage)" alt="@Model.Title"/>
+      <img src="@ComponentService.GetMediaImageSource(Model.HeaderImage)" alt="" aria-hidden="true" />
         @if (titleLines > 0)
         {
             <div class="fe-header-full-image-text-overlay fe-header-full-image-text-overlay-lines-@titleLines" aria-hidden="true">
