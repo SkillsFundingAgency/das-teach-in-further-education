@@ -14,6 +14,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 
         public  string PageTitle { get; set; }
 
+        public string MetaDescription { get; set; }
         public string PageTemplate { get; set; }
 
         public Breadcrumbs? Breadcrumbs { get; set; }

@@ -51,6 +51,7 @@ public class ContentModelService(
                 PageURL = page.PageURL,
                 PageTitle = page.PageTitle,
                 PageTemplate = page.PageTemplate,
+                MetaDescription = page.MetaDescription,
                 Breadcrumbs = breadcrumbs,
                 MenuItems = menuItems,
                 footerLinks = contentService.Content.FooterLinks,

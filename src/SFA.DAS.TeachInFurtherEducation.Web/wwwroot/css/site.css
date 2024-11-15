@@ -365,7 +365,7 @@
 
 .fe-header-full-image-text-overlay {
     position: absolute;
-    left: max(0px, calc(((100vw - 1200px) / 2) - 42px));
+    left: max(calc(0px), calc(((100vw - 1200px) / 2) - 42px));
     color: #000;
     text-align: left;
 }

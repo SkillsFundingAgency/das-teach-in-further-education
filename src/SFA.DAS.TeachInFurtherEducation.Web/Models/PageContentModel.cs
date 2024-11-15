@@ -15,6 +15,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Models
 
         public required string PageTemplate { get; set; }
 
+        public string MetaDescription { get; set; } = "";
+
         public Breadcrumbs? Breadcrumbs { get; set; }
 
         public List<IContent>? PageComponents { get; set; }
