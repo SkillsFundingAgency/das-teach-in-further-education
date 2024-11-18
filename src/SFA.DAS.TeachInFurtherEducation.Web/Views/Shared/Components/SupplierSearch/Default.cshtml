@@ -58,13 +58,14 @@
                         </span>
                     }
 
-                    <input class="govuk-input @((ViewData.ModelState["Postcode"] != null) ? "govuk-input--error" : "")"
-                            id="postcode"
-                            name="postcode"
-                            type="text"
-                            value="@Model.Postcode"
-                            aria-describedby="postcode-error"
-                            autofocus="@((ViewData.ModelState["Postcode"] != null) ? "autofocus" : "")" />
+                    <input class="govuk-input"
+                           id="postcode"
+                           name="postcode"
+                           type="text"
+                           aria-describedby="postcode-error"
+                           @(string.IsNullOrEmpty(Model.Postcode) ? "" : "autofocus")
+                           value="@Model.Postcode">
+
                 </div>
 
                 <button class="govuk-button" type="submit">@Model.ButtonText</button>
