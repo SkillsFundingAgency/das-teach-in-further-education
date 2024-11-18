@@ -8,7 +8,6 @@ using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Azure;
 using Microsoft.AspNetCore.Http;
 using Xunit;
 
