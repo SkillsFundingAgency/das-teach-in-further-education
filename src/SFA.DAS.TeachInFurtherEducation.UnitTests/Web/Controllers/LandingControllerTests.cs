@@ -8,6 +8,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Azure;
 using Microsoft.AspNetCore.Http;
 using Xunit;
 
@@ -23,10 +24,7 @@ public class LandingControllerTests
     {
         _contentModelService = A.Fake<IContentModelService>();
         _controller = new LandingController(_contentModelService);
-        var httpContext = new DefaultHttpContext
-        {
-            Session = A.Fake<ISession>()
-        };
+        var httpContext = new DefaultHttpContext();
         _controller.ControllerContext = new ControllerContext()
         {
             HttpContext = httpContext
@@ -59,9 +57,6 @@ public class LandingControllerTests
             Breadcrumbs = null, // Optional
             PageComponents = new List<IContent>() // Optional
         };
-        
-           
-
             
         A.CallTo(() => _contentModelService.GetPageContentModel(RouteName, false)).Returns(pageModel);
          

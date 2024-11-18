@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 {
-
     public class LandingController : Controller
     {
         private readonly IContentModelService _contentModelService;
@@ -18,23 +17,30 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
             _contentModelService = contentModelService;
         }
 
-        //[ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any, NoStore = false)]
         public IActionResult Landing(string pageUrl = RouteNames.Home)
         {
-            const string homeLinkIsLandingPage = "HomeLinkIsLandingPage";
-            bool isLandingPage;
+            const string navigationSettingsCookieName = "NavigationSettings";
+
             if (pageUrl.ToLower().Trim() == RouteNames.LandingPage || pageUrl.ToLower().Trim() == RouteNames.Home)
             {
-                isLandingPage = pageUrl.ToLower().Trim() == RouteNames.LandingPage;
-                HttpContext.Session.SetString(homeLinkIsLandingPage, isLandingPage.ToString());
+                var navigationPage = pageUrl.ToLower().Trim() == RouteNames.LandingPage
+                    ? RouteNames.LandingPage
+                    : RouteNames.Home;
+                
+                HttpContext.Response.Cookies.Append(navigationSettingsCookieName, navigationPage, new CookieOptions
+                {
+                    Path = "/", // Ensure the cookie is available site-wide
+                    HttpOnly = true, // Accessible only by the server
+                    IsEssential = true, // Required for GDPR compliance
+                    Secure = true, // Ensure the cookie is sent only over HTTPS
+                    SameSite = SameSiteMode.Strict // Prevent the cookie from being sent in cross-site requests
+                });
             }
 
-            var sessionIsLandingPage = HttpContext.Session.GetString(homeLinkIsLandingPage);
-            isLandingPage =  !string.IsNullOrEmpty(sessionIsLandingPage) && bool.Parse(sessionIsLandingPage) ;
+            var landingPageStr = HttpContext.Request.Cookies[navigationSettingsCookieName];
+            var isLandingPage = !string.IsNullOrEmpty(landingPageStr) && landingPageStr.Trim() == RouteNames.LandingPage;
             var pageModel = _contentModelService.GetPageContentModel(pageUrl, isLandingPage);
-            
-            
-            
+
             if (!ModelState.IsValid || pageModel == null)
             {
                 throw new PageNotFoundException($"The requested url {pageUrl} could not be found");
@@ -45,8 +51,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 
         public async Task<IActionResult> PagePreview(string pageUrl = RouteNames.Home)
         {
-
-            
             PageContentModel? pageModel = await _contentModelService.GetPagePreviewModel(pageUrl, false);
 
             if (!ModelState.IsValid || pageModel == null)
@@ -55,7 +59,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
             }
 
             return View(nameof(Landing), pageModel);
-
         }
     }
 }
