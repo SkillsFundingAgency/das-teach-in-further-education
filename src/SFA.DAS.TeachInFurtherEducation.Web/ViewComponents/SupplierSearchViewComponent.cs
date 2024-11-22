@@ -40,6 +40,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.ViewComponents
                 {
                     // Populate the model from the form values
                     var postcode = Request.Form["postcode"].ToString().Trim();
+                    model.Postcode = postcode;
+
                     postcode = postcode.Replace("\n", "_").Replace("\r", "_");
 
                     int radiusMiles = int.TryParse(Request.Form["radius"], out var parsedRadius) ? parsedRadius : 25;
