@@ -77,7 +77,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Security
             var scriptSrc = builder.AddScriptSrc()
                 .Self()
                 .WithNonce()
-                .From(new[] { cdnUrl, $"{cdnUrl}/libs/jquery/jquery.min.js", $"https://www.clarity.ms/tag/{clarityId}", "https://www.clarity.ms/s/0.7.47/clarity.js", "https://www.googletagmanager.com" });
+                .From(new[] { cdnUrl, $"{cdnUrl}/libs/jquery/jquery.min.js", "https://www.clarity.ms/s/", $"https://www.clarity.ms/tag/{clarityId}", "https://www.clarity.ms/s/0.7.47/clarity.js", "https://www.googletagmanager.com" });
 
             builder.AddStyleSrc()
                 .Self()

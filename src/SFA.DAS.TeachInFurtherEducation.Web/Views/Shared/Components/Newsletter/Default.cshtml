@@ -46,7 +46,7 @@
 
                         if (modelStateErrors.Any())
                         {
-                            <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+                            <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" aria-live="assertive" data-module="govuk-error-summary" autofocus>
                                 <h2 class="govuk-error-summary__title" id="error-summary-title">There was a problem</h2>
                                 <div class="govuk-error-summary__body">
                                     <ul class="govuk-list govuk-error-summary__list">
@@ -81,7 +81,7 @@
                                 }
                                 <input class="govuk-input govuk-!-width-full @(ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
                                         id="FirstName" name="FirstName" type="text" value="@Model.FirstName" maxlength="50"
-                                        aria-describedby="@(ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "FirstName-error" : null)">
+                                        aria-describedby="@(ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "FirstName-error" : null)" required aria-required="true">
                             </div>
 
                             <!-- Last Name Field -->
@@ -95,7 +95,7 @@
                                 }
                                 <input class="govuk-input govuk-!-width-full @(ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
                                         id="LastName" name="LastName" type="text" value="@Model.LastName" maxlength="50"
-                                        aria-describedby="@(ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "LastName-error" : null)">
+                                        aria-describedby="@(ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "LastName-error" : null)" required aria-required="true">
                             </div>
 
                             <!-- Email Address Field -->
@@ -109,7 +109,7 @@
                                 }
                                 <input class="govuk-input govuk-!-width-full @(ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
                                         id="EmailAddress" name="EmailAddress" type="text" value="@Model.EmailAddress"
-                                        aria-describedby="@(ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0 ? "EmailAddress-error" : null)">
+                                        aria-describedby="@(ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0 ? "EmailAddress-error" : null)" required aria-required="true">
                             </div>
 
                             <!-- Subject Select Dropdown -->
@@ -128,11 +128,13 @@
                                         Text = item?.OptionText,
                                         Value = item?.OptionValue.ToString()
                                     }).ToList(),
-                                    new
+                                    new Dictionary<string, object?>
                                     {
-                                        @class = "govuk-select govuk-!-width-full " + (ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0 ? "govuk-select--error" : ""),
-                                        id = "SelectedSubject",
-                                        aria_describedby = (ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0 ? "SelectedSubject-error" : null)
+                                        { "class", "govuk-select govuk-!-width-full " + (ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0 ? "govuk-select--error" : "") },
+                                        { "id", "SelectedSubject" },
+                                        { "aria-describedby", ViewData.ModelState.ContainsKey("SelectedSubject") && ViewData.ModelState["SelectedSubject"]?.Errors.Count > 0 ? "SelectedSubject-error" : null },
+                                        { "required", "required" },
+                                        { "aria-required", "true" }
                                     }
                                 )
                             </div>
@@ -153,11 +155,13 @@
                                         Text = item?.OptionText,
                                         Value = item?.OptionValue.ToString()
                                     }).ToList(),
-                                    new
+                                    new Dictionary<string, object?>
                                     {
-                                        @class = "govuk-select govuk-!-width-full " + (ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0 ? "govuk-select--error" : ""),
-                                        id = "SelectedLocation",
-                                        aria_describedby = (ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0 ? "SelectedLocation-error" : null)
+                                        { "class", "govuk-select govuk-!-width-full " + (ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0 ? "govuk-select--error" : "") },
+                                        { "id", "SelectedLocation" },
+                                        { "aria-describedby", ViewData.ModelState.ContainsKey("SelectedLocation") && ViewData.ModelState["SelectedLocation"]?.Errors.Count > 0 ? "SelectedLocation-error" : null },
+                                        { "required", "required" },
+                                        { "aria-required", "true" }
                                     }
                                 )
                             </div>
