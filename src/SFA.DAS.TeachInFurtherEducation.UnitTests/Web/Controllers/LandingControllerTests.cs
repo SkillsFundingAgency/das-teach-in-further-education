@@ -23,10 +23,7 @@ public class LandingControllerTests
     {
         _contentModelService = A.Fake<IContentModelService>();
         _controller = new LandingController(_contentModelService);
-        var httpContext = new DefaultHttpContext
-        {
-            Session = A.Fake<ISession>()
-        };
+        var httpContext = new DefaultHttpContext();
         _controller.ControllerContext = new ControllerContext()
         {
             HttpContext = httpContext
@@ -59,9 +56,6 @@ public class LandingControllerTests
             Breadcrumbs = null, // Optional
             PageComponents = new List<IContent>() // Optional
         };
-        
-           
-
             
         A.CallTo(() => _contentModelService.GetPageContentModel(RouteName, false)).Returns(pageModel);
          

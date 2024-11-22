@@ -1,14 +1,11 @@
-using System.Diagnostics.CodeAnalysis;
 using AspNetCore.SEOHelper;
 using Contentful.Core.Configuration;
 using Contentful.Core.Models;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,29 +13,24 @@ using Microsoft.Extensions.Logging;
 using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Extensions;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
-using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.BackgroundServices;
-using SFA.DAS.TeachInFurtherEducation.Web.Data;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.Data.Models;
+using SFA.DAS.TeachInFurtherEducation.Web.Data;
 using SFA.DAS.TeachInFurtherEducation.Web.Extensions;
 using SFA.DAS.TeachInFurtherEducation.Web.GoogleAnalytics;
 using SFA.DAS.TeachInFurtherEducation.Web.Helpers;
 using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure;
 using SFA.DAS.TeachInFurtherEducation.Web.Interfaces;
-using SFA.DAS.TeachInFurtherEducation.Web.Security;
-using SFA.DAS.TeachInFurtherEducation.Web.Services;
-using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
-using SFA.DAS.TeachInFurtherEducation.Web.StartupServices;
-using System;
-using DocumentFormat.OpenXml.Drawing.Diagrams;
-using NetEscapades.AspNetCore.SecurityHeaders;
-using System.Security.Cryptography;
 using SFA.DAS.TeachInFurtherEducation.Web.MicrosoftClarity;
-using Azure.Identity;
-using Microsoft.AspNetCore.DataProtection;
-using Contentful.Core.Extensions;
+using SFA.DAS.TeachInFurtherEducation.Web.Security;
+using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
+using SFA.DAS.TeachInFurtherEducation.Web.Services;
+using SFA.DAS.TeachInFurtherEducation.Web.StartupServices;
+using System.Diagnostics.CodeAnalysis;
+using System;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -121,14 +113,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             {
                 options.Filters.Add<ExceptionFilter>();
             });
-            
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
-                options.Cookie.HttpOnly = true; // Ensures the session cookie is accessible only by the server
-                options.Cookie.IsEssential = true; // Required for GDPR compliance
-            });
-            
+             
             services.AddControllersWithViews();
 
             services.AddWebOptimizer(assetPipeline =>
@@ -257,7 +242,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             app.UseRouting();
             app.UseAuthorization();
             app.UseHealthCheckEndPoint();
-            app.UseSession(); // Add the session middleware
             app.UseEndpoints(endpoints =>
             {
                 MapControllerRoute(endpoints,
