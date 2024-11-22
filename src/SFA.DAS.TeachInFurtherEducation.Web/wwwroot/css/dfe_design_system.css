@@ -235,7 +235,7 @@
 
 .govuk-heading {
     color: #000;
-    font-size: 48px;
+    font-size: 3rem;
     font-style: normal;
     font-weight: 700;
     line-height: 60px;
@@ -3759,7 +3759,7 @@
 .govuk-header__link--homepage {
     display: inline-block;
     margin-right: 10px;
-    font-size: 30px
+    font-size: 1.875rem;
 }
 
 @media (min-width: 48.0625em) {
@@ -6137,7 +6137,7 @@
     border-radius: 50%;
     color: #fff;
     background: #0b0c0c;
-    font-size: 30px;
+    font-size: 1.875rem;
     line-height: 29px;
     text-align: center;
     -webkit-user-select: none;
@@ -7654,7 +7654,7 @@ html {
 body {
     background-color: #fff;
     color: #0b0c0c;
-    font-size: 16px;
+    font-size: 1rem;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     line-height: 1.33333;
@@ -7686,7 +7686,7 @@ thead th {
 }
 
 td, th {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.33333;
     padding-bottom: 8px;
     padding-right: 16px;
@@ -7698,7 +7698,7 @@ td, th {
 
 @media (min-width: 40.0625em) {
     td, th {
-        font-size: 19px;
+        font-size: 1.188rem;
         line-height: 1.33333
     }
 }
@@ -7738,14 +7738,14 @@ th {
 
 caption {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 1.1rem;
     line-height: 1.33333;
     text-align: left
 }
 
 @media (min-width: 40.0625em) {
     caption {
-        font-size: 22px;
+        font-size: 1.375rem;
         line-height: 1.33333
     }
 }
@@ -8050,7 +8050,7 @@ caption {
 }
 
 .dfe-list, ol, ul {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.33333;
     margin-bottom: 16px;
     list-style-type: none;
@@ -8060,7 +8060,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-list, ol, ul {
-        font-size: 19px;
+        font-size: 1.188rem;
         line-height: 1.33333
     }
 }
@@ -8116,7 +8116,7 @@ caption {
 }
 
 .dfe-heading-xl, .govuk-heading-xl, h1 {
-    font-size: 32px;
+    font-size: 2rem;
     line-height: 1.33333;
     display: block;
     font-weight: 700;
@@ -8126,7 +8126,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-heading-xl, .govuk-heading-xl, h1 {
-        font-size: 48px;
+        font-size: 3rem;
         /*font-size: 3;*/
         line-height: 1.33333
     }
@@ -8146,7 +8146,7 @@ caption {
 }
 
 .dfe-heading-l, .govuk-heading-l, h2 {
-    font-size: 24px;
+    font-size: 1.5rem;
     /*font-size: 1.5;*/
     line-height: 1.33333;
     display: block;
@@ -8157,7 +8157,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-heading-l, .govuk-heading-l, h2 {
-        font-size: 32px;
+        font-size: 2rem;
         /*font-size: 2;*/
         line-height: 1.33333
     }
@@ -8177,7 +8177,7 @@ caption {
 }
 
 .dfe-heading-m, .govuk-heading-m, h3 {
-    font-size: 20px;
+    font-size: 1.25rem;
     /*font-size: 1.25;*/
     line-height: 1.33333;
     display: block;
@@ -8188,7 +8188,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-heading-m, .govuk-heading-m, h3 {
-        font-size: 24px;
+        font-size: 1.5rem;
         /*font-size: 1.5;*/
         line-height: 1.33333
     }
@@ -8208,8 +8208,7 @@ caption {
 }
 
 .dfe-heading-s, .govuk-heading-s, h4 {
-    font-size: 16px;
-    /*font-size: 1;*/
+    font-size: 1rem;
     line-height: 1.33333;
     display: block;
     font-weight: 700;
@@ -8219,7 +8218,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-heading-s, .govuk-heading-s, h4 {
-        font-size: 19px;
+        font-size: 1.188rem;
         /*font-size: 1.1875;*/
         line-height: 1.33333
     }
@@ -8239,7 +8238,7 @@ caption {
 }
 
 .dfe-heading-xs, h5 {
-    font-size: 16px;
+    font-size: 1rem;
     /*font-size: 1;*/
     line-height: 1.33333;
     display: block;
@@ -8250,7 +8249,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-heading-xs, h5 {
-        font-size: 19px;
+        font-size: 1.188rem;
         /*font-size: 1.1875;*/
         line-height: 1.33333
     }
@@ -8270,7 +8269,7 @@ caption {
 }
 
 .dfe-heading-xxs, h6 {
-    font-size: 16px;
+    font-size: 1rem;
     /*font-size: 1;*/
     line-height: 1.33333;
     display: block;
@@ -8281,7 +8280,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-heading-xxs, h6 {
-        font-size: 19px;
+        font-size: 1.188rem;
         /*font-size: 1.1875;*/
         line-height: 1.33333
     }
@@ -8302,7 +8301,7 @@ caption {
 
 .dfe-caption-xl {
     font-weight: 400;
-    font-size: 24px;
+    font-size: 1.5rem;
     /*font-size: 1.5;*/
     line-height: 1.33333;
     color: #505a5f;
@@ -8312,7 +8311,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-caption-xl {
-        font-size: 32px;
+        font-size: 2rem;
         /*font-size: 2;*/
         line-height: 1.33333
     }
@@ -8327,7 +8326,7 @@ caption {
 
 .dfe-caption-l {
     font-weight: 400;
-    font-size: 20px;
+    font-size: 2rem;
     /*font-size: 1.25;*/
     line-height: 1.33333;
     color: #505a5f;
@@ -8337,7 +8336,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-caption-l {
-        font-size: 24px;
+        font-size: 1.5rem;
         /*font-size: 1.5;*/
         line-height: 1.33333
     }
@@ -8352,7 +8351,7 @@ caption {
 
 .dfe-caption-m {
     font-weight: 400;
-    font-size: 16px;
+    font-size: 1rem;
     /*font-size: 1;*/
     line-height: 1.33333;
     color: #505a5f;
@@ -8361,7 +8360,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-caption-m {
-        font-size: 19px;
+        font-size: 1.188rem;
         /*font-size: 1.1875;*/
         line-height: 1.33333
     }
@@ -8380,7 +8379,7 @@ caption {
 }
 
 .dfe-body-l {
-    font-size: 20px;
+    font-size: 1.25rem;
     /*font-size: 1.25;*/
     line-height: 1.33333;
     display: block;
@@ -8390,7 +8389,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-body-l {
-        font-size: 24px;
+        font-size: 1.5rem;
         /*font-size: 1.5;*/
         line-height: 1.33333
     }
@@ -8410,7 +8409,7 @@ caption {
 }
 
 .dfe-body-m, address, p {
-    font-size: 16px;
+    font-size: 1rem;
     /*font-size: 1;*/
     line-height: 1.33333;
     display: block;
@@ -8420,7 +8419,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-body-m, address, p {
-        font-size: 19px;
+        font-size: 1.188rem;
         /*font-size: 1.1875;*/
         line-height: 1.33333
     }
@@ -8454,7 +8453,7 @@ caption {
 
 @media (min-width: 40.0625em) {
     .dfe-body-s {
-        font-size: 16px;
+        font-size:  1rem;
         /*font-size: 1;*/
         line-height: 1.33333
     }
@@ -9280,7 +9279,7 @@ b, strong {
     color: #fff;
     cursor: pointer;
     display: block;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     line-height: 24px;
     margin-right: 0;
@@ -9490,7 +9489,7 @@ b, strong {
 
 .dfe-header__navigation-link {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 0.875rem;
     /*font-size: .875;*/
     line-height: 1.33333;
     border-bottom: 4px solid transparent;
@@ -9503,7 +9502,7 @@ b, strong {
 
 @media (min-width: 40.0625em) {
     .dfe-header__navigation-link {
-        font-size: 16px;
+        font-size: 1rem;
         /*font-size: 1;*/
         line-height: 1.33333
     }
@@ -9609,7 +9608,7 @@ b, strong {
 .dfe-header__transactional-service-name--link {
     color: #fff;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 1rem;
     /*font-size: 1;*/
     line-height: 1.33333;
     text-decoration: none
@@ -9675,7 +9674,7 @@ b, strong {
 
 a.dfe-header__link--service {
     font-weight: 400;
-    font-size: 18px;
+    font-size: 1.125rem;
     /*font-size: 1.125;*/
     line-height: 1.33333;
     text-decoration: none;
@@ -9684,7 +9683,7 @@ a.dfe-header__link--service {
 
 @media (min-width: 40.0625em) {
     a.dfe-header__link--service {
-        font-size: 22px;
+        font-size: 1.375rem;
         /*font-size: 1.375;*/
         line-height: 1.33333
     }
