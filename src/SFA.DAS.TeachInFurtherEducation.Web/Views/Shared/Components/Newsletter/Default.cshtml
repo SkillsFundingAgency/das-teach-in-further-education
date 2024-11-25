@@ -30,6 +30,14 @@
                             <h4 class="govuk-panel__title">Subscription Successful</h4>
                             <div class="govuk-panel__body">@Model.SuccessMessage</div>
                         </div>
+
+                        <script nonce="@Context.GetNonce()">
+                            window.dataLayer = window.dataLayer || [];
+                            window.dataLayer.push({
+                                'event': 'email_signup',
+                                'email': '@Model.EmailAddress'
+                            });
+                        </script>
                     }
 
                     <!-- Error Summary -->
