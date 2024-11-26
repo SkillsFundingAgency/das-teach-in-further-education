@@ -238,7 +238,7 @@
     font-size: 3rem;
     font-style: normal;
     font-weight: 700;
-    line-height: 60px;
+    line-height: 3.75rem;
 }
 
 .govuk-heading-xl {
@@ -251,7 +251,7 @@
     line-height: 1.09375;
     display: block;
     margin-top: 0;
-    margin-bottom: 30px
+    margin-bottom: 1.875rem
 }
 
 @media print {
@@ -8121,7 +8121,7 @@ caption {
     display: block;
     font-weight: 700;
     margin-top: 0;
-    margin-bottom: 40px
+    margin-bottom: 2.5rem
 }
 
 @media (min-width: 40.0625em) {
@@ -8152,7 +8152,7 @@ caption {
     display: block;
     font-weight: 700;
     margin-top: 0;
-    margin-bottom: 16px
+    margin-bottom: 1rem;
 }
 
 @media (min-width: 40.0625em) {
