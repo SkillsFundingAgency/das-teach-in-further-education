@@ -54,7 +54,7 @@
 
                         if (modelStateErrors.Any())
                         {
-                            <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" aria-live="assertive" data-module="govuk-error-summary" autofocus>
+                            <div id="error-summary" class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" aria-live="assertive" data-module="govuk-error-summary" autofocus>
                                 <h2 class="govuk-error-summary__title" id="error-summary-title">There was a problem</h2>
                                 <div class="govuk-error-summary__body">
                                     <ul class="govuk-list govuk-error-summary__list">
@@ -67,6 +67,15 @@
                                     </ul>
                                 </div>
                             </div>
+
+                             <script nonce="@Context.GetNonce()">
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    document.getElementById("error-summary").focus();  // This will set the focus on the postcode field
+                                    window.setTimeout(function () {
+                                        document.getElementById("error-summary").focus();
+                                    }, 0);
+                                });
+                            </script>
                         }
                     }
 
