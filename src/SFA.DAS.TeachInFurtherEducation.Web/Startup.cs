@@ -31,6 +31,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.Services;
 using SFA.DAS.TeachInFurtherEducation.Web.StartupServices;
 using System.Diagnostics.CodeAnalysis;
 using System;
+using SFA.DAS.TeachInFurtherEducation.Web.Configuration;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -95,6 +96,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 var microsoftClarityConfiguration = Configuration.GetSection("MicrosoftClarity").Get<MicrosoftClarityConfiguration>()!;
                 options.Filters.Add(new EnableMicrosoftClarityAttribute(microsoftClarityConfiguration));
             });
+
+            //Data protection
+            var config = Configuration.GetSection("ApplicationConfiguration").Get<ApplicationConfiguration>()!;
+            services.AddDataProtection(config);
 
             services.AddRateLimiting();
 
