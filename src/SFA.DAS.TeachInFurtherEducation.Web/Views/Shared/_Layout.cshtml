@@ -112,6 +112,21 @@
     <environment exclude="Development">
         <script src="/js/site.js" no-cdn></script>
     </environment>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", e =>
+        {
+            document.querySelectorAll('a[href]').forEach(a =>
+            {
+                if (location.hostname == new URL(a.href).hostname)
+                    return;
+
+                a.target = "_blank";
+                a.rel = "noreferrer nofollow noopener";
+            });
+        });
+    </script>
+
 </body>
 
 </html>
