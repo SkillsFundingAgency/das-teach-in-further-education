@@ -257,17 +257,6 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
                 endpoints.MapControllers();
             });
-            
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers!.Append("X-Frame-Options", "SAMEORIGIN");
-                context.Response.Headers!.Append("X-Content-Type-Options", "nosniff");
-                context.Response.Headers!.Append("X-Xss-Protection", "1");
-                context.Response.Headers!.Append("X-Permitted-Cross-Domain-Policies", "none");
-                context.Response.Headers!.Append("Referrer-Policy", "strict-origin-when-cross-origin");      
-                await next.Invoke();
-            });
-            
         }
 
         /// <remarks>
