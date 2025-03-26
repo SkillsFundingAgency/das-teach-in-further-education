@@ -219,7 +219,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
         {
-            app.UseAppSecurityHeaders(env, configuration);
+            //app.UseAppSecurityHeaders(env, configuration);
 
             if (env.IsDevelopment())
             {
