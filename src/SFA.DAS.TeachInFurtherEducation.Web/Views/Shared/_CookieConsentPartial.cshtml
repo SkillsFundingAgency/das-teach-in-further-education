@@ -22,16 +22,16 @@
                     </h2>
                     <div class="govuk-cookie-banner__content">
                         <p class="govuk-body">We use some essential cookies to make this service work.</p>
-                        <p class="govuk-body">We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+                        <p class="govuk-body">We’d like to set additional cookies so we can remember your settings, understand how people use the service and make improvements.</p>
                     </div>
                 </div>
             </div>
             <div class="govuk-button-group">
                 <button type="button" class="govuk-button" id="acceptCookiesButton" data-module="govuk-button">
-                    Accept analytics cookies
+                    Accept additional cookies
                 </button>
                 <button type="button" class="govuk-button" id="rejectCookiesButton" data-module="govuk-button">
-                    Reject analytics cookies
+                    Reject additional cookies
                 </button>
                 <a class="govuk-link" href="@cookiePage">View cookies</a>
             </div>
@@ -88,6 +88,7 @@
                 createCookie("FunctionalConsent", acceptAll)
                 showBanner(acceptAll ? "cookieAccept" : "cookieReject")
                 document.getElementById("cookieConsent").style.display = "none"
+                loadGTMAfterAcceptingCookies()
             }
 
             function createCookie(name, value) {

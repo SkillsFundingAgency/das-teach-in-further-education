@@ -3,7 +3,12 @@
 @using System.Text.RegularExpressions
 @model (TileSection, bool)
 
+@{
+    var pageName = ViewData["Title"] as string;
+}
+
 <div id="@Model.Item1.DataId" class="govuk-width-container fe-tile-section govuk-!-padding-top-3">
+    
     <div class="govuk-grid-row">
         @if (!string.IsNullOrWhiteSpace(Model.Item1.TileSectionHeading))
         {
@@ -21,6 +26,14 @@
     </div>
     <div class="govuk-grid-row">
         <div class="dfe-grid-container">
+
+            @if (!string.IsNullOrEmpty(pageName) && pageName.ToLower().Contains("home page"))
+            {
+                <div class="dfe-card">
+                    <div class="riddle2-wrapper" data-rid-id="PIOsGtWX" data-auto-scroll="true" data-is-fixed-height-enabled="false" data-bg="#fff" data-fg="#00205b" style="margin:0 auto; max-width:100%; width:640px;" ><script src="https://www.riddle.com/embed/build-embedjs/embedV2.js"></script><iframe title="Check if you are ready to teach in FE " src="https://www.riddle.com/embed/a/PIOsGtWX?lazyImages=false&staticHeight=false" allow="autoplay" referrerpolicy="strict-origin"><section data-block="SingleChoice"><h3>Do you have a GCSE or Level 2 in maths and English?</h3><ul><li>Yes</li><li>No</li></ul></section><section data-block="SingleChoice"><h3>Do you have a teaching qualification?</h3><p><p>For example, a Level 5 or above qualification, such as:</p><ul><li><p>Certificate in Education (Cert Ed)</p></li><li><p>Postgraduate Certificate in Education (PGCE)</p></li><li><p>Diploma in Teaching (DiT) or its predecessor, the Diploma in Education and Training (DET)</p></li></ul></p><ul><li>Yes</li><li>No</li></ul></section><section data-block="SingleChoice"><h3>How many years experience do you have in this industry?</h3><p><p><strong>Why am I being asked this?</strong></p><p>By knowing how much industry experience you have, we can give you more accurate advice on your next steps.</p><p>Industry experience is not a requirement for teaching in further education, though it can make you a stronger candidate for some roles.</p></p><ul><li>Less than 5 years </li><li>More than 5 years </li></ul></section><section data-block="SingleChoice"><h3>What is the highest relevant qualification you have?</h3><ul><li>Level 1 or pre-entry - Pre-GCSE</li><li>Level 2 - GCSE level - should be grade 5+ or full Apprenticeship</li><li>Level 3 - A Levels - should be A* to C, Full extended Diploma or Apprenticeship</li><li>Level 4 -  First year degree</li><li>Level 5 - Second year degree/ Foundation degree</li><li>Level 6 - Full degree - BA/ BSc, etc.</li><li>Level 7 - Master's degree</li><li>Level 8 - Phd</li></ul></section><section data-block="SingleChoice"><h3>How many years experience do you have in this industry?</h3><p><p><strong>Why am I being asked this?</strong></p><p>By knowing how much industry experience you have, we can give you more accurate advice on your next steps.</p><p>Industry experience is not a requirement for teaching in further education, though it can make you a stronger candidate for some roles.</p></p><ul><li>Less than 5 years </li><li>More than 5 years </li></ul></section></iframe></div>
+                </div>
+            }
+            
             @foreach (var tile in Model.Item1.Tiles.OrderBy(a => a.TileOrder))
             {
                 var ariaLabeledBy = !String.IsNullOrEmpty(tile.TileID) ? tile.TileID : Regex.Replace(tile.TileHeading.ToLower(), "[^a-z0-9\\s]", "", RegexOptions.Singleline, new TimeSpan(0, 0, 5)).Replace(" ", "-");

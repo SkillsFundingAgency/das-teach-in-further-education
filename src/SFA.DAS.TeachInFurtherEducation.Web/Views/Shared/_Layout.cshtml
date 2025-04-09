@@ -29,11 +29,10 @@
         <meta name="description" content="@(description)">
     }
 
-    @*<meta name="google-site-verification" content="avl5-ikN80oG2UTyfmwII7lbiVHyNcSiKHhJy5eKEZI">*@
+    <meta name="google-site-verification" content="086_NnZMEADThuIN96DgSkBdWPFv6lRLbza--iStF9c" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#003a69">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    @*https://dev.to/matijamrkaic/using-google-tag-manager-with-a-content-security-policy-9ai*@
 
     <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="/assets/images/favicon.ico" type="image/x-icon"/>
     <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c"/>
@@ -111,6 +110,21 @@
     <environment exclude="Development">
         <script src="/js/site.js" no-cdn></script>
     </environment>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", e =>
+        {
+            document.querySelectorAll('a[href]').forEach(a =>
+            {
+                if (location.hostname == new URL(a.href).hostname)
+                    return;
+
+                a.target = "_blank";
+                a.rel = "noreferrer nofollow noopener";
+            });
+        });
+    </script>
+
 </body>
 
 </html>
