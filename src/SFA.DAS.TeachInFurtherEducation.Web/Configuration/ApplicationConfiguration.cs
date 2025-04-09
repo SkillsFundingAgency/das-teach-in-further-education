@@ -1,5 +1,8 @@
-﻿namespace SFA.DAS.TeachInFurtherEducation.Web.Configuration
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SFA.DAS.TeachInFurtherEducation.Web.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public class ApplicationConfiguration
     {
         public string RedisConnectionString { get; set; } = string.Empty;

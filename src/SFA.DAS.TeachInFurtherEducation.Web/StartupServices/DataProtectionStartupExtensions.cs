@@ -2,9 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using SFA.DAS.TeachInFurtherEducation.Web.Configuration;
 using StackExchange.Redis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.StartupServices
 {
+    [ExcludeFromCodeCoverage]
     public static class DataProtectionStartupExtensions
     {
         public static IServiceCollection AddDataProtection(this IServiceCollection services, ApplicationConfiguration config)
