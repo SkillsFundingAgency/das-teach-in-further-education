@@ -27,6 +27,8 @@
 }
 @if (Model?.PageComponents != null)
 {
+    int i = 0;
+    
     @foreach (var component in Model.PageComponents)
     {
         switch (component)
@@ -35,7 +37,8 @@
                 @await Html.PartialAsync("_PreambleGeneralPartial", new Tuple<Preamble?, Breadcrumbs?, bool, bool, string>(preamble, Model.Breadcrumbs, true, Model.Preview.IsPreview, Model.PageTemplate))
                 break;
             case TileSection tileSection:
-                @await Html.PartialAsync("_TileCardPartial", (tileSection, Model.Preview.IsPreview))
+                @await Html.PartialAsync("_TileCardPartial", (tileSection, Model.Preview.IsPreview, i))
+                i++;
                 break;
             case ImageCardBanner imageCardBanner:
                 @await Html.PartialAsync("_ImageCardBannerPartial", imageCardBanner)
