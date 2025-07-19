@@ -6,7 +6,9 @@ using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure;
 using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using System;
+using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 {
@@ -62,6 +64,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 
                 return View(__SYSTEMERRORVIEW, LayoutModel);
             }
+        }
+        
+        [Route("/Rate-Limit-Exceeded")]
+        public IActionResult RateLimitExceeded()
+        {
+            Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
+            return View("RateLimitExceeded");
         }
     }
 }

@@ -12,6 +12,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.Interfaces;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 {
@@ -131,6 +132,11 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
             }
 
         }
+        
+        public static string StripHTML(string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
+        }        
 
         #endregion
 
