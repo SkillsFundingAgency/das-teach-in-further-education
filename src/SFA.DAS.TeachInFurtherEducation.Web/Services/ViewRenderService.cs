@@ -135,7 +135,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Services
         
         public static string StripHTML(string input)
         {
-            return Regex.Replace(input, "<.*?>", String.Empty);
+            return Regex.Replace(
+                input, 
+                "<.*?>", 
+                string.Empty, 
+                RegexOptions.None, 
+                TimeSpan.FromSeconds(1) // Timeout added here
+            );
         }        
 
         #endregion
