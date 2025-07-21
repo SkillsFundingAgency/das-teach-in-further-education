@@ -8,6 +8,10 @@ using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using System;
 using System.Collections.Generic;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Mvc.Controllers;
+
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Controllers
 {
@@ -149,7 +153,64 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Controllers
                 "Unable to get model with populated footer"
             );
         }
+        
+       
+        [Fact]
+        public void RateLimitExceeded_SetsStatusCodeTo429()
+        {
+            // Arrange
+            SetupControllerContext();  // Required for accessing HttpContext
 
+            // Act
+            var result = _controller.RateLimitExceeded();
 
+            // Assert
+            Assert.Equal(StatusCodes.Status429TooManyRequests, _controller.HttpContext.Response.StatusCode);
+        }
+
+        [Fact]
+        public void RateLimitExceeded_ReturnsCorrectView()
+        {
+            // Arrange
+            SetupControllerContext();  // Required for HttpContext
+
+            // Act
+            var result = _controller.RateLimitExceeded() as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("RateLimitExceeded", result.ViewName);
+        }
+
+        [Fact]
+        public void RateLimitExceeded_DoesNotUseDependencies()
+        {
+            // Arrange
+            SetupControllerContext();
+
+            // Act
+            var result = _controller.RateLimitExceeded();
+
+            // Assert: Verify dependencies weren't accessed
+            A.CallTo(() => _contentService.Content.FooterLinks).MustNotHaveHappened();
+            A.CallTo(() => _contentService.Content.MenuItems).MustNotHaveHappened();
+        }
+
+        private void SetupControllerContext()
+        {
+            // Create mock HTTP context
+            var httpContext = new DefaultHttpContext();
+            
+            // Create controller context
+            var controllerContext = new ControllerContext(
+                new ActionContext(
+                    httpContext,
+                    new RouteData(),
+                    new ControllerActionDescriptor()
+                )
+            );
+            
+            _controller.ControllerContext = controllerContext;
+        }
     }
 }
