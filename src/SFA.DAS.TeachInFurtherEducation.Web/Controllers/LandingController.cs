@@ -5,9 +5,11 @@ using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Controllers
 {
+    [EnableRateLimiting("fixed")]
     public class LandingController : Controller
     {
         private readonly IContentModelService _contentModelService;

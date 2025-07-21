@@ -32,6 +32,8 @@ using SFA.DAS.TeachInFurtherEducation.Web.StartupServices;
 using System.Diagnostics.CodeAnalysis;
 using System;
 using SFA.DAS.TeachInFurtherEducation.Web.Configuration;
+using System.Threading.RateLimiting;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -77,6 +79,31 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 // Limit the request body to 4 MB (adjust as necessary)
                 options.MultipartBodyLengthLimit = formOptionsConfig!.MaxRequestBodySize;
             });
+            
+            var fixedPolicy = "fixed";
+
+            services.AddRateLimiter(limiterOptions =>
+            {
+                limiterOptions.AddPolicy(fixedPolicy, context =>
+                {
+                    return RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: context.Connection.RemoteIpAddress,
+                        factory: partition => new FixedWindowRateLimiterOptions
+                        {
+                            AutoReplenishment = true,
+                            PermitLimit = 10,
+                            QueueLimit = 0,
+                            Window = TimeSpan.FromSeconds(100)
+                        });
+
+                });
+                limiterOptions.OnRejected = async (context, token) =>
+                {
+                    var response = context.HttpContext.Response;
+                    response.Redirect("/Rate-Limit-Exceeded");
+                    await Task.CompletedTask;
+                };
+            });            
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -244,6 +271,9 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             app.UseStaticFiles();
 
             app.UseXMLSitemap(env.ContentRootPath);
+            
+            app.UseRateLimiter();
+            
             app.UseRouting();
             app.UseAuthorization();
             app.UseHealthCheckEndPoint();
@@ -269,7 +299,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
         /// </remarks>
         private static void MapControllerRoute(IEndpointRouteBuilder builder, string name, string pattern, string controller, string action)
         {
-            builder.MapControllerRoute(name, pattern, new { controller, action });
+            builder.MapControllerRoute(name, pattern, new { controller, action }).RequireRateLimiting("fixed");
         }
     }
 }
