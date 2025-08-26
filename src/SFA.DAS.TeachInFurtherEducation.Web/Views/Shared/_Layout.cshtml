@@ -20,6 +20,13 @@
     @{
         var title = ViewData["Title"];
         var description = ViewData["MetaDescription"]?.ToString();
+        // Generate canonical URL
+        var scheme = Context.Request.Scheme;
+        var host = Context.Request.Host;
+        var path = Context.Request.Path;
+        // Remove trailing slash for consistency
+        var cleanPath = path.Value?.TrimEnd('/') ?? "/";
+        var canonicalUrl = $"{scheme}://{host}{cleanPath}";
     }
 
     <meta charset="utf-8">
@@ -28,6 +35,9 @@
     @if (!string.IsNullOrEmpty(description)) {
         <meta name="description" content="@(description)">
     }
+
+    <!-- Canonical Tag - Added to resolve duplicate content issues -->
+    <link rel="canonical" href="@canonicalUrl" />    
 
     <meta name="google-site-verification" content="086_NnZMEADThuIN96DgSkBdWPFv6lRLbza--iStF9c" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">

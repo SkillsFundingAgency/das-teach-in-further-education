@@ -46,9 +46,13 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
             {
                 Priority = 1.0,
                 Frequency = SitemapFrequency.Weekly,
-                Url = new Uri(baseUri, string.Concat("page", x.Url.StartsWith('/') ? x.Url : $"/{x.Url}"))
+                Url = new Uri(baseUri, string.Concat("", x.Url.StartsWith('/') ? x.Url : $"/{x.Url}"))
                             .AbsoluteUri
             }));
+            
+            foreach (var n in nodes)  {
+                n.Url = n.Url.Replace("page/", "");
+            }
 
             SitemapNode? home = nodes.Find(x => x.Url.EndsWith($"/{RouteNames.Home}"));
             if (home != null)

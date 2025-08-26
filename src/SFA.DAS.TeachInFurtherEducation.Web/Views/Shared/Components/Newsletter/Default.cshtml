@@ -35,7 +35,9 @@
                             window.dataLayer = window.dataLayer || [];
                             window.dataLayer.push({
                                 'event': 'email_signup',
-                                'email': '@Model.EmailAddress'
+                                'email': '@Model.EmailAddress',
+                                'location': '@Model.SelectedLocation',
+                                'subject': '@Model.SelectedSubject'
                             });
                         </script>
                     }

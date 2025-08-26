@@ -1,2 +1,4 @@
+Sitemap: https://www.teachinfurthereducation.education.gov.uk/sitemap.xml
+
 User-agent: *
 Disallow:
