@@ -56,7 +56,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
 
             SitemapNode? home = nodes.Find(x => x.Url.EndsWith($"/{RouteNames.Home}"));
             if (home != null)
-                home.Url = home.Url[..^9];
+                home.Url = home.Url.Replace("home", "");
 
             new SitemapDocument().CreateSitemapXML(nodes, _webHostEnvironment.ContentRootPath);
         }
