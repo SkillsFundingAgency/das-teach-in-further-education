@@ -12,16 +12,16 @@
     <div id="signUpForm" class="govuk-grid-row @backColor govuk-!-padding-3">
         <div class="govuk-width-container">
 
-           <div id="newsletter" class="govuk-grid-row">
+            <div id="newsletter" class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <h2 class="govuk-heading-l">@Model.NewsLetterHeading</h2>
-                     @Html.Raw(Model.NewsLetterDescription)
+                    @Html.Raw(Model.NewsLetterDescription)
                 </div>
             </div>
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                
+
 
                     <!-- Success Message -->
                     @if (!string.IsNullOrEmpty(Model.SuccessMessage))
@@ -46,13 +46,13 @@
                     @if (!ViewData.ModelState.IsValid)
                     {
                         var modelStateErrors = ViewData.ModelState.Where(ms => ms.Value?.Errors.Count > 0 &&
-                        (
-                            ms.Key == nameof(Model.FirstName) ||
-                            ms.Key == nameof(Model.LastName) ||
-                            ms.Key == nameof(Model.EmailAddress) ||
-                            ms.Key == nameof(Model.SelectedLocation) ||
-                            ms.Key == nameof(Model.SelectedSubject)
-                        ));
+                                                                               (
+                                                                                   ms.Key == nameof(Model.FirstName) ||
+                                                                                   ms.Key == nameof(Model.LastName) ||
+                                                                                   ms.Key == nameof(Model.EmailAddress) ||
+                                                                                   ms.Key == nameof(Model.SelectedLocation) ||
+                                                                                   ms.Key == nameof(Model.SelectedSubject)
+                                                                               ));
 
                         if (modelStateErrors.Any())
                         {
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
 
-                             <script nonce="@Context.GetNonce()">
+                            <script nonce="@Context.GetNonce()">
                                 document.addEventListener("DOMContentLoaded", function() {
                                     document.getElementById("error-summary").focus();  // This will set the focus on the postcode field
                                     window.setTimeout(function () {
@@ -99,8 +99,8 @@
                                     </span>
                                 }
                                 <input class="govuk-input govuk-!-width-full @(ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
-                                        id="FirstName" name="FirstName" type="text" value="@Model.FirstName" maxlength="50"
-                                        aria-describedby="@(ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "FirstName-error" : null)" required aria-required="true">
+                                       id="FirstName" name="FirstName" type="text" value="@Model.FirstName" maxlength="50"
+                                       aria-describedby="@(ViewData.ModelState.ContainsKey("FirstName") && ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "FirstName-error" : null)" required aria-required="true">
                             </div>
 
                             <!-- Last Name Field -->
@@ -113,8 +113,8 @@
                                     </span>
                                 }
                                 <input class="govuk-input govuk-!-width-full @(ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
-                                        id="LastName" name="LastName" type="text" value="@Model.LastName" maxlength="50"
-                                        aria-describedby="@(ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "LastName-error" : null)" required aria-required="true">
+                                       id="LastName" name="LastName" type="text" value="@Model.LastName" maxlength="50"
+                                       aria-describedby="@(ViewData.ModelState.ContainsKey("LastName") && ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "LastName-error" : null)" required aria-required="true">
                             </div>
 
                             <!-- Email Address Field -->
@@ -127,8 +127,8 @@
                                     </span>
                                 }
                                 <input class="govuk-input govuk-!-width-full @(ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0 ? "govuk-input--error" : "")"
-                                        id="EmailAddress" name="EmailAddress" type="text" value="@Model.EmailAddress"
-                                        aria-describedby="@(ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0 ? "EmailAddress-error" : null)" required aria-required="true">
+                                       id="EmailAddress" name="EmailAddress" type="text" value="@Model.EmailAddress"
+                                       aria-describedby="@(ViewData.ModelState.ContainsKey("EmailAddress") && ViewData.ModelState["EmailAddress"]?.Errors.Count > 0 ? "EmailAddress-error" : null)" required aria-required="true">
                             </div>
 
                             <!-- Subject Select Dropdown -->
