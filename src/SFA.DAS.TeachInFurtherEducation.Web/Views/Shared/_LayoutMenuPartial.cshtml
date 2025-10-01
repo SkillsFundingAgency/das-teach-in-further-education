@@ -96,13 +96,41 @@
                 <ul class="navbar-nav">
                     @{
                         var dropdownMenuItems = DropdownMenuService.GetDropdownMenuItems();
+                        var currentPath = Context.Request.Path.ToString();
+
+                        // Function to check if any child (or grandchild) is active
+                        bool IsAnyChildActive(DropdownMenuItem menuItem)
+                        {
+                            if (menuItem.HasChildren)
+                            {
+                                foreach (var child in menuItem.Children)
+                                {
+                                    if (child.HasChildren)
+                                    {
+                                        foreach (var grandChild in child.Children)
+                                        {
+                                            if (currentPath.Equals(grandChild.Url, StringComparison.OrdinalIgnoreCase))
+                                                return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (currentPath.Equals(child.Url, StringComparison.OrdinalIgnoreCase))
+                                            return true;
+                                    }
+                                }
+                            }
+                            return false;
+                        }
                     }
                     @foreach (var dropdownMenuItem in dropdownMenuItems)
                     {
-                        <li class="nav-item dropdown">
+                        var isParentActive = IsAnyChildActive(dropdownMenuItem);
+                        <li class="nav-item dropdown @(isParentActive ? "active" : "")">
                             @if (dropdownMenuItem.HasChildren)
                             {
-                                <a class="nav-link dropdown-toggle" href="@dropdownMenuItem.Url"
+                                <a class="nav-link dropdown-toggle @(currentPath.Equals(dropdownMenuItem.Url, StringComparison.OrdinalIgnoreCase) || isParentActive ? "active" : "")"
+                                   href="@dropdownMenuItem.Url"
                                    id="dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))"
                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     @dropdownMenuItem.Title
@@ -113,14 +141,16 @@
                                         if (child.HasChildren)
                                         {
                                             <li class="dropdown-submenu">
-                                                <a class="dropdown-item dropdown-toggle" href="@child.Url">
+                                                <a class="dropdown-item dropdown-toggle @(currentPath.Equals(child.Url, StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                                                   href="@child.Url">
                                                     @child.Title
                                                 </a>
                                                 <ul class="dropdown-menu">
                                                     @foreach (var grandChild in child.Children)
                                                     {
                                                         <li>
-                                                            <a class="dropdown-item" href="@grandChild.Url">@grandChild.Title</a>
+                                                            <a class="dropdown-item @(currentPath.Equals(grandChild.Url, StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                                                               href="@grandChild.Url">@grandChild.Title</a>
                                                         </li>
                                                     }
                                                 </ul>
@@ -129,7 +159,8 @@
                                         else
                                         {
                                             <li>
-                                                <a class="dropdown-item" href="@child.Url">@child.Title</a>
+                                                <a class="dropdown-item @(currentPath.Equals(child.Url, StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                                                   href="@child.Url">@child.Title</a>
                                             </li>
                                         }
                                     }
@@ -137,7 +168,8 @@
                             }
                             else
                             {
-                                <a class="nav-link" href="@dropdownMenuItem.Url">@dropdownMenuItem.Title</a>
+                                <a class="nav-link @(currentPath.Equals(dropdownMenuItem.Url, StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                                   href="@dropdownMenuItem.Url">@dropdownMenuItem.Title</a>
                             }
                         </li>
                     }
@@ -146,8 +178,34 @@
         </div>
     </nav>    
     
-    
 </header>
+
+<style>
+    /* Top level nav items */
+    .navbar-nav .nav-link.active {
+        color: #fff !important;
+        background-color: #0d6efd;
+        font-weight: bold;
+    }
+
+    /* Dropdown menu items */
+    .dropdown-menu .dropdown-item.active {
+        background-color: #0d6efd;
+        color: white;
+    }
+
+    /* Active dropdown parent - optional additional styling */
+    .navbar-nav .nav-item.dropdown.active > .nav-link {
+        color: #fff !important;
+        background-color: #0d6efd;
+    }
+
+    /* If you want the entire dropdown to show as active */
+    .navbar-nav .nav-item.dropdown.active .dropdown-toggle::after {
+        border-top-color: #fff;
+        border-bottom-color: #fff;
+    }
+</style>
 
 <script nonce="@Context.GetNonce()">
     (() => {

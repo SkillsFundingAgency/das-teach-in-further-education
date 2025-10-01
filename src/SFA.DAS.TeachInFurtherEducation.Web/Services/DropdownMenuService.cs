@@ -1,8 +1,10 @@
 ﻿using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Services;
 
+[ExcludeFromCodeCoverage]
 public class DropdownMenuService
 {
     public List<DropdownMenuItem> GetDropdownMenuItems()
@@ -50,7 +52,7 @@ public class DropdownMenuService
                         Url = "/products/home-garden",
                         Children = new List<DropdownMenuItem>
                         {
-                            new DropdownMenuItem { Title = "Furniture", Url = "/products/home-garden/furniture" },
+                            new DropdownMenuItem { Title = "become a fe teacher", Url = "/become-a-fe-teacher" },
                             new DropdownMenuItem { Title = "Decor", Url = "/products/home-garden/decor" },
                             new DropdownMenuItem { Title = "Kitchen", Url = "/products/home-garden/kitchen" }
                         }
