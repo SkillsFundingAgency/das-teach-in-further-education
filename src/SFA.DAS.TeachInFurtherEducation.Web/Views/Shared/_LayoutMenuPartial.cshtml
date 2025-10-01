@@ -1,5 +1,9 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 @using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+@inject DropdownMenuService DropdownMenuService
+
+
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 
 @model (IEnumerable<MenuItem>?, bool?)
@@ -46,7 +50,7 @@
         </div>
     </div>
 
-    <nav class="dfe-header__navigation" id="header-navigation" role="navigation" aria-label="Primary navigation" aria-labelledby="label-navigation">
+@* <nav class="dfe-header__navigation" id="header-navigation" role="navigation" aria-label="Primary navigation" aria-labelledby="label-navigation">
         <div class="dfe-width-container">
             <p class="dfe-header__navigation-title">
                 <span id="label-navigation">Menu</span>
@@ -76,7 +80,73 @@
                 }
             </ul>
         </div>
-    </nav>
+    </nav>*@
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    @{
+                        var dropdownMenuItems = DropdownMenuService.GetDropdownMenuItems();
+                    }
+                    @foreach (var dropdownMenuItem in dropdownMenuItems)
+                    {
+                        <li class="nav-item dropdown">
+                            @if (dropdownMenuItem.HasChildren)
+                            {
+                                <a class="nav-link dropdown-toggle" href="@dropdownMenuItem.Url"
+                                   id="dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))"
+                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @dropdownMenuItem.Title
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))">
+                                    @foreach (var child in dropdownMenuItem.Children)
+                                    {
+                                        if (child.HasChildren)
+                                        {
+                                            <li class="dropdown-submenu">
+                                                <a class="dropdown-item dropdown-toggle" href="@child.Url">
+                                                    @child.Title
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    @foreach (var grandChild in child.Children)
+                                                    {
+                                                        <li>
+                                                            <a class="dropdown-item" href="@grandChild.Url">@grandChild.Title</a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a class="dropdown-item" href="@child.Url">@child.Title</a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <a class="nav-link" href="@dropdownMenuItem.Url">@dropdownMenuItem.Title</a>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>    
+    
+    
 </header>
 
 <script nonce="@Context.GetNonce()">

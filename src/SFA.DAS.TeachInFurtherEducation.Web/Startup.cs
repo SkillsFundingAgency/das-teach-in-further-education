@@ -155,6 +155,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             services.AddSingleton<IHttpClientWrapper, HttpClientWrapper>();
 
             services.AddScoped<IViewRenderService, ViewRenderService>();
+            services.AddScoped<DropdownMenuService>();
 
             services.AddSingleton<HtmlRenderer>(a => ContentService.CreateHtmlRenderer());
 
