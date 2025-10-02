@@ -9,99 +9,119 @@ public class DropdownMenuService
 {
     public List<DropdownMenuItem> GetDropdownMenuItems()
     {
-        return new List<DropdownMenuItem>
+return new List<DropdownMenuItem>
+{
+    new DropdownMenuItem
+    {
+        Title = "Home",
+        Url = "/"
+    },
+    new DropdownMenuItem
+    {
+        Title = "FAQs",
+        Url = "/faqs",
+        Children = new List<DropdownMenuItem>
         {
+            new DropdownMenuItem { Title = "Difference Between FE and Higher", Url = "/faqs/difference-between-fe-and-higher" },
+            new DropdownMenuItem { Title = "How to Apply", Url = "/faqs/how-to-apply" },
+            new DropdownMenuItem { Title = "What is FE", Url = "/faqs/what-is-fe" },
+            new DropdownMenuItem { Title = "What is FE Teaching?", Url = "/faqs/what-is-fe-teaching" }
+        }
+    },
+    new DropdownMenuItem
+    {
+        Title = "Jobs",
+        Url = "/jobs",
+        Children = new List<DropdownMenuItem>
+        {
+            new DropdownMenuItem { Title = "AOC", Url = "/jobs/aoc" },
             new DropdownMenuItem
             {
-                Title = "Home",
-                Url = "/"
-            },
-            new DropdownMenuItem
-            {
-                Title = "Products",
-                Url = "/products",
+                Title = "Course",
+                Url = "/jobs/course",
                 Children = new List<DropdownMenuItem>
                 {
-                    new DropdownMenuItem
-                    {
-                        Title = "Electronics",
-                        Url = "/products/electronics",
-                        Children = new List<DropdownMenuItem>
-                        {
-                            new DropdownMenuItem { Title = "Smartphones", Url = "/products/electronics/smartphones" },
-                            new DropdownMenuItem { Title = "Laptops", Url = "/products/electronics/laptops" },
-                            new DropdownMenuItem { Title = "Tablets", Url = "/products/electronics/tablets" },
-                            new DropdownMenuItem { Title = "Accessories", Url = "/products/electronics/accessories" }
-                        }
-                    },
-                    new DropdownMenuItem
-                    {
-                        Title = "Clothing",
-                        Url = "/products/clothing",
-                        Children = new List<DropdownMenuItem>
-                        {
-                            new DropdownMenuItem { Title = "Men", Url = "/products/clothing/men" },
-                            new DropdownMenuItem { Title = "Women", Url = "/products/clothing/women" },
-                            new DropdownMenuItem { Title = "Kids", Url = "/products/clothing/kids" },
-                            new DropdownMenuItem { Title = "Accessories", Url = "/products/clothing/accessories" }
-                        }
-                    },
-                    new DropdownMenuItem
-                    {
-                        Title = "Home & Garden",
-                        Url = "/products/home-garden",
-                        Children = new List<DropdownMenuItem>
-                        {
-                            new DropdownMenuItem { Title = "become a fe teacher", Url = "/become-a-fe-teacher" },
-                            new DropdownMenuItem { Title = "Decor", Url = "/products/home-garden/decor" },
-                            new DropdownMenuItem { Title = "Kitchen", Url = "/products/home-garden/kitchen" }
-                        }
-                    }
+                    new DropdownMenuItem { Title = "Engineering", Url = "/jobs/course/engineering" },
+                    new DropdownMenuItem { Title = "Health", Url = "/jobs/course/health" }
                 }
             },
+            new DropdownMenuItem { Title = "Location", Url = "/jobs/location" },
+            new DropdownMenuItem { Title = "Part-time Tutor", Url = "/jobs/tutor/part-time" }
+        }
+    },
+    new DropdownMenuItem
+    {
+        Title = "Talk to an Advisor",
+        Url = "/talk-to-an-advisor"
+    },
+    new DropdownMenuItem
+    {
+        Title = "Teaching",
+        Url = "/teaching",
+        Children = new List<DropdownMenuItem>
+        {
+            new DropdownMenuItem { Title = "Building a Career", Url = "/teaching/building-a-career" },
+            new DropdownMenuItem { Title = "Daily Life as an FE Teacher", Url = "/teaching/daily-life-as-an-fe-teacher" },
             new DropdownMenuItem
             {
-                Title = "Services",
-                Url = "/services",
+                Title = "Interview Preparation",
+                Url = "/teaching/interview-preparation",
                 Children = new List<DropdownMenuItem>
                 {
-                    new DropdownMenuItem
-                    {
-                        Title = "Consulting",
-                        Url = "/services/consulting",
-                        Children = new List<DropdownMenuItem>
-                        {
-                            new DropdownMenuItem { Title = "Business Strategy", Url = "/services/consulting/strategy" },
-                            new DropdownMenuItem { Title = "IT Consulting", Url = "/services/consulting/it" },
-                            new DropdownMenuItem { Title = "Marketing", Url = "/services/consulting/marketing" }
-                        }
-                    },
-                    new DropdownMenuItem
-                    {
-                        Title = "Support",
-                        Url = "/services/support",
-                        Children = new List<DropdownMenuItem>
-                        {
-                            new DropdownMenuItem { Title = "Technical Support", Url = "/services/support/technical" },
-                            new DropdownMenuItem { Title = "Customer Service", Url = "/services/support/customer" },
-                            new DropdownMenuItem { Title = "Training", Url = "/services/support/training" }
-                        }
-                    },
-                    new DropdownMenuItem { Title = "Maintenance", Url = "/services/maintenance" },
+                    new DropdownMenuItem { Title = "Step 1", Url = "/teaching/interview-preparation/step-1" },
+                    new DropdownMenuItem { Title = "Step 2", Url = "/teaching/interview-preparation/step-2" },
+                    new DropdownMenuItem { Title = "Step 3", Url = "/teaching/interview-preparation/step-3" },
+                    new DropdownMenuItem { Title = "Step 4", Url = "/teaching/interview-preparation/step-4" },
+                    new DropdownMenuItem { Title = "Step 5", Url = "/teaching/interview-preparation/step-5" }
                 }
             },
+            new DropdownMenuItem { Title = "Part-time Teaching", Url = "/teaching/part-time-teaching" },
+            new DropdownMenuItem { Title = "Salary", Url = "/teaching/salary" },
+            new DropdownMenuItem { Title = "Teaching Assistant", Url = "/teaching/teaching-assistant" },
+            new DropdownMenuItem { Title = "Teaching in Colleges", Url = "/teaching/teaching-in-colleges" },
             new DropdownMenuItem
             {
-                Title = "Company",
-                Url = "/company",
+                Title = "What Courses Can I Teach?",
+                Url = "/teaching/what-courses-can-i-teach",
                 Children = new List<DropdownMenuItem>
                 {
-                    new DropdownMenuItem { Title = "About Us", Url = "/company/about" },
-                    new DropdownMenuItem { Title = "Team", Url = "/company/team" },
-                    new DropdownMenuItem { Title = "Careers", Url = "/company/careers" },
-                    new DropdownMenuItem { Title = "Contact", Url = "/company/contact" }
+                    new DropdownMenuItem { Title = "Construction", Url = "/teaching/what-courses-can-i-teach/construction" },
+                    new DropdownMenuItem { Title = "Digital IT", Url = "/teaching/what-courses-can-i-teach/digital-IT" },
+                    new DropdownMenuItem { Title = "English", Url = "/teaching/what-courses-can-i-teach/english" },
+                    new DropdownMenuItem { Title = "Maths", Url = "/teaching/what-courses-can-i-teach/maths" }
                 }
             }
-        };
+        }
+    },
+    new DropdownMenuItem
+    {
+        Title = "Training",
+        Url = "/training",
+        Children = new List<DropdownMenuItem>
+        {
+            new DropdownMenuItem { Title = "Become an FE Teacher", Url = "/training/become-a-fe-teacher" },
+            new DropdownMenuItem { Title = "Best Courses", Url = "/training/best-courses" },
+            new DropdownMenuItem { Title = "Find Funding", Url = "/training/find-funding" },
+            new DropdownMenuItem
+            {
+                Title = "Qualifications",
+                Url = "/training/qualifications",
+                Children = new List<DropdownMenuItem>
+                {
+                    new DropdownMenuItem
+                    {
+                        Title = "What Courses are Available?",
+                        Url = "/training/qualifications/what-courses-are-available",
+                        Children = new List<DropdownMenuItem>
+                        {
+                            new DropdownMenuItem { Title = "PGCE", Url = "/training/qualifications/what-courses-are-available/pgce" }
+                        }
+                    },
+                    new DropdownMenuItem { Title = "How to get Qualified", Url = "/training/qualifications/whats-required-to-become-certified" }
+                }
+            }
+        }
+    }
+};
     }
 }

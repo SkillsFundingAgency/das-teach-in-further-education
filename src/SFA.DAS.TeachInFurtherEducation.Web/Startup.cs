@@ -248,29 +248,46 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             app.UseRouting();
             app.UseAuthorization();
             app.UseHealthCheckEndPoint();
+            
             app.UseEndpoints(endpoints =>
             {
-                MapControllerRoute(endpoints,
-                     "landing",
-                    "/{pageUrl=home}",
-                    "Landing", "Landing");
-
                 // Preview Route
                 MapControllerRoute(endpoints,
                     "page-preview",
-                    "preview/{pageUrl=home}",
-                    "Landing", "PagePreview");
+                    "preview/{**pageUrl}",
+                    "Landing", "PagePreview",
+                    new { pageUrl = "home" }); // Provide defaults object
+
+                // Catch-all route
+                MapControllerRoute(endpoints,
+                    "landing-catch-all",
+                    "{**pageUrl}",
+                    "Landing", "Landing",
+                    new { pageUrl = "home" }); // Provide defaults object
 
                 endpoints.MapControllers();
             });
+
+            
         }
 
-        /// <remarks>
-        /// Work around the over enthusiastic duplicate code quality gate in SonarCloud
-        /// </remarks>
-        private static void MapControllerRoute(IEndpointRouteBuilder builder, string name, string pattern, string controller, string action)
+
+
+// Overload with defaults
+        private static void MapControllerRoute(IEndpointRouteBuilder builder, string name, string pattern, string controller, string action, object defaults)
         {
-            builder.MapControllerRoute(name, pattern, new { controller, action });
+            var routeDefaults = new RouteValueDictionary { 
+                ["controller"] = controller, 
+                ["action"] = action 
+            };
+
+            var additionalDefaults = new RouteValueDictionary(defaults);
+            foreach (var kvp in additionalDefaults)
+            {
+                routeDefaults[kvp.Key] = kvp.Value;
+            }
+
+            builder.MapControllerRoute(name, pattern, routeDefaults);
         }
     }
 }
