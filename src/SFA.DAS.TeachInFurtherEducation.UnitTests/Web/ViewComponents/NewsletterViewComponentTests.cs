@@ -158,11 +158,18 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             var result = await _viewComponent.InvokeAsync(_newsLetterContent) as ViewViewComponentResult;
 
             Assert.NotNull(result);
+    
+            // Add null checks for ViewData and ModelState
+            Assert.NotNull(result.ViewData);
+    
             var model = Assert.IsType<NewsLetterViewModel>(result.ViewData.Model);
             Assert.False(model.IsSubmitted);
             Assert.Null(model.SuccessMessage);
             Assert.Null(model.ErrorMessage);
 
+            // Add null check for ModelState
+            Assert.NotNull(_viewComponent.ViewComponentContext.ViewData.ModelState);
+    
             var modelState = _viewComponent.ViewComponentContext.ViewData.ModelState;
             Assert.False(modelState.IsValid);
             Assert.True(modelState.ContainsKey("EmailAddress")); // Check for email address error
