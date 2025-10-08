@@ -1,5 +1,9 @@
 ﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 @using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+@inject DropdownMenuService DropdownMenuService
+
+
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 
 @model (IEnumerable<MenuItem>?, bool?)
@@ -45,114 +49,104 @@
             </div>
         </div>
     </div>
-
-    <nav class="dfe-header__navigation" id="header-navigation" role="navigation" aria-label="Primary navigation" aria-labelledby="label-navigation">
-        <div class="dfe-width-container">
-            <p class="dfe-header__navigation-title">
+    <nav class="navbar" id="header-navigation"  aria-label="Primary navigation">
+        <div class="navbar__container">
+            <p class="navbar__title">
                 <span id="label-navigation">Menu</span>
-                <button class="dfe-header__navigation-close" id="close-menu">
+                <button class="navbar__close" id="close-menu">
                     <svg class="dfe-icon dfe-icon__close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
                         <path d="M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"></path>
                     </svg>
                     <span class="govuk-visually-hidden">Close menu</span>
                 </button>
             </p>
-            <ul class="dfe-header__navigation-list">
-                @if (Model.Item1 != null && Model.Item1.Any())
-                {
-                    var secondaryMenuItems = Model.Item1.Where(x => !x.TopLevelMenuItem);
-                    foreach (var item in secondaryMenuItems)
+
+            <div id="navbarNavDropdown">
+                <ul class="navbar__nav">
+                    @{
+                        var dropdownMenuItems = DropdownMenuService.GetDropdownMenuItems();
+                        var currentPath = Context.Request.Path.ToString();
+
+                        // Function to check if any child (or grandchild) is active
+                        bool IsAnyChildActive(DropdownMenuItem menuItem)
+                        {
+                            if (menuItem.HasChildren)
+                            {
+                                foreach (var child in menuItem.Children)
+                                {
+                                    if (child.HasChildren)
+                                    {
+                                        foreach (var grandChild in child.Children)
+                                        {
+                                            if (currentPath.Equals(grandChild.Url, StringComparison.OrdinalIgnoreCase))
+                                                return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (currentPath.Equals(child.Url, StringComparison.OrdinalIgnoreCase))
+                                            return true;
+                                    }
+                                }
+                            }
+
+                            return false;
+                        }
+                    }
+                    @foreach (var dropdownMenuItem in dropdownMenuItems)
                     {
-                        var activeClass = item.IsCurrentPage ? "dfe-header__navigation-item--current" : "";
-                        <li class="dfe-header__navigation-item @activeClass">
-                            <a class="dfe-header__navigation-link" href="@(Model.Item2.HasValue && Model.Item2.Value ? $"/preview{item.MenuItemSource}" : item.MenuItemSource)">
-                                @item.MenuItemText
-                                <svg class="dfe-icon dfe-icon__chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="34" height="34">
-                                    <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path>
-                                </svg>
-                            </a>
+                        var isParentActive = IsAnyChildActive(dropdownMenuItem);
+                        <li class="navbar__nav-item navbar__nav-item-dropdown @(isParentActive ? "navbar__nav-item--active" : "")">
+                            @if (dropdownMenuItem.HasChildren)
+                            {
+                                <a class="navbar__link navbar__link--has-children @(currentPath.Equals(dropdownMenuItem.Url, StringComparison.OrdinalIgnoreCase) || isParentActive ? "navbar__link--active" : "")"
+                                   href="@dropdownMenuItem.Url"
+                                   id="dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))"
+                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @dropdownMenuItem.Title
+                                </a>
+                                <ul class="navbar__dropdown" aria-labelledby="dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))">
+                                    @foreach (var child in dropdownMenuItem.Children)
+                                    {
+                                        if (child.HasChildren)
+                                        {
+                                            <li class="navbar__dropdown-item navbar__dropdown-item--has-children">
+                                                <a class="navbar__dropdown-link @(currentPath.Equals(child.Url, StringComparison.OrdinalIgnoreCase) ? "navbar__dropdown-link--active" : "")"
+                                                   href="@child.Url">
+                                                    @child.Title
+                                                </a>
+                                                <ul class="navbar__dropdown-submenu">
+                                                    @foreach (var grandChild in child.Children)
+                                                    {
+                                                        <li class="navbar__dropdown-submenu-item">
+                                                            <a class="navbar__dropdown-submenu-link @(currentPath.Equals(grandChild.Url, StringComparison.OrdinalIgnoreCase) ? "navbar__dropdown-submenu-link--active" : "")"
+                                                               href="@grandChild.Url">@grandChild.Title</a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="navbar__dropdown-item">
+                                                <a class="navbar__dropdown-link @(currentPath.Equals(child.Url, StringComparison.OrdinalIgnoreCase) ? "navbar__dropdown-link--active" : "")"
+                                                   href="@child.Url">@child.Title</a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <a class="navbar__link @(currentPath.Equals(dropdownMenuItem.Url, StringComparison.OrdinalIgnoreCase) ? "navbar__link--active" : "")"
+                                   href="@dropdownMenuItem.Url">@dropdownMenuItem.Title</a>
+                            }
                         </li>
                     }
-                }
-            </ul>
+                </ul>
+            </div>
         </div>
-    </nav>
+    </nav>    
+    
 </header>
 
-<script nonce="@Context.GetNonce()">
-    (() => {
-        var o = {
-            621: () => {
-                NodeList.prototype.forEach || (NodeList.prototype.forEach = Array.prototype.forEach),
-                    Array.prototype.includes || Object.defineProperty(Array.prototype, "includes", {
-                        enumerable: !1,
-                        value: function (t) {
-                            return 0 < this.filter(function (e) {
-                                return e === t
-                            }).length
-                        }
-                    }),
-                    Element.prototype.matches || (Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector),
-                    Element.prototype.closest || (Element.prototype.closest = function (e) {
-                        var t = this;
-                        do {
-                            if (Element.prototype.matches.call(t, e))
-                                return t
-                        } while (null !== (t = t.parentElement || t.parentNode) && 1 === t.nodeType);
-                        return null
-                    }
-                    )
-            }
-        }
-            , r = {};
-        function n(e) {
-            var t = r[e];
-            return void 0 !== t || (t = r[e] = {
-                exports: {}
-            },
-                o[e](t, t.exports, n)),
-                t.exports
-        }
-        (() => {
-            "use strict";
-            function l(e, t) {
-                var o;
-                e && t && (o = "true" === e.getAttribute(t) ? "false" : "true",
-                    e.setAttribute(t, o))
-            }
-            n(621),
-                document.addEventListener("DOMContentLoaded", function () {
-                    var t, o, r, n, e, c, s;
-                    function a(e) {
-                        e.preventDefault(),
-                            l(n, "aria-expanded"),
-                            n.classList.toggle("is-active"),
-                            c.classList.toggle("js-show"),
-                            s.classList.toggle("js-show")
-                    }
-                    t = document.querySelector("#toggle-menu"),
-                        e = document.querySelector("#close-menu"),
-                        o = document.querySelector("#header-navigation"),
-                        r = function (e) {
-                            e.preventDefault(),
-                                l(t, "aria-expanded"),
-                                t.classList.toggle("is-active"),
-                                o.classList.toggle("js-show")
-                        }
-                        ,
-                        t && e && o && [t, e].forEach(function (e) {
-                            e.addEventListener("click", r)
-                        }),
-                        n = document.querySelector("#toggle-search"),
-                        e = document.querySelector("#close-search"),
-                        c = document.querySelector("#wrap-search"),
-                        s = document.querySelector("#content-header"),
-                        n && e && [n, e].forEach(function (e) {
-                            e.addEventListener("click", a)
-                        })
-                })
-        }
-        )()
-    }
-    )();
-</script>
