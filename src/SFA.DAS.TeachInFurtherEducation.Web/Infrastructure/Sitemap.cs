@@ -42,12 +42,12 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
 
             var content = _contentService.Content;
             
+            // Use PageUrl field instead of Url field
             nodes.AddRange(content.Pagess.Select(x => new SitemapNode
             {
                 Priority = 1.0,
                 Frequency = SitemapFrequency.Weekly,
-                Url = new Uri(baseUri, string.Concat("", x.Url.StartsWith('/') ? x.Url : $"/{x.Url}"))
-                            .AbsoluteUri
+                Url = new Uri(baseUri, GetPageUrl(x.PageUrl)).AbsoluteUri
             }));
             
             foreach (var n in nodes)  {
@@ -59,6 +59,20 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
                 home.Url = home.Url.Replace("home", "");
 
             new SitemapDocument().CreateSitemapXML(nodes, _webHostEnvironment.ContentRootPath);
+        }
+
+        private string GetPageUrl(string pageUrl)
+        {
+            if (string.IsNullOrEmpty(pageUrl))
+                return string.Empty;
+
+            // Ensure the URL starts with a slash and doesn't have duplicate slashes
+            var formattedUrl = pageUrl.StartsWith('/') ? pageUrl : $"/{pageUrl}";
+            
+            // Remove any trailing slashes
+            formattedUrl = formattedUrl.TrimEnd('/');
+            
+            return formattedUrl;
         }
     }
 }
