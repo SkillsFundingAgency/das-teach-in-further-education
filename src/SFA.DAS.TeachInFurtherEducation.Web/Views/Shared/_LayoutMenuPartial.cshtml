@@ -102,7 +102,10 @@
                                 <a class="navbar__link navbar__link--has-children @(currentPath.Equals(dropdownMenuItem.Url, StringComparison.OrdinalIgnoreCase) || isParentActive ? "navbar__link--active" : "")"
                                    href="@dropdownMenuItem.Url"
                                    id="dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))"
-                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                   role="button" 
+                                   data-bs-toggle="dropdown" 
+                                   aria-expanded="false"
+                                   onkeydown="handleDropdownKeydown(event, 'dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))')">
                                     @dropdownMenuItem.Title
                                 </a>
                                 <ul class="navbar__dropdown" aria-labelledby="dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))">
