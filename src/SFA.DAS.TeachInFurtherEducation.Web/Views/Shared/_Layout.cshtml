@@ -8,6 +8,7 @@
 @model LayoutModel
 @{
     string pageRoute = Model == null ? string.Empty : (Model.Preview.IsPreview ? "page-preview" : "page");
+    bool newMenu = true;
 }
 
 <!DOCTYPE html>
@@ -86,9 +87,16 @@
     <a id="layout-main-content-link" href="#main-content" class="govuk-skip-link">Skip to main content</a>
 
     @await Html.PartialAsync("_CookieConsentPartial", Model?.footerLinks)
-
-    @await Html.PartialAsync("_LayoutMenuPartial", (Model?.MenuItems, Model?.Preview.IsPreview))
-
+    
+    @if (newMenu)
+    {
+        @await Html.PartialAsync("_LayoutMenuPartial", (Model?.MenuItems, Model?.Preview.IsPreview))
+    }
+    else
+    {
+        @await Html.PartialAsync("_LayoutMenuPartialOriginal", (Model?.MenuItems, Model?.Preview.IsPreview))
+    }
+    
     @RenderSection("PreviewErrors", required: false)
 
     <main class="govuk-main-wrapper govuk-!-padding-top-0 govuk-!-padding-bottom-0" id="main-content">
