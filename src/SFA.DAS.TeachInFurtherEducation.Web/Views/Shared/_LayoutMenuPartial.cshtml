@@ -1,4 +1,6 @@
-﻿@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
 @using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
 @inject DropdownMenuService DropdownMenuService
@@ -11,7 +13,7 @@
     var homeMenu = Model.Item1!.FirstOrDefault(x=> !x.TopLevelMenuItem 
                                                && x.MenuItemText.Equals(RouteNames.Home, StringComparison.CurrentCultureIgnoreCase));
     var homeLink = homeMenu?.MenuItemSource;
-    bool newMenu = true;
+    bool newMenu = Configuration.GetValue<bool>("FeatureFlags:NewMenuEnabled", false);
 }
 <nav aria-label="top-menu" class="dfe-topnav fe-dfe-topnav" name="Other services navigation">
     <div class="govuk-width-container">
