@@ -13,7 +13,7 @@
     var homeMenu = Model.Item1!.FirstOrDefault(x=> !x.TopLevelMenuItem 
                                                && x.MenuItemText.Equals(RouteNames.Home, StringComparison.CurrentCultureIgnoreCase));
     var homeLink = homeMenu?.MenuItemSource;
-    bool newMenu = Configuration.GetValue<bool>("FeatureFlags:NewMenuEnabled", true);
+    bool newMenu = Configuration.GetValue<bool>("FeatureFlags:NewMenuEnabled", false);
 }
 <nav aria-label="top-menu" class="dfe-topnav fe-dfe-topnav" name="Other services navigation">
     <div class="govuk-width-container">
