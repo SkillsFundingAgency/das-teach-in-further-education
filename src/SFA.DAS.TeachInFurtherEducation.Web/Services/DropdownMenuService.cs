@@ -11,62 +11,62 @@ public class DropdownMenuService
     {
         return new List<DropdownMenuItem>
         {
-            CreateMenuItem("Home", "/"),
+            CreateMenuItem("Homepage", "/"),
             CreateMenuItem("FAQs", "/faqs", new List<DropdownMenuItem>
             {
-                CreateMenuItem("Difference Between FE and Higher", "/faqs/difference-between-fe-and-higher"),
-                CreateMenuItem("How to Apply", "/faqs/how-to-apply"),
-                CreateMenuItem("What is FE", "/faqs/what-is-fe"),
-                CreateMenuItem("What is FE Teaching?", "/faqs/what-is-fe-teaching")
+                CreateMenuItem("The difference between FE and higher education", "/faqs/difference-between-fe-and-higher"),
+                CreateMenuItem("How to apply for an FE teaching role", "/faqs/how-to-apply"),
+                CreateMenuItem("What is further education?", "/faqs/what-is-fe"),
+                CreateMenuItem("FE Teacher Training", "/faqs/what-is-fe-teaching")
             }),
-            CreateMenuItem("Jobs", "/jobs", new List<DropdownMenuItem>
+            CreateMenuItem("Jobs in FE", "/jobs", new List<DropdownMenuItem>
             {
-                CreateMenuItem("AOC", "/jobs/aoc"),
-                CreateMenuItem("Course", "/jobs/course", new List<DropdownMenuItem>
+                CreateMenuItem("AoC", "/jobs/aoc"),
+                CreateMenuItem("Jobs by course", "/jobs/course", new List<DropdownMenuItem>
                 {
                     CreateMenuItem("Engineering", "/jobs/course/engineering"),
-                    CreateMenuItem("Health", "/jobs/course/health")
+                    CreateMenuItem("Health and life sciences", "/jobs/course/health")
                 }),
-                CreateMenuItem("Location", "/jobs/location"),
-                CreateMenuItem("Part-time Tutor", "/jobs/tutor/part-time")
+                CreateMenuItem("Jobs by location", "/jobs/location"),
+                CreateMenuItem("Tutor/Part Time Jobs", "/jobs/tutor/part-time")
             }),
-            CreateMenuItem("Talk to an Advisor", "/talk-to-an-advisor"),
+            CreateMenuItem("Talk to an advisor", "/talk-to-an-advisor"),
             CreateMenuItem("Teaching", "/teaching", new List<DropdownMenuItem>
             {
-                CreateMenuItem("Building a Career", "/teaching/building-a-career"),
-                CreateMenuItem("Daily Life as an FE Teacher", "/teaching/daily-life-as-an-fe-teacher"),
+                CreateMenuItem("Building a career", "/teaching/building-a-career"),
+                CreateMenuItem("Daily life", "/teaching/daily-life-as-an-fe-teacher"),
                 CreateMenuItem("Interview Preparation", "/teaching/interview-preparation", new List<DropdownMenuItem>
                 {
-                    CreateMenuItem("Step 1", "/teaching/interview-preparation/step-1"),
-                    CreateMenuItem("Step 2", "/teaching/interview-preparation/step-2"),
-                    CreateMenuItem("Step 3", "/teaching/interview-preparation/step-3"),
-                    CreateMenuItem("Step 4", "/teaching/interview-preparation/step-4"),
-                    CreateMenuItem("Step 5", "/teaching/interview-preparation/step-5")
+                    CreateMenuItem("Step 1: Thinking about what you want from a teaching role", "/teaching/interview-preparation/step-1"),
+                    CreateMenuItem("Step 2: Write an updated CV", "/teaching/interview-preparation/step-2"),
+                    CreateMenuItem("Step 3: Start your job search", "/teaching/interview-preparation/step-3"),
+                    CreateMenuItem("Step 4: How to prepare for an interview", "/teaching/interview-preparation/step-4"),
+                    CreateMenuItem("Step 5: After the interview", "/teaching/interview-preparation/step-5")
                 }),
-                CreateMenuItem("Part-time Teaching", "/teaching/part-time-teaching"),
+                CreateMenuItem("Working part time", "/teaching/part-time-teaching"),
                 CreateMenuItem("Salary", "/teaching/salary"),
-                CreateMenuItem("Teaching Assistant", "/teaching/teaching-assistant"),
-                CreateMenuItem("Teaching in Colleges", "/teaching/teaching-in-colleges"),
-                CreateMenuItem("What Courses Can I Teach?", "/teaching/what-courses-can-i-teach", new List<DropdownMenuItem>
+                CreateMenuItem("FE teaching assistants", "/teaching/teaching-assistant"),
+                CreateMenuItem("Teaching in colleges", "/teaching/teaching-in-colleges"),
+                CreateMenuItem("What subjects could I teach?", "/teaching/what-courses-can-i-teach", new List<DropdownMenuItem>
                 {
                     CreateMenuItem("Construction", "/teaching/what-courses-can-i-teach/construction"),
-                    CreateMenuItem("Digital IT", "/teaching/what-courses-can-i-teach/digital-IT"),
-                    CreateMenuItem("English", "/teaching/what-courses-can-i-teach/english"),
-                    CreateMenuItem("Maths", "/teaching/what-courses-can-i-teach/maths")
+                    CreateMenuItem("Digital", "/teaching/what-courses-can-i-teach/digital-IT"),
+                    CreateMenuItem("Maths", "/teaching/what-courses-can-i-teach/maths"),
+                    CreateMenuItem("English", "/teaching/what-courses-can-i-teach/english")
                 })
             }),
             CreateMenuItem("Training", "/training", new List<DropdownMenuItem>
             {
-                CreateMenuItem("Become an FE Teacher", "/training/become-a-fe-teacher"),
-                CreateMenuItem("Best Courses", "/training/best-courses"),
-                CreateMenuItem("Find Funding", "/training/find-funding"),
+                CreateMenuItem("How to become an FE teacher", "/training/become-a-fe-teacher"),
+                CreateMenuItem("Best courses for me/if you want to apply to be a teacher", "/training/best-courses"),
+                CreateMenuItem("Find funding", "/training/find-funding"),
                 CreateMenuItem("Qualifications", "/training/qualifications", new List<DropdownMenuItem>
                 {
-                    CreateMenuItem("What Courses are Available?", "/training/qualifications/what-courses-are-available", new List<DropdownMenuItem>
+                    CreateMenuItem("Level 3 to 8", "/training/qualifications/what-courses-are-available", new List<DropdownMenuItem>
                     {
                         CreateMenuItem("PGCE", "/training/qualifications/what-courses-are-available/pgce")
                     }),
-                    CreateMenuItem("How to get Qualified", "/training/qualifications/whats-required-to-become-certified")
+                    CreateMenuItem("How to get qualified", "/training/qualifications/whats-required-to-become-certified")
                 })
             })
         };

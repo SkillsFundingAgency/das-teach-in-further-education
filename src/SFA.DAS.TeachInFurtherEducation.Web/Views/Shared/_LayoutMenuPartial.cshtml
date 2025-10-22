@@ -13,7 +13,7 @@
     var homeMenu = Model.Item1!.FirstOrDefault(x=> !x.TopLevelMenuItem 
                                                && x.MenuItemText.Equals(RouteNames.Home, StringComparison.CurrentCultureIgnoreCase));
     var homeLink = homeMenu?.MenuItemSource;
-    bool newMenu = Configuration.GetValue<bool>("FeatureFlags:NewMenuEnabled", false);
+    bool newMenu = Configuration.GetValue<bool>("FeatureFlags:NewMenuEnabled", true);
 }
 <nav aria-label="top-menu" class="dfe-topnav fe-dfe-topnav" name="Other services navigation">
     <div class="govuk-width-container">
@@ -73,84 +73,117 @@
                             var dropdownMenuItems = DropdownMenuService.GetDropdownMenuItems();
                             var currentPath = Context.Request.Path.ToString();
 
-                            // Function to check if any child (or grandchild) is active
+                            // Recursive function to check if any child (at any depth) is active
                             bool IsAnyChildActive(DropdownMenuItem menuItem)
                             {
+                                if (currentPath.Equals(menuItem.Url, StringComparison.OrdinalIgnoreCase))
+                                    return true;
+
                                 if (menuItem.HasChildren)
                                 {
                                     foreach (var child in menuItem.Children)
                                     {
-                                        if (child.HasChildren)
-                                        {
-                                            foreach (var grandChild in child.Children)
-                                            {
-                                                if (currentPath.Equals(grandChild.Url, StringComparison.OrdinalIgnoreCase))
-                                                    return true;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (currentPath.Equals(child.Url, StringComparison.OrdinalIgnoreCase))
-                                                return true;
-                                        }
+                                        if (IsAnyChildActive(child))
+                                            return true;
                                     }
                                 }
 
                                 return false;
                             }
-                        }
-                        @foreach (var dropdownMenuItem in dropdownMenuItems)
-                        {
-                            var isParentActive = IsAnyChildActive(dropdownMenuItem);
-                            <li class="navbar__nav-item navbar__nav-item-dropdown @(isParentActive ? "navbar__nav-item--active" : "")">
-                                @if (dropdownMenuItem.HasChildren)
+
+                            // Recursive function to render menu items at any depth
+                            void RenderMenuItem(DropdownMenuItem menuItem, int level)
+                            {
+                                var isActive = currentPath.Equals(menuItem.Url, StringComparison.OrdinalIgnoreCase);
+                                var hasChildren = menuItem.HasChildren;
+                                var isParentActive = hasChildren && IsAnyChildActive(menuItem);
+
+                                if (level == 0)
                                 {
-                                    <a class="navbar__link navbar__link--has-children @(currentPath.Equals(dropdownMenuItem.Url, StringComparison.OrdinalIgnoreCase) || isParentActive ? "navbar__link--active" : "")"
-                                       href="@dropdownMenuItem.Url"
-                                       id="dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))"
-                                       role="button"
-                                       data-bs-toggle="dropdown"
-                                       aria-expanded="false"
-                                       onkeydown="handleDropdownKeydown(event, 'dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))')">
-                                        @dropdownMenuItem.Title
-                                    </a>
-                                    <ul class="navbar__dropdown" aria-labelledby="dropdown@(dropdownMenuItem.Title?.Replace(" ", ""))">
-                                        @foreach (var child in dropdownMenuItem.Children)
+                                    // Top level menu items
+                                    <li class="navbar__nav-item navbar__nav-item-dropdown @(isParentActive ? "navbar__nav-item--active" : "")">
+                                        @if (hasChildren)
                                         {
-                                            if (child.HasChildren)
-                                            {
-                                                <li class="navbar__dropdown-item navbar__dropdown-item--has-children">
-                                                    <a class="navbar__dropdown-link @(currentPath.Equals(child.Url, StringComparison.OrdinalIgnoreCase) ? "navbar__dropdown-link--active" : "")"
-                                                       href="@child.Url">
-                                                        @child.Title
-                                                    </a>
-                                                    <ul class="navbar__dropdown-submenu">
-                                                        @foreach (var grandChild in child.Children)
-                                                        {
-                                                            <li class="navbar__dropdown-submenu-item">
-                                                                <a class="navbar__dropdown-submenu-link @(currentPath.Equals(grandChild.Url, StringComparison.OrdinalIgnoreCase) ? "navbar__dropdown-submenu-link--active" : "")"
-                                                                   href="@grandChild.Url">@grandChild.Title</a>
-                                                            </li>
-                                                        }
-                                                    </ul>
-                                                </li>
-                                            }
-                                            else
-                                            {
-                                                <li class="navbar__dropdown-item">
-                                                    <a class="navbar__dropdown-link @(currentPath.Equals(child.Url, StringComparison.OrdinalIgnoreCase) ? "navbar__dropdown-link--active" : "")"
-                                                       href="@child.Url">@child.Title</a>
-                                                </li>
-                                            }
+                                            <a class="navbar__link navbar__link--has-children @(isActive || isParentActive ? "navbar__link--active" : "")"
+                                               href="@menuItem.Url"
+                                               id="dropdown@(menuItem.Title?.Replace(" ", ""))"
+                                               role="button"
+                                               data-bs-toggle="dropdown"
+                                               aria-expanded="false"
+                                               onkeydown="handleDropdownKeydown(event, 'dropdown@(menuItem.Title?.Replace(" ", ""))')">
+                                                @menuItem.Title
+                                            </a>
+                                            <ul class="navbar__dropdown" aria-labelledby="dropdown@(menuItem.Title?.Replace(" ", ""))">
+                                                @foreach (var child in menuItem.Children)
+                                                {
+                                                    RenderMenuItem(child, level + 1);
+                                                }
+                                            </ul>
                                         }
-                                    </ul>
+                                        else
+                                        {
+                                            <a class="navbar__link @(isActive ? "navbar__link--active" : "")"
+                                               href="@menuItem.Url">@menuItem.Title</a>
+                                        }
+                                    </li>
+                                }
+                                else if (level == 1)
+                                {
+                                    // Second level dropdown items
+                                    if (hasChildren)
+                                    {
+                                        <li class="navbar__dropdown-item navbar__dropdown-item--has-children">
+                                            <a class="navbar__dropdown-link @(isActive || isParentActive ? "navbar__dropdown-link--active" : "")"
+                                               href="@menuItem.Url">
+                                                @menuItem.Title
+                                            </a>
+                                            <ul class="navbar__dropdown-submenu">
+                                                @foreach (var child in menuItem.Children)
+                                                {
+                                                    RenderMenuItem(child, level + 1);
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="navbar__dropdown-item">
+                                            <a class="navbar__dropdown-link @(isActive ? "navbar__dropdown-link--active" : "")"
+                                               href="@menuItem.Url">@menuItem.Title</a>
+                                        </li>
+                                    }
                                 }
                                 else
                                 {
-                                    <a class="navbar__link @(currentPath.Equals(dropdownMenuItem.Url, StringComparison.OrdinalIgnoreCase) ? "navbar__link--active" : "")"
-                                       href="@dropdownMenuItem.Url">@dropdownMenuItem.Title</a>
+                                    // Third level and beyond - all use submenu structure
+                                    if (hasChildren)
+                                    {
+                                        <li class="navbar__dropdown-submenu-item navbar__dropdown-submenu-item--has-children">
+                                            <a class="navbar__dropdown-submenu-link @(isActive || isParentActive ? "navbar__dropdown-submenu-link--active" : "")"
+                                               href="@menuItem.Url">
+                                                @menuItem.Title
+                                            </a>
+                                            <ul class="navbar__dropdown-submenu">
+                                                @foreach (var child in menuItem.Children)
+                                                {
+                                                    RenderMenuItem(child, level + 1);
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="navbar__dropdown-submenu-item">
+                                            <a class="navbar__dropdown-submenu-link @(isActive ? "navbar__dropdown-submenu-link--active" : "")"
+                                               href="@menuItem.Url">@menuItem.Title</a>
+                                        </li>
+                                    }
                                 }
-                            </li>
+                            }
+                        }
+                        @foreach (var dropdownMenuItem in dropdownMenuItems)
+                        {
+                            RenderMenuItem(dropdownMenuItem, 0);
                         }
                     </ul>
                 </div>
