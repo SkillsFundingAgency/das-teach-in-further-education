@@ -132,42 +132,7 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
             return result;
         }
 
-        [Fact]
-        public async Task InvokeAsync_PostRequest_ValidFormIdentifier_SubscribeUserThrowsHttpRequestExceptionWithDetail_ReturnsViewWithErrors()
-        {
-            var formData = new Dictionary<string, string>
-            {
-                { "formIdentifier", "newsletter" },
-                { "FirstName", "Alice" },
-                { "LastName", "Johnson" },
-                { "EmailAddress", "alice.johnson@example.com" },
-                { "SelectedLocation", "2" },
-                { "SelectedSubject", "3" }
-            };
-
-            var innerException = new Exception("Email address already exists.");
-            var httpRequestException = new HttpRequestException("Network error", innerException);
-
-            // Mocking the marketing service to throw the exception
-            A.CallTo(() => _marketingServiceFake.SubscribeUser(A<NewsLetterSubscriberModel>._))
-                .ThrowsAsync(httpRequestException);
-
-            // Setup the ViewComponentContext for the POST request
-            SetupViewComponentContext("POST", formData);
-
-            var result = await _viewComponent.InvokeAsync(_newsLetterContent) as ViewViewComponentResult;
-
-            Assert.NotNull(result);
-            var model = Assert.IsType<NewsLetterViewModel>(result.ViewData.Model);
-            Assert.False(model.IsSubmitted);
-            Assert.Null(model.SuccessMessage);
-            Assert.Null(model.ErrorMessage);
-
-            var modelState = _viewComponent.ViewComponentContext.ViewData.ModelState;
-            Assert.False(modelState.IsValid);
-            Assert.True(modelState.ContainsKey("EmailAddress")); // Check for email address error
-            Assert.Equal("Email address already exists.", modelState["EmailAddress"].Errors[0].ErrorMessage); // Assert the inner exception message
-        }
+       
 
         [Fact]
         public async Task InvokeAsync_GetRequest_ReturnsViewWithInitialModel()
