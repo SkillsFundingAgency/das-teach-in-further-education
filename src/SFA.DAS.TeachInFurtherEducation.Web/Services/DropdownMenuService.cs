@@ -60,14 +60,12 @@ public class DropdownMenuService
                 CreateMenuItem("How to become an FE teacher", "/training/become-a-fe-teacher"),
                 CreateMenuItem("Best courses for me/if you want to apply to be a teacher", "/training/best-courses"),
                 CreateMenuItem("Find funding", "/training/find-funding"),
-                CreateMenuItem("Qualifications", "/training/qualifications", new List<DropdownMenuItem>
+                CreateMenuItem("Qualifications", "/training/qualifications"),
+                CreateMenuItem("What Courses are Available?", "/training/qualifications/what-courses-are-available", new List<DropdownMenuItem>
                 {
-                    CreateMenuItem("Level 3 to 8", "/training/qualifications/what-courses-are-available", new List<DropdownMenuItem>
-                    {
-                        CreateMenuItem("PGCE", "/training/qualifications/what-courses-are-available/pgce")
-                    }),
-                    CreateMenuItem("How to get qualified", "/training/qualifications/whats-required-to-become-certified")
-                })
+                    CreateMenuItem("PGCE", "/training/qualifications/what-courses-are-available/pgce")
+                }),
+                CreateMenuItem("How to get qualified", "/training/qualifications/whats-required-to-become-certified")
             })
         };
     }
