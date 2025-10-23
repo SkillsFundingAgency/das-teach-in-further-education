@@ -61,9 +61,9 @@ public class DropdownMenuService
                 CreateMenuItem("Best courses for me/if you want to apply to be a teacher", "/training/best-courses"),
                 CreateMenuItem("Find funding", "/training/find-funding"),
                 CreateMenuItem("Qualifications", "/training/qualifications"),
-                CreateMenuItem("What Courses are Available?", "/training/qualifications/what-courses-are-available", new List<DropdownMenuItem>
+                CreateMenuItem("What Courses are Available?", "/training/what-courses-are-available", new List<DropdownMenuItem>
                 {
-                    CreateMenuItem("PGCE", "/training/qualifications/what-courses-are-available/pgce")
+                    CreateMenuItem("PGCE", "/training/what-courses-are-available/pgce")
                 }),
                 CreateMenuItem("How to get qualified", "/training/qualifications/whats-required-to-become-certified")
             })
