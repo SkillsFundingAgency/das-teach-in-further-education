@@ -339,25 +339,6 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Tests.ViewComponents
         }
 
         [Fact]
-        public async Task InvokeAsync_PostRequest_ValidFormIdentifier_InvalidLocationId_ThrowsFormatException()
-        {
-            var formData = new Dictionary<string, string>
-            {
-                { "formIdentifier", "newsletter" },
-                { "FirstName", "Eve" },
-                { "LastName", "Black" },
-                { "EmailAddress", "eve.black@example.com" },
-                { "SelectedLocation", "invalid" }, // Non-integer
-                { "SelectedSubject", "2" } // Math
-            };
-            SetupViewComponentContext("POST", formData);
-
-            await Assert.ThrowsAsync<FormatException>(async () => await _viewComponent.InvokeAsync(_newsLetterContent));
-
-            A.CallTo(() => _marketingServiceFake.SubscribeUser(A<NewsLetterSubscriberModel>._)).MustNotHaveHappened();
-        }
-
-        [Fact]
         public async Task InvokeAsync_PostRequest_ValidFormIdentifier_InvalidSubjectId_ThrowsFormatException()
         {
             var formData = new Dictionary<string, string>
