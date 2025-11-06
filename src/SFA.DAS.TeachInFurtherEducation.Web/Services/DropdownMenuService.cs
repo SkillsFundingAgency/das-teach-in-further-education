@@ -58,7 +58,7 @@ public class DropdownMenuService
             CreateMenuItem("Training", "/training", new List<DropdownMenuItem>
             {
                 CreateMenuItem("How to become an FE teacher", "/training/become-a-fe-teacher"),
-                CreateMenuItem("Best courses for me/if you want to apply to be a teacher", "/training/best-courses"),
+                CreateMenuItem("What Course Should I Teach?", "/training/best-courses"),
                 CreateMenuItem("Find funding", "/training/find-funding"),
                 CreateMenuItem("Qualifications", "/training/qualifications"),
                 CreateMenuItem("What Courses are Available?", "/training/what-courses-are-available", new List<DropdownMenuItem>
