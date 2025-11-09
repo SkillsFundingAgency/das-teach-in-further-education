@@ -13,7 +13,6 @@
     var homeMenu = Model.Item1!.FirstOrDefault(x=> !x.TopLevelMenuItem 
                                                && x.MenuItemText.Equals(RouteNames.Home, StringComparison.CurrentCultureIgnoreCase));
     var homeLink = homeMenu?.MenuItemSource;
-    bool newMenu = Configuration.GetValue<bool>("FeatureFlags:NewMenuEnabled", true);
 }
 <nav aria-label="top-menu" class="dfe-topnav fe-dfe-topnav" name="Other services navigation">
     <div class="govuk-width-container">
@@ -53,8 +52,7 @@
         </div>
     </div>
     
-    @if (newMenu)
-    {
+
         <nav class="navbar" id="header-navigation" aria-label="Primary navigation">
             <div class="navbar__container">
                 <p class="navbar__title">
@@ -189,42 +187,6 @@
                 </div>
             </div>
         </nav>
-    }
-    else
-    {
-        <nav class="dfe-header__navigation" id="header-navigation" role="navigation" aria-label="Primary navigation" aria-labelledby="label-navigation">
-            <div class="dfe-width-container">
-                <p class="dfe-header__navigation-title">
-                    <span id="label-navigation">Menu</span>
-                    <button class="dfe-header__navigation-close" id="close-menu">
-                        <svg class="dfe-icon dfe-icon__close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
-                            <path d="M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"></path>
-                        </svg>
-                        <span class="govuk-visually-hidden">Close menu</span>
-                    </button>
-                </p>
-                <ul class="dfe-header__navigation-list">
-                    @if (Model.Item1 != null && Model.Item1.Any())
-                    {
-                        var secondaryMenuItems = Model.Item1.Where(x => !x.TopLevelMenuItem);
-                        foreach (var item in secondaryMenuItems)
-                        {
-                            var activeClass = item.IsCurrentPage ? "dfe-header__navigation-item--current" : "";
-                            <li class="dfe-header__navigation-item @activeClass">
-                                <a class="dfe-header__navigation-link" href="@(Model.Item2.HasValue && Model.Item2.Value ? $"/preview{item.MenuItemSource}" : item.MenuItemSource)">
-                                    @item.MenuItemText
-                                    <svg class="dfe-icon dfe-icon__chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="34" height="34">
-                                        <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path>
-                                    </svg>
-                                </a>
-                            </li>
-                        }
-                    }
-                </ul>
-            </div>
-        </nav>
-    }
-
     
 </header>
 
