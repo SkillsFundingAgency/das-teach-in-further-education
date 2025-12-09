@@ -89,13 +89,16 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Web.Helpers
         }
 
         [Fact]
-        public async Task ParseAsync_ShouldThrowException_WhenFileDataIsInvalid()
+        public async Task ParseAsync_ShouldReturnEmptyList_WhenFileDataIsInvalid()
         {
             // Arrange
             var invalidBytes = new byte[] { 0x00, 0x01, 0x02 };
 
-            // Act & Assert
-            await Assert.ThrowsAnyAsync<Exception>(() => _parser.ParseAsync(invalidBytes));
+            // Act
+            var result = await _parser.ParseAsync(invalidBytes);
+
+            // Assert
+            Assert.Empty(result);
         }
 
         [Fact]
