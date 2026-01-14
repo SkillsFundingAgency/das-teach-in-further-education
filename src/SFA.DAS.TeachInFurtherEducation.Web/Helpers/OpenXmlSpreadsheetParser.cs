@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using System;
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using SFA.DAS.TeachInFurtherEducation.Web.Interfaces;
 using System.Collections.Generic;
@@ -14,35 +15,61 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
         {
             return Task.Run(() =>
             {
-                List<Dictionary<string, string>> result = new List<Dictionary<string, string>>();
-                using (var stream = new MemoryStream(fileData))
-                using (var document = SpreadsheetDocument.Open(stream, false))
+                try
                 {
-                    var workbookPart = document.WorkbookPart;
-                    var sheet = workbookPart!.Workbook.Sheets!.Elements<Sheet>().First();
-                    var worksheetPart = (WorksheetPart)workbookPart.GetPartById(sheet.Id!);
-                    var rows = worksheetPart.Worksheet.Descendants<Row>().ToList();
-
-                    if (rows.Count > 1)
+                    List<Dictionary<string, string>> result = new List<Dictionary<string, string>>();
+                    
+                    using (var stream = new MemoryStream(fileData))
+                    using (var document = SpreadsheetDocument.Open(stream, false))
                     {
-                        var headers = rows[0].Elements<Cell>().Select(c => GetCellValue(c, workbookPart)).ToList();
-
-                        for (int i = 1; i < rows.Count; i++)
+                        var workbookPart = document.WorkbookPart;
+                        
+                        if (workbookPart == null)
                         {
-                            var rowDict = new Dictionary<string, string>();
-                            var row = rows[i].Elements<Cell>().ToList();
+                            return result;
+                        }
+                        
+                        var sheet = workbookPart.Workbook.Sheets?.Elements<Sheet>().FirstOrDefault();
+                        
+                        if (sheet == null || string.IsNullOrEmpty(sheet.Id))
+                        {
+                            return result;
+                        }
+                        
+                        // Safe to use sheet.Id here since we just checked it's not null or empty
+                        var worksheetPart = (WorksheetPart)workbookPart.GetPartById(sheet.Id!);
+                        var rows = worksheetPart.Worksheet.Descendants<Row>().ToList();
 
-                            for (int j = 0; j < headers.Count; j++)
+                        if (rows.Count > 1)
+                        {
+                            var headers = rows[0].Elements<Cell>().Select(c => GetCellValue(c, workbookPart)).ToList();
+
+                            for (int i = 1; i < rows.Count; i++)
                             {
-                                var cellValue = j < row.Count ? GetCellValue(row[j], workbookPart) : string.Empty;
-                                rowDict[headers[j]] = cellValue;
-                            }
+                                var rowDict = new Dictionary<string, string>();
+                                var row = rows[i].Elements<Cell>().ToList();
 
-                            result.Add(rowDict);
+                                for (int j = 0; j < headers.Count; j++)
+                                {
+                                    var cellValue = j < row.Count ? GetCellValue(row[j], workbookPart) : string.Empty;
+                                    rowDict[headers[j]] = cellValue;
+                                }
+
+                                result.Add(rowDict);
+                            }
                         }
                     }
+                    
+                    return result;
                 }
-                return result;
+                catch (Exception)
+                {
+                    // Log the exception if you have logging configured
+                    // Logger.LogError(ex, "Error parsing Excel file");
+                    
+                    // Return empty list instead of throwing
+                    return new List<Dictionary<string, string>>();
+                }
             });
         }
 
