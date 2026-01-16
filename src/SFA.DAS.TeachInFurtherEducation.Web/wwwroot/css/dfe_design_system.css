@@ -1069,7 +1069,7 @@
 }
 
 .govuk-template {
-    background-color: #f3f2f1;
+    background-color: #f4f8fb;
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     text-size-adjust: 100%
@@ -3366,9 +3366,9 @@
     line-height: 1.1428571429;
     padding-top: 25px;
     padding-bottom: 15px;
-    border-top: 1px solid #b1b4b6;
+    border-top: 10px solid #1d70b8;
     color: #0b0c0c;
-    background: #f3f2f1
+    background: #f4f8fb
 }
 
 @media print {
@@ -3519,18 +3519,12 @@
     display: inline-block;
     min-width: 125px;
     padding-top: 112px;
-    background-image: url(../images/govuk-crest.png);
+    background-image: url(../images/govuk-crest.svg);
     background-repeat: no-repeat;
     background-position: 50% 0;
     background-size: 125px 102px;
     text-align: center;
     white-space: nowrap
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    .govuk-footer__copyright-logo {
-     background-image: url(../images/govuk-crest-2x.png)
-    }
 }
 
 .govuk-footer__inline-list {
@@ -8793,74 +8787,31 @@ b, strong {
 }
 
 .dfe-header__container {
-    padding-top: 24px
-}
-
-.dfe-header__container:after {
-    clear: both;
-    content: "";
-    display: block
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 @media (max-width: 40.0525em) {
     .dfe-header__container {
         margin: 0;
-        padding-top: 8px
+        padding-top: 0;
     }
 }
 
-.dfe-header__logo {
-    float: left
-}
-
-@media (max-width: 40.0525em) {
-    .dfe-header__logo {
-        position: relative;
-        z-index: 1
-    }
-}
-
-.dfe-header__logo .dfe-logo__background {
-    fill: #fff
-}
-
-@media print {
-    .dfe-header__logo .dfe-logo__background {
-        fill: #003a69
-    }
-}
-
-.dfe-header__logo .dfe-logo__text {
-    fill: #003a69
-}
-
-@media print {
-    .dfe-header__logo .dfe-logo__text {
-        fill: #fff
-    }
-}
-
-.dfe-header__logo .dfe-logo {
-    height: 90px;
-    width: 153px;
+.dfe-header__logo img {
+    max-height: 30px;
     border: 0
 }
 
 @media (max-width: 48.0525em) {
-    .dfe-header__logo {
-        max-width: 60%
-    }
-}
-
-@media (max-width: 450px) {
-    .dfe-header__logo {
-        max-width: 50%
+    .dfe-header__logo img {
+        max-height: 25px;
     }
 }
 
 .dfe-header__link {
-    height: 90px;
-    width: 153px;
     display: block
 }
 
@@ -8868,10 +8819,6 @@ b, strong {
     display: none
 }
 
-.dfe-header__link .dfe-logo {
-    width: 136px !important;
-    height: 80px !important
-}
 
 .dfe-header__link:focus .dfe-logo-hover {
     display: none
@@ -8883,8 +8830,6 @@ b, strong {
 
 .dfe-header__link:focus .dfe-logo + .dfe-logo-hover {
     display: inline-block;
-    width: 136px !important;
-    height: 80px !important
 }
 
 .dfe-header__link:focus {
@@ -8922,10 +8867,6 @@ b, strong {
 }
 
 @media (min-width: 40.0625em) {
-    .dfe-header__content {
-        float: right
-    }
-
     .dfe-header__content.js-show {
         border-bottom: 0
     }
@@ -8945,19 +8886,12 @@ b, strong {
 }
 
 .dfe-header__search {
-    position: relative;
-    text-align: right
-}
-
-.dfe-header__search:after {
-    clear: both;
-    content: "";
-    display: block
+    display: none
 }
 
 @media (min-width: 40.0625em) {
     .dfe-header__search {
-        margin-left: 8px
+        display: block
     }
 }
 
