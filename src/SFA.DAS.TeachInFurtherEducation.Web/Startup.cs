@@ -96,14 +96,10 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
                 var microsoftClarityConfiguration = Configuration.GetSection("MicrosoftClarity").Get<MicrosoftClarityConfiguration>()!;
                 options.Filters.Add(new EnableMicrosoftClarityAttribute(microsoftClarityConfiguration));
             });
-
-            //Data protection
-            var config = Configuration.GetSection("ApplicationConfiguration").Get<ApplicationConfiguration>()!;
-            services.AddDataProtection(config);
-
+            
             services.AddRateLimiting();
-
-            services.AddNLog(Configuration).AddHealthChecks();
+            
+            services.AddHealthChecks();
 
             services.AddApplicationInsightsTelemetry();
 

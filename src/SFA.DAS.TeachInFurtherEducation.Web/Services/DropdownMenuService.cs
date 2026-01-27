@@ -25,7 +25,7 @@ public class DropdownMenuService
                 CreateMenuItem("Jobs by course", "/jobs/course", new List<DropdownMenuItem>
                 {
                     CreateMenuItem("Engineering", "/jobs/course/engineering"),
-                    CreateMenuItem("Health and life sciences", "/jobs/course/health")
+                    CreateMenuItem("Health and social care", "/jobs/course/health")
                 }),
                 CreateMenuItem("Jobs by location", "/jobs/location"),
                 CreateMenuItem("Tutor/Part Time Jobs", "/jobs/tutor/part-time")

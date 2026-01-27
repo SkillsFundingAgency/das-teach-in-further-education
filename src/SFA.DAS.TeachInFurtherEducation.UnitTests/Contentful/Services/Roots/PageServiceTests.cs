@@ -13,7 +13,6 @@ using System.Linq;
 using System.Threading;
 using ApiPage = SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api.Page;
 using System.Dynamic;
-using NLog;
 using System;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services.Roots

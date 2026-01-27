@@ -17,7 +17,6 @@ using ApiPage = SFA.DAS.TeachInFurtherEducation.Contentful.Model.Api.Page;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Interfaces;
 using System.Dynamic;
 using KellermanSoftware.CompareNetObjects;
-using StackExchange.Redis;
 
 namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.Services
 {
