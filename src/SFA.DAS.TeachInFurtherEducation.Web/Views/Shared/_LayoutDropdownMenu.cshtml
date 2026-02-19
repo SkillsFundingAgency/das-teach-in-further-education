@@ -1,0 +1,100 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
+@using SFA.DAS.TeachInFurtherEducation.Web.Models
+@using SFA.DAS.TeachInFurtherEducation.Web.Services
+@inject DropdownMenuService DropdownMenuService
+
+<!-- TODO - Example Razor View LayoutDropdownMenu -->
+@model SFA.DAS.TeachInFurtherEducation.Web.Models.NavigationMenu
+
+<!-- TODO - Wire up the current menu structure via the Database  -->
+<!-- 
+•	- FAQs (/faqs)
+•	  - The difference between FE and higher education (/faqs/difference-between-fe-and-higher)
+•	  - How to apply for an FE teaching role (/faqs/how-to-apply)
+•	  - What is further education? (/faqs/what-is-fe)
+•	  - FE Teacher Training (/faqs/what-is-fe-teaching)
+•	- Jobs in FE (/jobs)
+•	  - AoC (/jobs/aoc)
+•	  - Jobs by course (/jobs/course)
+•	    - Engineering (/jobs/course/engineering)
+•	    - Health and social care (/jobs/course/health)
+•	  - Jobs by location (/jobs/location)
+•	  - Tutor/Part Time Jobs (/jobs/tutor/part-time)
+•	- Talk to an advisor (/talk-to-an-advisor)
+•	- Teaching (/teaching)
+•	  - Building a career (/teaching/building-a-career)
+•	  - Daily life (/teaching/daily-life-as-an-fe-teacher)
+•	  - Interview Preparation (/teaching/interview-preparation)
+•	    - Step 1-5 (5 sub-items)
+•	  - Working part time (/teaching/part-time-teaching)
+•	  - Salary (/teaching/salary)
+•	  - FE teaching assistants (/teaching/teaching-assistant)
+•	  - Teaching in colleges (/teaching/teaching-in-colleges)
+•	  - What subjects could I teach? (/teaching/what-courses-can-i-teach)
+•	    - Construction, Digital, Maths, English (4 sub-items)
+•	- Training (/training)
+•	  - How to become an FE teacher (/training/become-a-fe-teacher)
+•	  - What Course Should I Teach? (/training/best-courses)
+•	  - Find funding (/training/find-funding)
+•	  - Qualifications (/training/qualifications)
+•	  - What Courses are Available? (/training/what-courses-are-available)
+•	    - PGCE (/training/what-courses-are-available/pgce)
+•	  - How to get qualified (/training/qualifications/whats-required-to-become-certified) 
+-->
+
+@if (Model?.Items?.Any() == true)
+{
+    <nav class="main-nav">
+        <ul class="nav navbar-nav">
+
+            @foreach (var item in Model.Items)
+            {
+                @RenderMenuItem(item)
+            }
+
+        </ul>
+    </nav>
+}
+
+@helper RenderMenuItem(SFA.DAS.TeachInFurtherEducation.Web.Models.NavigationMenuItem item)
+{
+    var hasChildren = item.HasChildren;
+
+    <li class="nav-item @(hasChildren ? "dropdown" : "")">
+        <a class="nav-link @(hasChildren ? "dropdown-toggle" : "")"
+           href="@(hasChildren ? "#" : item.Url)"
+           @(hasChildren ? "data-bs-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\"" : "")
+           target="@(item.OpenInNewTab ? "_blank" : "_self")">
+
+            @item.Title
+        </a>
+
+        @if (hasChildren)
+        {
+            <ul class="dropdown-menu">
+                @foreach (var child in item.Children)
+                {
+                    if (child.HasChildren)
+                    {
+                        <li class="dropdown-submenu">
+                            @RenderMenuItem(child)
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="dropdown-item"
+                               href="@child.Url"
+                               target="@(child.OpenInNewTab ? "_blank" : "_self")">
+                                @child.Title
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        }
+    </li>
+}
