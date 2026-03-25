@@ -32,6 +32,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.StartupServices;
 using System.Diagnostics.CodeAnalysis;
 using System;
 using SFA.DAS.TeachInFurtherEducation.Web.Configuration;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Options;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -216,6 +217,17 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
             services.AddTransient<ISitemap, Sitemap>()
                 .AddHostedService<SitemapGeneratorService>();
 
+            // Register Contentful Navigtion service
+            services.Configure<ContentfulNavigationOptions>(Configuration.GetSection("ContentfulNavigationOptions"));
+            services.Configure<ContentfulNavigationCacheOptions>(Configuration.GetSection("ContentfulNavigationOptions"));
+            services.AddScoped<INavigationMenuProvider, NavigationMenuProvider>();
+
+            // Register Redis
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("Redis");
+                options.InstanceName = "TeachInFurtherEducation";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

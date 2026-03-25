@@ -12,6 +12,7 @@ using SFA.DAS.TeachInFurtherEducation.Contentful.Services;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces.Roots;
 using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Roots;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Navigation;
 
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Extensions
 {
@@ -27,6 +28,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.Extensions
                 .AddTransient(sp => ContentService.CreateHtmlRenderer())
                 .AddSingleton<IContentService, ContentService>()
                 .AddSingleton<IPageService, PageService>()
+                .AddSingleton<INavigationTreeBuilder, NavigationTreeBuilder>()
+                .AddScoped<IContentfulNavigationService, ContentfulNavigationService>()
                 .AddTransient<IContentfulClient>(sp =>
                 {
                     var configOptions = sp.GetService<IOptions<ContentfulOptions>>()?.Value;
