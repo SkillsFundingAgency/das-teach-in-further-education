@@ -1,10 +1,12 @@
 ﻿@using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 @using SFA.DAS.TeachInFurtherEducation.Contentful.Model.Interim
+@using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces
 @using SFA.DAS.TeachInFurtherEducation.Web.Infrastructure
 @using SFA.DAS.TeachInFurtherEducation.Web.Services
-@inject DropdownMenuService DropdownMenuService
-
+@using SFA.DAS.TeachInFurtherEducation.Contentful.Services
+@using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces
+@inject INavigationMenuProvider NavigationMenuProvider
 
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 
@@ -67,34 +69,34 @@
 
                 <div id="navbarNavDropdown">
                     <ul class="navbar__nav">
-                        @{
-                            var dropdownMenuItems = DropdownMenuService.GetDropdownMenuItems();
-                            var currentPath = Context.Request.Path.ToString();
+                    @{
+                        IReadOnlyList<NavigationMenuTreeItem> dropdownMenuItems = await NavigationMenuProvider.GetHeaderMenuItemsAsync();
+                        var currentPath = Context.Request.Path.ToString();
 
-                            // Recursive function to check if any child (at any depth) is active
-                            bool IsAnyChildActive(DropdownMenuItem menuItem)
+                        // Recursive function to check if any child (at any depth) is active
+                        bool IsAnyChildActive(NavigationMenuTreeItem menuItem)
+                        {
+                            if (currentPath.Equals(menuItem.Url, StringComparison.OrdinalIgnoreCase))
+                                return true;
+
+                            if (menuItem.Children.Count > 0)
                             {
-                                if (currentPath.Equals(menuItem.Url, StringComparison.OrdinalIgnoreCase))
-                                    return true;
-
-                                if (menuItem.HasChildren)
+                                foreach (var child in menuItem.Children)
                                 {
-                                    foreach (var child in menuItem.Children)
-                                    {
-                                        if (IsAnyChildActive(child))
-                                            return true;
-                                    }
+                                    if (IsAnyChildActive(child))
+                                        return true;
                                 }
-
-                                return false;
                             }
 
-                            // Recursive function to render menu items at any depth
-                            void RenderMenuItem(DropdownMenuItem menuItem, int level)
-                            {
-                                var isActive = currentPath.Equals(menuItem.Url, StringComparison.OrdinalIgnoreCase);
-                                var hasChildren = menuItem.HasChildren;
-                                var isParentActive = hasChildren && IsAnyChildActive(menuItem);
+                            return false;
+                        }
+
+                        // Recursive function to render menu items at any depth
+                        void RenderMenuItem(NavigationMenuTreeItem menuItem, int level)
+                        {
+                            var isActive = currentPath.Equals(menuItem.Url, StringComparison.OrdinalIgnoreCase);
+                            var hasChildren = menuItem.Children.Count > 0;
+                            var isParentActive = hasChildren && IsAnyChildActive(menuItem);
 
                                 if (level == 0)
                                 {
@@ -121,7 +123,11 @@
                                         else
                                         {
                                             <a class="navbar__link @(isActive ? "navbar__link--active" : "")"
-                                               href="@menuItem.Url">@menuItem.Title</a>
+                                               href="@menuItem.Url"
+                                               target="@(menuItem.OpenInNewTab ? "_blank" : null)"
+                                               rel="@(menuItem.OpenInNewTab ? "noopener noreferrer" : null)">
+                                               @menuItem.Title
+                                            </a>
                                         }
                                     </li>
                                 }
@@ -147,7 +153,11 @@
                                     {
                                         <li class="navbar__dropdown-item">
                                             <a class="navbar__dropdown-link @(isActive ? "navbar__dropdown-link--active" : "")"
-                                               href="@menuItem.Url">@menuItem.Title</a>
+                                               href="@menuItem.Url"
+                                               target="@(menuItem.OpenInNewTab ? "_blank" : null)"
+                                               rel="@(menuItem.OpenInNewTab ? "noopener noreferrer" : null)">
+                                               @menuItem.Title
+                                            </a>
                                         </li>
                                     }
                                 }
@@ -173,7 +183,11 @@
                                     {
                                         <li class="navbar__dropdown-submenu-item">
                                             <a class="navbar__dropdown-submenu-link @(isActive ? "navbar__dropdown-submenu-link--active" : "")"
-                                               href="@menuItem.Url">@menuItem.Title</a>
+                                               href="@menuItem.Url"
+                                               target="@(menuItem.OpenInNewTab ? "_blank" : null)"
+                                               rel="@(menuItem.OpenInNewTab ? "noopener noreferrer" : null)">
+                                               @menuItem.Title
+                                            </a>
                                         </li>
                                     }
                                 }
