@@ -4,6 +4,7 @@ using SFA.DAS.TeachInFurtherEducation.Contentful.Services.Interfaces;
 using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.TeachInFurtherEducation.Contentful.Services.Navigation
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class NavigationTreeBuilder : INavigationTreeBuilder
     {
         public IReadOnlyList<NavigationMenuTreeItem> BuildNavigationTree(IReadOnlyList<NavigationMenuItem> items)

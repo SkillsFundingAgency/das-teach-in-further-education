@@ -8,12 +8,14 @@ using SFA.DAS.TeachInFurtherEducation.Web.Models;
 using SFA.DAS.TeachInFurtherEducation.Web.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web.Services
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class NavigationMenuProvider : INavigationMenuProvider
     {
         private readonly ContentfulNavigationOptions _options;
