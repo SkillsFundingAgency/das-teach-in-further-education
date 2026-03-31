@@ -32,6 +32,7 @@ using SFA.DAS.TeachInFurtherEducation.Web.StartupServices;
 using System.Diagnostics.CodeAnalysis;
 using System;
 using SFA.DAS.TeachInFurtherEducation.Web.Configuration;
+using SFA.DAS.TeachInFurtherEducation.Contentful.Options;
 
 namespace SFA.DAS.TeachInFurtherEducation.Web
 {
@@ -215,6 +216,36 @@ namespace SFA.DAS.TeachInFurtherEducation.Web
 
             services.AddTransient<ISitemap, Sitemap>()
                 .AddHostedService<SitemapGeneratorService>();
+
+            // Register Contentful Navigtion service
+            services.Configure<ContentfulNavigationOptions>(Configuration.GetSection("ContentfulNavigationOptions"));
+            services.Configure<ContentfulNavigationCacheOptions>(Configuration.GetSection("ContentfulNavigationOptions"));
+            services.AddScoped<INavigationMenuProvider, NavigationMenuProvider>();
+
+            // Register Redis
+            var redisConnectionString = Configuration.GetConnectionString("Redis");
+            if (!string.IsNullOrEmpty(redisConnectionString))
+            {
+                // Append timeouts if not already present
+                if (!redisConnectionString.Contains("connectTimeout", StringComparison.OrdinalIgnoreCase))
+                {
+                    redisConnectionString += ",connectTimeout=500";
+                }
+                if (!redisConnectionString.Contains("syncTimeout", StringComparison.OrdinalIgnoreCase))
+                {
+                    redisConnectionString += ",syncTimeout=500";
+                }
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = redisConnectionString;
+                    options.InstanceName = "TeachInFurtherEducation";
+                });
+            }
+            else
+            {
+                // Fallback to in-memory distributed cache if Redis connection string is missing
+                services.AddDistributedMemoryCache();
+            }
 
         }
 
