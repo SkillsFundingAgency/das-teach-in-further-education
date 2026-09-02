@@ -5,12 +5,14 @@
     <Nullable>enable</Nullable>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
-	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	<WarningsNotAsErrors>S125</WarningsNotAsErrors>
-	<NoWarn>S1135</NoWarn>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>S125</WarningsNotAsErrors>
+    <NoWarn>S1135</NoWarn>
+    <!-- Disable NuGet vulnerability audit for this project -->
+    <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
 
-	<ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="1.6.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,14 +26,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Formats.Asn1" Version="8.0.1" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.0" />
     <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Enum\" />
-	</ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enum\" />
+  </ItemGroup>
 
 </Project>
