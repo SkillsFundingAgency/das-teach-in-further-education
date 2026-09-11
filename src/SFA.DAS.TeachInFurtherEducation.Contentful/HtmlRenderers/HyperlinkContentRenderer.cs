@@ -57,7 +57,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Contentful.GdsHtmlRenderers
             string? firstTextValue = link.Content.OfType<Text>().FirstOrDefault()?.Value;
 
             if (firstTextValue != null && _newTabExp.IsMatch(firstTextValue))
-                sb.Append(" rel=\"noreferrer noopener\" target=\"_blank\"");
+                sb.Append(" rel=\"noopener\" target=\"_blank\"");   // <-- Only "noopener" kept, "noreferrer" removed
 
             sb.Append('>');
 

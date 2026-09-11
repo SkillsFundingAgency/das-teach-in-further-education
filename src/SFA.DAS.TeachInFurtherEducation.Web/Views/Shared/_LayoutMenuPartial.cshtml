@@ -125,7 +125,7 @@
                                             <a class="navbar__link @(isActive ? "navbar__link--active" : "")"
                                                href="@menuItem.Url"
                                                target="@(menuItem.OpenInNewTab ? "_blank" : null)"
-                                               rel="@(menuItem.OpenInNewTab ? "noopener noreferrer" : null)">
+                                               rel="@(menuItem.OpenInNewTab ? "noopener" : null)">
                                                @menuItem.Title
                                             </a>
                                         }
@@ -155,7 +155,7 @@
                                             <a class="navbar__dropdown-link @(isActive ? "navbar__dropdown-link--active" : "")"
                                                href="@menuItem.Url"
                                                target="@(menuItem.OpenInNewTab ? "_blank" : null)"
-                                               rel="@(menuItem.OpenInNewTab ? "noopener noreferrer" : null)">
+                                               rel="@(menuItem.OpenInNewTab ? "noopener" : null)">
                                                @menuItem.Title
                                             </a>
                                         </li>
@@ -185,7 +185,7 @@
                                             <a class="navbar__dropdown-submenu-link @(isActive ? "navbar__dropdown-submenu-link--active" : "")"
                                                href="@menuItem.Url"
                                                target="@(menuItem.OpenInNewTab ? "_blank" : null)"
-                                               rel="@(menuItem.OpenInNewTab ? "noopener noreferrer" : null)">
+                                               rel="@(menuItem.OpenInNewTab ? "noopener" : null)">
                                                @menuItem.Title
                                             </a>
                                         </li>

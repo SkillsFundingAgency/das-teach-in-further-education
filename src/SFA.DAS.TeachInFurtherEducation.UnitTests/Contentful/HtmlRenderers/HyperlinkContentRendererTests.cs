@@ -72,7 +72,8 @@ namespace SFA.DAS.TeachInFurtherEducation.UnitTests.Contentful.GdsHtmlRenderers
 
             var html = await HtmlRenderer.ToHtml(Document);
 
-            Assert.Equal($"<a href=\"https://example.com\" title=\"title\" class=\"govuk-link\" rel=\"noreferrer noopener\" target=\"_blank\">text {suffix}</a>", html);
+            // Removed "noreferrer" – only "noopener" remains
+            Assert.Equal($"<a href=\"https://example.com\" title=\"title\" class=\"govuk-link\" rel=\"noopener\" target=\"_blank\">text {suffix}</a>", html);
         }
     }
 }
