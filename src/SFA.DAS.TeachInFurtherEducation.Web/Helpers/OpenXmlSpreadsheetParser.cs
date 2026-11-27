@@ -29,7 +29,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
                             return result;
                         }
                         
-                        var sheet = workbookPart.Workbook.Sheets?.Elements<Sheet>().FirstOrDefault();
+                        var sheet = workbookPart.Workbook?.Sheets?.Elements<Sheet>().FirstOrDefault();
                         
                         if (sheet == null || string.IsNullOrEmpty(sheet.Id))
                         {
@@ -38,7 +38,7 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
                         
                         // Safe to use sheet.Id here since we just checked it's not null or empty
                         var worksheetPart = (WorksheetPart)workbookPart.GetPartById(sheet.Id!);
-                        var rows = worksheetPart.Worksheet.Descendants<Row>().ToList();
+                        var rows = worksheetPart.Worksheet?.Descendants<Row>().ToList() ?? new List<Row>();
 
                         if (rows.Count > 1)
                         {
@@ -79,8 +79,8 @@ namespace SFA.DAS.TeachInFurtherEducation.Web.Helpers
 
             if (cell.DataType?.Value == CellValues.SharedString)
             {
-                return workbookPart!.SharedStringTablePart!.SharedStringTable
-                    .Elements<SharedStringItem>().ElementAt(int.Parse(value!)).InnerText;
+               return workbookPart.SharedStringTablePart?.SharedStringTable?
+    .Elements<SharedStringItem>().ElementAt(int.Parse(value!)).InnerText ?? string.Empty;
             }
 
             return value ?? string.Empty;
